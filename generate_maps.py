@@ -9,14 +9,14 @@ Generátor map Českobrodska na REÁLNÉM MAPOVÉM PODKLADU (OpenStreetMap / Map
 """
 
 import os
+import re
 import json
 import math
+import subprocess
 
-OUT_DIR = "/Users/david.hunka/.gemini/antigravity/scratch/cesky-brod-atlas"
+OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = os.path.join(OUT_DIR, "tile_cache")
-ARTIFACT_DIR = "/Users/david.hunka/.gemini/antigravity/brain/fb04040c-a126-472b-977a-b11f7bcc8927"
 os.makedirs(OUT_DIR, exist_ok=True)
-os.makedirs(ARTIFACT_DIR, exist_ok=True)
 
 YEAR_COLORS = {
     "2020–2021": "#2563eb",  # Modrá
@@ -65,7 +65,7 @@ def load_grids():
 GRID_DETAIL, GRID_REGION = load_grids()
 
 
-# Definice všech 25 tras nakalibrovaná přesně na pixely reálných cest v OSM podkladu:
+# Definice všech 25 tras nakalibrovaná přesně na pixely reálných cest a ulic v OSM podkladu:
 RAW_ROUTE_DEFS = [
     {
         "id": 1,
@@ -80,7 +80,7 @@ RAW_ROUTE_DEFS = [
         "det_px": [
             (242, 214), (280, 204), (318, 191), (368, 174), (415, 161),
             (472, 152), (540, 146), (605, 132), (665, 108), (702, 74),
-            (742, 62), (785, 60)
+            (742, 62), (776, 58)
         ],
         "callout_idx": 6,
         "callout_offset": (110, 42)
@@ -167,10 +167,9 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": False,
         "reg_px": [
-            (215, 415), (216, 382), (212, 355), (255, 342),
-            (300, 326), (348, 310), (395, 295)
+            (222, 365), (255, 345), (295, 330), (338, 314)
         ],
-        "callout_idx": 3,
+        "callout_idx": 1,
         "callout_offset": (0, -30)
     },
     {
@@ -184,9 +183,9 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": False,
         "reg_px": [
-            (45, 315), (88, 312), (125, 305), (155, 285), (182, 260), (205, 245)
+            (45, 315), (88, 308), (128, 298), (162, 278), (202, 245)
         ],
-        "callout_idx": 3,
+        "callout_idx": 2,
         "callout_offset": (0, -30)
     },
     {
@@ -200,7 +199,7 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": True,
         "det_px": [
-            (625, 795), (655, 770), (688, 742), (726, 730), (768, 715),
+            (618, 792), (655, 770), (688, 742), (726, 730), (768, 715),
             (815, 698), (860, 678), (895, 654), (928, 668), (962, 660),
             (1006, 650), (1048, 634), (1082, 608), (1112, 584), (1168, 598)
         ],
@@ -218,11 +217,11 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": True,
         "det_px": [
-            (582, 855), (572, 822), (596, 798), (635, 782),
-            (682, 750), (726, 738), (758, 795)
+            (588, 868), (600, 836), (606, 812), (632, 804),
+            (662, 788), (690, 766), (714, 748), (742, 738)
         ],
-        "callout_idx": 3,
-        "callout_offset": (210, 48)
+        "callout_idx": 4,
+        "callout_offset": (195, 62)
     },
     {
         "id": 10,
@@ -235,10 +234,10 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": True,
         "det_px": [
-            (962, 424), (945, 395), (945, 345), (945, 295)
+            (962, 424), (945, 395), (945, 345), (945, 295), (985, 295)
         ],
         "callout_idx": 2,
-        "callout_offset": (-165, 24)
+        "callout_offset": (-185, 10)
     },
     {
         "id": 11,
@@ -269,7 +268,7 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": False,
         "reg_px": [
-            (822, 225), (828, 195), (832, 168), (852, 142), (875, 118)
+            (832, 220), (835, 192), (842, 165), (862, 140), (885, 118)
         ],
         "callout_idx": 2,
         "callout_offset": (0, -25)
@@ -285,7 +284,7 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": False,
         "reg_px": [
-            (835, 242), (875, 255), (912, 268), (945, 282)
+            (850, 232), (885, 248), (920, 265), (955, 282)
         ],
         "callout_idx": 2,
         "callout_offset": (0, -25)
@@ -294,14 +293,14 @@ RAW_ROUTE_DEFS = [
         "id": 14,
         "name": "Obnovená polní cesta Skramníky – Tatce",
         "from_label": "SV okraj Skramníků",
-        "to_label": "JZ okraj Tatců",
-        "surface_info": "150 m obnovené polní cesty (2024)",
+        "to_label": "Směr JZ okraj Tatců",
+        "surface_info": "150 m obnovený úsek polní cesty (2024)",
         "year_cat": "2024",
         "mapy_status": "ČÁSTEČNĚ",
         "dashed": False,
         "in_detail": False,
         "reg_px": [
-            (1132, 326), (1162, 305), (1195, 282)
+            (1145, 322), (1168, 305), (1192, 288)
         ],
         "callout_idx": 1,
         "callout_offset": (0, -25)
@@ -317,7 +316,7 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": False,
         "reg_px": [
-            (952, 502), (995, 496), (1048, 495), (1098, 490)
+            (965, 495), (1010, 492), (1058, 488), (1105, 482)
         ],
         "callout_idx": 2,
         "callout_offset": (0, -25)
@@ -325,7 +324,7 @@ RAW_ROUTE_DEFS = [
     {
         "id": 16,
         "name": "Cyklostezka Nad Malechovem – Přistoupim",
-        "from_label": "Ul. Prokopa Velikého",
+        "from_label": "Ul. Přistoupimská (Nad Malechovem)",
         "to_label": "Severní okraj Přistoupimi (III/1131)",
         "surface_info": "600 m, šířka 3 m podél III/1131 (Plán 2026+)",
         "year_cat": "Plán 2026+",
@@ -333,11 +332,10 @@ RAW_ROUTE_DEFS = [
         "dashed": True,
         "in_detail": True,
         "det_px": [
-            (805, 832), (845, 895), (885, 938), (925, 975),
-            (975, 1018), (1020, 1048), (1055, 1078)
+            (1085, 835), (1062, 888), (1042, 938), (1035, 985), (1048, 1035), (1062, 1085)
         ],
-        "callout_idx": 4,
-        "callout_offset": (195, -22)
+        "callout_idx": 3,
+        "callout_offset": (-225, -12)
     },
     {
         "id": 17,
@@ -384,8 +382,8 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": False,
         "reg_px": [
-            (455, 658), (448, 685), (438, 715), (425, 702),
-            (435, 675), (455, 658)
+            (468, 655), (462, 682), (450, 710), (435, 698),
+            (446, 672), (468, 655)
         ],
         "callout_idx": 2,
         "callout_offset": (0, -25)
@@ -401,8 +399,8 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": False,
         "reg_px": [
-            (438, 715), (415, 745), (398, 772), (376, 795),
-            (352, 818), (335, 845)
+            (450, 710), (422, 745), (398, 775), (372, 802),
+            (350, 825), (332, 848)
         ],
         "callout_idx": 2,
         "callout_offset": (0, -25)
@@ -418,9 +416,9 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": False,
         "reg_px": [
-            (448, 642), (422, 648), (398, 658), (375, 672)
+            (458, 642), (432, 646), (406, 652)
         ],
-        "callout_idx": 2,
+        "callout_idx": 1,
         "callout_offset": (0, -25)
     },
     {
@@ -434,7 +432,7 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": False,
         "reg_px": [
-            (155, 578), (185, 608), (212, 640), (242, 672)
+            (152, 565), (185, 598), (218, 632), (252, 668)
         ],
         "callout_idx": 2,
         "callout_offset": (0, -25)
@@ -450,7 +448,7 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": False,
         "reg_px": [
-            (42, 632), (62, 635), (82, 638), (108, 622), (135, 592)
+            (42, 625), (62, 632), (82, 638), (112, 610), (135, 575)
         ],
         "callout_idx": 2,
         "callout_offset": (0, -25)
@@ -466,8 +464,8 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": True,
         "det_px": [
-            (402, 608), (402, 650), (402, 692), (445, 698),
-            (482, 704), (548, 704), (560, 668), (582, 646)
+            (402, 588), (402, 640), (402, 692), (450, 698),
+            (505, 706), (555, 710), (568, 682), (588, 652), (612, 628)
         ],
         "callout_idx": 2,
         "callout_offset": (-185, -18)
@@ -483,9 +481,9 @@ RAW_ROUTE_DEFS = [
         "dashed": False,
         "in_detail": True,
         "det_px": [
-            (392, 922), (425, 875), (458, 838), (492, 798),
-            (526, 758), (560, 725), (618, 696), (685, 675),
-            (748, 635), (825, 602)
+            (392, 922), (435, 868), (472, 825), (492, 822),
+            (525, 782), (555, 748), (595, 725), (645, 715),
+            (685, 675), (748, 635), (825, 602)
         ],
         "callout_idx": 1,
         "callout_offset": (-185, -18)
@@ -504,8 +502,18 @@ def build_detailed_routes():
 
         s_lat, s_lon = rc["coords"][0]
         e_lat, e_lon = rc["coords"][-1]
-        m_lat, m_lon = rc["coords"][len(rc["coords"]) // 2]
-        if len(rc["coords"]) > 2:
+        if len(rc["coords"]) >= 4:
+            w1_lat, w1_lon = rc["coords"][len(rc["coords"]) // 3]
+            w2_lat, w2_lon = rc["coords"][(2 * len(rc["coords"])) // 3]
+            rc["gmaps_dir_url"] = (
+                f"https://www.google.com/maps/dir/?api=1"
+                f"&origin={s_lat:.5f},{s_lon:.5f}"
+                f"&destination={e_lat:.5f},{e_lon:.5f}"
+                f"&waypoints={w1_lat:.5f},{w1_lon:.5f}%7C{w2_lat:.5f},{w2_lon:.5f}"
+                f"&travelmode=walking"
+            )
+        elif len(rc["coords"]) == 3:
+            m_lat, m_lon = rc["coords"][1]
             rc["gmaps_dir_url"] = (
                 f"https://www.google.com/maps/dir/?api=1"
                 f"&origin={s_lat:.5f},{s_lon:.5f}"
@@ -533,6 +541,29 @@ def build_detailed_routes():
 DETAILED_ROUTES = build_detailed_routes()
 
 
+def render_svg_to_png(svg_path, width=1920, height=1280):
+    png_path = svg_path.replace(".svg", ".png")
+    chrome_candidates = [
+        r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+    ]
+    browser = next((b for b in chrome_candidates if os.path.exists(b)), None)
+    if not browser:
+        print("Warning: No headless browser found for PNG rendering.")
+        return
+    file_url = "file:///" + os.path.abspath(svg_path).replace("\\", "/")
+    subprocess.run([
+        browser,
+        "--headless",
+        "--disable-gpu",
+        "--force-device-scale-factor=2",
+        f"--window-size={width},{height}",
+        f"--screenshot={png_path}",
+        file_url
+    ], check=True)
+    print(f"Rendered {os.path.basename(png_path)}")
+
+
 # ==============================================================================
 # 1. DETAILNÍ MAPA ČESKÉHO BRODU A OKOLÍ NA REÁLNÉM MAPOVÉM PODKLADU (ZOOM 15)
 # ==============================================================================
@@ -543,7 +574,6 @@ def generate_detail_map_on_tiles():
     MAP_W, MAP_H = 1360, 1060
     W, H = 1920, 1280
 
-    # Měřítko 0.89 zajistí, že jak sever Štolmíře (HPC 4, P9), tak jih (Podviňák, Přistoupim) jsou 100% v mapovém okně
     SCALE = 0.89
     TILE_OFF_X = MAP_X - 4
     TILE_OFF_Y = MAP_Y - 2
@@ -677,11 +707,11 @@ def generate_detail_map_on_tiles():
   </g>
 </svg>''')
 
-    svg_str = "\n".join(svg)
-    for d in [OUT_DIR, ARTIFACT_DIR]:
-        with open(os.path.join(d, "mapa_detail_cesky_brod_podklad.svg"), "w", encoding="utf-8") as f:
-            f.write(svg_str)
+    svg_path = os.path.join(OUT_DIR, "mapa_detail_cesky_brod_podklad.svg")
+    with open(svg_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(svg))
     print("Generated mapa_detail_cesky_brod_podklad.svg")
+    render_svg_to_png(svg_path, W, H)
 
 
 # ==============================================================================
@@ -737,6 +767,20 @@ def generate_regional_map_on_tiles():
         17: (-18, 4), 18: (-18, 8), 19: (22, -6), 24: (-20, -14), 25: (-18, 14)
     }
 
+    reg_callouts = [
+        (7, 105, -45, "Mlýnská cesta C6 (1,3 km asfalt)", "Tuklaty / Tlustovousy → Břežany II"),
+        (6, -15, -46, "Polní cesta P6 Rostoklaty", "Rostoklaty → směr Břežany II / Štolmíř"),
+        (23, 85, -56, "Obnovená NS Klepec (říjen 2026)", "Skřivany → vrch Klepec (358 m)"),
+        (22, -35, 62, "Mrzecká cesta a alej (2026)", "Limuzy → Mrzky (1,6 km)"),
+        (21, -40, -64, "Hravá NS Ekocentrum Vrátkov", "Západní okraj Tuchorazi → Vrátkov"),
+        (19, 155, -10, "Šemberské stezky (Singletraily)", "5 km lesních MTB trailů u Tuchorazi"),
+        (20, 155, 36, "Nová lávka u Skautské louky", "Na Šamtalech → Skautská louka → Na Zámkách"),
+        (15, 0, -46, "Cesta C4 + Kočárová KZ 7 (2025)", "Chrášťany → Chotouň (1,8 km)"),
+        (12, -125, -28, "Kudrnáčova stezka (2022–26)", "Klučov → hradiště → Poříčany"),
+        (13, 15, 44, "Alej „Žherák“ (Klučov–Žhery)", "Klučov → Žhery (1,4 km)"),
+        (14, -105, -44, "Polní cesta Skramníky–Tatce", "Obnovený úsek cesty (březen 2024)")
+    ]
+
     # 1. Vrstva: linie tras
     for r in DETAILED_ROUTES:
         col = YEAR_COLORS[r["year_cat"]]
@@ -752,7 +796,17 @@ def generate_regional_map_on_tiles():
         svg.append(f'    <circle cx="{sx}" cy="{sy}" r="4.8" fill="#ffffff" stroke="{col}" stroke-width="2.4"/>')
         svg.append(f'    <circle cx="{ex}" cy="{ey}" r="4.8" fill="{col}" stroke="#ffffff" stroke-width="2"/>')
 
-    # 2. Vrstva: číselné odznaky
+    # 2a. Vrstva: vodící linky ke kartičkám (kreslené POD číselnými odznaky, aby nepřekrývaly čísla!)
+    for rid, ox, oy, l1, l2 in reg_callouts:
+        r_obj = next(x for x in DETAILED_ROUTES if x["id"] == rid)
+        pts = [project_to_grid(lat, lon, grid, TILE_OFF_X, TILE_OFF_Y, SCALE) for lat, lon in r_obj["coords"]]
+        px, py = pts[len(pts) // 2]
+        cw, ch = 224, 38
+        bx = max(MAP_X + cw/2 + 10, min(MAP_X + MAP_W - cw/2 - 10, px + ox))
+        by = max(MAP_Y + ch/2 + 10, min(MAP_Y + MAP_H - ch/2 - 10, py + oy))
+        svg.append(f'    <line x1="{px}" y1="{py}" x2="{bx}" y2="{by}" stroke="#0f172a" stroke-width="1.8" stroke-dasharray="3,3"/>')
+
+    # 2b. Vrstva: číselné odznaky (vždy čistě nad vodícími linkami)
     for r in DETAILED_ROUTES:
         col = YEAR_COLORS[r["year_cat"]]
         pts = [project_to_grid(lat, lon, grid, TILE_OFF_X, TILE_OFF_Y, SCALE) for lat, lon in r["coords"]]
@@ -761,22 +815,9 @@ def generate_regional_map_on_tiles():
         ox, oy = badge_offsets.get(r["id"], (0, 0))
         bx, by = mx + ox, my + oy
         svg.append(f'    <circle cx="{bx}" cy="{by}" r="11" fill="{col}" stroke="#ffffff" stroke-width="2.2" filter="url(#regShadow)"/>')
-        svg.append(f'    <text x="{bx}" y="{by+4}" fill="#ffffff" font-size="10" font-weight="900" text-anchor="middle">{r["id"]}</text>')
+        svg.append(f'    <text x="{bx}" y="{by+3.8}" fill="#ffffff" font-size="10" font-weight="900" text-anchor="middle">{r["id"]}</text>')
 
     # 3. Vrstva: Popisky klíčových mimo-městských tras přímo v regionální mapě
-    reg_callouts = [
-        (7, 105, -45, "Mlýnská cesta C6 (1,3 km asfalt)", "Tuklaty / Tlustovousy → Břežany II"),
-        (6, -15, -46, "Polní cesta P6 Rostoklaty", "Rostoklaty → směr Břežany II / Štolmíř"),
-        (23, 85, -54, "Obnovená NS Klepec (říjen 2026)", "Skřivany → vrch Klepec (358 m)"),
-        (22, -25, 58, "Mrzecká cesta a alej (2026)", "Limuzy → Mrzky (1,6 km)"),
-        (21, -135, -36, "Hravá NS Ekocentrum Vrátkov", "Západní okraj Tuchorazi → Vrátkov"),
-        (19, 145, -12, "Šemberské stezky (Singletraily)", "5 km lesních MTB trailů u Tuchorazi"),
-        (20, 145, 36, "Nová lávka u Skautské louky", "Na Šamtalech → Skautská louka → Na Zámkách"),
-        (15, 0, -44, "Cesta C4 + Kočárová KZ 7 (2025)", "Chrášťany → Chotouň (1,8 km)"),
-        (12, -125, -28, "Kudrnáčova stezka (2022–26)", "Klučov → hradiště → Poříčany"),
-        (13, 15, 44, "Alej „Žherák“ (Klučov–Žhery)", "Klučov → Žhery (1,4 km)"),
-        (14, -95, -42, "Polní cesta Skramníky–Tatce", "Obnovená cesta (březen 2024)")
-    ]
     for rid, ox, oy, l1, l2 in reg_callouts:
         r_obj = next(x for x in DETAILED_ROUTES if x["id"] == rid)
         col = YEAR_COLORS[r_obj["year_cat"]]
@@ -785,7 +826,6 @@ def generate_regional_map_on_tiles():
         cw, ch = 224, 38
         bx = max(MAP_X + cw/2 + 10, min(MAP_X + MAP_W - cw/2 - 10, px + ox))
         by = max(MAP_Y + ch/2 + 10, min(MAP_Y + MAP_H - ch/2 - 10, py + oy))
-        svg.append(f'    <line x1="{px}" y1="{py}" x2="{bx}" y2="{by}" stroke="#0f172a" stroke-width="1.8" stroke-dasharray="3,3"/>')
         svg.append(f'    <g transform="translate({bx-cw/2:.1f}, {by-ch/2:.1f})" filter="url(#regShadow)">')
         svg.append(f'      <rect x="0" y="0" width="{cw}" height="{ch}" rx="7" fill="#ffffff" stroke="{col}" stroke-width="2" opacity="0.96"/>')
         svg.append(f'      <text x="{cw/2}" y="15" fill="#0f172a" font-size="10.5" font-weight="800" text-anchor="middle">#{rid} {l1}</text>')
@@ -840,13 +880,103 @@ def generate_regional_map_on_tiles():
   <text x="48" y="{BY+91}" fill="#6b21a8" font-size="12.5" font-weight="700">🚧 ZATÍM NEJSOU NA MAPY.CZ – V PŘÍPRAVĚ / VÝSTAVBĚ (2 trasy): <tspan fill="#334155" font-weight="500">Cyklostezka Český Brod (Nad Malechovem) – Přistoupim (600 m podél III/1131) a Stezka pro pěší a cyklisty Český Brod – Štolmíř podél silnice II/245.</tspan></text>
 </svg>''')
 
-    svg_str = "\n".join(svg)
-    for d in [OUT_DIR, ARTIFACT_DIR]:
-        with open(os.path.join(d, "mapa_stezky_podle_roku.svg"), "w", encoding="utf-8") as f:
-            f.write(svg_str)
+    svg_path = os.path.join(OUT_DIR, "mapa_stezky_podle_roku.svg")
+    with open(svg_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(svg))
     print("Generated mapa_stezky_podle_roku.svg")
+    render_svg_to_png(svg_path, W, H)
+
+
+def sync_geojson_html_readme():
+    # 1. Update trasy_ceskobrodsko.geojson
+    geojson_path = os.path.join(OUT_DIR, "trasy_ceskobrodsko.geojson")
+    features = []
+    for r in DETAILED_ROUTES:
+        col = YEAR_COLORS[r["year_cat"]]
+        features.append({
+            "type": "Feature",
+            "properties": {
+                "id": r["id"],
+                "name": f'#{r["id"]} {r["name"]}',
+                "rok_obnovy": r["year_cat"],
+                "odkud_A": r["from_label"],
+                "kam_B": r["to_label"],
+                "delka_povrch": r["surface_info"],
+                "mapy_cz_stav": r["mapy_status"],
+                "google_maps_trasa_A_B": r["gmaps_dir_url"],
+                "mapy_cz_start_A": r["mapy_start_url"],
+                "mapy_cz_cil_B": r["mapy_end_url"],
+                "stroke": col,
+                "stroke-width": 5,
+                "stroke-opacity": 0.9
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [[lon, lat] for lat, lon in r["coords"]]
+            }
+        })
+    with open(geojson_path, "w", encoding="utf-8") as f:
+        json.dump({"type": "FeatureCollection", "features": features}, f, ensure_ascii=False, indent=2)
+    print("Updated trasy_ceskobrodsko.geojson")
+
+    # 2. Update index.html route coordinates & URLs
+    html_path = os.path.join(OUT_DIR, "index.html")
+    if os.path.exists(html_path):
+        with open(html_path, "r", encoding="utf-8") as f:
+            html = f.read()
+        for r in DETAILED_ROUTES:
+            rid = r["id"]
+            coords_js = json.dumps([[lat, lon] for lat, lon in r["coords"]])
+            mid_lat, mid_lon = r["coords"][len(r["coords"]) // 2]
+            center_js = f"[{mid_lat}, {mid_lon}]"
+            pattern = (
+                rf'(id:\s*{rid}\b.*?'
+                rf'coords:\s*)\[\[.*?\]\](,\s*'
+                rf'center:\s*)\[.*?\](,\s*'
+                rf'fromLabel:\s*").*?(".*?'
+                rf'toLabel:\s*").*?(".*?'
+                rf'gmapsDirUrl:\s*").*?(".*?'
+                rf'mapyStartUrl:\s*").*?(".*?'
+                rf'mapyEndUrl:\s*").*?(")'
+            )
+            replacement = (
+                rf'\g<1>{coords_js}\g<2>{center_js}\g<3>{r["from_label"]}\g<4>'
+                rf'{r["to_label"]}\g<5>{r["gmaps_dir_url"]}\g<6>'
+                rf'{r["mapy_start_url"]}\g<7>{r["mapy_end_url"]}\g<8>'
+            )
+            html = re.sub(pattern, replacement, html, count=1, flags=re.DOTALL)
+        with open(html_path, "w", encoding="utf-8") as f:
+            f.write(html)
+        print("Updated index.html")
+
+    # 3. Update README.md table rows
+    readme_path = os.path.join(OUT_DIR, "README.md")
+    if os.path.exists(readme_path):
+        with open(readme_path, "r", encoding="utf-8") as f:
+            readme = f.read()
+        for r in DETAILED_ROUTES:
+            rid = r["id"]
+            s_lat, s_lon = r["coords"][0]
+            e_lat, e_lon = r["coords"][-1]
+            st = r["mapy_status"]
+            st_cell = "✅ **ANO**" if st == "ANO" else ("⚠️ **ČÁSTEČNĚ**" if st == "ČÁSTEČNĚ" else "🚧 **NE (Plán)**")
+            new_row = (
+                f'| **{rid}** | **{r["name"]}** | **{r["year_cat"]}** | '
+                f'**A:** {r["from_label"]} (`{s_lat:.4f}N, {s_lon:.4f}E`) → '
+                f'**B:** {r["to_label"]} (`{e_lat:.4f}N, {e_lon:.4f}E`) | '
+                f'{r["surface_info"]} | {st_cell} | '
+                f'[🗺️ **Trasa A→B (Google Maps)**]({r["gmaps_dir_url"]}) • '
+                f'[🟢 Start A (Mapy.cz)]({r["mapy_start_url"]}) • '
+                f'[🏁 Cíl B (Mapy.cz)]({r["mapy_end_url"]}) |'
+            )
+            row_pattern = rf'^\| \*\*{rid}\*\* \|.*$'
+            readme = re.sub(row_pattern, new_row, readme, count=1, flags=re.MULTILINE)
+        with open(readme_path, "w", encoding="utf-8") as f:
+            f.write(readme)
+        print("Updated README.md")
 
 
 if __name__ == "__main__":
     generate_detail_map_on_tiles()
     generate_regional_map_on_tiles()
+    sync_geojson_html_readme()

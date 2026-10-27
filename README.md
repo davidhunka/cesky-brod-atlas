@@ -9,12 +9,10 @@ Tento dokument spojuje oba požadované výstupy postavené na reálných veřej
    - Toky peněz od jednotlivých daní (DPH, DPPO, DPFO, daň z nemovitostí, poplatky) a státních/evropských dotací až po provozní výdaje a jmenovité investiční akce za **skutečnost roku 2025 (`404,1 mil. Kč`)** a **schválený rozpočet 2026 (`478,7 mil. Kč`)**.
 
 > [!TIP]
-> Kromě statických infografik níže si můžete otevřít i **interaktivní aplikaci** [index.html](./index.html), kde lze trasy filtrovat podle roku, typu i stavu na Mapy.cz a interaktivně přepínat Sankey diagramy rozpočtu mezi lety **2023, 2024, 2025 a 2026**.
+> **🚀 Živá interaktivní webová aplikace:** **[Spustit aplikaci v prohlížeči (GitHub Pages)](https://davidhunka.github.io/cesky-brod-atlas/)** — umožňuje trasy filtrovat na interaktivní mapě OpenStreetMap podle roku, typu i stavu na Mapy.cz a interaktivně přepínat Sankey diagramy rozpočtu mezi lety **2023, 2024, 2025, 2026 a VHČ**.
 
-
-> **🗺️ Interaktivní mapa přímo v GitHubu:** Klikněte na soubor [`trasy_ceskobrodsko.geojson`](./trasy_ceskobrodsko.geojson) — GitHub v prohlížeči nativně vykreslí všech 25 tras na interaktivní mapě OpenStreetMap.
-> **🌐 Webová aplikace (GitHub Pages):** Soubor [`index.html`](./index.html) obsahuje kompletní interaktivní aplikaci (mapa stezek + přepínací Sankey diagramy rozpočtu 2023–2026 a VHČ).
-
+> **🗺️ Interaktivní mapa přímo v GitHubu:** Klikněte na soubor [	rasy_ceskobrodsko.geojson](./trasy_ceskobrodsko.geojson) — GitHub v prohlížeči nativně vykreslí všech 25 tras na interaktivní mapě OpenStreetMap.
+> **🌐 Webová aplikace (GitHub Pages):** **[https://davidhunka.github.io/cesky-brod-atlas/](https://davidhunka.github.io/cesky-brod-atlas/)** (lokální soubor [index.html](./index.html)).
 ---
 
 ## CÍL 1: Mapy Českobrodska s reálným mapovým podkladem, vyznačením ODKUD → KAM, rokem obnovy a kontrolou Mapy.cz

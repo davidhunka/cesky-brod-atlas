@@ -1,0 +1,1336 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1,
+        "name": "#1 Polní cesta P9 (Štolmíř – Kounická / Mexiko)",
+        "rok_obnovy": "2020–2021",
+        "odkud_A": "Štolmíř (Ke Hřbitovu)",
+        "kam_B": "Ul. Kounická (II/272)",
+        "delka_povrch": "1,1 km asfalt + alej (2020–2024)",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.08650,14.84193&destination=50.09074,14.86523&waypoints=50.08837,14.85472&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.84193%2C50.08650&x=14.84193&y=50.08650&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.86523%2C50.09074&x=14.86523&y=50.09074&z=16",
+        "stroke": "#2563eb",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.84193,
+            50.0865
+          ],
+          [
+            14.84356,
+            50.08678
+          ],
+          [
+            14.84519,
+            50.08713
+          ],
+          [
+            14.84734,
+            50.0876
+          ],
+          [
+            14.84935,
+            50.08796
+          ],
+          [
+            14.8518,
+            50.08821
+          ],
+          [
+            14.85472,
+            50.08837
+          ],
+          [
+            14.85751,
+            50.08876
+          ],
+          [
+            14.86008,
+            50.08942
+          ],
+          [
+            14.86167,
+            50.09036
+          ],
+          [
+            14.86339,
+            50.09069
+          ],
+          [
+            14.86523,
+            50.09074
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 2,
+        "name": "#2 Hlavní polní cesta HPC 4 (Štolmíř)",
+        "rok_obnovy": "2020–2021",
+        "odkud_A": "Štolmíř (Ke Škole)",
+        "kam_B": "Směr Břežany II / háj",
+        "delka_povrch": "591 m asfalt, šířka 4 m (2021)",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.08656,14.84167&destination=50.09206,14.84150&waypoints=50.08978,14.84304&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.84167%2C50.08656&x=14.84167&y=50.08656&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.84150%2C50.09206&x=14.84150&y=50.09206&z=16",
+        "stroke": "#2563eb",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.84167,
+            50.08656
+          ],
+          [
+            14.84206,
+            50.08744
+          ],
+          [
+            14.84236,
+            50.08821
+          ],
+          [
+            14.84262,
+            50.08887
+          ],
+          [
+            14.84304,
+            50.08978
+          ],
+          [
+            14.84339,
+            50.09033
+          ],
+          [
+            14.84141,
+            50.09102
+          ],
+          [
+            14.84098,
+            50.09157
+          ],
+          [
+            14.8415,
+            50.09206
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 3,
+        "name": "#3 Polní cesta P3 + mokřad „Na Útulně“",
+        "rok_obnovy": "2024",
+        "odkud_A": "Ul. V Lukách (za plynárnou)",
+        "kam_B": "Štolmíř (ul. K Lukám)",
+        "delka_povrch": "700 m asfalt kolem mokřadu (2024)",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.07868,14.85412&destination=50.08281,14.84296&waypoints=50.08152,14.84819&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.85412%2C50.07868&x=14.85412&y=50.07868&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.84296%2C50.08281&x=14.84296&y=50.08281&z=16",
+        "stroke": "#16a34a",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.85412,
+            50.07868
+          ],
+          [
+            14.85412,
+            50.07967
+          ],
+          [
+            14.85279,
+            50.07984
+          ],
+          [
+            14.85163,
+            50.08077
+          ],
+          [
+            14.85073,
+            50.08088
+          ],
+          [
+            14.84965,
+            50.08105
+          ],
+          [
+            14.84819,
+            50.08152
+          ],
+          [
+            14.84699,
+            50.08215
+          ],
+          [
+            14.84588,
+            50.08298
+          ],
+          [
+            14.84528,
+            50.08342
+          ],
+          [
+            14.84433,
+            50.08314
+          ],
+          [
+            14.84296,
+            50.08281
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 4,
+        "name": "#4 Přírodní cesta a alej „Topolovka“",
+        "rok_obnovy": "2024",
+        "odkud_A": "Ul. Topolová / Pod Hájem",
+        "kam_B": "Napojení na P9 (Štolmíř)",
+        "delka_povrch": "850 m přírodní cesta s alejí (2021–2025)",
+        "mapy_cz_stav": "ČÁSTEČNĚ",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.08072,14.85759&destination=50.08821,14.85180&waypoints=50.08303,14.85034&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.85759%2C50.08072&x=14.85759&y=50.08072&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.85180%2C50.08821&x=14.85180&y=50.08821&z=16",
+        "stroke": "#16a34a",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.85759,
+            50.08072
+          ],
+          [
+            14.85665,
+            50.07956
+          ],
+          [
+            14.85412,
+            50.07967
+          ],
+          [
+            14.85279,
+            50.07984
+          ],
+          [
+            14.85223,
+            50.08044
+          ],
+          [
+            14.85094,
+            50.08152
+          ],
+          [
+            14.85034,
+            50.08303
+          ],
+          [
+            14.85017,
+            50.08455
+          ],
+          [
+            14.84987,
+            50.08601
+          ],
+          [
+            14.85171,
+            50.08689
+          ],
+          [
+            14.85197,
+            50.08757
+          ],
+          [
+            14.8518,
+            50.08821
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 5,
+        "name": "#5 Biokoridor LBK 14 Štolmířský potok",
+        "rok_obnovy": "2022–2023",
+        "odkud_A": "Žel. trať (Z od Štolmíře)",
+        "kam_B": "Koryto Štolmířského potoka",
+        "delka_povrch": "2,6 km zelený pás podél potoka (2023)",
+        "mapy_cz_stav": "ČÁSTEČNĚ",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.08017,14.83438&destination=50.09201,14.84077&waypoints=50.08565,14.83386&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.83438%2C50.08017&x=14.83438&y=50.08017&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.84077%2C50.09201&x=14.84077&y=50.09201&z=16",
+        "stroke": "#0d9488",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.83438,
+            50.08017
+          ],
+          [
+            14.83549,
+            50.08072
+          ],
+          [
+            14.83605,
+            50.08152
+          ],
+          [
+            14.83605,
+            50.08262
+          ],
+          [
+            14.83506,
+            50.08331
+          ],
+          [
+            14.8339,
+            50.084
+          ],
+          [
+            14.83386,
+            50.08565
+          ],
+          [
+            14.83412,
+            50.08702
+          ],
+          [
+            14.83777,
+            50.08755
+          ],
+          [
+            14.83858,
+            50.08887
+          ],
+          [
+            14.84004,
+            50.08975
+          ],
+          [
+            14.84064,
+            50.09107
+          ],
+          [
+            14.84077,
+            50.09201
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 6,
+        "name": "#6 Polní cesta P6 (Rostoklaty – Ovocná stezka)",
+        "rok_obnovy": "2022–2023",
+        "odkud_A": "Severní okraj Rostoklat",
+        "kam_B": "Směr Břežany II / Štolmíř",
+        "delka_povrch": "1,2 km zpevněná cesta + alej (2022)",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.07488,14.80253&destination=50.08810,14.83343&waypoints=50.08292,14.80940&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.80253%2C50.07488&x=14.80253&y=50.07488&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.83343%2C50.08810&x=14.83343&y=50.08810&z=16",
+        "stroke": "#0d9488",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.80253,
+            50.07488
+          ],
+          [
+            14.8027,
+            50.07851
+          ],
+          [
+            14.80202,
+            50.08149
+          ],
+          [
+            14.8094,
+            50.08292
+          ],
+          [
+            14.81712,
+            50.08468
+          ],
+          [
+            14.82536,
+            50.08645
+          ],
+          [
+            14.83343,
+            50.0881
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 7,
+        "name": "#7 Mlýnská cesta C6 (Tuklaty – Břežany II)",
+        "rok_obnovy": "2022–2023",
+        "odkud_A": "Tuklaty / Tlustovousy",
+        "kam_B": "Západní okraj Břežan II",
+        "delka_povrch": "1,3 km asfalt + stromořadí (2022)",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.08590,14.77335&destination=50.09360,14.80082&waypoints=50.08920,14.79223&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.77335%2C50.08590&x=14.77335&y=50.08590&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.80082%2C50.09360&x=14.80082&y=50.09360&z=16",
+        "stroke": "#0d9488",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.77335,
+            50.0859
+          ],
+          [
+            14.78073,
+            50.08623
+          ],
+          [
+            14.78708,
+            50.087
+          ],
+          [
+            14.79223,
+            50.0892
+          ],
+          [
+            14.79687,
+            50.09195
+          ],
+          [
+            14.80082,
+            50.0936
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 8,
+        "name": "#8 Stezka B. Jedličky-Brodského (údolí Šembery)",
+        "rok_obnovy": "2024",
+        "odkud_A": "Podskalí (Kouřimská brána)",
+        "kam_B": "Liblice (Za Drahou / sv. Gothard)",
+        "delka_povrch": "1,5 km břeh Šembery a Chodotínského ryb. (2024)",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.07050,14.85837&destination=50.07593,14.88167&waypoints=50.07438,14.86995&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.85837%2C50.07050&x=14.85837&y=50.07050&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.88167%2C50.07593&x=14.88167&y=50.07593&z=16",
+        "stroke": "#16a34a",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.85837,
+            50.0705
+          ],
+          [
+            14.85965,
+            50.07119
+          ],
+          [
+            14.86107,
+            50.07196
+          ],
+          [
+            14.8627,
+            50.07229
+          ],
+          [
+            14.8645,
+            50.0727
+          ],
+          [
+            14.86652,
+            50.07317
+          ],
+          [
+            14.86845,
+            50.07372
+          ],
+          [
+            14.86995,
+            50.07438
+          ],
+          [
+            14.87137,
+            50.074
+          ],
+          [
+            14.87283,
+            50.07422
+          ],
+          [
+            14.87472,
+            50.07449
+          ],
+          [
+            14.87652,
+            50.07493
+          ],
+          [
+            14.87798,
+            50.07565
+          ],
+          [
+            14.87926,
+            50.07631
+          ],
+          [
+            14.88167,
+            50.07593
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 9,
+        "name": "#9 Cyklostezka pravý břeh Šembery",
+        "rok_obnovy": "2026",
+        "odkud_A": "Nábřežní / Havlíčkova",
+        "kam_B": "Prokopa Velikého (Pod Malechovem)",
+        "delka_povrch": "450 m nábřežní stezka šířky 3 m (2026)",
+        "mapy_cz_stav": "ČÁSTEČNĚ",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.06885,14.85652&destination=50.07050,14.86407&waypoints=50.07086,14.85879&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.85652%2C50.06885&x=14.85652&y=50.06885&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.86407%2C50.07050&x=14.86407&y=50.07050&z=16",
+        "stroke": "#db2777",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.85652,
+            50.06885
+          ],
+          [
+            14.85609,
+            50.06976
+          ],
+          [
+            14.85712,
+            50.07042
+          ],
+          [
+            14.85879,
+            50.07086
+          ],
+          [
+            14.86081,
+            50.07174
+          ],
+          [
+            14.8627,
+            50.07207
+          ],
+          [
+            14.86407,
+            50.0705
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 10,
+        "name": "#10 Nová lipová alej u hřbitova",
+        "rok_obnovy": "2026",
+        "odkud_A": "Ul. Klučovská (u hřbitova)",
+        "kam_B": "Cesta podél hřbitova (sever)",
+        "delka_povrch": "200 m, 20 vzrostlých lip (březen 2026)",
+        "mapy_cz_stav": "ČÁSTEČNĚ",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.08072,14.87283&destination=50.08427,14.87210&waypoints=50.08289,14.87210&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.87283%2C50.08072&x=14.87283&y=50.08072&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.87210%2C50.08427&x=14.87210&y=50.08427&z=16",
+        "stroke": "#db2777",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.87283,
+            50.08072
+          ],
+          [
+            14.8721,
+            50.08152
+          ],
+          [
+            14.8721,
+            50.08289
+          ],
+          [
+            14.8721,
+            50.08427
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 11,
+        "name": "#11 Obnovená cesta a Alej do Klučova",
+        "rok_obnovy": "2022–2023",
+        "odkud_A": "Ul. Za Drahou (u Klučovské)",
+        "kam_B": "Polní cesta směr Klučov",
+        "delka_povrch": "2,2 km historická polní cesta s alejí (2023)",
+        "mapy_cz_stav": "ČÁSTEČNĚ",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.08105,14.87643&destination=50.09198,14.88132&waypoints=50.08826,14.87454&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.87643%2C50.08105&x=14.87643&y=50.08105&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.88132%2C50.09198&x=14.88132&y=50.09198&z=16",
+        "stroke": "#0d9488",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.87643,
+            50.08105
+          ],
+          [
+            14.87626,
+            50.08276
+          ],
+          [
+            14.87596,
+            50.08413
+          ],
+          [
+            14.87557,
+            50.08551
+          ],
+          [
+            14.87514,
+            50.08689
+          ],
+          [
+            14.87454,
+            50.08826
+          ],
+          [
+            14.87369,
+            50.08986
+          ],
+          [
+            14.87639,
+            50.0906
+          ],
+          [
+            14.87896,
+            50.09124
+          ],
+          [
+            14.88132,
+            50.09198
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 12,
+        "name": "#12 Kudrnáčova stezka a aleje u Klučova",
+        "rok_obnovy": "2022–2023",
+        "odkud_A": "Klučov (přes hradiště)",
+        "kam_B": "Jižní okraj Poříčan",
+        "delka_povrch": "2,5 km historická stezka + stromořadí",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.09581,14.90673&destination=50.10759,14.91583&waypoints=50.10208,14.90845&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.90673%2C50.09581&x=14.90673&y=50.09581&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.91583%2C50.10759&x=14.91583&y=50.10759&z=16",
+        "stroke": "#0d9488",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.90673,
+            50.09581
+          ],
+          [
+            14.90776,
+            50.09911
+          ],
+          [
+            14.90845,
+            50.10208
+          ],
+          [
+            14.91188,
+            50.10495
+          ],
+          [
+            14.91583,
+            50.10759
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 13,
+        "name": "#13 Alej „Žherák“ (Klučov – Žhery)",
+        "rok_obnovy": "2024",
+        "odkud_A": "JV okraj Klučova",
+        "kam_B": "Obec Žhery",
+        "delka_povrch": "1,4 km cesta + 34 stromů (2024)",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.09394,14.90896&destination=50.08953,14.92785&waypoints=50.09107,14.92218&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.90896%2C50.09394&x=14.90896&y=50.09394&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.92785%2C50.08953&x=14.92785&y=50.08953&z=16",
+        "stroke": "#16a34a",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.90896,
+            50.09394
+          ],
+          [
+            14.91583,
+            50.0925
+          ],
+          [
+            14.92218,
+            50.09107
+          ],
+          [
+            14.92785,
+            50.08953
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 14,
+        "name": "#14 Obnovená polní cesta Skramníky – Tatce",
+        "rok_obnovy": "2024",
+        "odkud_A": "SV okraj Skramníků",
+        "kam_B": "JZ okraj Tatců",
+        "delka_povrch": "150 m obnovené polní cesty (2024)",
+        "mapy_cz_stav": "ČÁSTEČNĚ",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.08468,14.95995&destination=50.08953,14.97076&waypoints=50.08700,14.96510&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.95995%2C50.08468&x=14.95995&y=50.08468&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.97076%2C50.08953&x=14.97076&y=50.08953&z=16",
+        "stroke": "#16a34a",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.95995,
+            50.08468
+          ],
+          [
+            14.9651,
+            50.087
+          ],
+          [
+            14.97076,
+            50.08953
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 15,
+        "name": "#15 Polní cesta C4 a Kočárová cesta KZ 7",
+        "rok_obnovy": "2025",
+        "odkud_A": "Východní okraj Chrášťan",
+        "kam_B": "Západní okraj Chotouně (C2)",
+        "delka_povrch": "1,8 km zpevněná cesta + alej (2025)",
+        "mapy_cz_stav": "ČÁSTEČNĚ",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.06529,14.92905&destination=50.06662,14.95411&waypoints=50.06607,14.94553&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.92905%2C50.06529&x=14.92905&y=50.06529&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.95411%2C50.06662&x=14.95411&y=50.06662&z=16",
+        "stroke": "#ea580c",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.92905,
+            50.06529
+          ],
+          [
+            14.93643,
+            50.06595
+          ],
+          [
+            14.94553,
+            50.06607
+          ],
+          [
+            14.95411,
+            50.06662
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 16,
+        "name": "#16 Cyklostezka Nad Malechovem – Přistoupim",
+        "rok_obnovy": "Plán 2026+",
+        "odkud_A": "Ul. Prokopa Velikého",
+        "kam_B": "Severní okraj Přistoupimi (III/1131)",
+        "delka_povrch": "600 m, šířka 3 m podél III/1131 (Plán 2026+)",
+        "mapy_cz_stav": "NE",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.06948,14.86609&destination=50.06270,14.87682&waypoints=50.06554,14.87124&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.86609%2C50.06948&x=14.86609&y=50.06948&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.87682%2C50.06270&x=14.87682&y=50.06270&z=16",
+        "stroke": "#7c3aed",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.86609,
+            50.06948
+          ],
+          [
+            14.86781,
+            50.06775
+          ],
+          [
+            14.86952,
+            50.06656
+          ],
+          [
+            14.87124,
+            50.06554
+          ],
+          [
+            14.87339,
+            50.06436
+          ],
+          [
+            14.87532,
+            50.06353
+          ],
+          [
+            14.87682,
+            50.0627
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 17,
+        "name": "#17 Stezka ČB – Štolmíř podél silnice II/245",
+        "rok_obnovy": "Plán 2026+",
+        "odkud_A": "Žitomířská × Na Vyhlídce",
+        "kam_B": "Českobrodská × Lichtenštejnská",
+        "delka_povrch": "950 m podél silnice II/245 (Plán 2026+)",
+        "mapy_cz_stav": "NE",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.07703,14.85008&destination=50.08270,14.84292&waypoints=50.08022,14.84304&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.85008%2C50.07703&x=14.85008&y=50.07703&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.84292%2C50.08270&x=14.84292&y=50.08270&z=16",
+        "stroke": "#7c3aed",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.85008,
+            50.07703
+          ],
+          [
+            14.84879,
+            50.07829
+          ],
+          [
+            14.84734,
+            50.07929
+          ],
+          [
+            14.84562,
+            50.07984
+          ],
+          [
+            14.84304,
+            50.08022
+          ],
+          [
+            14.84296,
+            50.08061
+          ],
+          [
+            14.84347,
+            50.08149
+          ],
+          [
+            14.84292,
+            50.0827
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 18,
+        "name": "#18 Stezka Na Kutilce – rybník Podviňák",
+        "rok_obnovy": "2024",
+        "odkud_A": "Areál Na Kutilce / Na Bělidle",
+        "kam_B": "Hráz a břeh rybníka Podviňák",
+        "delka_povrch": "650 m pěší a cyklo stezka kolem stadionu (2024)",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.06623,14.85463&destination=50.05976,14.85034&waypoints=50.06259,14.85107&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.85463%2C50.06623&x=14.85463&y=50.06623&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.85034%2C50.05976&x=14.85034&y=50.05976&z=16",
+        "stroke": "#16a34a",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.85463,
+            50.06623
+          ],
+          [
+            14.85309,
+            50.06554
+          ],
+          [
+            14.8518,
+            50.06472
+          ],
+          [
+            14.85137,
+            50.06353
+          ],
+          [
+            14.85107,
+            50.06259
+          ],
+          [
+            14.85051,
+            50.06155
+          ],
+          [
+            14.85,
+            50.06031
+          ],
+          [
+            14.85034,
+            50.05976
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 19,
+        "name": "#19 Šemberské stezky – singletraily Tuchoraz",
+        "rok_obnovy": "2020–2021",
+        "odkud_A": "Tuchoraz (nástup u lesa)",
+        "kam_B": "Lesní MTB okruh (5 km)",
+        "delka_povrch": "5 km MTB trailů v lese (modrý, červený, černý)",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.04810,14.84373&destination=50.04810,14.84373&waypoints=50.04325,14.83858&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.84373%2C50.04810&x=14.84373&y=50.04810&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.84373%2C50.04810&x=14.84373&y=50.04810&z=16",
+        "stroke": "#2563eb",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.84373,
+            50.0481
+          ],
+          [
+            14.84253,
+            50.04512
+          ],
+          [
+            14.84081,
+            50.04182
+          ],
+          [
+            14.83858,
+            50.04325
+          ],
+          [
+            14.8403,
+            50.04623
+          ],
+          [
+            14.84373,
+            50.0481
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 20,
+        "name": "#20 Zastavení u Šembery + Lávka u Skautské louky",
+        "rok_obnovy": "2024",
+        "odkud_A": "Kamenný mostek (Na Šamtalech)",
+        "kam_B": "Lávka u Skautské louky → Na Zámkách",
+        "delka_povrch": "3,5 km údolím Šembery, nová lávka a 3 altány",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.04182,14.84081&destination=50.02748,14.82313&waypoints=50.03300,14.83017&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.84081%2C50.04182&x=14.84081&y=50.04182&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.82313%2C50.02748&x=14.82313&y=50.02748&z=16",
+        "stroke": "#16a34a",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.84081,
+            50.04182
+          ],
+          [
+            14.83686,
+            50.03851
+          ],
+          [
+            14.83395,
+            50.03553
+          ],
+          [
+            14.83017,
+            50.033
+          ],
+          [
+            14.82605,
+            50.03046
+          ],
+          [
+            14.82313,
+            50.02748
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 21,
+        "name": "#21 Hravá naučná stezka Ekocentrum Vrátkov",
+        "rok_obnovy": "2022–2023",
+        "odkud_A": "Západní okraj Tuchorazi",
+        "kam_B": "Ekocentrum Vrátkov (čp. 38)",
+        "delka_povrch": "1,2 km stezka s herními prvky mimo hlavní tah",
+        "mapy_cz_stav": "ČÁSTEČNĚ",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.04986,14.84253&destination=50.04656,14.83000&waypoints=50.04810,14.83395&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.84253%2C50.04986&x=14.84253&y=50.04986&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.83000%2C50.04656&x=14.83000&y=50.04656&z=16",
+        "stroke": "#0d9488",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.84253,
+            50.04986
+          ],
+          [
+            14.83807,
+            50.0492
+          ],
+          [
+            14.83395,
+            50.0481
+          ],
+          [
+            14.83,
+            50.04656
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 22,
+        "name": "#22 Mrzecká cesta a alej (Limuzy – Mrzky)",
+        "rok_obnovy": "2026",
+        "odkud_A": "JV okraj Limuz (parc. 688)",
+        "kam_B": "SZ okraj obce Mrzky",
+        "delka_povrch": "1,6 km polní cesta s alejí (obnova 2026)",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.05692,14.79223&destination=50.04656,14.80717&waypoints=50.05008,14.80202&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.79223%2C50.05692&x=14.79223&y=50.05692&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.80717%2C50.04656&x=14.80717&y=50.04656&z=16",
+        "stroke": "#db2777",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.79223,
+            50.05692
+          ],
+          [
+            14.79738,
+            50.05361
+          ],
+          [
+            14.80202,
+            50.05008
+          ],
+          [
+            14.80717,
+            50.04656
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 23,
+        "name": "#23 Obnovená Naučná stezka Klepec (říjen 2026)",
+        "rok_obnovy": "2026",
+        "odkud_A": "Skřivany (Přišimasy)",
+        "kam_B": "Vrchol Klepec (358 m) → Limuzy",
+        "delka_povrch": "1,0 km, altán s houpací sítí, nové tabule",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.05097,14.77283&destination=50.05538,14.78880&waypoints=50.05031,14.77970&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.77283%2C50.05097&x=14.77283&y=50.05097&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.78880%2C50.05538&x=14.78880&y=50.05538&z=16",
+        "stroke": "#db2777",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.77283,
+            50.05097
+          ],
+          [
+            14.77627,
+            50.05064
+          ],
+          [
+            14.7797,
+            50.05031
+          ],
+          [
+            14.78416,
+            50.05207
+          ],
+          [
+            14.7888,
+            50.05538
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 24,
+        "name": "#24 Chodníky 2024–2026 (Štolmířská – Želivského)",
+        "rok_obnovy": "2026",
+        "odkud_A": "Ul. Štolmířská (jaro 2026)",
+        "kam_B": "Ul. Žižkova, Želivského, Tyršova",
+        "delka_povrch": "Bezbariérové chodníky v uliční síti ČB",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.07565,14.84879&destination=50.07460,14.85652&waypoints=50.07301,14.85223&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.84879%2C50.07565&x=14.84879&y=50.07565&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.85652%2C50.07460&x=14.85652&y=50.07460&z=16",
+        "stroke": "#db2777",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.84879,
+            50.07565
+          ],
+          [
+            14.84879,
+            50.07449
+          ],
+          [
+            14.84879,
+            50.07334
+          ],
+          [
+            14.85064,
+            50.07317
+          ],
+          [
+            14.85223,
+            50.07301
+          ],
+          [
+            14.85506,
+            50.07301
+          ],
+          [
+            14.85558,
+            50.074
+          ],
+          [
+            14.85652,
+            50.0746
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 25,
+        "name": "#25 Chodníky 2020–2023 (Palackého – Krále Jiřího)",
+        "rok_obnovy": "2020–2021",
+        "odkud_A": "Sídliště Palackého",
+        "kam_B": "B. Němcové → náměstí → Krále Jiřího",
+        "delka_povrch": "Chodníky ze zámkové dlažby a přechody",
+        "mapy_cz_stav": "ANO",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.06700,14.84837&destination=50.07582,14.86695&waypoints=50.07243,14.85558&travelmode=walking",
+        "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.84837%2C50.06700&x=14.84837&y=50.06700&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.86695%2C50.07582&x=14.86695&y=50.07582&z=16",
+        "stroke": "#2563eb",
+        "stroke-width": 5,
+        "stroke-opacity": 0.9
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            14.84837,
+            50.067
+          ],
+          [
+            14.84978,
+            50.0683
+          ],
+          [
+            14.8512,
+            50.06932
+          ],
+          [
+            14.85266,
+            50.07042
+          ],
+          [
+            14.85412,
+            50.07152
+          ],
+          [
+            14.85558,
+            50.07243
+          ],
+          [
+            14.85806,
+            50.07323
+          ],
+          [
+            14.86094,
+            50.07381
+          ],
+          [
+            14.86364,
+            50.07491
+          ],
+          [
+            14.86695,
+            50.07582
+          ]
+        ]
+      }
+    }
+  ]
+}

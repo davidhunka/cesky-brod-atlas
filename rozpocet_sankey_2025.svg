@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1220" width="1920" height="1220" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgCanvas" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f8fafc"/>
+    </linearGradient>
+    <filter id="nodeShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Pozadí ve stylu App Economy Insights -->
+  <rect width="1920" height="1220" fill="url(#bgCanvas)"/>
+
+  <!-- Horní barevná linka -->
+  <rect x="0" y="0" width="1920" height="8" fill="#0f172a"/>
+
+  <!-- HLAVIČKA INFOGRAFIKY (APP ECONOMY INSIGHTS STYL) -->
+  <!-- Městský znak / ikona hradby Českého Brodu -->
+  <g transform="translate(48, 28)" filter="url(#nodeShadow)">
+    <rect x="0" y="0" width="64" height="64" rx="16" fill="#0f172a"/>
+    <!-- Stylizovaná gotická brána s věží -->
+    <path d="M 16,50 L 16,24 L 22,24 L 22,29 L 27,29 L 27,16 L 32,10 L 37,16 L 37,29 L 42,29 L 42,24 L 48,24 L 48,50 Z" fill="#38bdf8"/>
+    <path d="M 27,50 L 27,37 A 5,5 0 0 1 37,37 L 37,50 Z" fill="#0f172a"/>
+  </g>
+
+  <text x="128" y="56" fill="#0f172a" font-size="30" font-weight="900" letter-spacing="-0.4">ČESKÝ BROD — JAK MĚSTO HOSPODAŘÍ (FY 2025)</text>
+  <text x="128" y="82" fill="#475569" font-size="15" font-weight="600">Skutečné plnění rozpočtu za rok 2025: Odkud plynou peníze od státu a občanů a na co přesně jdou</text>
+
+  <!-- Pravý horní odznak období -->
+  <g transform="translate(1580, 30)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="292" height="58" rx="14" fill="#0f172a"/>
+    <text x="146" y="25" fill="#38bdf8" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="0.8">IČO 00235334 • MĚSTO ČESKÝ BROD</text>
+    <text x="146" y="45" fill="#ffffff" font-size="15" font-weight="800" text-anchor="middle">SKUTEČNOST ROKU 2025 (ZÚ)</text>
+  </g>
+
+  <!-- Nadpisy sloupců Sankey diagramu -->
+  <g transform="translate(0, 118)">
+    <text x="368" y="0" fill="#64748b" font-size="12" font-weight="800" text-anchor="end" letter-spacing="0.8">1. DETAILNÍ ZDROJE PŘÍJMŮ</text>
+    <text x="660" y="0" fill="#64748b" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="0.8">2. KATEGORIE PŘÍJMŮ</text>
+    <text x="945" y="0" fill="#0f172a" font-size="12.5" font-weight="900" text-anchor="middle" letter-spacing="0.8">3. CELKOVÝ ROZPOČET</text>
+    <text x="1225" y="0" fill="#64748b" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="0.8">4. PROVOZ VS. INVESTICE</text>
+    <text x="1505" y="0" fill="#64748b" font-size="12" font-weight="800" text-anchor="start" letter-spacing="0.8">5. NA CO PENÍZE JDOU (ÚČEL A AKCE)</text>
+    <line x1="48" y1="10" x2="1872" y2="10" stroke="#e2e8f0" stroke-width="1.5"/>
+  </g>
+
+  <path d="M 402.0,172.0 C 521.0,172.0 531.0,211.0 650.0,211.0 L 650.0,337.9 C 531.0,337.9 521.0,298.9 402.0,298.9 Z" fill="#059669" opacity="0.38"/>
+  <path d="M 402.0,316.9 C 521.0,316.9 531.0,337.9 650.0,337.9 L 650.0,409.2 C 531.0,409.2 521.0,388.2 402.0,388.2 Z" fill="#059669" opacity="0.38"/>
+  <path d="M 402.0,406.2 C 521.0,406.2 531.0,409.2 650.0,409.2 L 650.0,467.1 C 531.0,467.1 521.0,464.1 402.0,464.1 Z" fill="#10b981" opacity="0.38"/>
+  <path d="M 402.0,482.1 C 521.0,482.1 531.0,467.1 650.0,467.1 L 650.0,503.1 C 531.0,503.1 521.0,518.1 402.0,518.1 Z" fill="#10b981" opacity="0.38"/>
+  <path d="M 402.0,536.1 C 521.0,536.1 531.0,503.1 650.0,503.1 L 650.0,535.1 C 531.0,535.1 521.0,568.1 402.0,568.1 Z" fill="#34d399" opacity="0.38"/>
+  <path d="M 402.0,586.1 C 521.0,586.1 531.0,569.1 650.0,569.1 L 650.0,610.0 C 531.0,610.0 521.0,627.0 402.0,627.0 Z" fill="#2563eb" opacity="0.38"/>
+  <path d="M 402.0,645.0 C 521.0,645.0 531.0,610.0 650.0,610.0 L 650.0,635.1 C 531.0,635.1 521.0,670.1 402.0,670.1 Z" fill="#3b82f6" opacity="0.38"/>
+  <path d="M 402.0,688.1 C 521.0,688.1 531.0,635.1 650.0,635.1 L 650.0,744.6 C 531.0,744.6 521.0,797.6 402.0,797.6 Z" fill="#60a5fa" opacity="0.38"/>
+  <path d="M 402.0,815.6 C 521.0,815.6 531.0,778.6 650.0,778.6 L 650.0,818.6 C 531.0,818.6 521.0,855.6 402.0,855.6 Z" fill="#0d9488" opacity="0.38"/>
+  <path d="M 402.0,873.6 C 521.0,873.6 531.0,818.6 650.0,818.6 L 650.0,867.1 C 531.0,867.1 521.0,922.1 402.0,922.1 Z" fill="#14b8a6" opacity="0.38"/>
+  <path d="M 402.0,940.1 C 521.0,940.1 531.0,901.1 650.0,901.1 L 650.0,913.0 C 531.0,913.0 521.0,952.0 402.0,952.0 Z" fill="#64748b" opacity="0.38"/>
+  <path d="M 672.0,211.0 C 795.8,211.0 806.2,262.0 930.0,262.0 L 930.0,586.1 C 806.2,586.1 795.8,535.1 672.0,535.1 Z" fill="#059669" opacity="0.44"/>
+  <path d="M 672.0,569.1 C 795.8,569.1 806.2,586.1 930.0,586.1 L 930.0,761.6 C 806.2,761.6 795.8,744.6 672.0,744.6 Z" fill="#2563eb" opacity="0.44"/>
+  <path d="M 672.0,778.6 C 795.8,778.6 806.2,761.6 930.0,761.6 L 930.0,850.1 C 806.2,850.1 795.8,867.1 672.0,867.1 Z" fill="#0d9488" opacity="0.44"/>
+  <path d="M 672.0,901.1 C 795.8,901.1 806.2,850.1 930.0,850.1 L 930.0,862.0 C 806.2,862.0 795.8,913.0 672.0,913.0 Z" fill="#64748b" opacity="0.44"/>
+  <path d="M 952.0,262.0 C 1075.8,262.0 1086.2,227.0 1210.0,227.0 L 1210.0,608.9 C 1086.2,608.9 1075.8,643.9 952.0,643.9 Z" fill="#334155" opacity="0.44"/>
+  <path d="M 952.0,643.9 C 1075.8,643.9 1086.2,678.9 1210.0,678.9 L 1210.0,897.0 C 1086.2,897.0 1075.8,862.0 952.0,862.0 Z" fill="#dc2626" opacity="0.44"/>
+  <path d="M 1232.0,227.0 C 1351.0,227.0 1361.0,174.0 1480.0,174.0 L 1480.0,290.6 C 1361.0,290.6 1351.0,343.6 1232.0,343.6 Z" fill="#475569" opacity="0.38"/>
+  <path d="M 1232.0,343.6 C 1351.0,343.6 1361.0,306.6 1480.0,306.6 L 1480.0,376.0 C 1361.0,376.0 1351.0,413.0 1232.0,413.0 Z" fill="#2563eb" opacity="0.38"/>
+  <path d="M 1232.0,413.0 C 1351.0,413.0 1361.0,392.0 1480.0,392.0 L 1480.0,457.7 C 1361.0,457.7 1351.0,478.7 1232.0,478.7 Z" fill="#16a34a" opacity="0.38"/>
+  <path d="M 1232.0,478.7 C 1351.0,478.7 1361.0,473.7 1480.0,473.7 L 1480.0,513.5 C 1361.0,513.5 1351.0,518.5 1232.0,518.5 Z" fill="#0d9488" opacity="0.38"/>
+  <path d="M 1232.0,518.5 C 1351.0,518.5 1361.0,529.5 1480.0,529.5 L 1480.0,567.2 C 1361.0,567.2 1351.0,556.2 1232.0,556.2 Z" fill="#7c3aed" opacity="0.38"/>
+  <path d="M 1232.0,556.2 C 1351.0,556.2 1361.0,583.2 1480.0,583.2 L 1480.0,612.6 C 1361.0,612.6 1351.0,585.6 1232.0,585.6 Z" fill="#d97706" opacity="0.38"/>
+  <path d="M 1232.0,585.6 C 1351.0,585.6 1361.0,628.6 1480.0,628.6 L 1480.0,651.9 C 1361.0,651.9 1351.0,608.9 1232.0,608.9 Z" fill="#475569" opacity="0.38"/>
+  <path d="M 1232.0,678.9 C 1351.0,678.9 1361.0,667.9 1480.0,667.9 L 1480.0,763.7 C 1361.0,763.7 1351.0,774.7 1232.0,774.7 Z" fill="#dc2626" opacity="0.38"/>
+  <path d="M 1232.0,774.7 C 1351.0,774.7 1361.0,779.7 1480.0,779.7 L 1480.0,818.9 C 1361.0,818.9 1351.0,813.9 1232.0,813.9 Z" fill="#e11d48" opacity="0.38"/>
+  <path d="M 1232.0,813.9 C 1351.0,813.9 1361.0,834.9 1480.0,834.9 L 1480.0,870.8 C 1361.0,870.8 1351.0,849.8 1232.0,849.8 Z" fill="#ea580c" opacity="0.38"/>
+  <path d="M 1232.0,849.8 C 1351.0,849.8 1361.0,886.8 1480.0,886.8 L 1480.0,910.5 C 1361.0,910.5 1351.0,873.5 1232.0,873.5 Z" fill="#db2777" opacity="0.38"/>
+  <path d="M 1232.0,873.5 C 1351.0,873.5 1361.0,926.5 1480.0,926.5 L 1480.0,950.0 C 1361.0,950.0 1351.0,897.0 1232.0,897.0 Z" fill="#be123c" opacity="0.38"/>
+  <rect x="380" y="172.0" width="22" height="126.9" rx="4" fill="#059669" filter="url(#nodeShadow)"/>
+  <text x="368" y="233.5" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Daň z přidané hodnoty (DPH): <tspan fill="#059669">85.5 mil. Kč</tspan></text>
+  <text x="368" y="248.5" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Sdílená daň od státu (RUD) • hlavní příjmový pilíř</text>
+  <rect x="380" y="316.9" width="22" height="71.3" rx="4" fill="#059669" filter="url(#nodeShadow)"/>
+  <text x="368" y="350.6" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Daň z příjmů firem (DPPO): <tspan fill="#059669">48.0 mil. Kč</tspan></text>
+  <text x="368" y="365.6" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Sdílená DPPO ze zisků firem + vlastní daň obce</text>
+  <rect x="380" y="406.2" width="22" height="57.9" rx="4" fill="#10b981" filter="url(#nodeShadow)"/>
+  <text x="368" y="433.2" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Daň z příjmů fyzických osob (DPFO): <tspan fill="#10b981">39.0 mil. Kč</tspan></text>
+  <text x="368" y="448.2" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Ze závislé činnosti (zaměstnanci), OSVČ a srážková</text>
+  <rect x="380" y="482.1" width="22" height="35.9" rx="4" fill="#10b981" filter="url(#nodeShadow)"/>
+  <text x="368" y="498.1" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Daň z nemovitých věcí: <tspan fill="#10b981">24.2 mil. Kč</tspan></text>
+  <text x="368" y="513.1" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">100 % příjmem města (koef. 2,5) → Fond komunikací</text>
+  <rect x="380" y="536.1" width="22" height="32.1" rx="4" fill="#34d399" filter="url(#nodeShadow)"/>
+  <text x="368" y="550.1" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Místní, správní poplatky a hazard: <tspan fill="#34d399">21.6 mil. Kč</tspan></text>
+  <text x="368" y="565.1" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Odpady (8,0M), správní popl. (7,5M), hazard (6,0M)</text>
+  <rect x="380" y="586.1" width="22" height="40.8" rx="4" fill="#2563eb" filter="url(#nodeShadow)"/>
+  <text x="368" y="604.5" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Státní rozpočet – výkon státní správy: <tspan fill="#2563eb">27.5 mil. Kč</tspan></text>
+  <text x="368" y="619.5" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Souhrnný dotační vztah SR (24,0M) + SPOD (3,5M)</text>
+  <rect x="380" y="645.0" width="22" height="25.1" rx="4" fill="#3b82f6" filter="url(#nodeShadow)"/>
+  <text x="368" y="655.5" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Dotace MPSV – Domov Anna a soc. práce: <tspan fill="#3b82f6">16.9 mil. Kč</tspan></text>
+  <text x="368" y="670.5" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Státní dotace na Domov pro seniory a pečovatelky</text>
+  <rect x="380" y="688.1" width="22" height="109.6" rx="4" fill="#60a5fa" filter="url(#nodeShadow)"/>
+  <text x="368" y="740.8" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Investiční dotace EU / IROP / SFŽP: <tspan fill="#60a5fa">73.8 mil. Kč</tspan></text>
+  <text x="368" y="755.8" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">ZŠ Žitomířská (IROP 32M+), dětská skupina (20M)</text>
+  <rect x="380" y="815.6" width="22" height="39.9" rx="4" fill="#0d9488" filter="url(#nodeShadow)"/>
+  <text x="368" y="833.6" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Nedaňové příjmy (radary, úroky, služby): <tspan fill="#0d9488">26.9 mil. Kč</tspan></text>
+  <text x="368" y="848.6" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Pokuty z měření I/12 a Rostoklaty, úroky, převody HČ</text>
+  <rect x="380" y="873.6" width="22" height="48.6" rx="4" fill="#14b8a6" filter="url(#nodeShadow)"/>
+  <text x="368" y="895.8" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Kapitálové příjmy (prodej majetku): <tspan fill="#14b8a6">32.7 mil. Kč</tspan></text>
+  <text x="368" y="910.8" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Prodej pozemků a příspěvky investorů na sítě</text>
+  <rect x="380" y="940.1" width="22" height="11.9" rx="4" fill="#64748b" filter="url(#nodeShadow)"/>
+  <text x="368" y="944.1" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Zapojení rezerv a fondů města (Saldo): <tspan fill="#64748b">8.0 mil. Kč</tspan></text>
+  <text x="368" y="959.1" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Krytí investičního schodku z fondů minulých let</text>
+  <rect x="650" y="211.0" width="22" height="324.1" rx="5" fill="#059669" filter="url(#nodeShadow)"/>
+  <rect x="550.0" y="349.1" width="222" height="48" rx="9" fill="#ffffff" stroke="#059669" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="661.0" y="367.1" fill="#0f172a" font-size="11.5" font-weight="800" text-anchor="middle">DAŇOVÉ PŘÍJMY (Tř. 1)</text>
+  <text x="661.0" y="384.1" fill="#059669" font-size="13" font-weight="900" text-anchor="middle">218.3 mil. Kč <tspan fill="#64748b" font-size="11" font-weight="700">(54 %)</tspan></text>
+  <rect x="650" y="569.1" width="22" height="175.5" rx="5" fill="#2563eb" filter="url(#nodeShadow)"/>
+  <rect x="550.0" y="632.9" width="222" height="48" rx="9" fill="#ffffff" stroke="#2563eb" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="661.0" y="650.9" fill="#0f172a" font-size="11.5" font-weight="800" text-anchor="middle">DOTACE OD STÁTU A EU (Tř. 4)</text>
+  <text x="661.0" y="667.9" fill="#2563eb" font-size="13" font-weight="900" text-anchor="middle">118.2 mil. Kč <tspan fill="#64748b" font-size="11" font-weight="700">(29 %)</tspan></text>
+  <rect x="650" y="778.6" width="22" height="88.5" rx="5" fill="#0d9488" filter="url(#nodeShadow)"/>
+  <rect x="550.0" y="798.9" width="222" height="48" rx="9" fill="#ffffff" stroke="#0d9488" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="661.0" y="816.9" fill="#0f172a" font-size="11.5" font-weight="800" text-anchor="middle">NEDAŇOVÉ A KAPITÁLOVÉ (Tř. 2+3)</text>
+  <text x="661.0" y="833.9" fill="#0d9488" font-size="13" font-weight="900" text-anchor="middle">59.6 mil. Kč <tspan fill="#64748b" font-size="11" font-weight="700">(15 %)</tspan></text>
+  <rect x="650" y="901.1" width="22" height="11.9" rx="5" fill="#64748b" filter="url(#nodeShadow)"/>
+  <rect x="550.0" y="883.1" width="222" height="48" rx="9" fill="#ffffff" stroke="#64748b" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="661.0" y="901.1" fill="#0f172a" font-size="11.5" font-weight="800" text-anchor="middle">ZAPOJENÍ ÚSPOR (Tř. 8)</text>
+  <text x="661.0" y="918.1" fill="#64748b" font-size="13" font-weight="900" text-anchor="middle">8.0 mil. Kč <tspan fill="#64748b" font-size="11" font-weight="700">(2 %)</tspan></text>
+  <rect x="930" y="262.0" width="28" height="600.0" rx="6" fill="#0f172a" filter="url(#nodeShadow)"/>
+
+  <g transform="translate(944.0, 562.0)" filter="url(#cardShadow)">
+    <rect x="-118" y="-44" width="236" height="88" rx="14" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
+    <text x="0" y="-18" fill="#38bdf8" font-size="11.5" font-weight="800" text-anchor="middle" letter-spacing="0.6">CELKOVÝ ROZPOČET 2025</text>
+    <text x="0" y="10" fill="#ffffff" font-size="24" font-weight="900" text-anchor="middle">404.1 mil. Kč</text>
+    <text x="0" y="30" fill="#94a3b8" font-size="11" font-weight="600" text-anchor="middle">Příjmy 396,1M + Fondy 8,0M</text>
+  </g>
+
+  <rect x="1210" y="227.0" width="22" height="381.9" rx="5" fill="#334155" filter="url(#nodeShadow)"/>
+  <rect x="1103.0" y="390.9" width="236" height="54" rx="10" fill="#ffffff" stroke="#334155" stroke-width="2.2" filter="url(#nodeShadow)"/>
+  <text x="1221.0" y="409.9" fill="#0f172a" font-size="12" font-weight="800" text-anchor="middle">BĚŽNÉ PROVOZNÍ VÝDAJE</text>
+  <text x="1221.0" y="427.9" fill="#334155" font-size="14" font-weight="900" text-anchor="middle">257.2 mil. Kč <tspan fill="#64748b" font-size="11" font-weight="700">(63,6 %)</tspan></text>
+  <text x="1221.0" y="439.9" fill="#64748b" font-size="9.5" font-weight="600" text-anchor="middle">Třída 5: Chod města, škol, služeb a úřadu</text>
+  <rect x="1210" y="678.9" width="22" height="218.1" rx="5" fill="#dc2626" filter="url(#nodeShadow)"/>
+  <rect x="1103.0" y="760.9" width="236" height="54" rx="10" fill="#ffffff" stroke="#dc2626" stroke-width="2.2" filter="url(#nodeShadow)"/>
+  <text x="1221.0" y="779.9" fill="#0f172a" font-size="12" font-weight="800" text-anchor="middle">KAPITÁLOVÉ INVESTICE</text>
+  <text x="1221.0" y="797.9" fill="#dc2626" font-size="14" font-weight="900" text-anchor="middle">146.9 mil. Kč <tspan fill="#64748b" font-size="11" font-weight="700">(36,4 %)</tspan></text>
+  <text x="1221.0" y="809.9" fill="#64748b" font-size="9.5" font-weight="600" text-anchor="middle">Třída 6: Nová výstavba, rekonstrukce a rozvoj</text>
+  <rect x="1480" y="174.0" width="22" height="116.6" rx="4" fill="#475569" filter="url(#nodeShadow)"/>
+  <text x="1514" y="230.3" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Veřejná správa, radnice a IT: <tspan fill="#475569">78.5 mil. Kč</tspan></text>
+  <text x="1514" y="245.3" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Chod MěÚ (platy a státní správa ORP), IT a kamery (6,8M)</text>
+  <rect x="1480" y="306.6" width="22" height="69.5" rx="4" fill="#2563eb" filter="url(#nodeShadow)"/>
+  <text x="1514" y="339.3" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Školství – provoz 7 škol a jídelny: <tspan fill="#2563eb">46.8 mil. Kč</tspan></text>
+  <text x="1514" y="354.3" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">ZŠ Tyršova, ZŠ Žitomířská, 3× MŠ, SŠ Liblice a ŠJ</text>
+  <rect x="1480" y="392.0" width="22" height="65.6" rx="4" fill="#16a34a" filter="url(#nodeShadow)"/>
+  <text x="1514" y="422.9" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Komunální služby, odpady a zeleň: <tspan fill="#16a34a">44.2 mil. Kč</tspan></text>
+  <text x="1514" y="437.9" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Technické služby ČB (33,5M – odpady, čištění, VO) + OŽP</text>
+  <rect x="1480" y="473.7" width="22" height="39.8" rx="4" fill="#0d9488" filter="url(#nodeShadow)"/>
+  <text x="1514" y="491.6" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Sociální služby a Domov Anna: <tspan fill="#0d9488">26.8 mil. Kč</tspan></text>
+  <text x="1514" y="506.6" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Domov pro seniory, pečovatelky, stacionář (22M) + SPOD</text>
+  <rect x="1480" y="529.5" width="22" height="37.7" rx="4" fill="#7c3aed" filter="url(#nodeShadow)"/>
+  <text x="1514" y="546.3" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Kultura, knihovna, KD Svět a sport: <tspan fill="#7c3aed">25.4 mil. Kč</tspan></text>
+  <text x="1514" y="561.3" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">CVIK (12,5M), Fond kultury a sportu (granty klubům)</text>
+  <rect x="1480" y="583.2" width="22" height="29.4" rx="4" fill="#d97706" filter="url(#nodeShadow)"/>
+  <text x="1514" y="595.9" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Doprava, údržba komunikací a PID: <tspan fill="#d97706">19.8 mil. Kč</tspan></text>
+  <text x="1514" y="610.9" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Běžné opravy ulic a chodníků, autobusy PID</text>
+  <rect x="1480" y="628.6" width="22" height="23.3" rx="4" fill="#475569" filter="url(#nodeShadow)"/>
+  <text x="1514" y="638.2" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Městská policie, bezpečnost a hasiči: <tspan fill="#475569">15.7 mil. Kč</tspan></text>
+  <text x="1514" y="653.2" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Městská policie ČB, úsekové měření, hasiči JSDH/HZS</text>
+  <rect x="1480" y="667.9" width="22" height="95.8" rx="4" fill="#dc2626" filter="url(#nodeShadow)"/>
+  <text x="1514" y="713.8" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Přístavba a rekonstrukce ZŠ Žitomířská: <tspan fill="#dc2626">64.5 mil. Kč</tspan></text>
+  <text x="1514" y="728.8" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Odborné učebny, hlavní budova a poradenské pracoviště</text>
+  <rect x="1480" y="779.7" width="22" height="39.2" rx="4" fill="#e11d48" filter="url(#nodeShadow)"/>
+  <text x="1514" y="797.3" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Příprava MŠ Kollárova + splátka SŠ: <tspan fill="#e11d48">26.4 mil. Kč</tspan></text>
+  <text x="1514" y="812.3" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Dočasná MŠ, příprava MŠ Letadýlko + splátka SŠ (8,4M)</text>
+  <rect x="1480" y="834.9" width="22" height="35.9" rx="4" fill="#ea580c" filter="url(#nodeShadow)"/>
+  <text x="1514" y="850.8" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Rekonstrukce komunikací a stezek: <tspan fill="#ea580c">24.2 mil. Kč</tspan></text>
+  <text x="1514" y="865.8" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Opravy ulic a chodníků z Fondu komunikací, cyklostezky</text>
+  <rect x="1480" y="886.8" width="22" height="23.8" rx="4" fill="#db2777" filter="url(#nodeShadow)"/>
+  <text x="1514" y="896.7" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Kultura, Stará radnice čp. 1 a parky: <tspan fill="#db2777">16.0 mil. Kč</tspan></text>
+  <text x="1514" y="911.7" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Dokončení úprav čp. 1 (Podkroví), veřejný prostor, participace</text>
+  <rect x="1480" y="926.5" width="22" height="23.5" rx="4" fill="#be123c" filter="url(#nodeShadow)"/>
+  <text x="1514" y="936.3" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Domov Anna (kotelna) a ekologie: <tspan fill="#be123c">15.8 mil. Kč</tspan></text>
+  <text x="1514" y="951.3" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Nová kotelna Domov Anna (7,8M), polopodzemní kontejnery</text>
+  <line x1="48" y1="1061" x2="1872" y2="1061" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <g transform="translate(48.0, 1075)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="441.0" height="106" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <rect x="0" y="0" width="8" height="106" rx="4" fill="#059669"/>
+    <text x="24" y="28" fill="#64748b" font-size="11.5" font-weight="800" letter-spacing="0.5">CELKOVÉ PŘÍJMY 2025 (SKUTEČNOST)</text>
+    <text x="24" y="60" fill="#0f172a" font-size="24" font-weight="900">396,1 mil. Kč</text>
+    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">53 849 Kč na obyvatele (+19,7 % oproti r. 2024)</text>
+  </g>
+
+  <g transform="translate(509.0, 1075)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="441.0" height="106" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <rect x="0" y="0" width="8" height="106" rx="4" fill="#dc2626"/>
+    <text x="24" y="28" fill="#64748b" font-size="11.5" font-weight="800" letter-spacing="0.5">PODÍL INVESTIC NA VÝDAJÍCH</text>
+    <text x="24" y="60" fill="#0f172a" font-size="24" font-weight="900">36,4 % (146,9M)</text>
+    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">Mimořádně vysoká míra investic (průměr obcí ČR je ~22 %)</text>
+  </g>
+
+  <g transform="translate(970.0, 1075)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="441.0" height="106" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <rect x="0" y="0" width="8" height="106" rx="4" fill="#2563eb"/>
+    <text x="24" y="28" fill="#64748b" font-size="11.5" font-weight="800" letter-spacing="0.5">HOTOVOST NA ÚČTECH A V REZERVÁCH</text>
+    <text x="24" y="60" fill="#0f172a" font-size="24" font-weight="900">108,6 mil. Kč</text>
+    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">Dluh města jen 19,0 mil. Kč (5,6 % příjmů vs. limit 60 %)</text>
+  </g>
+
+  <g transform="translate(1431.0, 1075)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="441.0" height="106" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <rect x="0" y="0" width="8" height="106" rx="4" fill="#0d9488"/>
+    <text x="24" y="28" fill="#64748b" font-size="11.5" font-weight="800" letter-spacing="0.5">VLASTNÍ HOSPODÁŘSKÁ ČINNOST (MIMO ROZP.)</text>
+    <text x="24" y="60" fill="#0f172a" font-size="24" font-weight="900">+40,5 mil. Kč zisk</text>
+    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">Byty a nemocnice (+25,3M), Voda (+13,6M), Městské lesy (+1,6M)</text>
+  </g>
+
+  <text x="960.0" y="1208" fill="#94a3b8" font-size="11" font-weight="600" text-anchor="middle">Zdroj dat: Monitor Státní pokladny MF ČR (výkaz FIN 2-12 M, IČO 00235334), Závěrečné účty a Schválené rozpočty města Český Brod (cesbrod.cz) • Vizualizace ve stylu App Economy Insights</text>
+</svg>

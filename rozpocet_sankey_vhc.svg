@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1220" width="1920" height="1220" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgCanvas" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f8fafc"/>
+    </linearGradient>
+    <filter id="nodeShadow" x="-8%" y="-8%" width="116%" height="116%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <!-- Pozadí ve stylu App Economy Insights -->
+  <rect width="1920" height="1220" fill="url(#bgCanvas)"/>
+
+  <!-- Horní barevná linka -->
+  <rect x="0" y="0" width="1920" height="8" fill="#0f172a"/>
+
+  <!-- HLAVIČKA INFOGRAFIKY (APP ECONOMY INSIGHTS STYL) -->
+  <!-- Městský znak / ikona hradby Českého Brodu -->
+  <g transform="translate(48, 28)" filter="url(#nodeShadow)">
+    <rect x="0" y="0" width="64" height="64" rx="16" fill="#0f172a"/>
+    <!-- Stylizovaná gotická brána s věží -->
+    <path d="M 16,50 L 16,24 L 22,24 L 22,29 L 27,29 L 27,16 L 32,10 L 37,16 L 37,29 L 42,29 L 42,24 L 48,24 L 48,50 Z" fill="#38bdf8"/>
+    <path d="M 27,50 L 27,37 A 5,5 0 0 1 37,37 L 37,50 Z" fill="#0f172a"/>
+  </g>
+
+  <text x="128" y="56" fill="#0f172a" font-size="30" font-weight="900" letter-spacing="-0.4">ČESKÝ BROD — VLASTNÍ HOSPODÁŘSKÁ ČINNOST (MIMO ROZPOČET)</text>
+  <text x="128" y="82" fill="#475569" font-size="15" font-weight="600">Druhý finanční pilíř města: Bytové hospodářství a nemocnice, Vodohospodářský fond a Městské lesy (2024–2025)</text>
+
+  <!-- Pravý horní odznak období -->
+  <g transform="translate(1580, 30)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="292" height="58" rx="14" fill="#0f172a"/>
+    <text x="146" y="25" fill="#38bdf8" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="0.8">IČO 00235334 • MĚSTO ČESKÝ BROD</text>
+    <text x="146" y="45" fill="#ffffff" font-size="15" font-weight="800" text-anchor="middle">HOSPODÁŘSKÁ ČINNOST MĚSTA</text>
+  </g>
+
+  <!-- Nadpisy sloupců Sankey diagramu -->
+  <g transform="translate(0, 118)">
+    <text x="368" y="0" fill="#64748b" font-size="12" font-weight="800" text-anchor="end" letter-spacing="0.8">1. DETAILNÍ ZDROJE PŘÍJMŮ</text>
+    <text x="660" y="0" fill="#64748b" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="0.8">2. KATEGORIE PŘÍJMŮ</text>
+    <text x="945" y="0" fill="#0f172a" font-size="12.5" font-weight="900" text-anchor="middle" letter-spacing="0.8">3. CELKOVÝ ROZPOČET</text>
+    <text x="1225" y="0" fill="#64748b" font-size="12" font-weight="800" text-anchor="middle" letter-spacing="0.8">4. PROVOZ VS. INVESTICE</text>
+    <text x="1505" y="0" fill="#64748b" font-size="12" font-weight="800" text-anchor="start" letter-spacing="0.8">5. NA CO PENÍZE JDOU (ÚČEL A AKCE)</text>
+    <line x1="48" y1="10" x2="1872" y2="10" stroke="#e2e8f0" stroke-width="1.5"/>
+  </g>
+
+  <path d="M 402.0,199.0 C 521.0,199.0 531.0,228.0 650.0,228.0 L 650.0,326.4 C 531.0,326.4 521.0,297.4 402.0,297.4 Z" fill="#059669" opacity="0.38"/>
+  <path d="M 402.0,315.4 C 521.0,315.4 531.0,326.4 650.0,326.4 L 650.0,376.2 C 531.0,376.2 521.0,365.2 402.0,365.2 Z" fill="#10b981" opacity="0.38"/>
+  <path d="M 402.0,383.2 C 521.0,383.2 531.0,410.2 650.0,410.2 L 650.0,470.0 C 531.0,470.0 521.0,443.0 402.0,443.0 Z" fill="#2563eb" opacity="0.38"/>
+  <path d="M 402.0,461.0 C 521.0,461.0 531.0,470.0 650.0,470.0 L 650.0,489.9 C 531.0,489.9 521.0,480.9 402.0,480.9 Z" fill="#3b82f6" opacity="0.38"/>
+  <path d="M 402.0,498.9 C 521.0,498.9 531.0,489.9 650.0,489.9 L 650.0,564.9 C 531.0,564.9 521.0,573.9 402.0,573.9 Z" fill="#60a5fa" opacity="0.38"/>
+  <path d="M 402.0,591.9 C 521.0,591.9 531.0,598.9 650.0,598.9 L 650.0,623.5 C 531.0,623.5 521.0,616.5 402.0,616.5 Z" fill="#0d9488" opacity="0.38"/>
+  <path d="M 402.0,634.5 C 521.0,634.5 531.0,623.5 650.0,623.5 L 650.0,780.6 C 531.0,780.6 521.0,791.6 402.0,791.6 Z" fill="#14b8a6" opacity="0.38"/>
+  <path d="M 402.0,809.6 C 521.0,809.6 531.0,780.6 650.0,780.6 L 650.0,896.0 C 531.0,896.0 521.0,925.0 402.0,925.0 Z" fill="#64748b" opacity="0.38"/>
+  <path d="M 672.0,228.0 C 795.8,228.0 806.2,262.0 930.0,262.0 L 930.0,410.2 C 806.2,410.2 795.8,376.2 672.0,376.2 Z" fill="#059669" opacity="0.44"/>
+  <path d="M 672.0,410.2 C 795.8,410.2 806.2,410.2 930.0,410.2 L 930.0,564.9 C 806.2,564.9 795.8,564.9 672.0,564.9 Z" fill="#2563eb" opacity="0.44"/>
+  <path d="M 672.0,598.9 C 795.8,598.9 806.2,564.9 930.0,564.9 L 930.0,862.0 C 806.2,862.0 795.8,896.0 672.0,896.0 Z" fill="#0d9488" opacity="0.44"/>
+  <path d="M 952.0,262.0 C 1075.8,262.0 1086.2,227.0 1210.0,227.0 L 1210.0,689.3 C 1086.2,689.3 1075.8,724.3 952.0,724.3 Z" fill="#dc2626" opacity="0.44"/>
+  <path d="M 952.0,724.3 C 1075.8,724.3 1086.2,759.3 1210.0,759.3 L 1210.0,897.0 C 1086.2,897.0 1075.8,862.0 952.0,862.0 Z" fill="#334155" opacity="0.44"/>
+  <path d="M 1232.0,227.0 C 1351.0,227.0 1361.0,206.0 1480.0,206.0 L 1480.0,428.7 C 1361.0,428.7 1351.0,449.7 1232.0,449.7 Z" fill="#dc2626" opacity="0.38"/>
+  <path d="M 1232.0,449.7 C 1351.0,449.7 1361.0,444.7 1480.0,444.7 L 1480.0,538.4 C 1361.0,538.4 1351.0,543.4 1232.0,543.4 Z" fill="#2563eb" opacity="0.38"/>
+  <path d="M 1232.0,543.4 C 1351.0,543.4 1361.0,554.4 1480.0,554.4 L 1480.0,609.5 C 1361.0,609.5 1351.0,598.5 1232.0,598.5 Z" fill="#3b82f6" opacity="0.38"/>
+  <path d="M 1232.0,598.5 C 1351.0,598.5 1361.0,625.5 1480.0,625.5 L 1480.0,665.3 C 1361.0,665.3 1351.0,638.3 1232.0,638.3 Z" fill="#0d9488" opacity="0.38"/>
+  <path d="M 1232.0,638.3 C 1351.0,638.3 1361.0,681.3 1480.0,681.3 L 1480.0,709.5 C 1361.0,709.5 1351.0,666.5 1232.0,666.5 Z" fill="#059669" opacity="0.38"/>
+  <path d="M 1232.0,666.5 C 1351.0,666.5 1361.0,725.5 1480.0,725.5 L 1480.0,748.3 C 1361.0,748.3 1351.0,689.3 1232.0,689.3 Z" fill="#16a34a" opacity="0.38"/>
+  <path d="M 1232.0,759.3 C 1351.0,759.3 1361.0,764.3 1480.0,764.3 L 1480.0,884.4 C 1361.0,884.4 1351.0,879.4 1232.0,879.4 Z" fill="#475569" opacity="0.38"/>
+  <path d="M 1232.0,879.4 C 1351.0,879.4 1361.0,900.4 1480.0,900.4 L 1480.0,918.0 C 1361.0,918.0 1351.0,897.0 1232.0,897.0 Z" fill="#0f172a" opacity="0.38"/>
+  <rect x="380" y="199.0" width="22" height="98.4" rx="4" fill="#059669" filter="url(#nodeShadow)"/>
+  <text x="368" y="246.2" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Nájemné z městských bytů a domů: <tspan fill="#059669">16.8 mil. Kč</tspan></text>
+  <text x="368" y="261.2" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Čistý výnos z pronájmu bytového fondu města</text>
+  <rect x="380" y="315.4" width="22" height="49.8" rx="4" fill="#10b981" filter="url(#nodeShadow)"/>
+  <text x="368" y="338.3" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Nebytové prostory a areál Nemocnice: <tspan fill="#10b981">8.5 mil. Kč</tspan></text>
+  <text x="368" y="353.3" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Pronájem ordinací polikliniky/nemocnice a komerčních prostor</text>
+  <rect x="380" y="383.2" width="22" height="59.8" rx="4" fill="#2563eb" filter="url(#nodeShadow)"/>
+  <text x="368" y="411.1" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Vodohospodářský majetek (pacht a vodné): <tspan fill="#2563eb">10.2 mil. Kč</tspan></text>
+  <text x="368" y="426.1" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Výnosy z vodovodní a kanalizační sítě města</text>
+  <rect x="380" y="461.0" width="22" height="19.9" rx="4" fill="#3b82f6" filter="url(#nodeShadow)"/>
+  <text x="368" y="469.0" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Ostatní hospodářská činnost (OHČ): <tspan fill="#3b82f6">3.4 mil. Kč</tspan></text>
+  <text x="368" y="484.0" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Komerční pronájmy pozemků a hospodářské služby města</text>
+  <rect x="380" y="498.9" width="22" height="75.0" rx="4" fill="#60a5fa" filter="url(#nodeShadow)"/>
+  <text x="368" y="534.4" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Rezervní fond vodohospodářský (akumulace): <tspan fill="#60a5fa">12.8 mil. Kč</tspan></text>
+  <text x="368" y="549.4" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Zapojení naakumulovaných zdrojů fondu na velké rekonstrukce sítí</text>
+  <rect x="380" y="591.9" width="22" height="24.6" rx="4" fill="#0d9488" filter="url(#nodeShadow)"/>
+  <text x="368" y="602.2" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Městské lesy – prodej dřeva a hospodaření: <tspan fill="#0d9488">4.2 mil. Kč</tspan></text>
+  <text x="368" y="617.2" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Vlastní tržby z těžby dřeva a lesního hospodářství (zisk +1,56M)</text>
+  <rect x="380" y="634.5" width="22" height="157.0" rx="4" fill="#14b8a6" filter="url(#nodeShadow)"/>
+  <text x="368" y="711.1" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Dotace na projekty Městských lesů: <tspan fill="#14b8a6">26.8 mil. Kč</tspan></text>
+  <text x="368" y="726.1" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Dotace na dětskou skupinu (20M), Cestu lásky (80 %), altán a tůně</text>
+  <rect x="380" y="809.6" width="22" height="115.4" rx="4" fill="#64748b" filter="url(#nodeShadow)"/>
+  <text x="368" y="865.3" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="end">Fondy města a předfinancování lesních akcí: <tspan fill="#64748b">19.7 mil. Kč</tspan></text>
+  <text x="368" y="880.3" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="end">Kofinancování výstavby dětské skupiny a lesní infrastruktury</text>
+  <rect x="650" y="228.0" width="22" height="148.2" rx="5" fill="#059669" filter="url(#nodeShadow)"/>
+  <rect x="550.0" y="278.1" width="222" height="48" rx="9" fill="#ffffff" stroke="#059669" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="661.0" y="296.1" fill="#0f172a" font-size="11.5" font-weight="800" text-anchor="middle">BYTY A NEMOCNICE (BH)</text>
+  <text x="661.0" y="313.1" fill="#059669" font-size="13" font-weight="900" text-anchor="middle">25.3 mil. Kč <tspan fill="#64748b" font-size="11" font-weight="700">(25 %)</tspan></text>
+  <rect x="650" y="410.2" width="22" height="154.7" rx="5" fill="#2563eb" filter="url(#nodeShadow)"/>
+  <rect x="550.0" y="463.6" width="222" height="48" rx="9" fill="#ffffff" stroke="#2563eb" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="661.0" y="481.6" fill="#0f172a" font-size="11.5" font-weight="800" text-anchor="middle">VODA A OSTATNÍ HČ</text>
+  <text x="661.0" y="498.6" fill="#2563eb" font-size="13" font-weight="900" text-anchor="middle">26.4 mil. Kč <tspan fill="#64748b" font-size="11" font-weight="700">(26 %)</tspan></text>
+  <rect x="650" y="598.9" width="22" height="297.1" rx="5" fill="#0d9488" filter="url(#nodeShadow)"/>
+  <rect x="550.0" y="723.5" width="222" height="48" rx="9" fill="#ffffff" stroke="#0d9488" stroke-width="2" filter="url(#nodeShadow)"/>
+  <text x="661.0" y="741.5" fill="#0f172a" font-size="11.5" font-weight="800" text-anchor="middle">MĚSTSKÉ LESY A DOTACE</text>
+  <text x="661.0" y="758.5" fill="#0d9488" font-size="13" font-weight="900" text-anchor="middle">50.7 mil. Kč <tspan fill="#64748b" font-size="11" font-weight="700">(49 %)</tspan></text>
+  <rect x="930" y="262.0" width="28" height="600.0" rx="6" fill="#0f172a" filter="url(#nodeShadow)"/>
+
+  <g transform="translate(944.0, 562.0)" filter="url(#cardShadow)">
+    <rect x="-118" y="-44" width="236" height="88" rx="14" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>
+    <text x="0" y="-18" fill="#38bdf8" font-size="11.5" font-weight="800" text-anchor="middle" letter-spacing="0.6">ZDROJE A INVESTICE HČ</text>
+    <text x="0" y="10" fill="#ffffff" font-size="24" font-weight="900" text-anchor="middle">102.4 mil. Kč</text>
+    <text x="0" y="30" fill="#94a3b8" font-size="11" font-weight="600" text-anchor="middle">Zisk +40,5M • Dotace a fondy 61,9M</text>
+  </g>
+
+  <rect x="1210" y="227.0" width="22" height="462.3" rx="5" fill="#dc2626" filter="url(#nodeShadow)"/>
+  <rect x="1103.0" y="431.2" width="236" height="54" rx="10" fill="#ffffff" stroke="#dc2626" stroke-width="2.2" filter="url(#nodeShadow)"/>
+  <text x="1221.0" y="450.2" fill="#0f172a" font-size="12" font-weight="800" text-anchor="middle">INVESTICE STŘEDISEK HČ</text>
+  <text x="1221.0" y="468.2" fill="#dc2626" font-size="14" font-weight="900" text-anchor="middle">78.9 mil. Kč <tspan fill="#64748b" font-size="11" font-weight="700">(77,1 %)</tspan></text>
+  <text x="1221.0" y="480.2" fill="#64748b" font-size="9.5" font-weight="600" text-anchor="middle">Vodovody, lesní cesty, dětská skupina, nemocnice</text>
+  <rect x="1210" y="759.3" width="22" height="137.7" rx="5" fill="#334155" filter="url(#nodeShadow)"/>
+  <rect x="1103.0" y="801.2" width="236" height="54" rx="10" fill="#ffffff" stroke="#334155" stroke-width="2.2" filter="url(#nodeShadow)"/>
+  <text x="1221.0" y="820.2" fill="#0f172a" font-size="12" font-weight="800" text-anchor="middle">ODVOD MĚSTU A REZERVY</text>
+  <text x="1221.0" y="838.2" fill="#334155" font-size="14" font-weight="900" text-anchor="middle">23.5 mil. Kč <tspan fill="#64748b" font-size="11" font-weight="700">(22,9 %)</tspan></text>
+  <text x="1221.0" y="850.2" fill="#64748b" font-size="9.5" font-weight="600" text-anchor="middle">Převod městu (3M) + Fond bytového hospodářství</text>
+  <rect x="1480" y="206.0" width="22" height="222.7" rx="4" fill="#dc2626" filter="url(#nodeShadow)"/>
+  <text x="1514" y="315.3" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Vybudování nové dětské skupiny: <tspan fill="#dc2626">38.0 mil. Kč</tspan></text>
+  <text x="1514" y="330.3" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Stěžejní investice v rámci Městských lesů / města (dotace 20,0M)</text>
+  <rect x="1480" y="444.7" width="22" height="93.8" rx="4" fill="#2563eb" filter="url(#nodeShadow)"/>
+  <text x="1514" y="489.5" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Rekonstrukce vodovodu a kanalizace Tuchorazská: <tspan fill="#2563eb">16.0 mil. Kč</tspan></text>
+  <text x="1514" y="504.5" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Hlavní vodohospodářská stavba + příprava intenzifikace ČOV</text>
+  <rect x="1480" y="554.4" width="22" height="55.1" rx="4" fill="#3b82f6" filter="url(#nodeShadow)"/>
+  <text x="1514" y="579.9" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">PD vodovodů a obnova sítí (7 ulic + vodoměry): <tspan fill="#3b82f6">9.4 mil. Kč</tspan></text>
+  <text x="1514" y="594.9" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">PD Klučovská, Za Drahou, Žižkova, Ruská, Sokolovská, 28. října, vodoměry</text>
+  <rect x="1480" y="625.5" width="22" height="39.8" rx="4" fill="#0d9488" filter="url(#nodeShadow)"/>
+  <text x="1514" y="643.4" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Lesní cesta „Cesta lásky“ (2. část): <tspan fill="#0d9488">6.8 mil. Kč</tspan></text>
+  <text x="1514" y="658.4" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Kompletní rekonstrukce lesní cesty Městských lesů (dotace 80 %)</text>
+  <rect x="1480" y="681.3" width="22" height="28.1" rx="4" fill="#059669" filter="url(#nodeShadow)"/>
+  <text x="1514" y="693.4" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Bytový fond a kotelna v Nemocnici: <tspan fill="#059669">4.8 mil. Kč</tspan></text>
+  <text x="1514" y="708.4" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Technologie kotelny v nemocnici (1,2M), PD čp. 202 (1,3M), čp. 620, spisovna</text>
+  <rect x="1480" y="725.5" width="22" height="22.9" rx="4" fill="#16a34a" filter="url(#nodeShadow)"/>
+  <text x="1514" y="734.9" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Lesní technika, altán Skautská louka a tůně: <tspan fill="#16a34a">3.9 mil. Kč</tspan></text>
+  <text x="1514" y="749.9" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Lesnický traktor (2,6M), altán a lesní workout (1,2M), tůně v lese (0,25M)</text>
+  <rect x="1480" y="764.3" width="22" height="120.1" rx="4" fill="#475569" filter="url(#nodeShadow)"/>
+  <text x="1514" y="822.4" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Tvorba Fondu bytového hospodářství a nemocnice: <tspan fill="#475569">20.5 mil. Kč</tspan></text>
+  <text x="1514" y="837.4" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Akumulace čistého zisku z nájmů na budoucí výstavbu a opravy domů</text>
+  <rect x="1480" y="900.4" width="22" height="17.6" rx="4" fill="#0f172a" filter="url(#nodeShadow)"/>
+  <text x="1514" y="907.2" fill="#0f172a" font-size="12.5" font-weight="800" text-anchor="start">Převod zisku do hlavního rozpočtu města: <tspan fill="#0f172a">3.0 mil. Kč</tspan></text>
+  <text x="1514" y="922.2" fill="#64748b" font-size="10.5" font-weight="600" text-anchor="start">Příspěvek z OHČ, Městských lesů a BH přímo do rozpočtu města</text>
+  <line x1="48" y1="1061" x2="1872" y2="1061" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <g transform="translate(48.0, 1075)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="441.0" height="106" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <rect x="0" y="0" width="8" height="106" rx="4" fill="#059669"/>
+    <text x="24" y="28" fill="#64748b" font-size="11.5" font-weight="800" letter-spacing="0.5">ZISK HOSPODÁŘSKÉ ČINNOSTI</text>
+    <text x="24" y="60" fill="#0f172a" font-size="24" font-weight="900">+40,45 mil. Kč</text>
+    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">Čistý zisk před zdaněním mimo hlavní rozpočet města (ZÚ 2024)</text>
+  </g>
+
+  <g transform="translate(509.0, 1075)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="441.0" height="106" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <rect x="0" y="0" width="8" height="106" rx="4" fill="#2563eb"/>
+    <text x="24" y="28" fill="#64748b" font-size="11.5" font-weight="800" letter-spacing="0.5">BYTY A FOND NEMOCNICE</text>
+    <text x="24" y="60" fill="#0f172a" font-size="24" font-weight="900">+25,31 mil. Kč</text>
+    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">Nejziskovější pilíř: městské byty, nebytové prostory a poliklinika</text>
+  </g>
+
+  <g transform="translate(970.0, 1075)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="441.0" height="106" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <rect x="0" y="0" width="8" height="106" rx="4" fill="#0d9488"/>
+    <text x="24" y="28" fill="#64748b" font-size="11.5" font-weight="800" letter-spacing="0.5">VODOHOSPODÁŘSKÝ FOND A OHČ</text>
+    <text x="24" y="60" fill="#0f172a" font-size="24" font-weight="900">+13,58 mil. Kč</text>
+    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">Financuje opravy vodovodů, kanalizací a přípravu rozšíření ČOV</text>
+  </g>
+
+  <g transform="translate(1431.0, 1075)" filter="url(#cardShadow)">
+    <rect x="0" y="0" width="441.0" height="106" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+    <rect x="0" y="0" width="8" height="106" rx="4" fill="#dc2626"/>
+    <text x="24" y="28" fill="#64748b" font-size="11.5" font-weight="800" letter-spacing="0.5">INVESTICE MĚSTSKÝCH LESŮ</text>
+    <text x="24" y="60" fill="#0f172a" font-size="24" font-weight="900">49,65 mil. Kč</text>
+    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">Dětská skupina (38M), Cesta lásky (6,8M), altán Skautská louka, tůně</text>
+  </g>
+
+  <text x="960.0" y="1208" fill="#94a3b8" font-size="11" font-weight="600" text-anchor="middle">Zdroj dat: Monitor Státní pokladny MF ČR (výkaz FIN 2-12 M, IČO 00235334), Závěrečné účty a Schválené rozpočty města Český Brod (cesbrod.cz) • Vizualizace ve stylu App Economy Insights</text>
+</svg>

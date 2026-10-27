@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Český Brod — Atlas obnovených stezek a Rozpočet města (2020–2026)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    .route-line { transition: stroke-width 0.2s ease, opacity 0.2s ease; cursor: pointer; }
+    .route-line:hover { stroke-width: 8px; }
+    .sankey-path { transition: opacity 0.2s ease; cursor: pointer; }
+    .sankey-path:hover { opacity: 0.78 !important; }
+  </style>
+</head>
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased p-4 md:p-6">
+
+  <!-- Hlavní kontejner -->
+  <div class="max-w-7xl mx-auto space-y-5">
+
+    <!-- Horní lišta s přepínačem sekcí -->
+    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2.5">
+          <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-sky-500/15 text-sky-500 border border-sky-500/30">IČO 00235334</span>
+          <span class="text-xs font-semibold text-[var(--muted-foreground)]">Město Český Brod &amp; region Českobrodsko • Otevřená data 2020–2026</span>
+        </div>
+        <h1 class="text-xl md:text-2xl font-bold mt-1 text-[var(--foreground)]">
+          Atlas obnovených cest a stezek Českobrodska &amp; Rozpočet města
+        </h1>
+        <p class="text-sm text-[var(--muted-foreground)] mt-0.5">
+          Přepínejte mezi vycházkovými mapami (s kontrolou viditelnosti na Mapy.cz) a finančními toky rozpočtu ve stylu App Economy Insights.
+        </p>
+      </div>
+
+      <!-- Hlavní přepínač Cíl 1 vs Cíl 2 -->
+      <div class="flex flex-wrap gap-2">
+        <button id="tabBtnMap" onclick="switchMainTab('map')" class="px-4 py-2.5 rounded-xl text-sm font-bold transition border bg-sky-600 text-white border-sky-600 shadow-sm">
+          🗺️ 1. Mapa stezek a cest (2020–2026)
+        </button>
+        <button id="tabBtnBudget" onclick="switchMainTab('budget')" class="px-4 py-2.5 rounded-xl text-sm font-bold transition border bg-[var(--background)] text-[var(--foreground)] border-[var(--border)] hover:border-sky-500/50">
+          📊 2. Rozpočet města (Sankey 2023–2026)
+        </button>
+      </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- SEKCE 1: MAPA ČESKOBRODSKA A OBNOVENÝCH STEZEK                     -->
+    <!-- ================================================================== -->
+    <div id="sectionMap" class="space-y-5">
+
+      <!-- Ovládací panel mapy -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">Režim mapy:</span>
+            <button id="modeBtnDetailed" onclick="setMapMode('detailed')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition">
+              📍 Podrobná mapa podle roku obnovy (WGS-84)
+            </button>
+            <button id="modeBtnSchematic" onclick="setMapMode('schematic')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] transition">
+              🧭 Zjednodušený vycházkový plánek (Schéma kam jít)
+            </button>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">Kontrola Mapy.cz:</span>
+            <select id="filterMapyCz" onchange="renderMapAndList()" class="bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] rounded-lg px-3 py-1.5 text-xs font-semibold">
+              <option value="all">Všechny stavy na Mapy.cz (25 tras)</option>
+              <option value="ANO">✅ Plně viditelné a routovatelné na Mapy.cz (17)</option>
+              <option value="ČÁSTEČNĚ">⚠️ Částečně (bez názvu nebo nového povrchu) (6)</option>
+              <option value="NE">🚧 Zatím nejsou na Mapy.cz – v přípravě (2)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Filtr podle roku obnovy a typu -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
+          <div class="flex items-center gap-1.5 flex-wrap" id="yearFilterBar">
+            <span class="text-xs font-bold text-[var(--muted-foreground)] mr-1">Rok obnovy:</span>
+            <button onclick="setYearFilter('all')" data-year="all" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-sky-600 text-white">Vše (25)</button>
+            <button onclick="setYearFilter('2020–2021')" data-year="2020–2021" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-[var(--background)] border border-[var(--border)] text-blue-500">● 2020–2021</button>
+            <button onclick="setYearFilter('2022–2023')" data-year="2022–2023" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-[var(--background)] border border-[var(--border)] text-teal-500">● 2022–2023</button>
+            <button onclick="setYearFilter('2024')" data-year="2024" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-[var(--background)] border border-[var(--border)] text-green-500">● 2024</button>
+            <button onclick="setYearFilter('2025')" data-year="2025" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-[var(--background)] border border-[var(--border)] text-orange-500">● 2025</button>
+            <button onclick="setYearFilter('2026')" data-year="2026" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-[var(--background)] border border-[var(--border)] text-pink-500">● 2026 (Nové)</button>
+            <button onclick="setYearFilter('Plán 2026+')" data-year="Plán 2026+" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-[var(--background)] border border-[var(--border)] text-purple-500">◌ Plán 2026+</button>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-[var(--muted-foreground)]">Typ:</span>
+            <select id="filterCategory" onchange="renderMapAndList()" class="bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] rounded-lg px-3 py-1.5 text-xs font-semibold">
+              <option value="all">Všechny typy cest a stezek</option>
+              <option value="polni">🌾 Krajinné polní cesty a biokoridory (KPÚ/SPÚ)</option>
+              <option value="alej">🌳 Obnovené aleje a přírodní pěší cesty</option>
+              <option value="stezka">🚴 Cyklostezky, údolní a lesní naučné stezky</option>
+              <option value="chodnik">🚶 Městské chodníky a bezbariérové trasy</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hlavní dvousloupcový layout: Interaktivní mapa vlevo + Detail vybrané trasy a seznam vpravo -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+        <!-- Mapové plátno (7 sloupců) -->
+        <div class="lg:col-span-7 bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3 shadow-sm flex flex-col">
+          <div class="flex items-center justify-between px-2 pb-2">
+            <span id="mapCanvasTitle" class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">
+              Klikněte na libovolnou trasu nebo číslo v mapě pro detail odkud–kam vede
+            </span>
+            <span class="text-xs font-semibold text-sky-500">Souřadnice WGS-84 → přímý proklik na Mapy.cz</span>
+          </div>
+
+          <div id="svgMapContainer" class="w-full overflow-hidden rounded-xl border border-[var(--border)] bg-slate-50 dark:bg-slate-900">
+            <!-- SVG mapa se vykreslí dynamicky pomocí JS -->
+          </div>
+        </div>
+
+        <!-- Detail vybrané trasy + seznam tras (5 sloupců) -->
+        <div class="lg:col-span-5 flex flex-col gap-4">
+
+          <!-- Karta vybrané trasy -->
+          <div id="routeDetailCard" class="bg-[var(--card)] border-2 border-sky-500/60 rounded-2xl p-4 shadow-sm space-y-3">
+            <!-- Dynamicky plněno JS -->
+          </div>
+
+          <!-- Seznam vyfiltrovaných tras -->
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm flex-1">
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-sm font-bold text-[var(--foreground)]">Seznam tras (<span id="routeCountBadge">25</span>)</h3>
+              <span class="text-xs text-[var(--muted-foreground)]">Kliknutím zvýrazníte v mapě</span>
+            </div>
+            <div id="routeListContainer" class="space-y-2 max-h-[430px] overflow-y-auto pr-1">
+              <!-- Dynamicky plněno JS -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================================== -->
+    <!-- SEKCE 2: ROZPOČET MĚSTA VE STYLU APP ECONOMY INSIGHTS (2023–2026)  -->
+    <!-- ================================================================== -->
+    <div id="sectionBudget" class="hidden space-y-5">
+
+      <!-- Ovládací lišta rozpočtu (výběr roku) -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-lg font-bold text-[var(--foreground)]">Český Brod — Jak město hospodaří (Sankey diagram toků peněz)</h2>
+          <p class="text-xs text-[var(--muted-foreground)]">
+            Data z Monitoru Státní pokladny MF ČR (výkaz FIN 2-12 M), Závěrečných účtů a Schváleného rozpočtu města (č. j. 3558/2026).
+          </p>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-xs font-bold text-[var(--muted-foreground)]">Období:</span>
+          <button onclick="setBudgetYear('2023')" data-byear="2023" class="byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]">
+            Skutečnost 2023
+          </button>
+          <button onclick="setBudgetYear('2024')" data-byear="2024" class="byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]">
+            Skutečnost 2024
+          </button>
+          <button onclick="setBudgetYear('2025')" data-byear="2025" class="byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-emerald-600 bg-emerald-600 text-white">
+            Skutečnost 2025 (ZÚ)
+          </button>
+          <button onclick="setBudgetYear('2026')" data-byear="2026" class="byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]">
+            Rozpočet 2026 (Schválený)
+          </button>
+          <button onclick="setBudgetYear('vhc')" data-byear="vhc" class="byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]">
+            🏭 Vlastní hosp. činnost (VHČ)
+          </button>
+        </div>
+      </div>
+
+      <!-- 4 KPI karty rozpočtu -->
+      <div id="budgetKpiGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Dynamicky plněno JS -->
+      </div>
+
+      <!-- Sankey Diagram Plátno -->
+      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm space-y-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
+          <div>
+            <span id="sankeyTitle" class="text-base font-bold text-[var(--foreground)]">Toky příjmů a výdajů města Český Brod</span>
+            <p id="sankeySubtitle" class="text-xs text-[var(--muted-foreground)]">Najeďte myší na libovolnou větev pro zobrazení přesné částky, podílu a přepočtu na 1 obyvatele (7 355 obyv.).</p>
+          </div>
+          <div id="sankeyHoverBadge" class="px-3.5 py-1.5 rounded-xl bg-sky-500/10 border border-sky-500/30 text-xs font-bold text-sky-500">
+            Vyberte nebo najeďte na položku v grafu
+          </div>
+        </div>
+
+        <div id="sankeySvgWrapper" class="w-full overflow-x-auto rounded-xl bg-white p-2 border border-slate-200">
+          <!-- SVG Sankey se vykreslí zde -->
+        </div>
+      </div>
+
+      <!-- Detailní tabulky: 1) Co město dostává od státu a z daní vs. 2) Největší investice a provoz -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm space-y-3">
+          <h3 class="text-base font-bold text-[var(--foreground)]">📥 Odkud přicházejí peníze (Daně RUD, poplatky a dotace od státu)</h3>
+          <div id="incomeTableContainer" class="space-y-2"></div>
+        </div>
+
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm space-y-3">
+          <h3 class="text-base font-bold text-[var(--foreground)]">📤 Kam peníze jdou (Provoz organizací, úřadu a jmenovité investice)</h3>
+          <div id="expenseTableContainer" class="space-y-2"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // =========================================================================
+    // DATA PRO MAPU OBNOVENÝCH STEZEK A CHODNÍKŮ NA ČESKOBRODSKU (25 TRAS)
+    // =========================================================================
+    const YEAR_COLORS = {
+      "2020–2021": "#2563eb",
+      "2022–2023": "#0d9488",
+      "2024":      "#16a34a",
+      "2025":      "#ea580c",
+      "2026":      "#db2777",
+      "Plán 2026+": "#7c3aed"
+    };
+
+    const ROUTES = [
+      {
+        id: 1,
+        name: "Polní cesta P9 (Štolmíř – Český Brod „Mexiko“)",
+        yearCat: "2020–2021",
+        yearExact: "2020–2024 (KPÚ + zokruhování)",
+        category: "polni",
+        fromTo: "SV okraj Štolmíře (za zemědělským areálem) → přes pole k trati a čtvrti „Mexiko“ (ul. V Lukách / Kounická)",
+        lengthSurface: "1,1 km • asfaltový povrch + alej a suchá retenční nádrž",
+        suitableFor: "Pěší, běh, kolo, inline brusle, kočárky",
+        mapyStatus: "ANO",
+        mapyNote: "Plně vykreslena na Mapy.cz i v OSM jako zpevněná cesta, routovatelná mimo hlavní silnici II/245.",
+        coords: [[50.0865, 14.84193], [50.08678, 14.84356], [50.08713, 14.84519], [50.0876, 14.84734], [50.08796, 14.84935], [50.08821, 14.8518], [50.08837, 14.85472], [50.08876, 14.85751], [50.08942, 14.86008], [50.09036, 14.86167], [50.09069, 14.86339], [50.09074, 14.86523]],
+        center: [50.08837, 14.85472],
+        fromLabel: "Štolmíř (Ke Hřbitovu)",
+        toLabel: "Ul. Kounická (II/272)",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08650,14.84193&destination=50.09074,14.86523&waypoints=50.08796,14.84935%7C50.08942,14.86008&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84193%2C50.08650&x=14.84193&y=50.08650&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.86523%2C50.09074&x=14.86523&y=50.09074&z=16"
+      },
+      {
+        id: 2,
+        name: "Hlavní polní cesta HPC 4 (Štolmíř – směr Břežany II)",
+        yearCat: "2020–2021",
+        yearExact: "2021–2022",
+        category: "polni",
+        fromTo: "SZ okraj Štolmíře (u sportoviště) → směrem na Břežany II",
+        lengthSurface: "591 m (šířka 4,0 m) • asfaltobeton + doprovodná zeleň",
+        suitableFor: "Kolo (Středočeská ovocná stezka), pěší, inline, kočárky",
+        mapyStatus: "ANO",
+        mapyNote: "Zanesena v základní i turistické mapě Mapy.cz, vede po ní cyklotrasa Středočeské ovocné stezky.",
+        coords: [[50.08656, 14.84167], [50.08744, 14.84206], [50.08821, 14.84236], [50.08887, 14.84262], [50.08978, 14.84304], [50.09033, 14.84339], [50.09102, 14.84141], [50.09157, 14.84098], [50.09206, 14.8415]],
+        center: [50.09033, 14.84339],
+        fromLabel: "Štolmíř (Ke Škole)",
+        toLabel: "Směr Břežany II / háj",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08656,14.84167&destination=50.09206,14.84150&waypoints=50.08887,14.84262%7C50.09102,14.84141&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84167%2C50.08656&x=14.84167&y=50.08656&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.84150%2C50.09206&x=14.84150&y=50.09206&z=16"
+      },
+      {
+        id: 3,
+        name: "Polní cesta P3 + mokřad a pozorovatelna „Na Útulně“",
+        yearCat: "2024",
+        yearExact: "2022–2025 (cesta + mokřad a Kukaň)",
+        category: "polni",
+        fromTo: "SZ okraj Českého Brodu (ul. V Lukách / mokřad Na Útulně) → jižní okraj Štolmíře",
+        lengthSurface: "700 m • asfalt + dřevěná ptačí pozorovatelna Kukaň a hry na asfaltu",
+        suitableFor: "Rodiny s dětmi, kočárky, odrážedla, inline, běh",
+        mapyStatus: "ANO",
+        mapyNote: "Plně viditelná v Mapy.cz včetně zakresleného mokřadu a pozorovatelny Na Útulně.",
+        coords: [[50.07868, 14.85412], [50.07967, 14.85412], [50.07984, 14.85279], [50.08077, 14.85163], [50.08088, 14.85073], [50.08105, 14.84965], [50.08152, 14.84819], [50.08215, 14.84699], [50.08298, 14.84588], [50.08342, 14.84528], [50.08314, 14.84433], [50.08281, 14.84296]],
+        center: [50.08215, 14.84699],
+        fromLabel: "Ul. V Lukách (za plynárnou)",
+        toLabel: "Štolmíř (ul. K Lukám)",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.07868,14.85412&destination=50.08281,14.84296&waypoints=50.08088,14.85073%7C50.08298,14.84588&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.85412%2C50.07868&x=14.85412&y=50.07868&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.84296%2C50.08281&x=14.84296&y=50.08281&z=16"
+      },
+      {
+        id: 4,
+        name: "Přírodní pěší cesta a alej „Topolovka“ (ČB – Štolmíř)",
+        yearCat: "2024",
+        yearExact: "2021–2025 (kultivace a výsadby)",
+        category: "alej",
+        fromTo: "Ulice V Lukách / K Lukám (Český Brod) → ul. Českobrodská (Štolmíř), souběžně s P3",
+        lengthSurface: "850 m • přírodní měkký povrch, alej a lavičky (Broďáci Brodu)",
+        suitableFor: "Pěší vycházky, běh, venčení psů",
+        mapyStatus: "ČÁSTEČNĚ",
+        mapyNote: "Cesta je v Mapy.cz vykreslena a routovatelná, ale chybí jí v mapě místní textový název „Topolovka“.",
+        coords: [[50.08072, 14.85759], [50.07956, 14.85665], [50.07967, 14.85412], [50.07984, 14.85279], [50.08044, 14.85223], [50.08152, 14.85094], [50.08303, 14.85034], [50.08455, 14.85017], [50.08601, 14.84987], [50.08689, 14.85171], [50.08757, 14.85197], [50.08821, 14.8518]],
+        center: [50.08455, 14.85017],
+        fromLabel: "Ul. Topolová / Pod Hájem",
+        toLabel: "Napojení na P9 (Štolmíř)",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08072,14.85759&destination=50.08821,14.85180&waypoints=50.08044,14.85223%7C50.08601,14.84987&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.85759%2C50.08072&x=14.85759&y=50.08072&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.85180%2C50.08821&x=14.85180&y=50.08821&z=16"
+      },
+      {
+        id: 5,
+        name: "Lokální biokoridor LBK 14 podél Štolmířského potoka",
+        yearCat: "2022–2023",
+        yearExact: "2021–2023 (SPÚ Kolín, 1,2 mil. Kč)",
+        category: "polni",
+        fromTo: "Od železniční trati Praha–Kolín → kolem Štolmíře až k soutoku s Kounickým potokem",
+        lengthSurface: "2,6 km • krajinný zelený pás s polními prostupy podél potoka",
+        suitableFor: "Pěší vycházky přírodou",
+        mapyStatus: "ČÁSTEČNĚ",
+        mapyNote: "Vodní tok a zeleň jsou v Mapy.cz zobrazeny, průchodný v úsecích souběžných s polními cestami.",
+        coords: [[50.08017, 14.83438], [50.08072, 14.83549], [50.08152, 14.83605], [50.08262, 14.83605], [50.08331, 14.83506], [50.084, 14.8339], [50.08565, 14.83386], [50.08702, 14.83412], [50.08755, 14.83777], [50.08887, 14.83858], [50.08975, 14.84004], [50.09107, 14.84064], [50.09201, 14.84077]],
+        center: [50.08565, 14.83386],
+        fromLabel: "Žel. trať (Z od Štolmíře)",
+        toLabel: "Koryto Štolmířského potoka",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08017,14.83438&destination=50.09201,14.84077&waypoints=50.08331,14.83506%7C50.08755,14.83777&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.83438%2C50.08017&x=14.83438&y=50.08017&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.84077%2C50.09201&x=14.84077&y=50.09201&z=16"
+      },
+      {
+        id: 6,
+        name: "Polní cesta P6 s biokoridorem (Rostoklaty)",
+        yearCat: "2022–2023",
+        yearExact: "Dokončeno po KPÚ Rostoklaty",
+        category: "polni",
+        fromTo: "SV okraj Rostoklat podél ovocného sadu a Štolmířského potoka → směr Štolmíř / Břežany II",
+        lengthSurface: "1,2 km • zpevněná polní cesta s ovocnou alejí",
+        suitableFor: "Kolo (Středočeská ovocná stezka), pěší, běh",
+        mapyStatus: "ANO",
+        mapyNote: "Plně vykreslena v Mapy.cz a vedena po ní značená cyklotrasa.",
+        coords: [[50.07488, 14.80253], [50.07851, 14.8027], [50.08149, 14.80202], [50.08292, 14.8094], [50.08468, 14.81712], [50.08645, 14.82536], [50.0881, 14.83343]],
+        center: [50.08292, 14.8094],
+        fromLabel: "Severní okraj Rostoklat",
+        toLabel: "Směr Břežany II / Štolmíř",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.07488,14.80253&destination=50.08810,14.83343&waypoints=50.08149,14.80202%7C50.08468,14.81712&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.80253%2C50.07488&x=14.80253&y=50.07488&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.83343%2C50.08810&x=14.83343&y=50.08810&z=16"
+      },
+      {
+        id: 7,
+        name: "Hlavní polní cesta C6 „Mlýnská cesta“ (Tuklaty – Břežany II)",
+        yearCat: "2022–2023",
+        yearExact: "Dokončeno + dosadby stromořadí 2019–2025",
+        category: "polni",
+        fromTo: "Od Tlustovous (tlustovouský mlýn) přes k.ú. Tuklaty → k.ú. Břežany II",
+        lengthSurface: "1 302 m • asfaltový povrch, zasakovací pásy a stromořadí",
+        suitableFor: "Kolo, inline brusle, kočárky, pěší",
+        mapyStatus: "ANO",
+        mapyNote: "Plně zanesena v Mapy.cz jako zpevněná komunikace a součást Středočeské ovocné stezky.",
+        coords: [[50.0859, 14.77335], [50.08623, 14.78073], [50.087, 14.78708], [50.0892, 14.79223], [50.09195, 14.79687], [50.0936, 14.80082]],
+        center: [50.0892, 14.79223],
+        fromLabel: "Tuklaty / Tlustovousy",
+        toLabel: "Západní okraj Břežan II",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08590,14.77335&destination=50.09360,14.80082&waypoints=50.08700,14.78708%7C50.09195,14.79687&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.77335%2C50.08590&x=14.77335&y=50.08590&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.80082%2C50.09360&x=14.80082&y=50.09360&z=16"
+      },
+      {
+        id: 8,
+        name: "Stezka Břetislava Jedličky-Brodského (Podskalí – Liblice)",
+        yearCat: "2024",
+        yearExact: "Obnova zábradlí, břehů a laviček 2021–2025",
+        category: "stezka",
+        fromTo: "Český Brod (Podskalí / pod Kouřimskou bránou) → kaplička sv. Gotharda → Chodotínský rybník → Liblice (Za Drahou)",
+        lengthSurface: "1,5 km • zpevněná údolní pěšina podél levého břehu Šembery, nové akátové zábradlí",
+        suitableFor: "Pěší vycházky, terénní kočárek, horské/trekové kolo",
+        mapyStatus: "ANO",
+        mapyNote: "Celá trasa včetně kapličky sv. Gotharda a lávek je na Mapy.cz detailně zmapována.",
+        coords: [[50.0705, 14.85837], [50.07119, 14.85965], [50.07196, 14.86107], [50.07229, 14.8627], [50.0727, 14.8645], [50.07317, 14.86652], [50.07372, 14.86845], [50.07438, 14.86995], [50.074, 14.87137], [50.07422, 14.87283], [50.07449, 14.87472], [50.07493, 14.87652], [50.07565, 14.87798], [50.07631, 14.87926], [50.07593, 14.88167]],
+        center: [50.07422, 14.87283],
+        fromLabel: "Podskalí (Kouřimská brána)",
+        toLabel: "Liblice (Za Drahou / sv. Gothard)",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.07050,14.85837&destination=50.07593,14.88167&waypoints=50.07317,14.86652%7C50.07449,14.87472&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.85837%2C50.07050&x=14.85837&y=50.07050&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.88167%2C50.07593&x=14.88167&y=50.07593&z=16"
+      },
+      {
+        id: 9,
+        name: "Cyklostezka podél pravého břehu Šembery (Pod Malechovem)",
+        yearCat: "2026",
+        yearExact: "2025–2026 (výkupy p.č. 118/1, 118/7 a realizace)",
+        category: "stezka",
+        fromTo: "Havlíčkova ul. / Jiráskovy sady (kolem býv. PRO-DOMA a Pivovarského rybníka) → ul. Prokopa Velikého / Pod Malechovem",
+        lengthSurface: "450 m (šířka 3,0 m) • městská nábřežní cyklostezka a promenáda",
+        suitableFor: "Kolo, pěší, kočárky",
+        mapyStatus: "ČÁSTEČNĚ",
+        mapyNote: "Čtvrť Pod Malechovem v Mapy.cz již je, nábřežní úsek u PRO-DOMA se propisuje s dokončením (2026).",
+        coords: [[50.06885, 14.85652], [50.06976, 14.85609], [50.07042, 14.85712], [50.07086, 14.85879], [50.07174, 14.86081], [50.07207, 14.8627], [50.0705, 14.86407]],
+        center: [50.07086, 14.85879],
+        fromLabel: "Nábřežní / Havlíčkova",
+        toLabel: "Prokopa Velikého (Pod Malechovem)",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.06885,14.85652&destination=50.07050,14.86407&waypoints=50.07042,14.85712%7C50.07174,14.86081&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.85652%2C50.06885&x=14.85652&y=50.06885&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.86407%2C50.07050&x=14.86407&y=50.07050&z=16"
+      },
+      {
+        id: 10,
+        name: "Nová lipová alej u hřbitova v Českém Brodě",
+        yearCat: "2026",
+        yearExact: "Březen 2026 (1. etapa – 20 vzrostlých lip)",
+        category: "alej",
+        fromTo: "Podél cesty u městského hřbitova (mezi ul. Klučovská a Kounická na SV okraji města)",
+        lengthSurface: "200 m (1. etapa z plánovaných 40 stromů) • Sázíme stromy & Město ČB",
+        suitableFor: "Pěší vycházky",
+        mapyStatus: "ČÁSTEČNĚ",
+        mapyNote: "Samotná cesta u hřbitova na Mapy.cz je, nové stromořadí z března 2026 zatím v OSM zaneseno není.",
+        coords: [[50.08072, 14.87283], [50.08152, 14.8721], [50.08289, 14.8721], [50.08427, 14.8721]],
+        center: [50.08289, 14.8721],
+        fromLabel: "Ul. Klučovská (u hřbitova)",
+        toLabel: "Cesta podél hřbitova (sever)",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08072,14.87283&destination=50.08427,14.87210&waypoints=50.08289,14.87210&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.87283%2C50.08072&x=14.87283&y=50.08072&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.87210%2C50.08427&x=14.87210&y=50.08427&z=16"
+      },
+      {
+        id: 11,
+        name: "Obnovená polní cesta a „Alej do Klučova“",
+        yearCat: "2022–2023",
+        yearExact: "Etapové výsadby 2019–2025",
+        category: "alej",
+        fromTo: "Severovýchodní okraj Českého Brodu (za tratí od ul. Klučovská) → obec Klučov",
+        lengthSurface: "2,2 km • polní cesta s nově vysazenou lipovou alejí (spolek Nekluč & město)",
+        suitableFor: "Pěší turistika, terénní běh, MTB",
+        mapyStatus: "ČÁSTEČNĚ",
+        mapyNote: "V Mapy.cz zobrazena čárkovaně jako polní pěšina bez popisku nové lipové aleje.",
+        coords: [[50.08105, 14.87643], [50.08276, 14.87626], [50.08413, 14.87596], [50.08551, 14.87557], [50.08689, 14.87514], [50.08826, 14.87454], [50.08986, 14.87369], [50.0906, 14.87639], [50.09124, 14.87896], [50.09198, 14.88132]],
+        center: [50.08689, 14.87514],
+        fromLabel: "Ul. Za Drahou (u Klučovské)",
+        toLabel: "Polní cesta směr Klučov",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08105,14.87643&destination=50.09198,14.88132&waypoints=50.08551,14.87557%7C50.08986,14.87369&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.87643%2C50.08105&x=14.87643&y=50.08105&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.88132%2C50.09198&x=14.88132&y=50.09198&z=16"
+      },
+      {
+        id: 12,
+        name: "Kudrnáčova stezka a aleje Klučov – Poříčany / Hořany",
+        yearCat: "2022–2023",
+        yearExact: "Obnova stromořadí 2022–2026 (duben 2026 +33 stromů)",
+        category: "alej",
+        fromTo: "Obec Klučov → hradiště Klučov → Poříčany (a větev Klučov – Hořany)",
+        lengthSurface: "2,5 km • historická pěší stezka s obnovenými alejemi",
+        suitableFor: "Pěší výlety, běh, MTB",
+        mapyStatus: "ANO",
+        mapyNote: "Kudrnáčova stezka i polní cesty kolem Klučova jsou v Mapy.cz plně vykresleny.",
+        coords: [[50.09581, 14.90673], [50.09911, 14.90776], [50.10208, 14.90845], [50.10495, 14.91188], [50.10759, 14.91583]],
+        center: [50.10208, 14.90845],
+        fromLabel: "Klučov (přes hradiště)",
+        toLabel: "Jižní okraj Poříčan",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.09581,14.90673&destination=50.10759,14.91583&waypoints=50.09911,14.90776%7C50.10495,14.91188&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.90673%2C50.09581&x=14.90673&y=50.09581&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.91583%2C50.10759&x=14.91583&y=50.10759&z=16"
+      },
+      {
+        id: 13,
+        name: "Alej „Žherák“ (Klučov – Žhery)",
+        yearCat: "2024",
+        yearExact: "2022–2025 (34 stromů podél cesty)",
+        category: "alej",
+        fromTo: "Jihovýchodní okraj Klučova → obec Žhery",
+        lengthSurface: "1,4 km • polní cesta s novou alejí",
+        suitableFor: "Pěší, běh, kolo",
+        mapyStatus: "ANO",
+        mapyNote: "Trasa je na Mapy.cz zanesena jako polní cesta spojující Klučov a Žhery.",
+        coords: [[50.09394, 14.90896], [50.0925, 14.91583], [50.09107, 14.92218], [50.08953, 14.92785]],
+        center: [50.09107, 14.92218],
+        fromLabel: "JV okraj Klučova",
+        toLabel: "Obec Žhery",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.09394,14.90896&destination=50.08953,14.92785&waypoints=50.09107,14.92218&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.90896%2C50.09394&x=14.90896&y=50.09394&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.92785%2C50.08953&x=14.92785&y=50.08953&z=16"
+      },
+      {
+        id: 14,
+        name: "Obnovená zaniklá polní cesta Skramníky – Tatce",
+        yearCat: "2024",
+        yearExact: "Březen 2024 (Sázíme stromy & obce)",
+        category: "polni",
+        fromTo: "Východní okraj obce Skramníky → směrem na Tatce",
+        lengthSurface: "150 m • nově obnovený úsek dříve zaorané polní cesty s výsadbou keřů a stromů",
+        suitableFor: "Pěší propojení obcí",
+        mapyStatus: "ČÁSTEČNĚ",
+        mapyNote: "V Mapy.cz patrné jako polní předěl, postupně se propisuje do OSM.",
+        coords: [[50.08468, 14.95995], [50.087, 14.9651], [50.08953, 14.97076]],
+        center: [50.087, 14.9651],
+        fromLabel: "SV okraj Skramníků",
+        toLabel: "JZ okraj Tatců",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08468,14.95995&destination=50.08953,14.97076&waypoints=50.08700,14.96510&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.95995%2C50.08468&x=14.95995&y=50.08468&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.97076%2C50.08953&x=14.97076&y=50.08953&z=16"
+      },
+      {
+        id: 15,
+        name: "Polní cesta C4 a historická Kočárová cesta KZ 7 (Chrášťany)",
+        yearCat: "2025",
+        yearExact: "Dokončeno v polovině roku 2025 (SPÚ Kolín)",
+        category: "polni",
+        fromTo: "Jižní okraj obce Chrášťany (parc. 304 a 299) → hranice k.ú. Chotouň (navazuje na cestu C2 Chotouň)",
+        lengthSurface: "1,8 km • zpevněná polní cesta C4 s alejí + souběžná ozeleněná pěší kočárová cesta KZ 7",
+        suitableFor: "Pěší vycházky, kolo, běh",
+        mapyStatus: "ČÁSTEČNĚ",
+        mapyNote: "Stopa cesty je na Mapy.cz vykreslena, ale zatím bez aktualizace nového zpevněného povrchu z r. 2025.",
+        coords: [[50.06529, 14.92905], [50.06595, 14.93643], [50.06607, 14.94553], [50.06662, 14.95411]],
+        center: [50.06607, 14.94553],
+        fromLabel: "Východní okraj Chrášťan",
+        toLabel: "Západní okraj Chotouně (C2)",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.06529,14.92905&destination=50.06662,14.95411&waypoints=50.06607,14.94553&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.92905%2C50.06529&x=14.92905&y=50.06529&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.95411%2C50.06662&x=14.95411&y=50.06662&z=16"
+      },
+      {
+        id: 16,
+        name: "Stezka pro pěší a cyklisty Český Brod (Nad Malechovem) – Přistoupim",
+        yearCat: "Plán 2026+",
+        yearExact: "Projektová příprava a výkupy pozemků 2023–2026+",
+        category: "stezka",
+        fromTo: "Jižní okraj Českého Brodu (ul. Nad Malechovem) → podél silnice III/1131 do obce Přistoupim",
+        lengthSurface: "600 m (šířka 3,0 m) • asfaltová smíšená cyklostezka oddělená zeleným pásem od silnice",
+        suitableFor: "Kolo, pěší, kočárky, inline (bezpečné propojení mimo silnici)",
+        mapyStatus: "NE",
+        mapyNote: "Zatím není na Mapy.cz (stavba v přípravě, na mapě je dosud pouze silnice III/1131).",
+        coords: [[50.06948, 14.86609], [50.06775, 14.86781], [50.06656, 14.86952], [50.06554, 14.87124], [50.06436, 14.87339], [50.06353, 14.87532], [50.0627, 14.87682]],
+        center: [50.06436, 14.87339],
+        fromLabel: "Ul. Prokopa Velikého",
+        toLabel: "Severní okraj Přistoupimi (III/1131)",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.06948,14.86609&destination=50.06270,14.87682&waypoints=50.06656,14.86952%7C50.06436,14.87339&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.86609%2C50.06948&x=14.86609&y=50.06948&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.87682%2C50.06270&x=14.87682&y=50.06270&z=16",
+        dashed: true
+      },
+      {
+        id: 17,
+        name: "Stezka pro pěší a cyklisty Český Brod – Štolmíř (podél II/245)",
+        yearCat: "Plán 2026+",
+        yearExact: "Projektová dokumentace vysoutěžena na E-ZAK (v přípravě)",
+        category: "stezka",
+        fromTo: "Křižovatka ul. Žitomířská × Na Vyhlídce (Český Brod) → ul. Českobrodská × Lichtenštejnská (Štolmíř)",
+        lengthSurface: "950 m • páteřní chodník a cyklostezka podél silnice II/245",
+        suitableFor: "Pěší, školáci, cyklisté, kočárky",
+        mapyStatus: "NE",
+        mapyNote: "Zatím není na Mapy.cz (pro cesty do Štolmíře dnes slouží severnější asfaltové cesty P3, P9 a Topolovka).",
+        coords: [[50.07703, 14.85008], [50.07829, 14.84879], [50.07929, 14.84734], [50.07984, 14.84562], [50.08022, 14.84304], [50.08061, 14.84296], [50.08149, 14.84347], [50.0827, 14.84292]],
+        center: [50.07984, 14.84562],
+        fromLabel: "Žitomířská × Na Vyhlídce",
+        toLabel: "Českobrodská × Lichtenštejnská",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.07703,14.85008&destination=50.08270,14.84292&waypoints=50.07929,14.84734%7C50.08061,14.84296&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.85008%2C50.07703&x=14.85008&y=50.07703&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.84292%2C50.08270&x=14.84292&y=50.08270&z=16",
+        dashed: true
+      },
+      {
+        id: 18,
+        name: "Stezka kolem sportovního areálu Na Kutilce k rybníku Podviňák",
+        yearCat: "2024",
+        yearExact: "PD a úpravy areálu 2021–2024 (hřiště Broďáci Brodu)",
+        category: "stezka",
+        fromTo: "Ulice Na Kutilce (od Tuchorazské) → kolem atletického stadionu k říčce Šembeře a rybníku Podviňák",
+        lengthSurface: "650 m • pěší a cyklistická spojka do údolí Šembery",
+        suitableFor: "Pěší, rodiny s dětmi, kolo, běh",
+        mapyStatus: "ANO",
+        mapyNote: "Plně vykreslena v Mapy.cz i OSM, navazuje na Naučnou stezku Údolím Šembery.",
+        coords: [[50.06623, 14.85463], [50.06554, 14.85309], [50.06472, 14.8518], [50.06353, 14.85137], [50.06259, 14.85107], [50.06155, 14.85051], [50.06031, 14.85], [50.05976, 14.85034]],
+        center: [50.06353, 14.85137],
+        fromLabel: "Areál Na Kutilce / Na Bělidle",
+        toLabel: "Hráz a břeh rybníka Podviňák",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.06623,14.85463&destination=50.05976,14.85034&waypoints=50.06472,14.85180%7C50.06155,14.85051&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.85463%2C50.06623&x=14.85463&y=50.06623&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.85034%2C50.05976&x=14.85034&y=50.05976&z=16"
+      },
+      {
+        id: 19,
+        name: "Šemberské stezky – lesní singletraily u Tuchorazi",
+        yearCat: "2020–2021",
+        yearExact: "Otevřeno květen 2020, rozšiřováno 2021–2026",
+        category: "stezka",
+        fromTo: "Lesní masiv za obcí Tuchoraz (nástup u hřiště / Šemberské hospůdky v Tuchorazi)",
+        lengthSurface: "5,0 km • jednosměrné přírodní lesní MTB traily (stoupací + modrý, červený a černý trail)",
+        suitableFor: "Horská kola (MTB – od dětí na modrém trailu po zkušené jezdce)",
+        mapyStatus: "ANO",
+        mapyNote: "Celá síť Šemberských stezek je detailně zakreslena v outdoorové a turistické mapě Mapy.cz.",
+        coords: [[50.0481, 14.84373], [50.04512, 14.84253], [50.04182, 14.84081], [50.04325, 14.83858], [50.04623, 14.8403], [50.0481, 14.84373]],
+        center: [50.04182, 14.84081],
+        fromLabel: "Tuchoraz (nástup u lesa)",
+        toLabel: "Lesní MTB okruh (5 km)",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.04810,14.84373&destination=50.04810,14.84373&waypoints=50.04182,14.84081%7C50.04623,14.84030&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84373%2C50.04810&x=14.84373&y=50.04810&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.84373%2C50.04810&x=14.84373&y=50.04810&z=16"
+      },
+      {
+        id: 20,
+        name: "Zastavení u Šembery + Nová lávka u Skautské louky a Cesta lásky",
+        yearCat: "2024",
+        yearExact: "Lávka a 3 modřínová odpočívadla 2023/2024 + Cesta lásky a altán 2025",
+        category: "stezka",
+        fromTo: "Údolí Šembery jižně od Tuchorazi: Kamenný mostek (Na Šamtalech) → lávka u Skautské louky → soutok Na Zámkách",
+        lengthSurface: "3,5 km údolní stezky • nová dřevěná lávka přes Šemberu, 3 krytá modřínová odpočívadla, altán a Cesta lásky (6,8M)",
+        suitableFor: "Pěší turistika (NS Údolím Šembery), běh, MTB",
+        mapyStatus: "ANO",
+        mapyNote: "Lávka u Skautské louky, Kamenný mostek i rozcestník Na Zámkách jsou plně na Mapy.cz.",
+        coords: [[50.04182, 14.84081], [50.03851, 14.83686], [50.03553, 14.83395], [50.033, 14.83017], [50.03046, 14.82605], [50.02748, 14.82313]],
+        center: [50.03553, 14.83395],
+        fromLabel: "Kamenný mostek (Na Šamtalech)",
+        toLabel: "Lávka u Skautské louky → Na Zámkách",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.04182,14.84081&destination=50.02748,14.82313&waypoints=50.03553,14.83395%7C50.03046,14.82605&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84081%2C50.04182&x=14.84081&y=50.04182&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.82313%2C50.02748&x=14.82313&y=50.02748&z=16"
+      },
+      {
+        id: 21,
+        name: "Hravá naučná stezka do Ekocentra Vrátkov",
+        yearCat: "2022–2023",
+        yearExact: "2021–2023 (dotační podpora Středočeského kraje)",
+        category: "stezka",
+        fromTo: "Od okraje Tuchorazi / zastávek MHD lesem mimo silnici → k hájovně Ekocentra Vrátkov (č.p. 38)",
+        lengthSurface: "1,2 km • bezpečná lesní pěšina s dřevěnými řezbářskými a herními prvky pro děti",
+        suitableFor: "Rodiny s dětmi, školní výlety, pěší",
+        mapyStatus: "ČÁSTEČNĚ",
+        mapyNote: "Lesní cesty i bod Ekocentrum Vrátkov v Mapy.cz jsou, chybí jen zelená značka naučné stezky.",
+        coords: [[50.04986, 14.84253], [50.0492, 14.83807], [50.0481, 14.83395], [50.04656, 14.83]],
+        center: [50.0481, 14.83395],
+        fromLabel: "Západní okraj Tuchorazi",
+        toLabel: "Ekocentrum Vrátkov (čp. 38)",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.04986,14.84253&destination=50.04656,14.83000&waypoints=50.04810,14.83395&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84253%2C50.04986&x=14.84253&y=50.04986&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.83000%2C50.04656&x=14.83000&y=50.04656&z=16"
+      },
+      {
+        id: 22,
+        name: "„Mrzecká cesta“ a obnova aleje (Limuzy – Mrzky, obec Tismice)",
+        yearCat: "2026",
+        yearExact: "Asanace a celková obnova aleje podzim 2026+",
+        category: "alej",
+        fromTo: "Obec Limuzy (parc. č. 688) → obec Mrzky (součást Středočeské ovocné stezky)",
+        lengthSurface: "1,6 km • polní cesta s alejí a naučnými panely",
+        suitableFor: "Kolo, pěší vycházky",
+        mapyStatus: "ANO",
+        mapyNote: "Plně zanesena v Mapy.cz včetně symbolů stromořadí a cyklotrasy.",
+        coords: [[50.05692, 14.79223], [50.05361, 14.79738], [50.05008, 14.80202], [50.04656, 14.80717]],
+        center: [50.05008, 14.80202],
+        fromLabel: "JV okraj Limuz (parc. 688)",
+        toLabel: "SZ okraj obce Mrzky",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.05692,14.79223&destination=50.04656,14.80717&waypoints=50.05008,14.80202&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.79223%2C50.05692&x=14.79223&y=50.05692&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.80717%2C50.04656&x=14.80717&y=50.04656&z=16"
+      },
+      {
+        id: 23,
+        name: "Kompletně obnovená Naučná stezka Klepec (Přišimasy / Skřivany)",
+        yearCat: "2026",
+        yearExact: "Slavnostně otevřeno v říjnu 2026 (dotace Středočeského kraje)",
+        category: "stezka",
+        fromTo: "Skřivany (Přišimasy) → vrchol a žulové skály PP Klepec (358 m n. m., Slouha, Stoh slámy) → směr Limuzy",
+        lengthSurface: "1,0 km • nové naučné tabule, dřevěné směrovky, lavičky a kryté posezení s houpací sítí",
+        suitableFor: "Pěší výlety, rodiny s dětmi, vyhlídka do kraje",
+        mapyStatus: "ANO",
+        mapyNote: "Celá trasa po žluté značce i vrchol Klepec jsou detailně na Mapy.cz.",
+        coords: [[50.05097, 14.77283], [50.05064, 14.77627], [50.05031, 14.7797], [50.05207, 14.78416], [50.05538, 14.7888]],
+        center: [50.05031, 14.7797],
+        fromLabel: "Skřivany (Přišimasy)",
+        toLabel: "Vrchol Klepec (358 m) → Limuzy",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.05097,14.77283&destination=50.05538,14.78880&waypoints=50.05064,14.77627%7C50.05207,14.78416&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.77283%2C50.05097&x=14.77283&y=50.05097&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.78880%2C50.05538&x=14.78880&y=50.05538&z=16"
+      },
+      {
+        id: 24,
+        name: "Nové a opravené městské chodníky 2024–2026 (Štolmířská, Sportovní, Masarykova, B. Němcové)",
+        yearCat: "2026",
+        yearExact: "2024–2026 (E-ZAK a Technické služby ČB)",
+        category: "chodnik",
+        fromTo: "Štolmířská (Žižkova–Na Vyhlídce, jaro 2026), podjezd Sportovní (rozšíření chodníku), Masarykova, B. Němcové (2025), B. Smetany, Želivského, Jeronýmova, Ve Staré vsi (Liblice), Tuchorazská",
+        lengthSurface: "Soubor 10 bezbariérových uličních rekonstrukcí v Českém Brodě a Liblicích",
+        suitableFor: "Městský pěší provoz, kočárky, senioři, nevidomí",
+        mapyStatus: "ANO",
+        mapyNote: "Všechny uliční chodníky jsou součástí podrobné uliční sítě Mapy.cz a OSM.",
+        coords: [[50.07565, 14.84879], [50.07449, 14.84879], [50.07334, 14.84879], [50.07317, 14.85064], [50.07301, 14.85223], [50.07301, 14.85506], [50.074, 14.85558], [50.0746, 14.85652]],
+        center: [50.07334, 14.84879],
+        fromLabel: "Ul. Štolmířská (jaro 2026)",
+        toLabel: "Ul. Žižkova, Želivského, Tyršova",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.07565,14.84879&destination=50.07460,14.85652&waypoints=50.07334,14.84879%7C50.07301,14.85506&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84879%2C50.07565&x=14.84879&y=50.07565&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.85652%2C50.07460&x=14.85652&y=50.07460&z=16"
+      },
+      {
+        id: 25,
+        name: "Opravené městské chodníky 2020–2023 (Jugoslávská, Palackého, Zborovská, Bezručova, Nová)",
+        yearCat: "2020–2021",
+        yearExact: "2020–2023",
+        category: "chodnik",
+        fromTo: "Celá ul. Jugoslávská, sídliště Palackého, Zborovská a přechod Krále Jiřího × Jana Kouly, Bezručova (2023), Slezská, Vítězná, Nová (Liblice)",
+        lengthSurface: "Kompletní předláždění ze zámkové a reliéfní dlažby + bezpečné přechody (dotace SFDI a IROP)",
+        suitableFor: "Městský pěší provoz, kočárky",
+        mapyStatus: "ANO",
+        mapyNote: "Plně zmapováno v Mapy.cz i OpenStreetMap včetně přechodů.",
+        coords: [[50.067, 14.84837], [50.0683, 14.84978], [50.06932, 14.8512], [50.07042, 14.85266], [50.07152, 14.85412], [50.07243, 14.85558], [50.07323, 14.85806], [50.07381, 14.86094], [50.07491, 14.86364], [50.07582, 14.86695]],
+        center: [50.0683, 14.84978],
+        fromLabel: "Sídliště Palackého",
+        toLabel: "B. Němcové → náměstí → Krále Jiřího",
+        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.06700,14.84837&destination=50.07582,14.86695&waypoints=50.07042,14.85266%7C50.07323,14.85806&travelmode=walking",
+        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84837%2C50.06700&x=14.84837&y=50.06700&z=16",
+        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.86695%2C50.07582&x=14.86695&y=50.07582&z=16"
+      }
+    ];
+
+    // Sídla pro orientaci v mapě
+    const TOWNS = [
+      { name: "ČESKÝ BROD", lat: 50.0728, lon: 14.8605, main: true },
+      { name: "Štolmíř", lat: 50.0825, lon: 14.8415 },
+      { name: "Liblice", lat: 50.0760, lon: 14.8860 },
+      { name: "Přistoupim", lat: 50.0595, lon: 14.8755 },
+      { name: "Bylany", lat: 50.0690, lon: 14.9120 },
+      { name: "Chrášťany", lat: 50.0590, lon: 14.9250 },
+      { name: "Tuchoraz", lat: 50.0455, lon: 14.8595 },
+      { name: "Vrátkov", lat: 50.0465, lon: 14.8360 },
+      { name: "Mrzky", lat: 50.0560, lon: 14.8325 },
+      { name: "Limuzy", lat: 50.0595, lon: 14.8125 },
+      { name: "Tismice", lat: 50.0545, lon: 14.8220 },
+      { name: "Klepec (358 m)", lat: 50.0535, lon: 14.7770 },
+      { name: "Rostoklaty", lat: 50.0760, lon: 14.8120 },
+      { name: "Břežany II", lat: 50.0910, lon: 14.8030 },
+      { name: "Tuklaty", lat: 50.0900, lon: 14.7720 },
+      { name: "Klučov", lat: 50.0940, lon: 14.8990 },
+      { name: "Poříčany", lat: 50.1000, lon: 14.9180 },
+      { name: "Žhery", lat: 50.0835, lon: 14.9220 },
+      { name: "Skramníky", lat: 50.0820, lon: 14.9480 },
+      { name: "Zahrady", lat: 50.0565, lon: 14.8520 }
+    ];
+
+    let currentMapMode = "detailed"; // 'detailed' | 'schematic'
+    let currentYearFilter = "all";
+    let selectedRouteId = 3; // Výchozí: Polní cesta P3 Na Útulně
+
+    function switchMainTab(tab) {
+      const sMap = document.getElementById("sectionMap");
+      const sBud = document.getElementById("sectionBudget");
+      const bMap = document.getElementById("tabBtnMap");
+      const bBud = document.getElementById("tabBtnBudget");
+
+      if (tab === "map") {
+        sMap.classList.remove("hidden");
+        sBud.classList.add("hidden");
+        bMap.className = "px-4 py-2.5 rounded-xl text-sm font-bold transition border bg-sky-600 text-white border-sky-600 shadow-sm";
+        bBud.className = "px-4 py-2.5 rounded-xl text-sm font-bold transition border bg-[var(--background)] text-[var(--foreground)] border-[var(--border)] hover:border-sky-500/50";
+      } else {
+        sMap.classList.add("hidden");
+        sBud.classList.remove("hidden");
+        bBud.className = "px-4 py-2.5 rounded-xl text-sm font-bold transition border bg-sky-600 text-white border-sky-600 shadow-sm";
+        bMap.className = "px-4 py-2.5 rounded-xl text-sm font-bold transition border bg-[var(--background)] text-[var(--foreground)] border-[var(--border)] hover:border-sky-500/50";
+        renderBudgetSection();
+      }
+    }
+
+    function setMapMode(mode) {
+      currentMapMode = mode;
+      const bDet = document.getElementById("modeBtnDetailed");
+      const bSch = document.getElementById("modeBtnSchematic");
+      if (mode === "detailed") {
+        bDet.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition";
+        bSch.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] transition";
+      } else {
+        bSch.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition";
+        bDet.className = "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] transition";
+      }
+      renderMapAndList();
+    }
+
+    function setYearFilter(year) {
+      currentYearFilter = year;
+      document.querySelectorAll(".year-btn").forEach(btn => {
+        if (btn.dataset.year === year) {
+          btn.classList.add("ring-2", "ring-sky-500", "bg-sky-500/15");
+        } else {
+          btn.classList.remove("ring-2", "ring-sky-500", "bg-sky-500/15");
+        }
+      });
+      renderMapAndList();
+    }
+
+    function getFilteredRoutes() {
+      const mapyFilter = document.getElementById("filterMapyCz").value;
+      const catFilter = document.getElementById("filterCategory").value;
+      return ROUTES.filter(r => {
+        if (currentYearFilter !== "all" && r.yearCat !== currentYearFilter) return false;
+        if (mapyFilter !== "all" && r.mapyStatus !== mapyFilter) return false;
+        if (catFilter !== "all" && r.category !== catFilter) return false;
+        return true;
+      });
+    }
+
+    function selectRoute(id) {
+      selectedRouteId = id;
+      renderMapAndList();
+    }
+
+    function renderMapAndList() {
+      const filtered = getFilteredRoutes();
+      document.getElementById("routeCountBadge").textContent = filtered.length;
+
+      if (filtered.length > 0 && !filtered.some(r => r.id === selectedRouteId)) {
+        selectedRouteId = filtered[0].id;
+      }
+
+      if (currentMapMode === "detailed") {
+        renderDetailedGeoSvg(filtered);
+      } else {
+        renderSchematicSvg(filtered);
+      }
+
+      renderRouteDetailCard();
+      renderRouteList(filtered);
+    }
+
+    function renderDetailedGeoSvg(filtered) {
+      const W = 820, H = 660;
+      const LAT_MIN = 50.022, LAT_MAX = 50.102;
+      const LON_MIN = 14.765, LON_MAX = 14.960;
+
+      const proj = (lat, lon) => {
+        const x = ((lon - LON_MIN) / (LON_MAX - LON_MIN)) * W;
+        const y = ((LAT_MAX - lat) / (LAT_MAX - LAT_MIN)) * H;
+        return [x.toFixed(1), y.toFixed(1)];
+      };
+
+      const pathStr = coords => "M " + coords.map(([la, lo]) => proj(la, lo).join(",")).join(" L ");
+
+      let svg = `<svg viewBox="0 0 ${W} ${H}" class="w-full h-auto select-none">`;
+      svg += `<rect width="${W}" height="${H}" fill="#f8fafc"/>`;
+
+      // Mřížka WGS84
+      [14.78, 14.82, 14.86, 14.90, 14.94].forEach(lon => {
+        const [gx] = proj(50.05, lon);
+        svg += `<line x1="${gx}" y1="0" x2="${gx}" y2="${H}" stroke="#e2e8f0" stroke-width="1"/>`;
+        svg += `<text x="${Number(gx)+4}" y="14" fill="#94a3b8" font-size="10" font-weight="600">${lon.toFixed(2)}°E</text>`;
+      });
+      [50.03, 50.05, 50.07, 50.09].forEach(lat => {
+        const [, gy] = proj(lat, 14.85);
+        svg += `<line x1="0" y1="${gy}" x2="${W}" y2="${gy}" stroke="#e2e8f0" stroke-width="1"/>`;
+        svg += `<text x="6" y="${Number(gy)-4}" fill="#94a3b8" font-size="10" font-weight="600">${lat.toFixed(2)}°N</text>`;
+      });
+
+      // Lesy (Šembera, Klepec, Štolmířský háj)
+      const forest1 = [[50.052, 14.832], [50.055, 14.855], [50.042, 14.864], [50.023, 14.845], [50.023, 14.820], [50.040, 14.825]];
+      const forest2 = [[50.060, 14.772], [50.060, 14.788], [50.048, 14.788], [50.048, 14.770]];
+      svg += `<path d="${pathStr(forest1)} Z" fill="#dcfce7" opacity="0.8"/>`;
+      svg += `<path d="${pathStr(forest2)} Z" fill="#dcfce7" opacity="0.8"/>`;
+
+      // Zastavěné území ČB
+      const cbPoly = [[50.081, 14.848], [50.081, 14.868], [50.075, 14.872], [50.064, 14.868], [50.065, 14.850], [50.074, 14.845]];
+      svg += `<path d="${pathStr(cbPoly)} Z" fill="#e2e8f0" opacity="0.75"/>`;
+
+      // Říčka Šembera a Štolmířský potok
+      const sembera = [[50.023, 14.830], [50.0365, 14.8460], [50.0445, 14.8535], [50.0645, 14.8555], [50.0712, 14.8632], [50.0745, 14.8810], [50.085, 14.918]];
+      const stolmirP = [[50.074, 14.800], [50.078, 14.835], [50.083, 14.843], [50.091, 14.858], [50.098, 14.882]];
+      svg += `<path d="${pathStr(sembera)}" fill="none" stroke="#60a5fa" stroke-width="3.5" stroke-linecap="round"/>`;
+      svg += `<path d="${pathStr(stolmirP)}" fill="none" stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round"/>`;
+
+      // Silnice I/12 a železnice
+      const roadI12 = [[50.068, 14.765], [50.065, 14.860], [50.060, 14.960]];
+      const rail = [[50.088, 14.765], [50.078, 14.815], [50.0685, 14.8630], [50.079, 14.892], [50.086, 14.958]];
+      svg += `<path d="${pathStr(roadI12)}" fill="none" stroke="#fcd34d" stroke-width="3" opacity="0.75"/>`;
+      svg += `<path d="${pathStr(rail)}" fill="none" stroke="#64748b" stroke-width="2.5" stroke-dasharray="6,6" opacity="0.65"/>`;
+
+      // Obce
+      TOWNS.forEach(t => {
+        const [tx, ty] = proj(t.lat, t.lon);
+        if (t.main) {
+          svg += `<circle cx="${tx}" cy="${ty}" r="5" fill="#0f172a" stroke="#ffffff" stroke-width="1.5"/>`;
+          svg += `<text x="${Number(tx)+38}" y="${Number(ty)+4}" fill="#0f172a" font-size="11.5" font-weight="800" text-anchor="middle">${t.name}</text>`;
+        } else {
+          svg += `<circle cx="${tx}" cy="${ty}" r="3.2" fill="#475569"/>`;
+          svg += `<text x="${tx}" y="${Number(ty)-6}" fill="#334155" font-size="10" font-weight="700" text-anchor="middle">${t.name}</text>`;
+        }
+      });
+
+      // Trasy
+      filtered.forEach(r => {
+        const col = YEAR_COLORS[r.yearCat];
+        const isSel = r.id === selectedRouteId;
+        const d = pathStr(r.coords);
+        const dash = r.dashed ? 'stroke-dasharray="7,5"' : '';
+        const sw = isSel ? 7 : 4.5;
+
+        if (isSel) {
+          svg += `<path d="${d}" fill="none" stroke="#fde047" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>`;
+        } else {
+          svg += `<path d="${d}" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>`;
+        }
+
+        svg += `<path d="${d}" onclick="selectRoute(${r.id})" class="route-line" fill="none" stroke="${col}" stroke-width="${sw}" ${dash} stroke-linecap="round" stroke-linejoin="round"/>`;
+
+        if (isSel && r.coords.length >= 2) {
+          const [sx, sy] = proj(r.coords[0][0], r.coords[0][1]);
+          const [ex, ey] = proj(r.coords[r.coords.length - 1][0], r.coords[r.coords.length - 1][1]);
+          svg += `<circle cx="${sx}" cy="${sy}" r="7.5" fill="#16a34a" stroke="#ffffff" stroke-width="2"/>`;
+          svg += `<text x="${sx}" y="${Number(sy)+3}" fill="#ffffff" font-size="8.5" font-weight="900" text-anchor="middle">A</text>`;
+          svg += `<circle cx="${ex}" cy="${ey}" r="7.5" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>`;
+          svg += `<text x="${ex}" y="${Number(ey)+3}" fill="#ffffff" font-size="8.5" font-weight="900" text-anchor="middle">B</text>`;
+        }
+
+        if (isSel && r.coords.length >= 2) {
+          const [sx, sy] = proj(r.coords[0][0], r.coords[0][1]);
+          const [ex, ey] = proj(r.coords[r.coords.length - 1][0], r.coords[r.coords.length - 1][1]);
+          svg += `<circle cx="${sx}" cy="${sy}" r="7.5" fill="#16a34a" stroke="#ffffff" stroke-width="2"/>`;
+          svg += `<text x="${sx}" y="${Number(sy)+3}" fill="#ffffff" font-size="8.5" font-weight="900" text-anchor="middle">A</text>`;
+          svg += `<circle cx="${ex}" cy="${ey}" r="7.5" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>`;
+          svg += `<text x="${ex}" y="${Number(ey)+3}" fill="#ffffff" font-size="8.5" font-weight="900" text-anchor="middle">B</text>`;
+        }
+
+        const [bx, by] = proj(r.center[0], r.center[1]);
+        const rad = isSel ? 11.5 : 9.5;
+        svg += `<g onclick="selectRoute(${r.id})" class="cursor-pointer">`;
+        svg += `<circle cx="${bx}" cy="${by}" r="${rad}" fill="${col}" stroke="${isSel ? '#0f172a' : '#ffffff'}" stroke-width="${isSel ? 2.5 : 1.5}"/>`;
+        svg += `<text x="${bx}" y="${Number(by)+3.5}" fill="#ffffff" font-size="9.5" font-weight="800" text-anchor="middle">${r.id}</text>`;
+        svg += `</g>`;
+      });
+
+      svg += `</svg>`;
+      document.getElementById("svgMapContainer").innerHTML = svg;
+    }
+
+    function renderSchematicSvg(filtered) {
+      // Schematický plánek vycházkových okruhů z Českého Brodu
+      const W = 820, H = 620;
+      const schematicPos = {
+        1: [370, 145], 2: [225, 125], 3: [315, 215], 4: [285, 240],
+        5: [265, 175], 6: [155, 235], 7: [95, 145], 8: [535, 245],
+        9: [495, 315], 10: [485, 195], 11: [585, 145], 12: [665, 95],
+        13: [705, 155], 14: [755, 195], 15: [695, 425], 16: [545, 395],
+        17: [285, 268], 18: [405, 365], 19: [435, 495], 20: [345, 555],
+        21: [245, 485], 22: [195, 385], 23: [95, 455], 24: [395, 265], 25: [425, 295]
+      };
+
+      let svg = `<svg viewBox="0 0 ${W} ${H}" class="w-full h-auto select-none">`;
+      svg += `<rect width="${W}" height="${H}" fill="#f8fafc"/>`;
+
+      // Paprsky z centra Českého Brodu (410, 280)
+      const CX = 410, CY = 280;
+      filtered.forEach(r => {
+        const [tx, ty] = schematicPos[r.id] || [CX, CY];
+        const col = YEAR_COLORS[r.yearCat];
+        const isSel = r.id === selectedRouteId;
+        const dash = r.dashed ? 'stroke-dasharray="7,5"' : '';
+        svg += `<line x1="${CX}" y1="${CY}" x2="${tx}" y2="${ty}" stroke="${col}" stroke-width="${isSel ? 6 : 3.5}" ${dash} opacity="${isSel ? 0.95 : 0.55}" onclick="selectRoute(${r.id})" class="cursor-pointer"/>`;
+      });
+
+      // Středový uzel Český Brod
+      svg += `<rect x="${CX-68}" y="${CY-28}" width="136" height="56" rx="14" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>`;
+      svg += `<text x="${CX}" y="${CY-4}" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle">ČESKÝ BROD</text>`;
+      svg += `<text x="${CX}" y="${CY+14}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="middle">Výchozí bod tras</text>`;
+
+      // Uzly jednotlivých cílů
+      filtered.forEach(r => {
+        const [tx, ty] = schematicPos[r.id] || [CX, CY];
+        const col = YEAR_COLORS[r.yearCat];
+        const isSel = r.id === selectedRouteId;
+        const shortName = r.name.length > 28 ? r.name.slice(0, 26) + "…" : r.name;
+
+        svg += `<g onclick="selectRoute(${r.id})" class="cursor-pointer">`;
+        svg += `<rect x="${tx-82}" y="${ty-18}" width="164" height="36" rx="9" fill="${isSel ? col : '#ffffff'}" stroke="${col}" stroke-width="${isSel ? 3 : 2}"/>`;
+        svg += `<text x="${tx}" y="${ty-2}" fill="${isSel ? '#ffffff' : '#0f172a'}" font-size="10" font-weight="800" text-anchor="middle">#${r.id} ${shortName}</text>`;
+        svg += `<text x="${tx}" y="${ty+11}" fill="${isSel ? '#f8fafc' : '#64748b'}" font-size="9.5" font-weight="700" text-anchor="middle">${r.yearCat} • Mapy.cz: ${r.mapyStatus}</text>`;
+        svg += `</g>`;
+      });
+
+      svg += `</svg>`;
+      document.getElementById("svgMapContainer").innerHTML = svg;
+    }
+
+    function renderRouteDetailCard() {
+      const r = ROUTES.find(x => x.id === selectedRouteId) || ROUTES[0];
+      const col = YEAR_COLORS[r.yearCat];
+      const mapyUrl = `https://mapy.cz/turisticka?x=${r.center[1]}&y=${r.center[0]}&z=15`;
+
+      let statusBadge = "";
+      if (r.mapyStatus === "ANO") {
+        statusBadge = `<span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-500/15 text-emerald-500 border border-emerald-500/30">✅ Plně na Mapy.cz</span>`;
+      } else if (r.mapyStatus === "ČÁSTEČNĚ") {
+        statusBadge = `<span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/15 text-amber-500 border border-amber-500/30">⚠️ Částečně na Mapy.cz</span>`;
+      } else {
+        statusBadge = `<span class="px-2.5 py-1 rounded-md text-xs font-bold bg-purple-500/15 text-purple-500 border border-purple-500/30">🚧 V přípravě (není na Mapy.cz)</span>`;
+      }
+
+      const sCoord = r.coords[0];
+      const eCoord = r.coords[r.coords.length - 1];
+      document.getElementById("routeDetailCard").innerHTML = `
+        <div class="flex items-start justify-between gap-2 flex-wrap">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="px-2.5 py-1 rounded-md text-xs font-bold text-white" style="background:${col}">Trasa #${r.id} • ${r.yearCat}</span>
+            ${statusBadge}
+          </div>
+        </div>
+        <h3 class="text-base font-bold text-[var(--foreground)]">${r.name}</h3>
+        <div class="flex flex-wrap gap-2 pt-1 pb-1">
+          <a href="${r.gmapsDirUrl}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white hover:bg-blue-500 transition shadow-sm">
+            🗺️ Vykreslit trasu A→B (Google Maps)
+          </a>
+          <a href="${r.mapyStartUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-500 transition shadow-sm">
+            🟢 Špendlík START A (Mapy.cz)
+          </a>
+          <a href="${r.mapyEndUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-rose-600 text-white hover:bg-rose-500 transition shadow-sm">
+            🏁 Špendlík CÍL B (Mapy.cz)
+          </a>
+        </div>
+        <div class="space-y-1.5 text-xs">
+          <p><strong class="text-[var(--foreground)]">🟢 START (A):</strong> <span class="text-[var(--muted-foreground)]">${r.fromLabel} (${sCoord[0].toFixed(5)}N, ${sCoord[1].toFixed(5)}E)</span> → <strong class="text-[var(--foreground)]">🏁 CÍL (B):</strong> <span class="text-[var(--muted-foreground)]">${r.toLabel} (${eCoord[0].toFixed(5)}N, ${eCoord[1].toFixed(5)}E)</span></p>
+          <p><strong class="text-[var(--foreground)]">📍 Popis trasy:</strong> <span class="text-[var(--muted-foreground)]">${r.fromTo}</span></p>
+          <p><strong class="text-[var(--foreground)]">🗓️ Rok obnovy / stav:</strong> <span class="text-[var(--muted-foreground)]">${r.yearExact}</span></p>
+          <p><strong class="text-[var(--foreground)]">📏 Délka a povrch:</strong> <span class="text-[var(--muted-foreground)]">${r.lengthSurface}</span></p>
+          <p><strong class="text-[var(--foreground)]">🏃 Pro koho je vhodná:</strong> <span class="text-[var(--muted-foreground)]">${r.suitableFor}</span></p>
+          <p><strong class="text-[var(--foreground)]">🔍 Kontrola Mapy.cz:</strong> <span class="text-[var(--muted-foreground)]">${r.mapyNote}</span></p>
+        </div>
+      `;
+    }
+
+    function renderRouteList(filtered) {
+      const container = document.getElementById("routeListContainer");
+      if (filtered.length === 0) {
+        container.innerHTML = `<p class="text-xs text-[var(--muted-foreground)] py-4 text-center">Žádná trasa neodpovídá zvolenému filtru.</p>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(r => {
+        const col = YEAR_COLORS[r.yearCat];
+        const isSel = r.id === selectedRouteId;
+        const statusIcon = r.mapyStatus === "ANO" ? "✅" : (r.mapyStatus === "ČÁSTEČNĚ" ? "⚠️" : "🚧");
+        return `
+          <div onclick="selectRoute(${r.id})" class="p-2.5 rounded-xl border transition cursor-pointer flex items-center justify-between gap-2 ${isSel ? 'bg-sky-500/10 border-sky-500' : 'bg-[var(--background)] border-[var(--border)] hover:border-sky-500/40'}">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <span class="w-6 h-6 rounded-full text-xs font-bold text-white flex items-center justify-center shrink-0" style="background:${col}">${r.id}</span>
+              <div class="truncate">
+                <div class="text-xs font-bold text-[var(--foreground)] truncate">${r.name}</div>
+                <div class="text-xs text-[var(--muted-foreground)] truncate">${r.fromTo}</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 shrink-0">
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-[var(--card)] border border-[var(--border)]">${r.yearCat}</span>
+              <span title="Stav na Mapy.cz: ${r.mapyStatus}" class="text-xs">${statusIcon}</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // =========================================================================
+    // DATA PRO ROZPOČET MĚSTA ČESKÝ BROD (2023, 2024, 2025, 2026)
+    // =========================================================================
+    const BUDGET_DATA = {
+      "2023": {
+        label: "Skutečnost 2023 (Závěrečný účet & Monitor MF ČR)",
+        totalOut: 315.0,
+        totalIn: 302.6,
+        kpis: [
+          { title: "CELKOVÉ PŘÍJMY 2023", val: "302,6 mil. Kč", sub: "Daňové 194,5M • Dotace 87,3M • Nedaňové 20,8M", color: "border-emerald-500" },
+          { title: "CELKOVÉ VÝDAJE 2023", val: "315,0 mil. Kč", sub: "Provozní 246,0M (78,1 %) • Investiční 69,0M (21,9 %)", color: "border-rose-500" },
+          { title: "HLAVNÍ INVESTICE 2023", val: "69,0 mil. Kč", sub: "Stará radnice čp. 1 (Podkroví), příprava ZŠ Žitomířská, MěÚ čp. 56", color: "border-sky-500" },
+          { title: "SALDO / FINANCOVÁNÍ", val: "-12,4 mil. Kč", sub: "Kryto z úspor minulých let a Fondu komunikací", color: "border-amber-500" }
+        ],
+        sources: [
+          { name: "DPH (Daň z přidané hodnoty)", val: 76.2, sub: "Sdílená daň od státu (RUD)", color: "#059669", group: "tax" },
+          { name: "DPPO (Daň z příjmů firem)", val: 42.5, sub: "Sdílená daň ze zisků firem + daň obce", color: "#059669", group: "tax" },
+          { name: "DPFO (Daň z příjmů fyz. osob)", val: 33.8, sub: "Zaměstnanci, OSVČ a srážková daň", color: "#10b981", group: "tax" },
+          { name: "Daň z nemovitých věcí", val: 23.5, sub: "100 % příjmem města → Fond komunikací", color: "#10b981", group: "tax" },
+          { name: "Poplatky (odpady, správní) a hazard", val: 18.5, sub: "Komunální odpad, správní poplatky, hazard", color: "#34d399", group: "tax" },
+          { name: "Státní rozpočet – státní správa", val: 28.2, sub: "Příspěvek SR na výkon státní správy ORP (24,8M) + SPOD", color: "#2563eb", group: "grants" },
+          { name: "Dotace MPSV – Domov Anna", val: 15.8, sub: "Účelová dotace na sociální služby pro seniory", color: "#3b82f6", group: "grants" },
+          { name: "Investiční dotace EU / IROP / Kraj", val: 43.3, sub: "Rekonstrukce čp. 1, zateplení čp. 56, chodníky", color: "#60a5fa", group: "grants" },
+          { name: "Nedaňové a kapitálové příjmy", val: 20.8, sub: "Pokuty z měření rychlosti, úroky, nájmy", color: "#0d9488", group: "other" },
+          { name: "Zapojení úspor z fondů města", val: 12.4, sub: "Krytí investičního salda z rezerv", color: "#64748b", group: "fin" }
+        ],
+        midLeft: [
+          { id: "tax", name: "DAŇOVÉ PŘÍJMY", val: 194.5, pct: "62 %", color: "#059669" },
+          { id: "grants", name: "DOTACE OD STÁTU A EU", val: 87.3, pct: "28 %", color: "#2563eb" },
+          { id: "other", name: "NEDAŇOVÉ A KAPIT.", val: 20.8, pct: "6 %", color: "#0d9488" },
+          { id: "fin", name: "FONDY MĚSTA", val: 12.4, pct: "4 %", color: "#64748b" }
+        ],
+        midRight: [
+          { id: "opex", name: "PROVOZNÍ VÝDAJE (Tř. 5)", val: 246.0, pct: "78,1 %", color: "#334155" },
+          { id: "capex", name: "INVESTIČNÍ VÝDAJE (Tř. 6)", val: 69.0, pct: "21,9 %", color: "#dc2626" }
+        ],
+        targets: [
+          { name: "Veřejná správa, radnice a IT", val: 74.2, sub: "Chod MěÚ, výkon státní správy ORP, IT", color: "#475569", parent: "opex" },
+          { name: "Školství – provoz 7 škol a jídelny", val: 43.5, sub: "2× ZŠ, 3× MŠ, SŠ Liblice, Školní jídelna", color: "#2563eb", parent: "opex" },
+          { name: "Technické služby, odpady a zeleň", val: 42.8, sub: "Svoz odpadů, čištění města, veřejná zeleň, VO", color: "#16a34a", parent: "opex" },
+          { name: "Sociální služby a Domov Anna", val: 25.1, sub: "Domov pro seniory, pečovatelská služba, SPOD", color: "#0d9488", parent: "opex" },
+          { name: "Kultura (CVIK), sport a památky", val: 24.6, sub: "Knihovna, KD Svět, granty sportovním klubům", color: "#7c3aed", parent: "opex" },
+          { name: "Doprava, údržba ulic a PID", val: 20.8, sub: "Běžné opravy komunikací a autobusy PID", color: "#d97706", parent: "opex" },
+          { name: "Městská policie a hasiči", val: 15.0, sub: "Městská policie ČB, úsekové měření, JSDH", color: "#475569", parent: "opex" },
+          { name: "Rekonstrukce Staré radnice čp. 1", val: 26.5, sub: "Kulturní centrum Podkroví, knihovna, sál", color: "#dc2626", parent: "capex" },
+          { name: "Školské investice a budova čp. 56", val: 22.0, sub: "Zahájení ZŠ Žitomířská, zateplení MěÚ čp. 56", color: "#e11d48", parent: "capex" },
+          { name: "Opravy komunikací, chodníků a měření", val: 20.5, sub: "Chodníky Bezručova, Ve Staré vsi, radary I/12", color: "#ea580c", parent: "capex" }
+        ]
+      },
+      "2024": {
+        label: "Skutečnost 2024 (Závěrečný účet & Monitor MF ČR)",
+        totalOut: 330.5,
+        totalIn: 331.0,
+        kpis: [
+          { title: "CELKOVÉ PŘÍJMY 2024", val: "331,0 mil. Kč", sub: "Daňové 203,4M • Dotace 98,7M • Nedaňové/kap. 28,9M", color: "border-emerald-500" },
+          { title: "CELKOVÉ VÝDAJE 2024", val: "330,5 mil. Kč", sub: "Provozní 228,5M (69,1 %) • Investiční 102,0M (30,9 %)", color: "border-rose-500" },
+          { title: "PŘEBYTEK HOSPODAŘENÍ", val: "+0,52 mil. Kč", sub: "Vyrovnané hospodaření i při 102M investic", color: "border-sky-500" },
+          { title: "ZISK HOSPODÁŘSKÉ ČINNOSTI", val: "+40,5 mil. Kč", sub: "Byty/nemocnice (+25,3M), Voda (+13,6M), Lesy (+1,6M)", color: "border-teal-500" }
+        ],
+        sources: [
+          { name: "DPH (Daň z přidané hodnoty)", val: 79.5, sub: "Sdílená daň od státu (RUD)", color: "#059669", group: "tax" },
+          { name: "DPPO (Daň z příjmů firem)", val: 42.1, sub: "Sdílená DPPO (38,6M) + vlastní daň obce (3,5M)", color: "#059669", group: "tax" },
+          { name: "DPFO (Daň z příjmů fyz. osob)", val: 35.2, sub: "Ze závislé činnosti, srážková a OSVČ", color: "#10b981", group: "tax" },
+          { name: "Daň z nemovitých věcí", val: 24.0, sub: "Místní koeficient 2,5 → Fond komunikací", color: "#10b981", group: "tax" },
+          { name: "Místní, správní poplatky a hazard", val: 22.6, sub: "Odpady (8,0M), správní (7,0M), hazard (7,0M)", color: "#34d399", group: "tax" },
+          { name: "Státní rozpočet – státní správa", val: 27.8, sub: "Výkon státní správy ORP (24,3M) + SPOD (3,5M)", color: "#2563eb", group: "grants" },
+          { name: "Dotace MPSV – Domov Anna", val: 16.9, sub: "Dotace na Domov Anna (16,5M) + soc. práce", color: "#3b82f6", group: "grants" },
+          { name: "Investiční dotace EU / IROP / OPŽP", val: 54.0, sub: "Digitalizace (9,2M), kontejnery (6,5M), vůz TS (4,3M), ZŠ", color: "#60a5fa", group: "grants" },
+          { name: "Nedaňové a kapitálové příjmy", val: 28.4, sub: "Pokuty z radarů, prodej pozemku ZZS kraji (5,3M), Resort Antiko", color: "#0d9488", group: "other" }
+        ],
+        midLeft: [
+          { id: "tax", name: "DAŇOVÉ PŘÍJMY", val: 203.4, pct: "61 %", color: "#059669" },
+          { id: "grants", name: "DOTACE OD STÁTU A EU", val: 98.7, pct: "30 %", color: "#2563eb" },
+          { id: "other", name: "NEDAŇOVÉ A KAPIT.", val: 28.4, pct: "9 %", color: "#0d9488" }
+        ],
+        midRight: [
+          { id: "opex", name: "PROVOZNÍ VÝDAJE (Tř. 5)", val: 228.5, pct: "69,1 %", color: "#334155" },
+          { id: "capex", name: "INVESTIČNÍ VÝDAJE (Tř. 6)", val: 102.0, pct: "30,9 %", color: "#dc2626" }
+        ],
+        targets: [
+          { name: "Veřejná správa, radnice a IT", val: 72.5, sub: "Osobní náklady MěÚ (62,8M), IT (6,9M), provoz radnice", color: "#475569", parent: "opex" },
+          { name: "Školství – provoz 7 škol a jídelny", val: 38.5, sub: "Příspěvky na provoz ZŠ, MŠ, SŠ Liblice a ŠJ", color: "#2563eb", parent: "opex" },
+          { name: "Technické služby, odpady a zeleň", val: 36.6, sub: "TS Český Brod (33,6M) + Odbor ŽP (3,0M)", color: "#16a34a", parent: "opex" },
+          { name: "Sociální služby a Domov Anna", val: 23.9, sub: "Domov Anna (16,5M MPSV + 5,5M město) + sociální odbor", color: "#0d9488", parent: "opex" },
+          { name: "Kultura (CVIK) a podpora sportu", val: 21.0, sub: "CVIK (12,1M), Fond kultury a sportu (4,0M), památky", color: "#7c3aed", parent: "opex" },
+          { name: "Doprava, komunikace a PID", val: 20.5, sub: "Běžná údržba ulic a příspěvek na PID (2,1M)", color: "#d97706", parent: "opex" },
+          { name: "Městská policie a hasiči", val: 15.5, sub: "Městská policie (15,5M) + HZS a krizová opatření", color: "#475569", parent: "opex" },
+          { name: "Přístavba ZŠ Žitomířská + splátka SŠ", val: 38.4, sub: "Stavba ZŠ Žitomířská + splátka kraji za SŠ Liblice (8,4M)", color: "#dc2626", parent: "capex" },
+          { name: "Polopodzemní kontejnery a technika TS", val: 20.3, sub: "Kontejnery (7,3M), svozový vůz TS (6M), výkup pozemků (7M)", color: "#ea580c", parent: "capex" },
+          { name: "Stará radnice čp. 1, digitalizace a EPS", val: 24.3, sub: "Stavební úpravy čp. 1 (7,6M), digitalizace (7,4M), EPS Domov Anna", color: "#db2777", parent: "capex" },
+          { name: "Chodníky, ulice a lávka u Šembery", val: 19.0, sub: "Chodníky Želivského, B. Smetany, Jeronýmova, Tuchorazská", color: "#e11d48", parent: "capex" }
+        ]
+      },
+      "2025": {
+        label: "Skutečnost 2025 (Závěrečný účet & Monitor MF ČR)",
+        totalOut: 404.1,
+        totalIn: 396.1,
+        kpis: [
+          { title: "CELKOVÉ PŘÍJMY 2025", val: "396,1 mil. Kč", sub: "53 849 Kč / obyvatele (+19,7 % YoY)", color: "border-emerald-500" },
+          { title: "CELKOVÉ VÝDAJE 2025", val: "404,1 mil. Kč", sub: "Provoz 257,2M (63,6 %) • Investice 146,9M (36,4 %)", color: "border-rose-500" },
+          { title: "HOTOVOST A REZERVY MĚSTA", val: "108,6 mil. Kč", sub: "Dluh města pouze 19,0M (5,6 % příjmů vs. limit 60 %)", color: "border-sky-500" },
+          { title: "INVESTICE HOSP. STŘEDISEK", val: "+61,1 mil. Kč", sub: "Městské lesy (49,7M – dětská skupina, Cesta lásky), Voda (9,4M)", color: "border-teal-500" }
+        ],
+        sources: [
+          { name: "DPH (Daň z přidané hodnoty)", val: 85.5, sub: "Sdílená daň od státu (RUD) • hlavní daňový pilíř", color: "#059669", group: "tax" },
+          { name: "DPPO (Daň z příjmů firem)", val: 48.0, sub: "Sdílená DPPO ze zisků firem + vlastní daň obce", color: "#059669", group: "tax" },
+          { name: "DPFO (Daň z příjmů fyz. osob)", val: 39.0, sub: "Zaměstnanci, OSVČ a srážková daň", color: "#10b981", group: "tax" },
+          { name: "Daň z nemovitých věcí", val: 24.2, sub: "100 % příjmem města (koef. 2,5) → Fond komunikací", color: "#10b981", group: "tax" },
+          { name: "Místní, správní poplatky a hazard", val: 21.6, sub: "Odpady (8,0M), správní (7,5M), hazard (6,0M)", color: "#34d399", group: "tax" },
+          { name: "Státní rozpočet – státní správa", val: 27.5, sub: "Souhrnný dotační vztah SR (24,0M) + SPOD (3,5M)", color: "#2563eb", group: "grants" },
+          { name: "Dotace MPSV – Domov Anna", val: 16.9, sub: "Účelová státní dotace na Domov pro seniory", color: "#3b82f6", group: "grants" },
+          { name: "Investiční dotace EU / IROP / SFŽP", val: 73.8, sub: "ZŠ Žitomířská (IROP 32M+), dětská skupina (20M)", color: "#60a5fa", group: "grants" },
+          { name: "Nedaňové a kapitálové příjmy", val: 59.6, sub: "Nedaňové (26,9M – radary, úroky) + Kapitálové (32,7M – prodej pozemků)", color: "#0d9488", group: "other" },
+          { name: "Zapojení úspor z fondů města", val: 8.0, sub: "Krytí investičního salda z rezerv", color: "#64748b", group: "fin" }
+        ],
+        midLeft: [
+          { id: "tax", name: "DAŇOVÉ PŘÍJMY", val: 218.3, pct: "54 %", color: "#059669" },
+          { id: "grants", name: "DOTACE OD STÁTU A EU", val: 118.2, pct: "29 %", color: "#2563eb" },
+          { id: "other", name: "NEDAŇOVÉ A KAPIT.", val: 59.6, pct: "15 %", color: "#0d9488" },
+          { id: "fin", name: "FONDY MĚSTA", val: 8.0, pct: "2 %", color: "#64748b" }
+        ],
+        midRight: [
+          { id: "opex", name: "PROVOZNÍ VÝDAJE (Tř. 5)", val: 257.2, pct: "63,6 %", color: "#334155" },
+          { id: "capex", name: "INVESTIČNÍ VÝDAJE (Tř. 6)", val: 146.9, pct: "36,4 %", color: "#dc2626" }
+        ],
+        targets: [
+          { name: "Veřejná správa, radnice a IT", val: 78.5, sub: "Chod MěÚ (platy a státní správa ORP), IT a kamery", color: "#475569", parent: "opex" },
+          { name: "Školství – provoz 7 škol a jídelny", val: 46.8, sub: "ZŠ Tyršova, ZŠ Žitomířská, 3× MŠ, SŠ Liblice a ŠJ", color: "#2563eb", parent: "opex" },
+          { name: "Komunální služby, odpady a zeleň", val: 44.2, sub: "Technické služby ČB (33,5M) + Odbor ŽP", color: "#16a34a", parent: "opex" },
+          { name: "Sociální služby a Domov Anna", val: 26.8, sub: "Domov pro seniory, pečovatelky, stacionář + SPOD", color: "#0d9488", parent: "opex" },
+          { name: "Kultura, knihovna, KD Svět a sport", val: 25.4, sub: "CVIK (12,5M), Fond kultury a sportu, památky", color: "#7c3aed", parent: "opex" },
+          { name: "Doprava, údržba komunikací a PID", val: 19.8, sub: "Běžné opravy ulic a chodníků, autobusy PID", color: "#d97706", parent: "opex" },
+          { name: "Městská policie, bezpečnost a hasiči", val: 15.7, sub: "Městská policie ČB, úsekové měření, JSDH/HZS", color: "#475569", parent: "opex" },
+          { name: "Přístavba a rekonstrukce ZŠ Žitomířská", val: 64.5, sub: "Odborné učebny, hlavní budova a poradenské pracoviště", color: "#dc2626", parent: "capex" },
+          { name: "Příprava MŠ Kollárova + splátka SŠ", val: 26.4, sub: "Dočasná MŠ, příprava MŠ Letadýlko + splátka SŠ (8,4M)", color: "#e11d48", parent: "capex" },
+          { name: "Rekonstrukce komunikací a stezek", val: 24.2, sub: "Opravy ulic a chodníků z Fondu komunikací, cyklostezky", color: "#ea580c", parent: "capex" },
+          { name: "Kultura, Stará radnice čp. 1 a parky", val: 16.0, sub: "Dokončení úprav čp. 1, veřejný prostor, Broďáci Brodu", color: "#db2777", parent: "capex" },
+          { name: "Domov Anna (kotelna) a ekologie", val: 15.8, sub: "Nová kotelna Domov Anna (7,8M), polopodzemní kontejnery", color: "#be123c", parent: "capex" }
+        ]
+      },
+      "2026": {
+        label: "Schválený rozpočet 2026 (č. j. 3558/2026, usnesení 0464/2026-Z)",
+        totalOut: 478.7,
+        totalIn: 377.5,
+        kpis: [
+          { title: "SCHVÁLENÉ PŘÍJMY 2026", val: "377,5 mil. Kč", sub: "Daňové příjmy rostou na 258,6 mil. Kč", color: "border-emerald-500" },
+          { title: "CELKOVÉ VÝDAJE 2026", val: "478,7 mil. Kč", sub: "Provoz 287,5M (60,1 %) • Investice 191,2M (+19M FK)", color: "border-rose-500" },
+          { title: "INVESTICE DO ŠKOLSTVÍ", val: "138,4 mil. Kč", sub: "MŠ Kollárova (61M), ZŠ Žitomířská (59M), DSO (10M), SŠ (8,4M)", color: "border-sky-500" },
+          { title: "KOMUNIKACE, PARKY A NÁMĚSTÍ", val: "39,7 mil. Kč", sub: "Fond komunikací (19M), PD dvojnáměstí (10,8M), Jiráskovy sady", color: "border-amber-500" }
+        ],
+        sources: [
+          { name: "DPH (Daň z přidané hodnoty)", val: 101.5, sub: "Sdílená daň od státu (RUD) • nejvyšší příjmová položka", color: "#059669", group: "tax" },
+          { name: "DPPO (Daň z příjmů firem + vlastní)", val: 61.9, sub: "Sdílená DPPO (53,5M) + vlastní daň obce (8,4M)", color: "#059669", group: "tax" },
+          { name: "DPFO (Daň z příjmů fyz. osob)", val: 49.5, sub: "Zaměstnanci (40,0M), srážková (6,5M), OSVČ (3,0M)", color: "#10b981", group: "tax" },
+          { name: "Daň z nemovitých věcí", val: 25.0, sub: "100 % příjmem města (koef. 2,5) → plní Fond komunikací", color: "#10b981", group: "tax" },
+          { name: "Poplatky (odpady, správní) a hazard", val: 20.7, sub: "Správní (9,0M), odpady 1 140 Kč/os (7,9M), hazard (3,0M)", color: "#34d399", group: "tax" },
+          { name: "Státní rozpočet – státní správa", val: 28.0, sub: "Výkon státní správy ORP (24,3M) + SPOD (3,7M)", color: "#2563eb", group: "grants" },
+          { name: "Dotace MPSV – Domov Anna", val: 15.4, sub: "Státní dotace na Domov Anna (15,0M) + soc. práce", color: "#3b82f6", group: "grants" },
+          { name: "Investiční dotace EU / IROP / OPŽP", val: 50.2, sub: "Školské dotace, kyberbezpečnost (8,2M), kontejnery (6,5M)", color: "#60a5fa", group: "grants" },
+          { name: "Nedaňové příjmy a převody z HČ", val: 25.4, sub: "Pokuty z radarů (14,5M), vratka CVIK (7,7M), převody HČ (3M)", color: "#0d9488", group: "other" },
+          { name: "Fondy města + investiční úvěr na MŠ", val: 101.2, sub: "Fond komunikací (19M), Fond infrastr. a úvěr KB na MŠ (50M)", color: "#64748b", group: "fin" }
+        ],
+        midLeft: [
+          { id: "tax", name: "DAŇOVÉ PŘÍJMY", val: 258.6, pct: "54 %", color: "#059669" },
+          { id: "grants", name: "DOTACE A TRANSFERY", val: 93.6, pct: "20 %", color: "#2563eb" },
+          { id: "other", name: "NEDAŇOVÉ PŘÍJMY", val: 25.4, pct: "5 %", color: "#0d9488" },
+          { id: "fin", name: "FONDY A ÚVĚR", val: 101.2, pct: "21 %", color: "#64748b" }
+        ],
+        midRight: [
+          { id: "opex", name: "PROVOZNÍ VÝDAJE (BĚŽNÉ)", val: 287.5, pct: "60,1 %", color: "#334155" },
+          { id: "capex", name: "INVESTIČNÍ VÝDAJE (KAPIT.)", val: 191.2, pct: "39,9 %", color: "#dc2626" }
+        ],
+        targets: [
+          { name: "Radnice, zaměstnanci MěÚ, IT a správa", val: 97.6, sub: "Osobní náklady MěÚ (70,5M), zastupitelé (5,0M), IT (6,7M)", color: "#475569", parent: "opex" },
+          { name: "Školství – provoz 7 škol a jídelny", val: 60.2, sub: "ZŠ Žitomířská (15,2M), ŠJ (12,8M), ZŠ Tyršova (12,6M), MŠ, SŠ", color: "#2563eb", parent: "opex" },
+          { name: "Technické služby, odpady, zeleň a VO", val: 36.1, sub: "TS Český Brod (33,3M) + Odbor ŽP (2,8M)", color: "#16a34a", parent: "opex" },
+          { name: "Fond komunikací a doprava PID", val: 24.4, sub: "Příděl do Fondu komunikací (20,9M), autobusy PID (2,8M)", color: "#d97706", parent: "opex" },
+          { name: "Domov Anna a sociální služby", val: 22.8, sub: "Domov Anna (15,0M MPSV + 5,8M město) + soc. granty", color: "#0d9488", parent: "opex" },
+          { name: "Kultura (CVIK, KD Svět) a sport", val: 28.9, sub: "CVIK a knihovna (13,3M), Fond kultury a sportu (4,2M)", color: "#7c3aed", parent: "opex" },
+          { name: "Městská policie, bezpečnost a hasiči", val: 17.5, sub: "Městská policie ČB (16,2M) + HZS Kolín (1,2M)", color: "#475569", parent: "opex" },
+          { name: "Nová MŠ Kollárova + dočasná MŠ", val: 61.0, sub: "Novostavba MŠ Kollárova (50,0M) + dočasná MŠ (11,0M)", color: "#dc2626", parent: "capex" },
+          { name: "Přístavba a rozšíření ZŠ Žitomířská", val: 59.0, sub: "Hlavní školská investice města (nové učebny a zázemí)", color: "#e11d48", parent: "capex" },
+          { name: "Svazková škola (DSO) + splátka SŠ", val: 18.4, sub: "Příspěvek DSO na svazkovou školu (10,0M) + splátka SŠ (8,4M)", color: "#f43f5e", parent: "capex" },
+          { name: "Náměstí, Jiráskovy sady a chodníky", val: 20.7, sub: "PD dvojnáměstí (10,8M), PD Jiráskovy sady (2,2M), Gothardka", color: "#ea580c", parent: "capex" },
+          { name: "Kyberbezpečnost, IT, radary a radnice", val: 16.5, sub: "Kyberbezpečnost (9,6M), úpravy čp. 70 (2,5M), radary RAMER", color: "#db2777", parent: "capex" },
+          { name: "Sportoviště, pozemky a Broďáci Brodu", val: 15.6, sub: "Pozemky (5,0M), hřiště Sportovní (4,0M), TS (2,5M), participace", color: "#be123c", parent: "capex" }
+        ]
+      },
+      "vhc": {
+        label: "Vlastní hospodářská činnost města (Mimo hlavní rozpočet: Byty, Nemocnice, Voda, Lesy)",
+        totalOut: 102.4,
+        totalIn: 102.4,
+        kpis: [
+          { title: "ČISTÝ ZISK HOSP. ČINNOSTI", val: "+40,45 mil. Kč", sub: "Výnosy 81,5M minus provozní náklady 41,0M (před zdaněním)", color: "border-emerald-500" },
+          { title: "BYTY A AREÁL NEMOCNICE (BH)", val: "+25,31 mil. Kč", sub: "Nejvyšší čistý zisk: městské byty, poliklinika a nebytové prostory", color: "border-teal-500" },
+          { title: "VODOHOSPODÁŘSKÝ MAJETEK & OHČ", val: "+13,58 mil. Kč", sub: "Pachtovné z vodovodů a kanalizací (+10,2M) + ostatní HČ (+3,4M)", color: "border-sky-500" },
+          { title: "INVESTICE STŘEDISEK HČ", val: "78,9 mil. Kč", sub: "Dětská skupina (38M), vodovody Tuchorazská (16M) a 7 ulic (9,4M), Cesta lásky (6,8M)", color: "border-rose-500" }
+        ],
+        sources: [
+          { name: "Nájemné z městských bytů a domů", val: 16.8, sub: "Čistý výnos z pronájmu bytového fondu města (středisko BH)", color: "#059669", group: "bh" },
+          { name: "Nebytové prostory a areál Nemocnice", val: 8.5, sub: "Pronájem ordinací polikliniky/nemocnice a komerčních prostor", color: "#10b981", group: "bh" },
+          { name: "Vodohospodářský majetek (pacht a vodné)", val: 10.2, sub: "Výnosy z vodovodní a kanalizační sítě města", color: "#2563eb", group: "voda" },
+          { name: "Ostatní hospodářská činnost (OHČ)", val: 3.4, sub: "Komerční pronájmy pozemků a hospodářské služby města", color: "#3b82f6", group: "voda" },
+          { name: "Rezervní fond vodohospodářský (akumulace)", val: 12.8, sub: "Zapojení naakumulovaných zdrojů fondu na velké rekonstrukce sítí", color: "#60a5fa", group: "voda" },
+          { name: "Městské lesy – prodej dřeva a hospodaření", val: 4.2, sub: "Vlastní tržby z těžby dřeva a lesního hospodářství (čistý zisk +1,56M)", color: "#0d9488", group: "lesy" },
+          { name: "Dotace na projekty Městských lesů", val: 26.8, sub: "Dotace na dětskou skupinu (20M), Cestu lásky (80 %), altán a tůně", color: "#14b8a6", group: "lesy" },
+          { name: "Fondy města a předfinancování lesních akcí", val: 19.7, sub: "Kofinancování výstavby dětské skupiny a lesní infrastruktury", color: "#64748b", group: "lesy" }
+        ],
+        midLeft: [
+          { id: "bh", name: "BYTY A NEMOCNICE (BH)", val: 25.3, pct: "25 %", color: "#059669" },
+          { id: "voda", name: "VODA A OSTATNÍ HČ", val: 26.4, pct: "26 %", color: "#2563eb" },
+          { id: "lesy", name: "MĚSTSKÉ LESY A DOTACE", val: 50.7, pct: "49 %", color: "#0d9488" }
+        ],
+        midRight: [
+          { id: "capex", name: "INVESTICE STŘEDISEK HČ", val: 78.9, pct: "77,1 %", color: "#dc2626" },
+          { id: "opex", name: "ODVOD MĚSTU A REZERVY", val: 23.5, pct: "22,9 %", color: "#334155" }
+        ],
+        targets: [
+          { name: "Vybudování nové dětské skupiny", val: 38.0, sub: "Stěžejní investice v rámci Městských lesů / města (dotace 20,0M)", color: "#dc2626", parent: "capex" },
+          { name: "Rekonstrukce vodovodu a kanalizace Tuchorazská", val: 16.0, sub: "Hlavní vodohospodářská stavba + příprava intenzifikace ČOV", color: "#2563eb", parent: "capex" },
+          { name: "PD vodovodů a obnova sítí (7 ulic + vodoměry)", val: 9.4, sub: "PD Klučovská, Za Drahou, Žižkova, Ruská, Sokolovská, 28. října, vodoměry", color: "#3b82f6", parent: "capex" },
+          { name: "Lesní cesta „Cesta lásky“ (2. část)", val: 6.8, sub: "Kompletní rekonstrukce lesní cesty Městských lesů (dotace 80 %)", color: "#0d9488", parent: "capex" },
+          { name: "Bytový fond a kotelna v Nemocnici", val: 4.8, sub: "Technologie kotelny v nemocnici (1,2M), PD čp. 202 (1,3M), čp. 620, spisovna", color: "#059669", parent: "capex" },
+          { name: "Lesní technika, altán Skautská louka a tůně", val: 3.9, sub: "Lesnický traktor (2,6M), altán a lesní workout (1,2M), tůně v lese (0,25M)", color: "#16a34a", parent: "capex" },
+          { name: "Tvorba Fondu bytového hospodářství a nemocnice", val: 20.5, sub: "Akumulace čistého zisku z nájmů na budoucí výstavbu a opravy domů", color: "#475569", parent: "opex" },
+          { name: "Převod zisku do hlavního rozpočtu města", val: 3.0, sub: "Příspěvek z OHČ (2,5M), Městských lesů (0,5M) a daň DPPO obce (8,4M)", color: "#334155", parent: "opex" }
+        ]
+      }
+    };
+
+    let currentBudgetYear = "2025";
+
+    function setBudgetYear(yr) {
+      currentBudgetYear = yr;
+      document.querySelectorAll(".byear-btn").forEach(btn => {
+        if (btn.dataset.byear === yr) {
+          btn.className = "byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm";
+        } else {
+          btn.className = "byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]";
+        }
+      });
+      renderBudgetSection();
+    }
+
+    function showSankeyInfo(title, val, total, sub) {
+      const pct = ((val / total) * 100).toFixed(1);
+      const perCap = Math.round((val * 1000000) / 7355).toLocaleString("cs-CZ");
+      document.getElementById("sankeyHoverBadge").innerHTML = `
+        <strong>${title}:</strong> ${val.toFixed(1)} mil. Kč (${pct} % rozpočtu • ${perCap} Kč / obyvatele) — <span class="font-normal">${sub}</span>
+      `;
+    }
+
+    function renderBudgetSection() {
+      const b = BUDGET_DATA[currentBudgetYear];
+      document.getElementById("sankeyTitle").textContent = `Český Brod — ${b.label}`;
+
+      // 1. KPI karty
+      document.getElementById("budgetKpiGrid").innerHTML = b.kpis.map(k => `
+        <div class="bg-[var(--card)] border border-[var(--border)] border-l-4 ${k.color} rounded-xl p-4 shadow-sm">
+          <div class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">${k.title}</div>
+          <div class="text-xl font-extrabold text-[var(--foreground)] mt-1">${k.val}</div>
+          <div class="text-xs text-[var(--muted-foreground)] mt-1">${k.sub}</div>
+        </div>
+      `).join("");
+
+      // 2. Interaktivní SVG Sankey Diagram
+      const W = 1380, H = 740;
+      const X1 = 275, X2 = 485, X3 = 690, X4 = 895, X5 = 1105;
+      const NW = 18;
+      const SCALE = 430.0 / b.totalOut;
+      const TOP_Y = 48;
+
+      const c3H = b.totalOut * SCALE;
+      const c3Y = TOP_Y + (640 - c3H) / 2;
+
+      // Col 2
+      const gap2 = 24;
+      const totH2 = b.midLeft.reduce((a, g) => a + g.val * SCALE, 0) + gap2 * (b.midLeft.length - 1);
+      let y2 = TOP_Y + (640 - totH2) / 2;
+      const c2 = {};
+      b.midLeft.forEach(g => {
+        const h = Math.max(6, g.val * SCALE);
+        c2[g.id] = { top: y2, bot: y2 + h, curIn: y2, data: g };
+        y2 += h + gap2;
+      });
+
+      // Col 1
+      const gap1 = 12;
+      const totH1 = b.sources.reduce((a, s) => a + Math.max(5, s.val * SCALE), 0) + gap1 * (b.sources.length - 1);
+      let y1 = TOP_Y + (640 - totH1) / 2;
+      const c1 = b.sources.map(s => {
+        const h = Math.max(5, s.val * SCALE);
+        const obj = { top: y1, bot: y1 + h, data: s };
+        y1 += h + gap1;
+        return obj;
+      });
+
+      // Col 4
+      const gap4 = 52;
+      const totH4 = b.midRight.reduce((a, g) => a + g.val * SCALE, 0) + gap4 * (b.midRight.length - 1);
+      let y4 = TOP_Y + (640 - totH4) / 2;
+      const c4 = {};
+      b.midRight.forEach(g => {
+        const h = Math.max(8, g.val * SCALE);
+        c4[g.id] = { top: y4, bot: y4 + h, curOut: y4, data: g };
+        y4 += h + gap4;
+      });
+
+      // Col 5
+      const gap5 = 11;
+      const totH5 = b.targets.reduce((a, t) => a + Math.max(5, t.val * SCALE), 0) + gap5 * (b.targets.length - 1);
+      let y5 = TOP_Y + (640 - totH5) / 2;
+      const c5 = b.targets.map(t => {
+        const h = Math.max(5, t.val * SCALE);
+        const obj = { top: y5, bot: y5 + h, data: t };
+        y5 += h + gap5;
+        return obj;
+      });
+
+      const ribbon = (x0, y0t, y0b, x1, y1t, y1b, col, title, val, sub) => {
+        const cx0 = x0 + (x1 - x0) * 0.48;
+        const cx1 = x0 + (x1 - x0) * 0.52;
+        const safeSub = (sub || "").replace(/'/g, "");
+        return `<path class="sankey-path" onmouseenter="showSankeyInfo('${title}', ${val}, ${b.totalOut}, '${safeSub}')" d="M ${x0},${y0t} C ${cx0},${y0t} ${cx1},${y1t} ${x1},${y1t} L ${x1},${y1b} C ${cx1},${y1b} ${cx0},${y0b} ${x0},${y0b} Z" fill="${col}" opacity="0.40"/>`;
+      };
+
+      let svg = `<svg viewBox="0 0 ${W} ${H}" class="w-full h-auto select-none">`;
+      svg += `<rect width="${W}" height="${H}" fill="#ffffff"/>`;
+
+      // Záhlaví sloupců
+      svg += `<text x="${X1-10}" y="22" fill="#64748b" font-size="11" font-weight="800" text-anchor="end">1. ZDROJE PŘÍJMŮ</text>`;
+      svg += `<text x="${X2+9}" y="22" fill="#64748b" font-size="11" font-weight="800" text-anchor="middle">2. TŘÍDY PŘÍJMŮ</text>`;
+      svg += `<text x="${X3+11}" y="22" fill="#0f172a" font-size="11" font-weight="900" text-anchor="middle">3. ROZPOČET CELKEM</text>`;
+      svg += `<text x="${X4+9}" y="22" fill="#64748b" font-size="11" font-weight="800" text-anchor="middle">4. PROVOZ VS. INVESTICE</text>`;
+      svg += `<text x="${X5+28}" y="22" fill="#64748b" font-size="11" font-weight="800" text-anchor="start">5. NA CO PENÍZE JDOU</text>`;
+
+      // Stuhy 1 -> 2
+      c1.forEach(item => {
+        const s = item.data;
+        const g = c2[s.group];
+        const h = s.val * SCALE;
+        svg += ribbon(X1 + NW, item.top, item.bot, X2, g.curIn, g.curIn + h, s.color, s.name, s.val, s.sub);
+        g.curIn += h;
+      });
+
+      // Stuhy 2 -> 3
+      let cur3In = c3Y;
+      b.midLeft.forEach(g => {
+        const gb = c2[g.id];
+        const h = g.val * SCALE;
+        svg += ribbon(X2 + NW, gb.top, gb.bot, X3, cur3In, cur3In + h, g.color, g.name, g.val, g.pct);
+        cur3In += h;
+      });
+
+      // Stuhy 3 -> 4
+      let cur3Out = c3Y;
+      b.midRight.forEach(g => {
+        const gb = c4[g.id];
+        const h = g.val * SCALE;
+        svg += ribbon(X3 + NW + 4, cur3Out, cur3Out + h, X4, gb.top, gb.bot, g.color, g.name, g.val, g.pct);
+        cur3Out += h;
+      });
+
+      // Stuhy 4 -> 5
+      c5.forEach(item => {
+        const t = item.data;
+        const p = c4[t.parent];
+        const h = t.val * SCALE;
+        svg += ribbon(X4 + NW, p.curOut, p.curOut + h, X5, item.top, item.bot, t.color, t.name, t.val, t.sub);
+        p.curOut += h;
+      });
+
+      // Uzly Col 1
+      c1.forEach(item => {
+        const s = item.data;
+        const mid = (item.top + item.bot) / 2;
+        svg += `<rect x="${X1}" y="${item.top}" width="${NW}" height="${item.bot - item.top}" rx="3" fill="${s.color}"/>`;
+        svg += `<text x="${X1-8}" y="${mid+4}" fill="#0f172a" font-size="11" font-weight="800" text-anchor="end">${s.name}: <tspan fill="${s.color}">${s.val.toFixed(1)}M</tspan></text>`;
+      });
+
+      // Uzly Col 2
+      b.midLeft.forEach(g => {
+        const gb = c2[g.id];
+        const mid = (gb.top + gb.bot) / 2;
+        svg += `<rect x="${X2}" y="${gb.top}" width="${NW}" height="${gb.bot - gb.top}" rx="4" fill="${g.color}"/>`;
+        svg += `<rect x="${X2 - 72}" y="${mid - 18}" width="162" height="36" rx="7" fill="#ffffff" stroke="${g.color}" stroke-width="1.8"/>`;
+        svg += `<text x="${X2 + 9}" y="${mid - 3}" fill="#0f172a" font-size="10" font-weight="800" text-anchor="middle">${g.name}</text>`;
+        svg += `<text x="${X2 + 9}" y="${mid + 12}" fill="${g.color}" font-size="11" font-weight="900" text-anchor="middle">${g.val.toFixed(1)}M (${g.pct})</text>`;
+      });
+
+      // Uzel Col 3 (Střed)
+      const c3Mid = c3Y + c3H / 2;
+      svg += `<rect x="${X3}" y="${c3Y}" width="${NW+4}" height="${c3H}" rx="5" fill="#0f172a"/>`;
+      svg += `<rect x="${X3 - 78}" y="${c3Mid - 32}" width="178" height="64" rx="11" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>`;
+      svg += `<text x="${X3 + 11}" y="${c3Mid - 11}" fill="#38bdf8" font-size="10" font-weight="800" text-anchor="middle">CELKOVÝ ROZPOČET</text>`;
+      svg += `<text x="${X3 + 11}" y="${c3Mid + 12}" fill="#ffffff" font-size="18" font-weight="900" text-anchor="middle">${b.totalOut.toFixed(1)} mil. Kč</text>`;
+
+      // Uzly Col 4
+      b.midRight.forEach(g => {
+        const gb = c4[g.id];
+        const mid = (gb.top + gb.bot) / 2;
+        svg += `<rect x="${X4}" y="${gb.top}" width="${NW}" height="${gb.bot - gb.top}" rx="4" fill="${g.color}"/>`;
+        svg += `<rect x="${X4 - 78}" y="${mid - 18}" width="174" height="36" rx="7" fill="#ffffff" stroke="${g.color}" stroke-width="1.8"/>`;
+        svg += `<text x="${X4 + 9}" y="${mid - 3}" fill="#0f172a" font-size="10" font-weight="800" text-anchor="middle">${g.name}</text>`;
+        svg += `<text x="${X4 + 9}" y="${mid + 12}" fill="${g.color}" font-size="11" font-weight="900" text-anchor="middle">${g.val.toFixed(1)}M (${g.pct})</text>`;
+      });
+
+      // Uzly Col 5
+      c5.forEach(item => {
+        const t = item.data;
+        const mid = (item.top + item.bot) / 2;
+        svg += `<rect x="${X5}" y="${item.top}" width="${NW}" height="${item.bot - item.top}" rx="3" fill="${t.color}"/>`;
+        svg += `<text x="${X5 + NW + 8}" y="${mid + 4}" fill="#0f172a" font-size="11" font-weight="800" text-anchor="start">${t.name}: <tspan fill="${t.color}">${t.val.toFixed(1)}M</tspan></text>`;
+      });
+
+      svg += `</svg>`;
+      document.getElementById("sankeySvgWrapper").innerHTML = svg;
+
+      // 3. Tabulky příjmů a výdajů
+      document.getElementById("incomeTableContainer").innerHTML = b.sources.map(s => {
+        const pct = ((s.val / b.totalOut) * 100).toFixed(1);
+        return `
+          <div class="p-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-between gap-2">
+            <div>
+              <div class="text-xs font-bold text-[var(--foreground)]">${s.name}</div>
+              <div class="text-xs text-[var(--muted-foreground)]">${s.sub}</div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-xs font-extrabold" style="color:${s.color}">${s.val.toFixed(1)} mil. Kč</div>
+              <div class="text-xs text-[var(--muted-foreground)]">${pct} %</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      document.getElementById("expenseTableContainer").innerHTML = b.targets.map(t => {
+        const pct = ((t.val / b.totalOut) * 100).toFixed(1);
+        const badge = t.parent === "capex" ? "Investice" : "Provoz";
+        return `
+          <div class="p-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-between gap-2">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs font-bold text-[var(--foreground)]">${t.name}</span>
+                <span class="px-1.5 py-0.5 rounded text-xs font-semibold ${t.parent === 'capex' ? 'bg-rose-500/15 text-rose-500' : 'bg-slate-500/15 text-slate-400'}">${badge}</span>
+              </div>
+              <div class="text-xs text-[var(--muted-foreground)]">${t.sub}</div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="text-xs font-extrabold" style="color:${t.color}">${t.val.toFixed(1)} mil. Kč</div>
+              <div class="text-xs text-[var(--muted-foreground)]">${pct} %</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // Inicializace při načtení
+    renderMapAndList();
+  </script>
+</body>
+</html>

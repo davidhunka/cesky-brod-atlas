@@ -88,13 +88,10 @@
           <div class="flex items-center gap-2 flex-wrap">
             <span class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">Režim mapy:</span>
             <button id="modeBtnOsm" onclick="setMapMode('osm')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition">
-              🗺️ Interaktivní mapa OpenStreetMap (Podklad + Zoom)
+              🗺️ Interaktivní OpenStreetMap (Zoom &amp; Detaily)
             </button>
             <button id="modeBtnDetailed" onclick="setMapMode('detailed')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] transition">
-              📍 Přehledová mapa podle roku (WGS-84)
-            </button>
-            <button id="modeBtnSchematic" onclick="setMapMode('schematic')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] transition">
-              🧭 Zjednodušený vycházkový plánek (Schéma kam jít)
+              📍 Vektorový přehled (WGS-84)
             </button>
           </div>
 
@@ -262,484 +259,4993 @@
     };
 
     const ROUTES = [
-      {
-        id: 1,
-        name: "Polní cesta P9 (Štolmíř – Český Brod „Mexiko“)",
-        yearCat: "2020–2021",
-        yearExact: "2020–2024 (KPÚ + zokruhování)",
-        category: "polni",
-        fromTo: "SV okraj Štolmíře (za zemědělským areálem) → přes pole k trati a čtvrti „Mexiko“ (ul. V Lukách / Kounická)",
-        lengthSurface: "1,1 km • asfaltový povrch + alej a suchá retenční nádrž",
-        suitableFor: "Pěší, běh, kolo, inline brusle, kočárky",
-        mapyStatus: "ANO",
-        mapyNote: "Plně vykreslena na Mapy.cz i v OSM jako zpevněná cesta, routovatelná mimo hlavní silnici II/245.",
-        coords: [[50.0865, 14.84193], [50.08678, 14.84356], [50.08713, 14.84519], [50.0876, 14.84734], [50.08796, 14.84935], [50.08821, 14.8518], [50.08837, 14.85472], [50.08876, 14.85751], [50.08942, 14.86008], [50.09036, 14.86167], [50.09069, 14.86339], [50.0908, 14.86485]],
-        center: [50.08837, 14.85472],
-        fromLabel: "Štolmíř (Ke Hřbitovu)",
-        toLabel: "Ul. Kounická (II/272)",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08650,14.84193&destination=50.09080,14.86485&waypoints=50.08796,14.84935%7C50.08942,14.86008&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84193%2C50.08650&x=14.84193&y=50.08650&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.86485%2C50.09080&x=14.86485&y=50.09080&z=16"
-      },
-      {
-        id: 2,
-        name: "Hlavní polní cesta HPC 4 (Štolmíř – směr Břežany II)",
-        yearCat: "2020–2021",
-        yearExact: "2021–2022",
-        category: "polni",
-        fromTo: "SZ okraj Štolmíře (u sportoviště) → směrem na Břežany II",
-        lengthSurface: "591 m (šířka 4,0 m) • asfaltobeton + doprovodná zeleň",
-        suitableFor: "Kolo (Středočeská ovocná stezka), pěší, inline, kočárky",
-        mapyStatus: "ANO",
-        mapyNote: "Zanesena v základní i turistické mapě Mapy.cz, vede po ní cyklotrasa Středočeské ovocné stezky.",
-        coords: [[50.08656, 14.84167], [50.08744, 14.84206], [50.08821, 14.84236], [50.08887, 14.84262], [50.08978, 14.84304], [50.09033, 14.84339], [50.09102, 14.84141], [50.09157, 14.84098], [50.09206, 14.8415]],
-        center: [50.08978, 14.84304],
-        fromLabel: "Štolmíř (Ke Škole)",
-        toLabel: "Směr Břežany II / háj",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08656,14.84167&destination=50.09206,14.84150&waypoints=50.08887,14.84262%7C50.09102,14.84141&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84167%2C50.08656&x=14.84167&y=50.08656&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.84150%2C50.09206&x=14.84150&y=50.09206&z=16"
-      },
-      {
-        id: 3,
-        name: "Polní cesta P3 + mokřad a pozorovatelna „Na Útulně“",
-        yearCat: "2024",
-        yearExact: "2022–2025 (cesta + mokřad a Kukaň)",
-        category: "polni",
-        fromTo: "SZ okraj Českého Brodu (ul. V Lukách / mokřad Na Útulně) → jižní okraj Štolmíře",
-        lengthSurface: "700 m • asfalt + dřevěná ptačí pozorovatelna Kukaň a hry na asfaltu",
-        suitableFor: "Rodiny s dětmi, kočárky, odrážedla, inline, běh",
-        mapyStatus: "ANO",
-        mapyNote: "Plně viditelná v Mapy.cz včetně zakresleného mokřadu a pozorovatelny Na Útulně.",
-        coords: [[50.07868, 14.85412], [50.07967, 14.85412], [50.07984, 14.85279], [50.08077, 14.85163], [50.08088, 14.85073], [50.08105, 14.84965], [50.08152, 14.84819], [50.08215, 14.84699], [50.08298, 14.84588], [50.08342, 14.84528], [50.08314, 14.84433], [50.08281, 14.84296]],
-        center: [50.08152, 14.84819],
-        fromLabel: "Ul. V Lukách (za plynárnou)",
-        toLabel: "Štolmíř (ul. K Lukám)",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.07868,14.85412&destination=50.08281,14.84296&waypoints=50.08088,14.85073%7C50.08298,14.84588&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.85412%2C50.07868&x=14.85412&y=50.07868&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.84296%2C50.08281&x=14.84296&y=50.08281&z=16"
-      },
-      {
-        id: 4,
-        name: "Přírodní pěší cesta a alej „Topolovka“ (ČB – Štolmíř)",
-        yearCat: "2024",
-        yearExact: "2021–2025 (kultivace a výsadby)",
-        category: "alej",
-        fromTo: "Ulice V Lukách / K Lukám (Český Brod) → ul. Českobrodská (Štolmíř), souběžně s P3",
-        lengthSurface: "850 m • přírodní měkký povrch, alej a lavičky (Broďáci Brodu)",
-        suitableFor: "Pěší vycházky, běh, venčení psů",
-        mapyStatus: "ČÁSTEČNĚ",
-        mapyNote: "Cesta je v Mapy.cz vykreslena a routovatelná, ale chybí jí v mapě místní textový název „Topolovka“.",
-        coords: [[50.08072, 14.85759], [50.07956, 14.85665], [50.07967, 14.85412], [50.07984, 14.85279], [50.08044, 14.85223], [50.08152, 14.85094], [50.08303, 14.85034], [50.08455, 14.85017], [50.08601, 14.84987], [50.08689, 14.85171], [50.08757, 14.85197], [50.08821, 14.8518]],
-        center: [50.08303, 14.85034],
-        fromLabel: "Ul. Topolová / Pod Hájem",
-        toLabel: "Napojení na P9 (Štolmíř)",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08072,14.85759&destination=50.08821,14.85180&waypoints=50.08044,14.85223%7C50.08601,14.84987&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.85759%2C50.08072&x=14.85759&y=50.08072&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.85180%2C50.08821&x=14.85180&y=50.08821&z=16"
-      },
-      {
-        id: 5,
-        name: "Lokální biokoridor LBK 14 podél Štolmířského potoka",
-        yearCat: "2022–2023",
-        yearExact: "2021–2023 (SPÚ Kolín, 1,2 mil. Kč)",
-        category: "polni",
-        fromTo: "Od železniční trati Praha–Kolín → kolem Štolmíře až k soutoku s Kounickým potokem",
-        lengthSurface: "2,6 km • krajinný zelený pás s polními prostupy podél potoka",
-        suitableFor: "Pěší vycházky přírodou",
-        mapyStatus: "ČÁSTEČNĚ",
-        mapyNote: "Vodní tok a zeleň jsou v Mapy.cz zobrazeny, průchodný v úsecích souběžných s polními cestami.",
-        coords: [[50.08017, 14.83438], [50.08072, 14.83549], [50.08152, 14.83605], [50.08262, 14.83605], [50.08331, 14.83506], [50.084, 14.8339], [50.08565, 14.83386], [50.08702, 14.83412], [50.08755, 14.83777], [50.08887, 14.83858], [50.08975, 14.84004], [50.09107, 14.84064], [50.09201, 14.84077]],
-        center: [50.08565, 14.83386],
-        fromLabel: "Žel. trať (Z od Štolmíře)",
-        toLabel: "Koryto Štolmířského potoka",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08017,14.83438&destination=50.09201,14.84077&waypoints=50.08331,14.83506%7C50.08755,14.83777&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.83438%2C50.08017&x=14.83438&y=50.08017&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.84077%2C50.09201&x=14.84077&y=50.09201&z=16"
-      },
-      {
-        id: 6,
-        name: "Polní cesta P6 s biokoridorem (Rostoklaty)",
-        yearCat: "2022–2023",
-        yearExact: "Dokončeno po KPÚ Rostoklaty",
-        category: "polni",
-        fromTo: "SV okraj Rostoklat podél ovocného sadu a Štolmířského potoka → směr Štolmíř / Břežany II",
-        lengthSurface: "1,2 km • zpevněná polní cesta s ovocnou alejí",
-        suitableFor: "Kolo (Středočeská ovocná stezka), pěší, běh",
-        mapyStatus: "ANO",
-        mapyNote: "Plně vykreslena v Mapy.cz a vedena po ní značená cyklotrasa.",
-        coords: [[50.08039, 14.80373], [50.08259, 14.8094], [50.08424, 14.81627], [50.08601, 14.82365]],
-        center: [50.08424, 14.81627],
-        fromLabel: "Severní okraj Rostoklat",
-        toLabel: "Směr Břežany II / Štolmíř",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08039,14.80373&destination=50.08601,14.82365&waypoints=50.08259,14.80940%7C50.08424,14.81627&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.80373%2C50.08039&x=14.80373&y=50.08039&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.82365%2C50.08601&x=14.82365&y=50.08601&z=16"
-      },
-      {
-        id: 7,
-        name: "Hlavní polní cesta C6 „Mlýnská cesta“ (Tuklaty – Břežany II)",
-        yearCat: "2022–2023",
-        yearExact: "Dokončeno + dosadby stromořadí 2019–2025",
-        category: "polni",
-        fromTo: "Od Tlustovous (tlustovouský mlýn) přes k.ú. Tuklaty → k.ú. Břežany II",
-        lengthSurface: "1 302 m • asfaltový povrch, zasakovací pásy a stromořadí",
-        suitableFor: "Kolo, inline brusle, kočárky, pěší",
-        mapyStatus: "ANO",
-        mapyNote: "Plně zanesena v Mapy.cz jako zpevněná komunikace a součást Středočeské ovocné stezky.",
-        coords: [[50.0859, 14.77335], [50.08667, 14.78073], [50.08777, 14.7876], [50.08997, 14.79343], [50.0936, 14.8003]],
-        center: [50.08777, 14.7876],
-        fromLabel: "Tuklaty / Tlustovousy",
-        toLabel: "Západní okraj Břežan II",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08590,14.77335&destination=50.09360,14.80030&waypoints=50.08667,14.78073%7C50.08997,14.79343&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.77335%2C50.08590&x=14.77335&y=50.08590&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.80030%2C50.09360&x=14.80030&y=50.09360&z=16"
-      },
-      {
-        id: 8,
-        name: "Stezka Břetislava Jedličky-Brodského (Podskalí – Liblice)",
-        yearCat: "2024",
-        yearExact: "Obnova zábradlí, břehů a laviček 2021–2025",
-        category: "stezka",
-        fromTo: "Český Brod (Podskalí / pod Kouřimskou bránou) → kaplička sv. Gotharda → Chodotínský rybník → Liblice (Za Drahou)",
-        lengthSurface: "1,5 km • zpevněná údolní pěšina podél levého břehu Šembery, nové akátové zábradlí",
-        suitableFor: "Pěší vycházky, terénní kočárek, horské/trekové kolo",
-        mapyStatus: "ANO",
-        mapyNote: "Celá trasa včetně kapličky sv. Gotharda a lávek je na Mapy.cz detailně zmapována.",
-        coords: [[50.07058, 14.85806], [50.07119, 14.85965], [50.07196, 14.86107], [50.07229, 14.8627], [50.0727, 14.8645], [50.07317, 14.86652], [50.07372, 14.86845], [50.07438, 14.86995], [50.074, 14.87137], [50.07422, 14.87283], [50.07449, 14.87472], [50.07493, 14.87652], [50.07565, 14.87798], [50.07631, 14.87926], [50.07593, 14.88167]],
-        center: [50.07438, 14.86995],
-        fromLabel: "Podskalí (Kouřimská brána)",
-        toLabel: "Liblice (Za Drahou / sv. Gothard)",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.07058,14.85806&destination=50.07593,14.88167&waypoints=50.07317,14.86652%7C50.07449,14.87472&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.85806%2C50.07058&x=14.85806&y=50.07058&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.88167%2C50.07593&x=14.88167&y=50.07593&z=16"
-      },
-      {
-        id: 9,
-        name: "Cyklostezka podél pravého břehu Šembery (Pod Malechovem)",
-        yearCat: "2026",
-        yearExact: "2025–2026 (výkupy p.č. 118/1, 118/7 a realizace)",
-        category: "stezka",
-        fromTo: "Havlíčkova ul. / Jiráskovy sady (kolem býv. PRO-DOMA a Pivovarského rybníka) → ul. Prokopa Velikého / Pod Malechovem",
-        lengthSurface: "450 m (šířka 3,0 m) • městská nábřežní cyklostezka a promenáda",
-        suitableFor: "Kolo, pěší, kočárky",
-        mapyStatus: "ČÁSTEČNĚ",
-        mapyNote: "Čtvrť Pod Malechovem v Mapy.cz již je, nábřežní úsek u PRO-DOMA se propisuje s dokončením (2026).",
-        coords: [[50.06849, 14.85678], [50.06937, 14.85729], [50.07003, 14.85755], [50.07025, 14.85867], [50.07069, 14.85995], [50.0713, 14.86115], [50.07179, 14.86218], [50.07207, 14.86339]],
-        center: [50.07069, 14.85995],
-        fromLabel: "Nábřežní / Havlíčkova",
-        toLabel: "Prokopa Velikého (Pod Malechovem)",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.06849,14.85678&destination=50.07207,14.86339&waypoints=50.07003,14.85755%7C50.07130,14.86115&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.85678%2C50.06849&x=14.85678&y=50.06849&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.86339%2C50.07207&x=14.86339&y=50.07207&z=16"
-      },
-      {
-        id: 10,
-        name: "Nová lipová alej u hřbitova v Českém Brodě",
-        yearCat: "2026",
-        yearExact: "Březen 2026 (1. etapa – 20 vzrostlých lip)",
-        category: "alej",
-        fromTo: "Podél cesty u městského hřbitova (mezi ul. Klučovská a Kounická na SV okraji města)",
-        lengthSurface: "200 m (1. etapa z plánovaných 40 stromů) • Sázíme stromy & Město ČB",
-        suitableFor: "Pěší vycházky",
-        mapyStatus: "ČÁSTEČNĚ",
-        mapyNote: "Samotná cesta u hřbitova na Mapy.cz je, nové stromořadí z března 2026 zatím v OSM zaneseno není.",
-        coords: [[50.08072, 14.87283], [50.08152, 14.8721], [50.08289, 14.8721], [50.08427, 14.8721], [50.08427, 14.87381]],
-        center: [50.08289, 14.8721],
-        fromLabel: "Ul. Klučovská (u hřbitova)",
-        toLabel: "Cesta podél hřbitova (sever)",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08072,14.87283&destination=50.08427,14.87381&waypoints=50.08152,14.87210%7C50.08427,14.87210&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.87283%2C50.08072&x=14.87283&y=50.08072&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.87381%2C50.08427&x=14.87381&y=50.08427&z=16"
-      },
-      {
-        id: 11,
-        name: "Obnovená polní cesta a „Alej do Klučova“",
-        yearCat: "2022–2023",
-        yearExact: "Etapové výsadby 2019–2025",
-        category: "alej",
-        fromTo: "Severovýchodní okraj Českého Brodu (za tratí od ul. Klučovská) → obec Klučov",
-        lengthSurface: "2,2 km • polní cesta s nově vysazenou lipovou alejí (spolek Nekluč & město)",
-        suitableFor: "Pěší turistika, terénní běh, MTB",
-        mapyStatus: "ČÁSTEČNĚ",
-        mapyNote: "V Mapy.cz zobrazena čárkovaně jako polní pěšina bez popisku nové lipové aleje.",
-        coords: [[50.08105, 14.87643], [50.08276, 14.87626], [50.08413, 14.87596], [50.08551, 14.87557], [50.08689, 14.87514], [50.08826, 14.87454], [50.08986, 14.87369], [50.0906, 14.87639], [50.09124, 14.87896], [50.09198, 14.88132]],
-        center: [50.08826, 14.87454],
-        fromLabel: "Ul. Za Drahou (u Klučovské)",
-        toLabel: "Polní cesta směr Klučov",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08105,14.87643&destination=50.09198,14.88132&waypoints=50.08551,14.87557%7C50.08986,14.87369&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.87643%2C50.08105&x=14.87643&y=50.08105&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.88132%2C50.09198&x=14.88132&y=50.09198&z=16"
-      },
-      {
-        id: 12,
-        name: "Kudrnáčova stezka a aleje Klučov – Poříčany / Hořany",
-        yearCat: "2022–2023",
-        yearExact: "Obnova stromořadí 2022–2026 (duben 2026 +33 stromů)",
-        category: "alej",
-        fromTo: "Obec Klučov → hradiště Klučov → Poříčany (a větev Klučov – Hořany)",
-        lengthSurface: "2,5 km • historická pěší stezka s obnovenými alejemi",
-        suitableFor: "Pěší výlety, běh, MTB",
-        mapyStatus: "ANO",
-        mapyNote: "Kudrnáčova stezka i polní cesty kolem Klučova jsou v Mapy.cz plně vykresleny.",
-        coords: [[50.09636, 14.90845], [50.09944, 14.90896], [50.10241, 14.91016], [50.10517, 14.9136], [50.10759, 14.91755]],
-        center: [50.10241, 14.91016],
-        fromLabel: "Klučov (přes hradiště)",
-        toLabel: "Jižní okraj Poříčan",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.09636,14.90845&destination=50.10759,14.91755&waypoints=50.09944,14.90896%7C50.10517,14.91360&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.90845%2C50.09636&x=14.90845&y=50.09636&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.91755%2C50.10759&x=14.91755&y=50.10759&z=16"
-      },
-      {
-        id: 13,
-        name: "Alej „Žherák“ (Klučov – Žhery)",
-        yearCat: "2024",
-        yearExact: "2022–2025 (34 stromů podél cesty)",
-        category: "alej",
-        fromTo: "Jihovýchodní okraj Klučova → obec Žhery",
-        lengthSurface: "1,4 km • polní cesta s novou alejí",
-        suitableFor: "Pěší, běh, kolo",
-        mapyStatus: "ANO",
-        mapyNote: "Trasa je na Mapy.cz zanesena jako polní cesta spojující Klučov a Žhery.",
-        coords: [[50.09504, 14.91154], [50.09327, 14.91755], [50.0914, 14.92355], [50.08953, 14.92956]],
-        center: [50.0914, 14.92355],
-        fromLabel: "JV okraj Klučova",
-        toLabel: "Obec Žhery",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.09504,14.91154&destination=50.08953,14.92956&waypoints=50.09327,14.91755%7C50.09140,14.92355&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.91154%2C50.09504&x=14.91154&y=50.09504&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.92956%2C50.08953&x=14.92956&y=50.08953&z=16"
-      },
-      {
-        id: 14,
-        name: "Obnovená zaniklá polní cesta Skramníky – Tatce",
-        yearCat: "2024",
-        yearExact: "Březen 2024 (Sázíme stromy & obce)",
-        category: "polni",
-        fromTo: "Východní okraj obce Skramníky → směrem na Tatce",
-        lengthSurface: "150 m • nově obnovený úsek dříve zaorané polní cesty s výsadbou keřů a stromů",
-        suitableFor: "Pěší propojení obcí",
-        mapyStatus: "ČÁSTEČNĚ",
-        mapyNote: "V Mapy.cz patrné jako polní předěl, postupně se propisuje do OSM.",
-        coords: [[50.08512, 14.96218], [50.087, 14.96613], [50.08887, 14.97025]],
-        center: [50.087, 14.96613],
-        fromLabel: "SV okraj Skramníků",
-        toLabel: "Směr JZ okraj Tatců",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.08512,14.96218&destination=50.08887,14.97025&waypoints=50.08700,14.96613&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.96218%2C50.08512&x=14.96218&y=50.08512&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.97025%2C50.08887&x=14.97025&y=50.08887&z=16"
-      },
-      {
-        id: 15,
-        name: "Polní cesta C4 a historická Kočárová cesta KZ 7 (Chrášťany)",
-        yearCat: "2025",
-        yearExact: "Dokončeno v polovině roku 2025 (SPÚ Kolín)",
-        category: "polni",
-        fromTo: "Jižní okraj obce Chrášťany (parc. 304 a 299) → hranice k.ú. Chotouň (navazuje na cestu C2 Chotouň)",
-        lengthSurface: "1,8 km • zpevněná polní cesta C4 s alejí + souběžná ozeleněná pěší kočárová cesta KZ 7",
-        suitableFor: "Pěší vycházky, kolo, běh",
-        mapyStatus: "ČÁSTEČNĚ",
-        mapyNote: "Stopa cesty je na Mapy.cz vykreslena, ale zatím bez aktualizace nového zpevněného povrchu z r. 2025.",
-        coords: [[50.06607, 14.93128], [50.0664, 14.939], [50.06684, 14.94724], [50.0675, 14.95531]],
-        center: [50.06684, 14.94724],
-        fromLabel: "Východní okraj Chrášťan",
-        toLabel: "Západní okraj Chotouně (C2)",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.06607,14.93128&destination=50.06750,14.95531&waypoints=50.06640,14.93900%7C50.06684,14.94724&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.93128%2C50.06607&x=14.93128&y=50.06607&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.95531%2C50.06750&x=14.95531&y=50.06750&z=16"
-      },
-      {
-        id: 16,
-        name: "Stezka pro pěší a cyklisty Český Brod (Nad Malechovem) – Přistoupim",
-        yearCat: "Plán 2026+",
-        yearExact: "Projektová příprava a výkupy pozemků 2023–2026+",
-        category: "stezka",
-        fromTo: "Jižní okraj Českého Brodu (ul. Nad Malechovem) → podél silnice III/1131 do obce Přistoupim",
-        lengthSurface: "600 m (šířka 3,0 m) • asfaltová smíšená cyklostezka oddělená zeleným pásem od silnice",
-        suitableFor: "Kolo, pěší, kočárky, inline (bezpečné propojení mimo silnici)",
-        mapyStatus: "NE",
-        mapyNote: "Zatím není na Mapy.cz (stavba v přípravě, na mapě je dosud pouze silnice III/1131).",
-        coords: [[50.0694, 14.87811], [50.06794, 14.87712], [50.06656, 14.87626], [50.06527, 14.87596], [50.06389, 14.87652], [50.06251, 14.87712]],
-        center: [50.06527, 14.87596],
-        fromLabel: "Ul. Přistoupimská (Nad Malechovem)",
-        toLabel: "Severní okraj Přistoupimi (III/1131)",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.06940,14.87811&destination=50.06251,14.87712&waypoints=50.06656,14.87626%7C50.06389,14.87652&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.87811%2C50.06940&x=14.87811&y=50.06940&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.87712%2C50.06251&x=14.87712&y=50.06251&z=16",
-        dashed: true
-      },
-      {
-        id: 17,
-        name: "Stezka pro pěší a cyklisty Český Brod – Štolmíř (podél II/245)",
-        yearCat: "Plán 2026+",
-        yearExact: "Projektová dokumentace vysoutěžena na E-ZAK (v přípravě)",
-        category: "stezka",
-        fromTo: "Křižovatka ul. Žitomířská × Na Vyhlídce (Český Brod) → ul. Českobrodská × Lichtenštejnská (Štolmíř)",
-        lengthSurface: "950 m • páteřní chodník a cyklostezka podél silnice II/245",
-        suitableFor: "Pěší, školáci, cyklisté, kočárky",
-        mapyStatus: "NE",
-        mapyNote: "Zatím není na Mapy.cz (pro cesty do Štolmíře dnes slouží severnější asfaltové cesty P3, P9 a Topolovka).",
-        coords: [[50.07703, 14.85008], [50.07829, 14.84879], [50.07929, 14.84734], [50.07984, 14.84562], [50.08022, 14.84304], [50.08061, 14.84296], [50.08149, 14.84347], [50.0827, 14.84292]],
-        center: [50.08022, 14.84304],
-        fromLabel: "Žitomířská × Na Vyhlídce",
-        toLabel: "Českobrodská × Lichtenštejnská",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.07703,14.85008&destination=50.08270,14.84292&waypoints=50.07929,14.84734%7C50.08061,14.84296&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.85008%2C50.07703&x=14.85008&y=50.07703&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.84292%2C50.08270&x=14.84292&y=50.08270&z=16",
-        dashed: true
-      },
-      {
-        id: 18,
-        name: "Stezka kolem sportovního areálu Na Kutilce k rybníku Podviňák",
-        yearCat: "2024",
-        yearExact: "PD a úpravy areálu 2021–2024 (hřiště Broďáci Brodu)",
-        category: "stezka",
-        fromTo: "Ulice Na Kutilce (od Tuchorazské) → kolem atletického stadionu k říčce Šembeře a rybníku Podviňák",
-        lengthSurface: "650 m • pěší a cyklistická spojka do údolí Šembery",
-        suitableFor: "Pěší, rodiny s dětmi, kolo, běh",
-        mapyStatus: "ANO",
-        mapyNote: "Plně vykreslena v Mapy.cz i OSM, navazuje na Naučnou stezku Údolím Šembery.",
-        coords: [[50.06623, 14.85463], [50.06554, 14.85309], [50.06472, 14.8518], [50.06353, 14.85137], [50.06259, 14.85107], [50.06155, 14.85051], [50.06031, 14.85], [50.05976, 14.85034]],
-        center: [50.06259, 14.85107],
-        fromLabel: "Areál Na Kutilce / Na Bělidle",
-        toLabel: "Hráz a břeh rybníka Podviňák",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.06623,14.85463&destination=50.05976,14.85034&waypoints=50.06472,14.85180%7C50.06155,14.85051&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.85463%2C50.06623&x=14.85463&y=50.06623&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.85034%2C50.05976&x=14.85034&y=50.05976&z=16"
-      },
-      {
-        id: 19,
-        name: "Šemberské stezky – lesní singletraily u Tuchorazi",
-        yearCat: "2020–2021",
-        yearExact: "Otevřeno květen 2020, rozšiřováno 2021–2026",
-        category: "stezka",
-        fromTo: "Lesní masiv za obcí Tuchoraz (nástup u hřiště / Šemberské hospůdky v Tuchorazi)",
-        lengthSurface: "5,0 km • jednosměrné přírodní lesní MTB traily (stoupací + modrý, červený a černý trail)",
-        suitableFor: "Horská kola (MTB – od dětí na modrém trailu po zkušené jezdce)",
-        mapyStatus: "ANO",
-        mapyNote: "Celá síť Šemberských stezek je detailně zakreslena v outdoorové a turistické mapě Mapy.cz.",
-        coords: [[50.04843, 14.84596], [50.04546, 14.84493], [50.04237, 14.84287], [50.04369, 14.8403], [50.04656, 14.84219], [50.04843, 14.84596]],
-        center: [50.04369, 14.8403],
-        fromLabel: "Tuchoraz (nástup u lesa)",
-        toLabel: "Lesní MTB okruh (5 km)",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.04843,14.84596&destination=50.04843,14.84596&waypoints=50.04237,14.84287%7C50.04656,14.84219&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84596%2C50.04843&x=14.84596&y=50.04843&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.84596%2C50.04843&x=14.84596&y=50.04843&z=16"
-      },
-      {
-        id: 20,
-        name: "Zastavení u Šembery + Nová lávka u Skautské louky a Cesta lásky",
-        yearCat: "2024",
-        yearExact: "Lávka a 3 modřínová odpočívadla 2023/2024 + Cesta lásky a altán 2025",
-        category: "stezka",
-        fromTo: "Údolí Šembery jižně od Tuchorazi: Kamenný mostek (Na Šamtalech) → lávka u Skautské louky → soutok Na Zámkách",
-        lengthSurface: "3,5 km údolní stezky • nová dřevěná lávka přes Šemberu, 3 krytá modřínová odpočívadla, altán a Cesta lásky (6,8M)",
-        suitableFor: "Pěší turistika (NS Údolím Šembery), běh, MTB",
-        mapyStatus: "ANO",
-        mapyNote: "Lávka u Skautské louky, Kamenný mostek i rozcestník Na Zámkách jsou plně na Mapy.cz.",
-        coords: [[50.04237, 14.84287], [50.03851, 14.83807], [50.0352, 14.83395], [50.03222, 14.82948], [50.02969, 14.82571], [50.02715, 14.82262]],
-        center: [50.03222, 14.82948],
-        fromLabel: "Kamenný mostek (Na Šamtalech)",
-        toLabel: "Lávka u Skautské louky → Na Zámkách",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.04237,14.84287&destination=50.02715,14.82262&waypoints=50.03520,14.83395%7C50.02969,14.82571&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84287%2C50.04237&x=14.84287&y=50.04237&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.82262%2C50.02715&x=14.82262&y=50.02715&z=16"
-      },
-      {
-        id: 21,
-        name: "Hravá naučná stezka do Ekocentra Vrátkov",
-        yearCat: "2022–2023",
-        yearExact: "2021–2023 (dotační podpora Středočeského kraje)",
-        category: "stezka",
-        fromTo: "Od okraje Tuchorazi / zastávek MHD lesem mimo silnici → k hájovně Ekocentra Vrátkov (č.p. 38)",
-        lengthSurface: "1,2 km • bezpečná lesní pěšina s dřevěnými řezbářskými a herními prvky pro děti",
-        suitableFor: "Rodiny s dětmi, školní výlety, pěší",
-        mapyStatus: "ČÁSTEČNĚ",
-        mapyNote: "Lesní cesty i bod Ekocentrum Vrátkov v Mapy.cz jsou, chybí jen zelená značka naučné stezky.",
-        coords: [[50.04986, 14.84425], [50.04942, 14.83978], [50.04876, 14.83532]],
-        center: [50.04942, 14.83978],
-        fromLabel: "Západní okraj Tuchorazi",
-        toLabel: "Ekocentrum Vrátkov (čp. 38)",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.04986,14.84425&destination=50.04876,14.83532&waypoints=50.04942,14.83978&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84425%2C50.04986&x=14.84425&y=50.04986&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.83532%2C50.04876&x=14.83532&y=50.04876&z=16"
-      },
-      {
-        id: 22,
-        name: "„Mrzecká cesta“ a obnova aleje (Limuzy – Mrzky, obec Tismice)",
-        yearCat: "2026",
-        yearExact: "Asanace a celková obnova aleje podzim 2026+",
-        category: "alej",
-        fromTo: "Obec Limuzy (parc. č. 688) → obec Mrzky (součást Středočeské ovocné stezky)",
-        lengthSurface: "1,6 km • polní cesta s alejí a naučnými panely",
-        suitableFor: "Kolo, pěší vycházky",
-        mapyStatus: "ANO",
-        mapyNote: "Plně zanesena v Mapy.cz včetně symbolů stromořadí a cyklotrasy.",
-        coords: [[50.05835, 14.79172], [50.05471, 14.79738], [50.05097, 14.80305], [50.047, 14.80888]],
-        center: [50.05097, 14.80305],
-        fromLabel: "JV okraj Limuz (parc. 688)",
-        toLabel: "SZ okraj obce Mrzky",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.05835,14.79172&destination=50.04700,14.80888&waypoints=50.05471,14.79738%7C50.05097,14.80305&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.79172%2C50.05835&x=14.79172&y=50.05835&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.80888%2C50.04700&x=14.80888&y=50.04700&z=16"
-      },
-      {
-        id: 23,
-        name: "Kompletně obnovená Naučná stezka Klepec (Přišimasy / Skřivany)",
-        yearCat: "2026",
-        yearExact: "Slavnostně otevřeno v říjnu 2026 (dotace Středočeského kraje)",
-        category: "stezka",
-        fromTo: "Skřivany (Přišimasy) → vrchol a žulové skály PP Klepec (358 m n. m., Slouha, Stoh slámy) → směr Limuzy",
-        lengthSurface: "1,0 km • nové naučné tabule, dřevěné směrovky, lavičky a kryté posezení s houpací sítí",
-        suitableFor: "Pěší výlety, rodiny s dětmi, vyhlídka do kraje",
-        mapyStatus: "ANO",
-        mapyNote: "Celá trasa po žluté značce i vrchol Klepec jsou detailně na Mapy.cz.",
-        coords: [[50.05174, 14.77283], [50.05097, 14.77627], [50.05031, 14.7797], [50.05339, 14.78485], [50.05725, 14.7888]],
-        center: [50.05031, 14.7797],
-        fromLabel: "Skřivany (Přišimasy)",
-        toLabel: "Vrchol Klepec (358 m) → Limuzy",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.05174,14.77283&destination=50.05725,14.78880&waypoints=50.05097,14.77627%7C50.05339,14.78485&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.77283%2C50.05174&x=14.77283&y=50.05174&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.78880%2C50.05725&x=14.78880&y=50.05725&z=16"
-      },
-      {
-        id: 24,
-        name: "Nové a opravené městské chodníky 2024–2026 (Štolmířská, Sportovní, Masarykova, B. Němcové)",
-        yearCat: "2026",
-        yearExact: "2024–2026 (E-ZAK a Technické služby ČB)",
-        category: "chodnik",
-        fromTo: "Štolmířská (Žižkova–Na Vyhlídce, jaro 2026), podjezd Sportovní (rozšíření chodníku), Masarykova, B. Němcové (2025), B. Smetany, Želivského, Jeronýmova, Ve Staré vsi (Liblice), Tuchorazská",
-        lengthSurface: "Soubor 10 bezbariérových uličních rekonstrukcí v Českém Brodě a Liblicích",
-        suitableFor: "Městský pěší provoz, kočárky, senioři, nevidomí",
-        mapyStatus: "ANO",
-        mapyNote: "Všechny uliční chodníky jsou součástí podrobné uliční sítě Mapy.cz a OSM.",
-        coords: [[50.0762, 14.84879], [50.07477, 14.84879], [50.07334, 14.84879], [50.07317, 14.85085], [50.07295, 14.85322], [50.07284, 14.85536], [50.07361, 14.85592], [50.07444, 14.85678], [50.0751, 14.85781]],
-        center: [50.07295, 14.85322],
-        fromLabel: "Ul. Štolmířská (jaro 2026)",
-        toLabel: "Ul. Žižkova, Želivského, Tyršova",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.07620,14.84879&destination=50.07510,14.85781&waypoints=50.07317,14.85085%7C50.07361,14.85592&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84879%2C50.07620&x=14.84879&y=50.07620&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.85781%2C50.07510&x=14.85781&y=50.07510&z=16"
-      },
-      {
-        id: 25,
-        name: "Opravené městské chodníky 2020–2023 (Jugoslávská, Palackého, Zborovská, Bezručova, Nová)",
-        yearCat: "2020–2021",
-        yearExact: "2020–2023",
-        category: "chodnik",
-        fromTo: "Celá ul. Jugoslávská, sídliště Palackého, Zborovská a přechod Krále Jiřího × Jana Kouly, Bezručova (2023), Slezská, Vítězná, Nová (Liblice)",
-        lengthSurface: "Kompletní předláždění ze zámkové a reliéfní dlažby + bezpečné přechody (dotace SFDI a IROP)",
-        suitableFor: "Městský pěší provoz, kočárky",
-        mapyStatus: "ANO",
-        mapyNote: "Plně zmapováno v Mapy.cz i OpenStreetMap včetně přechodů.",
-        coords: [[50.067, 14.84837], [50.06849, 14.85021], [50.06967, 14.8518], [50.06976, 14.85266], [50.07086, 14.85407], [50.07179, 14.85536], [50.07243, 14.85708], [50.0727, 14.85922], [50.07381, 14.86094], [50.07491, 14.86364], [50.07582, 14.86695]],
-        center: [50.07179, 14.85536],
-        fromLabel: "Sídliště Palackého",
-        toLabel: "B. Němcové → náměstí → Krále Jiřího",
-        gmapsDirUrl: "https://www.google.com/maps/dir/?api=1&origin=50.06700,14.84837&destination=50.07582,14.86695&waypoints=50.06976,14.85266%7C50.07270,14.85922&travelmode=walking",
-        mapyStartUrl: "https://mapy.cz/turisticka?source=coor&id=14.84837%2C50.06700&x=14.84837&y=50.06700&z=16",
-        mapyEndUrl: "https://mapy.cz/turisticka?source=coor&id=14.86695%2C50.07582&x=14.86695&y=50.07582&z=16"
-      }
-    ];
+  {
+    "id": 1,
+    "name": "Polní cesta P9 (Štolmíř – Kounická / Mexiko)",
+    "yearCat": "2020–2021",
+    "yearExact": "2020–2021",
+    "category": "stezka",
+    "fromTo": "Štolmíř (Ke Hřbitovu) → Ul. Kounická (II/272)",
+    "lengthSurface": "1,1 km asfalt + alej (2020–2024)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Orientační průběh / v přípravě",
+    "coords": [
+      [
+        50.0865,
+        14.84193
+      ],
+      [
+        50.08678,
+        14.84356
+      ],
+      [
+        50.08713,
+        14.84519
+      ],
+      [
+        50.0876,
+        14.84734
+      ],
+      [
+        50.08796,
+        14.84935
+      ],
+      [
+        50.08821,
+        14.8518
+      ],
+      [
+        50.08837,
+        14.85472
+      ],
+      [
+        50.08876,
+        14.85751
+      ],
+      [
+        50.08942,
+        14.86008
+      ],
+      [
+        50.09036,
+        14.86167
+      ],
+      [
+        50.09069,
+        14.86339
+      ],
+      [
+        50.0908,
+        14.86485
+      ]
+    ],
+    "center": [
+      50.08837,
+      14.85472
+    ],
+    "fromLabel": "Štolmíř (Ke Hřbitovu)",
+    "toLabel": "Ul. Kounická (II/272)",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.08650,14.84193&destination=50.09080,14.86485&waypoints=50.08796,14.84935%7C50.08942,14.86008&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.84193%2C50.08650&x=14.84193&y=50.08650&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.86485%2C50.09080&x=14.86485&y=50.09080&z=16",
+    "dashed": true
+  },
+  {
+    "id": 2,
+    "name": "Hlavní polní cesta HPC 4 (Štolmíř)",
+    "yearCat": "2020–2021",
+    "yearExact": "2020–2021",
+    "category": "stezka",
+    "fromTo": "Štolmíř (Ke Škole) → Směr Břežany II / háj",
+    "lengthSurface": "591 m asfalt, šířka 4 m (2021)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Ověřeno v OpenStreetMap",
+    "coords": [
+      [
+        50.08665,
+        14.84183
+      ],
+      [
+        50.08676,
+        14.84176
+      ],
+      [
+        50.08681,
+        14.84182
+      ],
+      [
+        50.08687,
+        14.84186
+      ],
+      [
+        50.08727,
+        14.84195
+      ],
+      [
+        50.08742,
+        14.84197
+      ],
+      [
+        50.08752,
+        14.842
+      ],
+      [
+        50.08818,
+        14.84237
+      ],
+      [
+        50.08837,
+        14.84254
+      ],
+      [
+        50.08899,
+        14.84297
+      ],
+      [
+        50.08917,
+        14.84306
+      ],
+      [
+        50.09047,
+        14.84362
+      ],
+      [
+        50.09063,
+        14.84365
+      ],
+      [
+        50.0907,
+        14.84359
+      ],
+      [
+        50.09074,
+        14.84353
+      ],
+      [
+        50.09079,
+        14.84339
+      ],
+      [
+        50.09117,
+        14.84186
+      ],
+      [
+        50.09125,
+        14.84161
+      ],
+      [
+        50.09131,
+        14.84153
+      ],
+      [
+        50.0914,
+        14.84149
+      ],
+      [
+        50.0915,
+        14.84153
+      ],
+      [
+        50.09168,
+        14.84164
+      ],
+      [
+        50.09207,
+        14.84178
+      ]
+    ],
+    "center": [
+      50.09047,
+      14.84362
+    ],
+    "fromLabel": "Štolmíř (Ke Škole)",
+    "toLabel": "Směr Břežany II / háj",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.08656,14.84167&destination=50.09206,14.84150&waypoints=50.08887,14.84262%7C50.09102,14.84141&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.84167%2C50.08656&x=14.84167&y=50.08656&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.84150%2C50.09206&x=14.84150&y=50.09206&z=16",
+    "dashed": false
+  },
+  {
+    "id": 3,
+    "name": "Polní cesta P3 + mokřad „Na Útulně“",
+    "yearCat": "2024",
+    "yearExact": "2024",
+    "category": "stezka",
+    "fromTo": "Ul. V Lukách (za plynárnou) → Štolmíř (ul. K Lukám)",
+    "lengthSurface": "700 m asfalt kolem mokřadu (2024)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Ověřeno v OpenStreetMap",
+    "coords": [
+      [
+        50.079,
+        14.85463
+      ],
+      [
+        50.07944,
+        14.8537
+      ],
+      [
+        50.0795,
+        14.85359
+      ],
+      [
+        50.07988,
+        14.85299
+      ],
+      [
+        50.0802,
+        14.8526
+      ],
+      [
+        50.08029,
+        14.85255
+      ],
+      [
+        50.08055,
+        14.85237
+      ],
+      [
+        50.08072,
+        14.85218
+      ],
+      [
+        50.08083,
+        14.85203
+      ],
+      [
+        50.08086,
+        14.85199
+      ],
+      [
+        50.08102,
+        14.85174
+      ],
+      [
+        50.08108,
+        14.85153
+      ],
+      [
+        50.08109,
+        14.85131
+      ],
+      [
+        50.08098,
+        14.85059
+      ],
+      [
+        50.08099,
+        14.85039
+      ],
+      [
+        50.08103,
+        14.85018
+      ],
+      [
+        50.08122,
+        14.84948
+      ],
+      [
+        50.08144,
+        14.84875
+      ],
+      [
+        50.08171,
+        14.8481
+      ],
+      [
+        50.08201,
+        14.84745
+      ],
+      [
+        50.08236,
+        14.84682
+      ],
+      [
+        50.08265,
+        14.84643
+      ],
+      [
+        50.08301,
+        14.84603
+      ],
+      [
+        50.08316,
+        14.8459
+      ],
+      [
+        50.0835,
+        14.84566
+      ],
+      [
+        50.08358,
+        14.84552
+      ],
+      [
+        50.0836,
+        14.84539
+      ],
+      [
+        50.08359,
+        14.84527
+      ],
+      [
+        50.0835,
+        14.84482
+      ],
+      [
+        50.08344,
+        14.84453
+      ],
+      [
+        50.08316,
+        14.84314
+      ],
+      [
+        50.08326,
+        14.84304
+      ],
+      [
+        50.08304,
+        14.84255
+      ]
+    ],
+    "center": [
+      50.08122,
+      14.84948
+    ],
+    "fromLabel": "Ul. V Lukách (za plynárnou)",
+    "toLabel": "Štolmíř (ul. K Lukám)",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.07868,14.85412&destination=50.08281,14.84296&waypoints=50.08088,14.85073%7C50.08298,14.84588&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.85412%2C50.07868&x=14.85412&y=50.07868&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.84296%2C50.08281&x=14.84296&y=50.08281&z=16",
+    "dashed": false
+  },
+  {
+    "id": 4,
+    "name": "Přírodní cesta a alej „Topolovka“",
+    "yearCat": "2024",
+    "yearExact": "2024",
+    "category": "stezka",
+    "fromTo": "Ul. Topolová / Pod Hájem → Napojení na P9 (Štolmíř)",
+    "lengthSurface": "850 m přírodní cesta s alejí (2021–2025)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ČÁSTEČNĚ",
+    "mapyNote": "Ověřeno v OpenStreetMap",
+    "coords": [
+      [
+        50.08045,
+        14.85737
+      ],
+      [
+        50.08006,
+        14.85706
+      ],
+      [
+        50.08002,
+        14.85699
+      ],
+      [
+        50.07951,
+        14.85664
+      ],
+      [
+        50.07973,
+        14.85615
+      ],
+      [
+        50.08004,
+        14.85534
+      ],
+      [
+        50.08008,
+        14.85529
+      ],
+      [
+        50.08025,
+        14.85469
+      ],
+      [
+        50.0803,
+        14.85422
+      ],
+      [
+        50.08029,
+        14.85366
+      ],
+      [
+        50.08038,
+        14.8533
+      ],
+      [
+        50.08041,
+        14.85284
+      ],
+      [
+        50.0804,
+        14.85283
+      ],
+      [
+        50.08033,
+        14.85276
+      ],
+      [
+        50.0802,
+        14.8526
+      ],
+      [
+        50.08029,
+        14.85255
+      ],
+      [
+        50.08055,
+        14.85237
+      ],
+      [
+        50.08072,
+        14.85218
+      ],
+      [
+        50.08083,
+        14.85203
+      ],
+      [
+        50.08085,
+        14.85207
+      ],
+      [
+        50.08089,
+        14.85214
+      ],
+      [
+        50.08105,
+        14.8524
+      ],
+      [
+        50.0811,
+        14.85253
+      ],
+      [
+        50.08126,
+        14.85224
+      ],
+      [
+        50.08155,
+        14.85134
+      ],
+      [
+        50.0817,
+        14.85106
+      ],
+      [
+        50.0819,
+        14.85081
+      ],
+      [
+        50.08202,
+        14.85071
+      ],
+      [
+        50.08227,
+        14.85059
+      ],
+      [
+        50.08259,
+        14.85049
+      ],
+      [
+        50.0834,
+        14.85037
+      ],
+      [
+        50.08387,
+        14.85047
+      ],
+      [
+        50.08416,
+        14.85051
+      ],
+      [
+        50.08451,
+        14.85044
+      ],
+      [
+        50.08499,
+        14.85024
+      ],
+      [
+        50.08514,
+        14.85021
+      ],
+      [
+        50.08576,
+        14.85031
+      ],
+      [
+        50.08631,
+        14.85025
+      ],
+      [
+        50.08662,
+        14.85027
+      ],
+      [
+        50.08703,
+        14.85026
+      ],
+      [
+        50.0871,
+        14.85027
+      ],
+      [
+        50.08724,
+        14.85035
+      ],
+      [
+        50.08731,
+        14.85043
+      ],
+      [
+        50.08735,
+        14.85053
+      ],
+      [
+        50.08756,
+        14.85148
+      ],
+      [
+        50.08769,
+        14.8518
+      ],
+      [
+        50.08779,
+        14.85195
+      ],
+      [
+        50.08788,
+        14.85205
+      ],
+      [
+        50.088,
+        14.85212
+      ],
+      [
+        50.08814,
+        14.85215
+      ]
+    ],
+    "center": [
+      50.0817,
+      14.85106
+    ],
+    "fromLabel": "Ul. Topolová / Pod Hájem",
+    "toLabel": "Napojení na P9 (Štolmíř)",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.08072,14.85759&destination=50.08821,14.85180&waypoints=50.08044,14.85223%7C50.08601,14.84987&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.85759%2C50.08072&x=14.85759&y=50.08072&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.85180%2C50.08821&x=14.85180&y=50.08821&z=16",
+    "dashed": false
+  },
+  {
+    "id": 5,
+    "name": "Biokoridor LBK 14 Štolmířský potok",
+    "yearCat": "2022–2023",
+    "yearExact": "2022–2023",
+    "category": "stezka",
+    "fromTo": "Žel. trať (Z od Štolmíře) → Koryto Štolmířského potoka",
+    "lengthSurface": "2,6 km zelený pás podél potoka (2023)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ČÁSTEČNĚ",
+    "mapyNote": "Orientační průběh / v přípravě",
+    "coords": [
+      [
+        50.08017,
+        14.83438
+      ],
+      [
+        50.08072,
+        14.83549
+      ],
+      [
+        50.08152,
+        14.83605
+      ],
+      [
+        50.08262,
+        14.83605
+      ],
+      [
+        50.08331,
+        14.83506
+      ],
+      [
+        50.084,
+        14.8339
+      ],
+      [
+        50.08565,
+        14.83386
+      ],
+      [
+        50.08702,
+        14.83412
+      ],
+      [
+        50.08755,
+        14.83777
+      ],
+      [
+        50.08887,
+        14.83858
+      ],
+      [
+        50.08975,
+        14.84004
+      ],
+      [
+        50.09107,
+        14.84064
+      ],
+      [
+        50.09201,
+        14.84077
+      ]
+    ],
+    "center": [
+      50.08565,
+      14.83386
+    ],
+    "fromLabel": "Žel. trať (Z od Štolmíře)",
+    "toLabel": "Koryto Štolmířského potoka",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.08017,14.83438&destination=50.09201,14.84077&waypoints=50.08331,14.83506%7C50.08755,14.83777&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.83438%2C50.08017&x=14.83438&y=50.08017&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.84077%2C50.09201&x=14.84077&y=50.09201&z=16",
+    "dashed": true
+  },
+  {
+    "id": 6,
+    "name": "Polní cesta P6 (Rostoklaty – Ovocná stezka)",
+    "yearCat": "2022–2023",
+    "yearExact": "2022–2023",
+    "category": "stezka",
+    "fromTo": "Severní okraj Rostoklat → Směr Břežany II / Štolmíř",
+    "lengthSurface": "1,2 km zpevněná cesta + alej (2022)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Orientační průběh / v přípravě",
+    "coords": [
+      [
+        50.08039,
+        14.80373
+      ],
+      [
+        50.08259,
+        14.8094
+      ],
+      [
+        50.08424,
+        14.81627
+      ],
+      [
+        50.08601,
+        14.82365
+      ]
+    ],
+    "center": [
+      50.08424,
+      14.81627
+    ],
+    "fromLabel": "Severní okraj Rostoklat",
+    "toLabel": "Směr Břežany II / Štolmíř",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.08039,14.80373&destination=50.08601,14.82365&waypoints=50.08259,14.80940%7C50.08424,14.81627&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.80373%2C50.08039&x=14.80373&y=50.08039&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.82365%2C50.08601&x=14.82365&y=50.08601&z=16",
+    "dashed": true
+  },
+  {
+    "id": 7,
+    "name": "Mlýnská cesta C6 (Tuklaty – Břežany II)",
+    "yearCat": "2022–2023",
+    "yearExact": "2022–2023",
+    "category": "stezka",
+    "fromTo": "Tuklaty / Tlustovousy → Západní okraj Břežan II",
+    "lengthSurface": "1,3 km asfalt + stromořadí (2022)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Orientační průběh / v přípravě",
+    "coords": [
+      [
+        50.0859,
+        14.77335
+      ],
+      [
+        50.08667,
+        14.78073
+      ],
+      [
+        50.08777,
+        14.7876
+      ],
+      [
+        50.08997,
+        14.79343
+      ],
+      [
+        50.0936,
+        14.8003
+      ]
+    ],
+    "center": [
+      50.08777,
+      14.7876
+    ],
+    "fromLabel": "Tuklaty / Tlustovousy",
+    "toLabel": "Západní okraj Břežan II",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.08590,14.77335&destination=50.09360,14.80030&waypoints=50.08667,14.78073%7C50.08997,14.79343&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.77335%2C50.08590&x=14.77335&y=50.08590&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.80030%2C50.09360&x=14.80030&y=50.09360&z=16",
+    "dashed": true
+  },
+  {
+    "id": 8,
+    "name": "Stezka B. Jedličky-Brodského (údolí Šembery)",
+    "yearCat": "2024",
+    "yearExact": "2024",
+    "category": "stezka",
+    "fromTo": "Podskalí (Kouřimská brána) → Liblice (Za Drahou / sv. Gothard)",
+    "lengthSurface": "1,5 km břeh Šembery a Chodotínského ryb. (2024)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Ověřeno v OpenStreetMap",
+    "coords": [
+      [
+        50.07221,
+        14.86231
+      ],
+      [
+        50.07249,
+        14.86363
+      ],
+      [
+        50.07273,
+        14.86474
+      ],
+      [
+        50.07303,
+        14.8661
+      ],
+      [
+        50.0731,
+        14.8663
+      ],
+      [
+        50.07385,
+        14.86781
+      ],
+      [
+        50.07428,
+        14.86871
+      ],
+      [
+        50.07432,
+        14.86885
+      ],
+      [
+        50.07442,
+        14.86931
+      ],
+      [
+        50.07455,
+        14.86998
+      ],
+      [
+        50.07472,
+        14.87092
+      ],
+      [
+        50.07475,
+        14.87132
+      ],
+      [
+        50.07481,
+        14.87185
+      ],
+      [
+        50.07504,
+        14.8734
+      ],
+      [
+        50.07513,
+        14.87394
+      ],
+      [
+        50.07543,
+        14.87577
+      ],
+      [
+        50.07642,
+        14.87816
+      ],
+      [
+        50.07648,
+        14.8783
+      ],
+      [
+        50.07656,
+        14.87848
+      ],
+      [
+        50.07669,
+        14.87871
+      ],
+      [
+        50.07705,
+        14.87937
+      ]
+    ],
+    "center": [
+      50.07472,
+      14.87092
+    ],
+    "fromLabel": "Podskalí (Kouřimská brána)",
+    "toLabel": "Liblice (Za Drahou / sv. Gothard)",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.07058,14.85806&destination=50.07593,14.88167&waypoints=50.07317,14.86652%7C50.07449,14.87472&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.85806%2C50.07058&x=14.85806&y=50.07058&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.88167%2C50.07593&x=14.88167&y=50.07593&z=16",
+    "dashed": false
+  },
+  {
+    "id": 9,
+    "name": "Cyklostezka pravý břeh Šembery",
+    "yearCat": "2026",
+    "yearExact": "2026",
+    "category": "stezka",
+    "fromTo": "Nábřežní / Havlíčkova → Prokopa Velikého (Pod Malechovem)",
+    "lengthSurface": "450 m nábřežní stezka šířky 3 m (2026)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ČÁSTEČNĚ",
+    "mapyNote": "Orientační průběh / v přípravě",
+    "coords": [
+      [
+        50.06849,
+        14.85678
+      ],
+      [
+        50.06937,
+        14.85729
+      ],
+      [
+        50.07003,
+        14.85755
+      ],
+      [
+        50.07025,
+        14.85867
+      ],
+      [
+        50.07069,
+        14.85995
+      ],
+      [
+        50.0713,
+        14.86115
+      ],
+      [
+        50.07179,
+        14.86218
+      ],
+      [
+        50.07207,
+        14.86339
+      ]
+    ],
+    "center": [
+      50.07069,
+      14.85995
+    ],
+    "fromLabel": "Nábřežní / Havlíčkova",
+    "toLabel": "Prokopa Velikého (Pod Malechovem)",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.06849,14.85678&destination=50.07207,14.86339&waypoints=50.07003,14.85755%7C50.07130,14.86115&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.85678%2C50.06849&x=14.85678&y=50.06849&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.86339%2C50.07207&x=14.86339&y=50.07207&z=16",
+    "dashed": true
+  },
+  {
+    "id": 10,
+    "name": "Nová lipová alej u hřbitova",
+    "yearCat": "2026",
+    "yearExact": "2026",
+    "category": "stezka",
+    "fromTo": "Ul. Klučovská (u hřbitova) → Cesta podél hřbitova (sever)",
+    "lengthSurface": "200 m, 20 vzrostlých lip (březen 2026)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ČÁSTEČNĚ",
+    "mapyNote": "Orientační průběh / v přípravě",
+    "coords": [
+      [
+        50.08072,
+        14.87283
+      ],
+      [
+        50.08152,
+        14.8721
+      ],
+      [
+        50.08289,
+        14.8721
+      ],
+      [
+        50.08427,
+        14.8721
+      ],
+      [
+        50.08427,
+        14.87381
+      ]
+    ],
+    "center": [
+      50.08289,
+      14.8721
+    ],
+    "fromLabel": "Ul. Klučovská (u hřbitova)",
+    "toLabel": "Cesta podél hřbitova (sever)",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.08072,14.87283&destination=50.08427,14.87381&waypoints=50.08152,14.87210%7C50.08427,14.87210&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.87283%2C50.08072&x=14.87283&y=50.08072&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.87381%2C50.08427&x=14.87381&y=50.08427&z=16",
+    "dashed": true
+  },
+  {
+    "id": 11,
+    "name": "Obnovená cesta a Alej do Klučova",
+    "yearCat": "2022–2023",
+    "yearExact": "2022–2023",
+    "category": "stezka",
+    "fromTo": "Ul. Za Drahou (u Klučovské) → Polní cesta směr Klučov",
+    "lengthSurface": "2,2 km historická polní cesta s alejí (2023)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ČÁSTEČNĚ",
+    "mapyNote": "Ověřeno v OpenStreetMap",
+    "coords": [
+      [
+        50.08093,
+        14.87633
+      ],
+      [
+        50.08106,
+        14.87669
+      ],
+      [
+        50.08118,
+        14.87703
+      ],
+      [
+        50.08163,
+        14.87693
+      ],
+      [
+        50.08308,
+        14.87668
+      ],
+      [
+        50.0841,
+        14.87647
+      ],
+      [
+        50.08449,
+        14.87643
+      ],
+      [
+        50.08475,
+        14.87641
+      ],
+      [
+        50.08716,
+        14.87575
+      ],
+      [
+        50.08793,
+        14.87544
+      ],
+      [
+        50.08866,
+        14.87511
+      ],
+      [
+        50.09,
+        14.87421
+      ],
+      [
+        50.09004,
+        14.87421
+      ],
+      [
+        50.09008,
+        14.87424
+      ],
+      [
+        50.09016,
+        14.87436
+      ],
+      [
+        50.09029,
+        14.87471
+      ],
+      [
+        50.0904,
+        14.87504
+      ],
+      [
+        50.09049,
+        14.87552
+      ],
+      [
+        50.0906,
+        14.87608
+      ],
+      [
+        50.0907,
+        14.87662
+      ],
+      [
+        50.09079,
+        14.87723
+      ],
+      [
+        50.09097,
+        14.87818
+      ],
+      [
+        50.0911,
+        14.87896
+      ],
+      [
+        50.09129,
+        14.87972
+      ],
+      [
+        50.09155,
+        14.88066
+      ],
+      [
+        50.0918,
+        14.88154
+      ]
+    ],
+    "center": [
+      50.09008,
+      14.87424
+    ],
+    "fromLabel": "Ul. Za Drahou (u Klučovské)",
+    "toLabel": "Polní cesta směr Klučov",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.08105,14.87643&destination=50.09198,14.88132&waypoints=50.08551,14.87557%7C50.08986,14.87369&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.87643%2C50.08105&x=14.87643&y=50.08105&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.88132%2C50.09198&x=14.88132&y=50.09198&z=16",
+    "dashed": false
+  },
+  {
+    "id": 12,
+    "name": "Kudrnáčova stezka a aleje u Klučova",
+    "yearCat": "2022–2023",
+    "yearExact": "2022–2023",
+    "category": "stezka",
+    "fromTo": "Klučov (přes hradiště) → Jižní okraj Poříčan",
+    "lengthSurface": "2,5 km historická stezka + stromořadí",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Ověřeno v OpenStreetMap",
+    "coords": [
+      [
+        50.11024,
+        14.922
+      ],
+      [
+        50.11011,
+        14.92172
+      ],
+      [
+        50.11007,
+        14.9216
+      ],
+      [
+        50.10983,
+        14.92103
+      ],
+      [
+        50.10966,
+        14.92076
+      ],
+      [
+        50.10941,
+        14.92103
+      ],
+      [
+        50.10926,
+        14.92113
+      ],
+      [
+        50.10872,
+        14.92133
+      ],
+      [
+        50.10847,
+        14.92135
+      ],
+      [
+        50.10764,
+        14.92148
+      ],
+      [
+        50.1075,
+        14.92149
+      ],
+      [
+        50.10747,
+        14.92137
+      ],
+      [
+        50.10745,
+        14.92126
+      ],
+      [
+        50.10742,
+        14.92099
+      ],
+      [
+        50.1074,
+        14.91986
+      ],
+      [
+        50.10739,
+        14.91967
+      ],
+      [
+        50.10703,
+        14.91847
+      ],
+      [
+        50.10692,
+        14.91791
+      ],
+      [
+        50.10687,
+        14.91759
+      ],
+      [
+        50.10674,
+        14.91769
+      ],
+      [
+        50.10646,
+        14.9179
+      ],
+      [
+        50.10628,
+        14.91798
+      ],
+      [
+        50.10621,
+        14.918
+      ],
+      [
+        50.10577,
+        14.91799
+      ],
+      [
+        50.10556,
+        14.91801
+      ],
+      [
+        50.10548,
+        14.91803
+      ],
+      [
+        50.10516,
+        14.91814
+      ],
+      [
+        50.10489,
+        14.9186
+      ],
+      [
+        50.10478,
+        14.91885
+      ],
+      [
+        50.10471,
+        14.91909
+      ],
+      [
+        50.1046,
+        14.9196
+      ],
+      [
+        50.10455,
+        14.91985
+      ],
+      [
+        50.10451,
+        14.92007
+      ],
+      [
+        50.10377,
+        14.92027
+      ],
+      [
+        50.10367,
+        14.92011
+      ],
+      [
+        50.10363,
+        14.91999
+      ],
+      [
+        50.10362,
+        14.91982
+      ],
+      [
+        50.10364,
+        14.91968
+      ],
+      [
+        50.10373,
+        14.91938
+      ],
+      [
+        50.10381,
+        14.91905
+      ],
+      [
+        50.10363,
+        14.91852
+      ],
+      [
+        50.10343,
+        14.91805
+      ],
+      [
+        50.10336,
+        14.91772
+      ],
+      [
+        50.10322,
+        14.91744
+      ],
+      [
+        50.10304,
+        14.91718
+      ],
+      [
+        50.10261,
+        14.91656
+      ],
+      [
+        50.10194,
+        14.91622
+      ],
+      [
+        50.10124,
+        14.91602
+      ],
+      [
+        50.10083,
+        14.91595
+      ],
+      [
+        50.10046,
+        14.91596
+      ],
+      [
+        50.0994,
+        14.91611
+      ],
+      [
+        50.0988,
+        14.91596
+      ],
+      [
+        50.09854,
+        14.91587
+      ],
+      [
+        50.09775,
+        14.91551
+      ],
+      [
+        50.09773,
+        14.91549
+      ],
+      [
+        50.09775,
+        14.91535
+      ],
+      [
+        50.09785,
+        14.91282
+      ],
+      [
+        50.09788,
+        14.91278
+      ],
+      [
+        50.09794,
+        14.91275
+      ],
+      [
+        50.09816,
+        14.91275
+      ],
+      [
+        50.09818,
+        14.91271
+      ],
+      [
+        50.09826,
+        14.91122
+      ],
+      [
+        50.09832,
+        14.91089
+      ],
+      [
+        50.09803,
+        14.91077
+      ],
+      [
+        50.09797,
+        14.91075
+      ],
+      [
+        50.09794,
+        14.91074
+      ],
+      [
+        50.0976,
+        14.9108
+      ],
+      [
+        50.0973,
+        14.91079
+      ],
+      [
+        50.09714,
+        14.91081
+      ],
+      [
+        50.09678,
+        14.91101
+      ],
+      [
+        50.09664,
+        14.91112
+      ],
+      [
+        50.09654,
+        14.91123
+      ],
+      [
+        50.0965,
+        14.91131
+      ],
+      [
+        50.09645,
+        14.9115
+      ],
+      [
+        50.09638,
+        14.9119
+      ],
+      [
+        50.09634,
+        14.91217
+      ],
+      [
+        50.09631,
+        14.91232
+      ],
+      [
+        50.09621,
+        14.9126
+      ],
+      [
+        50.09617,
+        14.91281
+      ],
+      [
+        50.09617,
+        14.91293
+      ],
+      [
+        50.09612,
+        14.91292
+      ],
+      [
+        50.09583,
+        14.91267
+      ],
+      [
+        50.09575,
+        14.91265
+      ],
+      [
+        50.09547,
+        14.91259
+      ],
+      [
+        50.09518,
+        14.91248
+      ],
+      [
+        50.0951,
+        14.91244
+      ],
+      [
+        50.09499,
+        14.91233
+      ],
+      [
+        50.09465,
+        14.91191
+      ],
+      [
+        50.09434,
+        14.9114
+      ],
+      [
+        50.09466,
+        14.91095
+      ],
+      [
+        50.09477,
+        14.91077
+      ],
+      [
+        50.0949,
+        14.91051
+      ],
+      [
+        50.095,
+        14.91016
+      ],
+      [
+        50.09505,
+        14.90989
+      ],
+      [
+        50.09509,
+        14.90918
+      ],
+      [
+        50.09502,
+        14.90896
+      ],
+      [
+        50.09492,
+        14.90865
+      ],
+      [
+        50.09474,
+        14.90804
+      ],
+      [
+        50.09463,
+        14.90713
+      ],
+      [
+        50.09461,
+        14.90685
+      ],
+      [
+        50.09461,
+        14.90664
+      ],
+      [
+        50.09468,
+        14.90552
+      ]
+    ],
+    "center": [
+      50.0988,
+      14.91596
+    ],
+    "fromLabel": "Klučov (přes hradiště)",
+    "toLabel": "Jižní okraj Poříčan",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.09636,14.90845&destination=50.10759,14.91755&waypoints=50.09944,14.90896%7C50.10517,14.91360&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.90845%2C50.09636&x=14.90845&y=50.09636&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.91755%2C50.10759&x=14.91755&y=50.10759&z=16",
+    "dashed": false
+  },
+  {
+    "id": 13,
+    "name": "Alej „Žherák“ (Klučov – Žhery)",
+    "yearCat": "2024",
+    "yearExact": "2024",
+    "category": "stezka",
+    "fromTo": "JV okraj Klučova → Obec Žhery",
+    "lengthSurface": "1,4 km cesta + 34 stromů (2024)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Orientační průběh / v přípravě",
+    "coords": [
+      [
+        50.09504,
+        14.91154
+      ],
+      [
+        50.09327,
+        14.91755
+      ],
+      [
+        50.0914,
+        14.92355
+      ],
+      [
+        50.08953,
+        14.92956
+      ]
+    ],
+    "center": [
+      50.0914,
+      14.92355
+    ],
+    "fromLabel": "JV okraj Klučova",
+    "toLabel": "Obec Žhery",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.09504,14.91154&destination=50.08953,14.92956&waypoints=50.09327,14.91755%7C50.09140,14.92355&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.91154%2C50.09504&x=14.91154&y=50.09504&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.92956%2C50.08953&x=14.92956&y=50.08953&z=16",
+    "dashed": true
+  },
+  {
+    "id": 14,
+    "name": "Obnovená polní cesta Skramníky – Tatce",
+    "yearCat": "2024",
+    "yearExact": "2024",
+    "category": "stezka",
+    "fromTo": "SV okraj Skramníků → Směr JZ okraj Tatců",
+    "lengthSurface": "150 m obnovený úsek polní cesty (2024)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ČÁSTEČNĚ",
+    "mapyNote": "Orientační průběh / v přípravě",
+    "coords": [
+      [
+        50.08512,
+        14.96218
+      ],
+      [
+        50.087,
+        14.96613
+      ],
+      [
+        50.08887,
+        14.97025
+      ]
+    ],
+    "center": [
+      50.087,
+      14.96613
+    ],
+    "fromLabel": "SV okraj Skramníků",
+    "toLabel": "Směr JZ okraj Tatců",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.08512,14.96218&destination=50.08887,14.97025&waypoints=50.08700,14.96613&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.96218%2C50.08512&x=14.96218&y=50.08512&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.97025%2C50.08887&x=14.97025&y=50.08887&z=16",
+    "dashed": true
+  },
+  {
+    "id": 15,
+    "name": "Polní cesta C4 a Kočárová cesta KZ 7",
+    "yearCat": "2025",
+    "yearExact": "2025",
+    "category": "stezka",
+    "fromTo": "Východní okraj Chrášťan → Západní okraj Chotouně (C2)",
+    "lengthSurface": "1,8 km zpevněná cesta + alej (2025)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ČÁSTEČNĚ",
+    "mapyNote": "Orientační průběh / v přípravě",
+    "coords": [
+      [
+        50.06607,
+        14.93128
+      ],
+      [
+        50.0664,
+        14.939
+      ],
+      [
+        50.06684,
+        14.94724
+      ],
+      [
+        50.0675,
+        14.95531
+      ]
+    ],
+    "center": [
+      50.06684,
+      14.94724
+    ],
+    "fromLabel": "Východní okraj Chrášťan",
+    "toLabel": "Západní okraj Chotouně (C2)",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.06607,14.93128&destination=50.06750,14.95531&waypoints=50.06640,14.93900%7C50.06684,14.94724&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.93128%2C50.06607&x=14.93128&y=50.06607&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.95531%2C50.06750&x=14.95531&y=50.06750&z=16",
+    "dashed": true
+  },
+  {
+    "id": 16,
+    "name": "Cyklostezka Nad Malechovem – Přistoupim",
+    "yearCat": "Plán 2026+",
+    "yearExact": "Plán 2026+",
+    "category": "stezka",
+    "fromTo": "Ul. Přistoupimská (Nad Malechovem) → Severní okraj Přistoupimi (III/1131)",
+    "lengthSurface": "600 m, šířka 3 m podél III/1131 (Plán 2026+)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "NE",
+    "mapyNote": "Orientační průběh / v přípravě",
+    "coords": [
+      [
+        50.0694,
+        14.87811
+      ],
+      [
+        50.06794,
+        14.87712
+      ],
+      [
+        50.06656,
+        14.87626
+      ],
+      [
+        50.06527,
+        14.87596
+      ],
+      [
+        50.06389,
+        14.87652
+      ],
+      [
+        50.06251,
+        14.87712
+      ]
+    ],
+    "center": [
+      50.06527,
+      14.87596
+    ],
+    "fromLabel": "Ul. Přistoupimská (Nad Malechovem)",
+    "toLabel": "Severní okraj Přistoupimi (III/1131)",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.06940,14.87811&destination=50.06251,14.87712&waypoints=50.06656,14.87626%7C50.06389,14.87652&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.87811%2C50.06940&x=14.87811&y=50.06940&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.87712%2C50.06251&x=14.87712&y=50.06251&z=16",
+    "dashed": true
+  },
+  {
+    "id": 17,
+    "name": "Stezka ČB – Štolmíř podél silnice II/245",
+    "yearCat": "Plán 2026+",
+    "yearExact": "Plán 2026+",
+    "category": "stezka",
+    "fromTo": "Žitomířská × Na Vyhlídce → Českobrodská × Lichtenštejnská",
+    "lengthSurface": "950 m podél silnice II/245 (Plán 2026+)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "NE",
+    "mapyNote": "Orientační průběh / v přípravě",
+    "coords": [
+      [
+        50.07703,
+        14.85008
+      ],
+      [
+        50.07829,
+        14.84879
+      ],
+      [
+        50.07929,
+        14.84734
+      ],
+      [
+        50.07984,
+        14.84562
+      ],
+      [
+        50.08022,
+        14.84304
+      ],
+      [
+        50.08061,
+        14.84296
+      ],
+      [
+        50.08149,
+        14.84347
+      ],
+      [
+        50.0827,
+        14.84292
+      ]
+    ],
+    "center": [
+      50.08022,
+      14.84304
+    ],
+    "fromLabel": "Žitomířská × Na Vyhlídce",
+    "toLabel": "Českobrodská × Lichtenštejnská",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.07703,14.85008&destination=50.08270,14.84292&waypoints=50.07929,14.84734%7C50.08061,14.84296&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.85008%2C50.07703&x=14.85008&y=50.07703&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.84292%2C50.08270&x=14.84292&y=50.08270&z=16",
+    "dashed": true
+  },
+  {
+    "id": 18,
+    "name": "Stezka Na Kutilce – rybník Podviňák",
+    "yearCat": "2024",
+    "yearExact": "2024",
+    "category": "stezka",
+    "fromTo": "Areál Na Kutilce / Na Bělidle → Hráz a břeh rybníka Podviňák",
+    "lengthSurface": "650 m pěší a cyklo stezka kolem stadionu (2024)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Orientační průběh / v přípravě",
+    "coords": [
+      [
+        50.06623,
+        14.85463
+      ],
+      [
+        50.06554,
+        14.85309
+      ],
+      [
+        50.06472,
+        14.8518
+      ],
+      [
+        50.06353,
+        14.85137
+      ],
+      [
+        50.06259,
+        14.85107
+      ],
+      [
+        50.06155,
+        14.85051
+      ],
+      [
+        50.06031,
+        14.85
+      ],
+      [
+        50.05976,
+        14.85034
+      ]
+    ],
+    "center": [
+      50.06259,
+      14.85107
+    ],
+    "fromLabel": "Areál Na Kutilce / Na Bělidle",
+    "toLabel": "Hráz a břeh rybníka Podviňák",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.06623,14.85463&destination=50.05976,14.85034&waypoints=50.06472,14.85180%7C50.06155,14.85051&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.85463%2C50.06623&x=14.85463&y=50.06623&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.85034%2C50.05976&x=14.85034&y=50.05976&z=16",
+    "dashed": true
+  },
+  {
+    "id": 19,
+    "name": "Šemberské stezky – singletraily Tuchoraz",
+    "yearCat": "2020–2021",
+    "yearExact": "2020–2021",
+    "category": "stezka",
+    "fromTo": "Tuchoraz (nástup u lesa) → Lesní MTB okruh (5 km)",
+    "lengthSurface": "5 km MTB trailů v lese (modrý, červený, černý)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Ověřeno v OpenStreetMap",
+    "coords": [
+      [
+        [
+          50.04377,
+          14.84638
+        ],
+        [
+          50.04374,
+          14.84617
+        ],
+        [
+          50.04376,
+          14.84595
+        ],
+        [
+          50.04374,
+          14.84577
+        ],
+        [
+          50.04377,
+          14.84562
+        ],
+        [
+          50.04382,
+          14.8455
+        ],
+        [
+          50.04391,
+          14.84538
+        ],
+        [
+          50.04395,
+          14.84538
+        ],
+        [
+          50.04397,
+          14.8454
+        ],
+        [
+          50.044,
+          14.84561
+        ],
+        [
+          50.04402,
+          14.84565
+        ],
+        [
+          50.04406,
+          14.84565
+        ],
+        [
+          50.04408,
+          14.84563
+        ],
+        [
+          50.04411,
+          14.84543
+        ],
+        [
+          50.04412,
+          14.84539
+        ],
+        [
+          50.04414,
+          14.84538
+        ],
+        [
+          50.04417,
+          14.8454
+        ],
+        [
+          50.04422,
+          14.84556
+        ],
+        [
+          50.04424,
+          14.8456
+        ],
+        [
+          50.04427,
+          14.84562
+        ],
+        [
+          50.04429,
+          14.84562
+        ],
+        [
+          50.04435,
+          14.84558
+        ],
+        [
+          50.04437,
+          14.84553
+        ],
+        [
+          50.04436,
+          14.84547
+        ],
+        [
+          50.04431,
+          14.84533
+        ],
+        [
+          50.04421,
+          14.84514
+        ],
+        [
+          50.044,
+          14.84489
+        ],
+        [
+          50.04378,
+          14.84477
+        ],
+        [
+          50.04359,
+          14.84473
+        ],
+        [
+          50.04352,
+          14.84474
+        ],
+        [
+          50.04346,
+          14.8447
+        ],
+        [
+          50.04329,
+          14.84453
+        ],
+        [
+          50.04313,
+          14.84447
+        ],
+        [
+          50.043,
+          14.84437
+        ],
+        [
+          50.04278,
+          14.8443
+        ],
+        [
+          50.04276,
+          14.84428
+        ],
+        [
+          50.04276,
+          14.84425
+        ],
+        [
+          50.04277,
+          14.84422
+        ],
+        [
+          50.0428,
+          14.84421
+        ],
+        [
+          50.04306,
+          14.84423
+        ],
+        [
+          50.04328,
+          14.84418
+        ],
+        [
+          50.04335,
+          14.84419
+        ],
+        [
+          50.0435,
+          14.84431
+        ],
+        [
+          50.04355,
+          14.84431
+        ],
+        [
+          50.04368,
+          14.84429
+        ],
+        [
+          50.04372,
+          14.84429
+        ],
+        [
+          50.044,
+          14.84436
+        ],
+        [
+          50.04409,
+          14.84436
+        ],
+        [
+          50.04421,
+          14.8443
+        ],
+        [
+          50.04439,
+          14.8443
+        ],
+        [
+          50.04442,
+          14.84429
+        ],
+        [
+          50.04453,
+          14.84423
+        ],
+        [
+          50.04458,
+          14.84423
+        ],
+        [
+          50.04468,
+          14.84427
+        ],
+        [
+          50.04471,
+          14.84427
+        ],
+        [
+          50.04473,
+          14.84423
+        ],
+        [
+          50.04473,
+          14.84414
+        ],
+        [
+          50.04462,
+          14.84392
+        ],
+        [
+          50.04457,
+          14.84384
+        ],
+        [
+          50.04449,
+          14.84379
+        ],
+        [
+          50.0444,
+          14.84376
+        ],
+        [
+          50.04436,
+          14.84371
+        ],
+        [
+          50.04431,
+          14.84359
+        ],
+        [
+          50.04427,
+          14.84353
+        ],
+        [
+          50.04417,
+          14.84346
+        ],
+        [
+          50.04411,
+          14.84344
+        ],
+        [
+          50.04386,
+          14.84345
+        ],
+        [
+          50.04379,
+          14.84342
+        ],
+        [
+          50.04376,
+          14.84335
+        ],
+        [
+          50.04372,
+          14.84311
+        ],
+        [
+          50.0437,
+          14.84301
+        ],
+        [
+          50.04365,
+          14.84294
+        ],
+        [
+          50.04349,
+          14.84273
+        ],
+        [
+          50.04312,
+          14.84242
+        ],
+        [
+          50.04303,
+          14.84225
+        ],
+        [
+          50.04299,
+          14.8421
+        ],
+        [
+          50.04294,
+          14.84178
+        ],
+        [
+          50.04286,
+          14.84198
+        ],
+        [
+          50.04277,
+          14.8421
+        ],
+        [
+          50.04272,
+          14.84228
+        ],
+        [
+          50.04252,
+          14.84248
+        ],
+        [
+          50.04246,
+          14.84266
+        ],
+        [
+          50.04237,
+          14.84291
+        ],
+        [
+          50.04227,
+          14.84305
+        ],
+        [
+          50.04214,
+          14.84322
+        ],
+        [
+          50.04202,
+          14.84324
+        ],
+        [
+          50.04192,
+          14.84332
+        ],
+        [
+          50.0419,
+          14.84339
+        ],
+        [
+          50.04198,
+          14.84352
+        ],
+        [
+          50.0419,
+          14.84363
+        ],
+        [
+          50.04183,
+          14.84371
+        ],
+        [
+          50.04191,
+          14.84386
+        ],
+        [
+          50.04189,
+          14.84389
+        ],
+        [
+          50.04183,
+          14.84393
+        ],
+        [
+          50.0418,
+          14.84401
+        ],
+        [
+          50.04171,
+          14.84406
+        ],
+        [
+          50.04163,
+          14.84403
+        ],
+        [
+          50.04146,
+          14.84389
+        ],
+        [
+          50.04132,
+          14.84388
+        ],
+        [
+          50.04124,
+          14.84392
+        ],
+        [
+          50.04119,
+          14.84416
+        ],
+        [
+          50.04117,
+          14.84425
+        ],
+        [
+          50.04109,
+          14.8443
+        ],
+        [
+          50.04108,
+          14.84438
+        ],
+        [
+          50.0411,
+          14.84451
+        ],
+        [
+          50.04117,
+          14.84469
+        ],
+        [
+          50.04129,
+          14.84484
+        ],
+        [
+          50.04132,
+          14.84496
+        ],
+        [
+          50.04138,
+          14.84518
+        ],
+        [
+          50.04137,
+          14.84532
+        ],
+        [
+          50.04142,
+          14.84534
+        ],
+        [
+          50.04156,
+          14.84536
+        ],
+        [
+          50.04159,
+          14.84544
+        ],
+        [
+          50.04165,
+          14.84562
+        ]
+      ],
+      [
+        [
+          50.04049,
+          14.8336
+        ],
+        [
+          50.04046,
+          14.83361
+        ],
+        [
+          50.04037,
+          14.83371
+        ],
+        [
+          50.04033,
+          14.83371
+        ],
+        [
+          50.04016,
+          14.8337
+        ],
+        [
+          50.04005,
+          14.83362
+        ],
+        [
+          50.03993,
+          14.8335
+        ],
+        [
+          50.03986,
+          14.83349
+        ],
+        [
+          50.03985,
+          14.83356
+        ],
+        [
+          50.0399,
+          14.83369
+        ],
+        [
+          50.04001,
+          14.83386
+        ],
+        [
+          50.04018,
+          14.83422
+        ],
+        [
+          50.04031,
+          14.83448
+        ],
+        [
+          50.04042,
+          14.83464
+        ],
+        [
+          50.04055,
+          14.83479
+        ],
+        [
+          50.0407,
+          14.83493
+        ],
+        [
+          50.04084,
+          14.83499
+        ],
+        [
+          50.04087,
+          14.83503
+        ],
+        [
+          50.04079,
+          14.83506
+        ],
+        [
+          50.04067,
+          14.83506
+        ],
+        [
+          50.04055,
+          14.83508
+        ],
+        [
+          50.04047,
+          14.83515
+        ],
+        [
+          50.0405,
+          14.83522
+        ],
+        [
+          50.04057,
+          14.83526
+        ],
+        [
+          50.04062,
+          14.83527
+        ],
+        [
+          50.04071,
+          14.83536
+        ],
+        [
+          50.04082,
+          14.83547
+        ],
+        [
+          50.04082,
+          14.83551
+        ],
+        [
+          50.04058,
+          14.83555
+        ],
+        [
+          50.04045,
+          14.83564
+        ],
+        [
+          50.04047,
+          14.83573
+        ],
+        [
+          50.04054,
+          14.83576
+        ],
+        [
+          50.04065,
+          14.83578
+        ],
+        [
+          50.04064,
+          14.83588
+        ],
+        [
+          50.0405,
+          14.83601
+        ],
+        [
+          50.04034,
+          14.83596
+        ],
+        [
+          50.04017,
+          14.83587
+        ],
+        [
+          50.03998,
+          14.83567
+        ],
+        [
+          50.03992,
+          14.83559
+        ],
+        [
+          50.0398,
+          14.83561
+        ],
+        [
+          50.0397,
+          14.83563
+        ],
+        [
+          50.03965,
+          14.83568
+        ],
+        [
+          50.03992,
+          14.83599
+        ],
+        [
+          50.04006,
+          14.83622
+        ],
+        [
+          50.04021,
+          14.83641
+        ],
+        [
+          50.04028,
+          14.83663
+        ],
+        [
+          50.04031,
+          14.83675
+        ],
+        [
+          50.04018,
+          14.83666
+        ],
+        [
+          50.04006,
+          14.83649
+        ],
+        [
+          50.03991,
+          14.83647
+        ],
+        [
+          50.03983,
+          14.83652
+        ],
+        [
+          50.03976,
+          14.83657
+        ],
+        [
+          50.03984,
+          14.83668
+        ],
+        [
+          50.04001,
+          14.83679
+        ],
+        [
+          50.04009,
+          14.83694
+        ],
+        [
+          50.04013,
+          14.83709
+        ],
+        [
+          50.04028,
+          14.83723
+        ],
+        [
+          50.04032,
+          14.83732
+        ],
+        [
+          50.04028,
+          14.83749
+        ]
+      ],
+      [
+        [
+          50.04027,
+          14.84489
+        ],
+        [
+          50.0403,
+          14.84487
+        ],
+        [
+          50.04039,
+          14.84487
+        ],
+        [
+          50.04043,
+          14.84485
+        ],
+        [
+          50.04046,
+          14.8448
+        ],
+        [
+          50.04049,
+          14.84475
+        ],
+        [
+          50.04052,
+          14.84464
+        ],
+        [
+          50.04054,
+          14.84461
+        ],
+        [
+          50.04057,
+          14.84458
+        ],
+        [
+          50.04059,
+          14.84458
+        ],
+        [
+          50.04064,
+          14.8446
+        ],
+        [
+          50.04071,
+          14.84471
+        ],
+        [
+          50.04074,
+          14.84472
+        ],
+        [
+          50.04075,
+          14.8447
+        ],
+        [
+          50.04077,
+          14.84464
+        ],
+        [
+          50.04077,
+          14.84454
+        ],
+        [
+          50.04073,
+          14.84441
+        ],
+        [
+          50.04066,
+          14.84428
+        ],
+        [
+          50.0406,
+          14.84421
+        ],
+        [
+          50.04059,
+          14.84416
+        ],
+        [
+          50.04059,
+          14.84409
+        ],
+        [
+          50.04062,
+          14.84403
+        ],
+        [
+          50.04065,
+          14.84392
+        ],
+        [
+          50.04067,
+          14.84376
+        ],
+        [
+          50.04071,
+          14.84369
+        ],
+        [
+          50.04075,
+          14.84369
+        ],
+        [
+          50.04078,
+          14.84375
+        ],
+        [
+          50.04081,
+          14.84389
+        ],
+        [
+          50.04082,
+          14.84391
+        ],
+        [
+          50.04085,
+          14.84391
+        ],
+        [
+          50.04089,
+          14.84384
+        ],
+        [
+          50.04094,
+          14.84369
+        ],
+        [
+          50.04095,
+          14.84353
+        ],
+        [
+          50.04095,
+          14.84334
+        ],
+        [
+          50.04097,
+          14.84331
+        ],
+        [
+          50.04099,
+          14.84332
+        ],
+        [
+          50.04101,
+          14.84339
+        ],
+        [
+          50.04104,
+          14.84344
+        ],
+        [
+          50.04107,
+          14.84346
+        ],
+        [
+          50.04109,
+          14.84342
+        ],
+        [
+          50.04108,
+          14.84315
+        ],
+        [
+          50.04107,
+          14.84301
+        ],
+        [
+          50.04109,
+          14.84296
+        ],
+        [
+          50.04112,
+          14.84297
+        ],
+        [
+          50.04124,
+          14.84316
+        ],
+        [
+          50.04127,
+          14.8432
+        ],
+        [
+          50.04132,
+          14.84322
+        ],
+        [
+          50.04136,
+          14.84321
+        ],
+        [
+          50.04137,
+          14.84315
+        ],
+        [
+          50.04136,
+          14.84295
+        ],
+        [
+          50.04137,
+          14.84283
+        ],
+        [
+          50.0414,
+          14.84278
+        ],
+        [
+          50.04143,
+          14.84276
+        ],
+        [
+          50.04146,
+          14.84278
+        ],
+        [
+          50.04155,
+          14.8429
+        ],
+        [
+          50.04161,
+          14.84293
+        ],
+        [
+          50.04164,
+          14.84292
+        ],
+        [
+          50.04166,
+          14.84289
+        ],
+        [
+          50.0417,
+          14.84275
+        ],
+        [
+          50.04171,
+          14.84251
+        ],
+        [
+          50.04171,
+          14.84239
+        ],
+        [
+          50.04174,
+          14.84234
+        ],
+        [
+          50.04182,
+          14.84224
+        ],
+        [
+          50.04185,
+          14.84222
+        ],
+        [
+          50.04189,
+          14.84221
+        ],
+        [
+          50.04191,
+          14.84223
+        ],
+        [
+          50.04202,
+          14.84245
+        ],
+        [
+          50.04204,
+          14.84245
+        ],
+        [
+          50.04207,
+          14.84244
+        ],
+        [
+          50.04208,
+          14.84238
+        ],
+        [
+          50.04208,
+          14.84231
+        ],
+        [
+          50.04204,
+          14.84217
+        ],
+        [
+          50.04195,
+          14.84198
+        ],
+        [
+          50.04181,
+          14.84181
+        ],
+        [
+          50.04173,
+          14.84173
+        ],
+        [
+          50.04167,
+          14.84166
+        ],
+        [
+          50.04166,
+          14.84161
+        ],
+        [
+          50.04167,
+          14.84158
+        ],
+        [
+          50.04169,
+          14.84156
+        ],
+        [
+          50.04172,
+          14.84156
+        ],
+        [
+          50.04185,
+          14.84163
+        ],
+        [
+          50.04193,
+          14.84166
+        ],
+        [
+          50.04195,
+          14.84164
+        ],
+        [
+          50.04195,
+          14.84161
+        ],
+        [
+          50.0419,
+          14.84155
+        ],
+        [
+          50.04178,
+          14.84142
+        ],
+        [
+          50.04175,
+          14.84136
+        ],
+        [
+          50.04175,
+          14.84131
+        ],
+        [
+          50.04179,
+          14.84127
+        ],
+        [
+          50.04185,
+          14.84126
+        ],
+        [
+          50.04207,
+          14.84128
+        ],
+        [
+          50.04218,
+          14.84131
+        ],
+        [
+          50.04239,
+          14.84145
+        ],
+        [
+          50.04243,
+          14.84145
+        ],
+        [
+          50.04249,
+          14.8414
+        ],
+        [
+          50.04254,
+          14.84133
+        ],
+        [
+          50.04253,
+          14.84122
+        ]
+      ],
+      [
+        [
+          50.0414,
+          14.83878
+        ],
+        [
+          50.04141,
+          14.83852
+        ],
+        [
+          50.04145,
+          14.83817
+        ],
+        [
+          50.0415,
+          14.83779
+        ],
+        [
+          50.04159,
+          14.83754
+        ],
+        [
+          50.04169,
+          14.83738
+        ],
+        [
+          50.04179,
+          14.83708
+        ],
+        [
+          50.04187,
+          14.83687
+        ],
+        [
+          50.04194,
+          14.83674
+        ],
+        [
+          50.04197,
+          14.83661
+        ],
+        [
+          50.04197,
+          14.83651
+        ],
+        [
+          50.04195,
+          14.83638
+        ],
+        [
+          50.04194,
+          14.83625
+        ],
+        [
+          50.04194,
+          14.83612
+        ],
+        [
+          50.04197,
+          14.836
+        ],
+        [
+          50.042,
+          14.8359
+        ],
+        [
+          50.04203,
+          14.83582
+        ],
+        [
+          50.04209,
+          14.83595
+        ],
+        [
+          50.04212,
+          14.83603
+        ],
+        [
+          50.04227,
+          14.83644
+        ],
+        [
+          50.0423,
+          14.83662
+        ],
+        [
+          50.04229,
+          14.83668
+        ],
+        [
+          50.04224,
+          14.83673
+        ],
+        [
+          50.04215,
+          14.83667
+        ],
+        [
+          50.04209,
+          14.83658
+        ],
+        [
+          50.04202,
+          14.83669
+        ],
+        [
+          50.04205,
+          14.83676
+        ],
+        [
+          50.0421,
+          14.83697
+        ],
+        [
+          50.0421,
+          14.83711
+        ],
+        [
+          50.04187,
+          14.83702
+        ],
+        [
+          50.0418,
+          14.83712
+        ],
+        [
+          50.04183,
+          14.83742
+        ],
+        [
+          50.04185,
+          14.8376
+        ],
+        [
+          50.04178,
+          14.83764
+        ],
+        [
+          50.04157,
+          14.8376
+        ],
+        [
+          50.04151,
+          14.83756
+        ],
+        [
+          50.04143,
+          14.83753
+        ],
+        [
+          50.0414,
+          14.8376
+        ],
+        [
+          50.04142,
+          14.8378
+        ],
+        [
+          50.04143,
+          14.83791
+        ],
+        [
+          50.04141,
+          14.83794
+        ],
+        [
+          50.04126,
+          14.8379
+        ],
+        [
+          50.04124,
+          14.83794
+        ],
+        [
+          50.0413,
+          14.83818
+        ],
+        [
+          50.04135,
+          14.83829
+        ],
+        [
+          50.04145,
+          14.83836
+        ],
+        [
+          50.04155,
+          14.83846
+        ],
+        [
+          50.04157,
+          14.8386
+        ],
+        [
+          50.04149,
+          14.83865
+        ],
+        [
+          50.04129,
+          14.83864
+        ]
+      ],
+      [
+        [
+          50.03983,
+          14.84409
+        ],
+        [
+          50.03998,
+          14.84383
+        ],
+        [
+          50.04016,
+          14.84355
+        ],
+        [
+          50.04033,
+          14.84337
+        ],
+        [
+          50.04035,
+          14.84318
+        ],
+        [
+          50.04032,
+          14.84298
+        ],
+        [
+          50.04046,
+          14.84265
+        ],
+        [
+          50.04047,
+          14.84227
+        ],
+        [
+          50.04038,
+          14.8417
+        ],
+        [
+          50.04042,
+          14.84146
+        ],
+        [
+          50.04065,
+          14.84134
+        ],
+        [
+          50.04077,
+          14.84117
+        ],
+        [
+          50.04094,
+          14.84092
+        ],
+        [
+          50.04099,
+          14.84073
+        ],
+        [
+          50.04108,
+          14.8406
+        ],
+        [
+          50.04105,
+          14.84036
+        ]
+      ],
+      [
+        [
+          50.03929,
+          14.83823
+        ],
+        [
+          50.03936,
+          14.83855
+        ],
+        [
+          50.03954,
+          14.83912
+        ],
+        [
+          50.03954,
+          14.83921
+        ],
+        [
+          50.0395,
+          14.8392
+        ],
+        [
+          50.03918,
+          14.83883
+        ],
+        [
+          50.0391,
+          14.83883
+        ],
+        [
+          50.03912,
+          14.83893
+        ],
+        [
+          50.03929,
+          14.83942
+        ],
+        [
+          50.03929,
+          14.83949
+        ],
+        [
+          50.03913,
+          14.8394
+        ],
+        [
+          50.03909,
+          14.83943
+        ],
+        [
+          50.03908,
+          14.8395
+        ],
+        [
+          50.0392,
+          14.83975
+        ],
+        [
+          50.03919,
+          14.83979
+        ],
+        [
+          50.03905,
+          14.83978
+        ],
+        [
+          50.03902,
+          14.83981
+        ],
+        [
+          50.03903,
+          14.83998
+        ],
+        [
+          50.03903,
+          14.84008
+        ],
+        [
+          50.03903,
+          14.84013
+        ],
+        [
+          50.03892,
+          14.84021
+        ],
+        [
+          50.0389,
+          14.84036
+        ]
+      ],
+      [
+        [
+          50.03897,
+          14.84093
+        ],
+        [
+          50.0392,
+          14.8412
+        ],
+        [
+          50.03966,
+          14.8417
+        ],
+        [
+          50.03982,
+          14.84192
+        ],
+        [
+          50.04006,
+          14.84223
+        ],
+        [
+          50.04,
+          14.84221
+        ],
+        [
+          50.03975,
+          14.84199
+        ],
+        [
+          50.03956,
+          14.84193
+        ],
+        [
+          50.03952,
+          14.84196
+        ],
+        [
+          50.03951,
+          14.84207
+        ]
+      ],
+      [
+        [
+          50.0423,
+          14.83662
+        ],
+        [
+          50.04242,
+          14.8368
+        ],
+        [
+          50.04242,
+          14.83689
+        ],
+        [
+          50.04231,
+          14.83697
+        ],
+        [
+          50.04222,
+          14.83701
+        ],
+        [
+          50.04222,
+          14.83715
+        ],
+        [
+          50.04222,
+          14.83722
+        ],
+        [
+          50.04225,
+          14.83739
+        ],
+        [
+          50.04217,
+          14.83741
+        ],
+        [
+          50.0421,
+          14.83733
+        ],
+        [
+          50.04201,
+          14.83733
+        ],
+        [
+          50.04189,
+          14.83737
+        ],
+        [
+          50.04183,
+          14.83742
+        ]
+      ],
+      [
+        [
+          50.04194,
+          14.83512
+        ],
+        [
+          50.04191,
+          14.83526
+        ],
+        [
+          50.04193,
+          14.8356
+        ],
+        [
+          50.04203,
+          14.83582
+        ]
+      ]
+    ],
+    "center": [
+      50.04038,
+      14.8417
+    ],
+    "fromLabel": "Tuchoraz (nástup u lesa)",
+    "toLabel": "Lesní MTB okruh (5 km)",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.04843,14.84596&destination=50.04843,14.84596&waypoints=50.04237,14.84287%7C50.04656,14.84219&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.84596%2C50.04843&x=14.84596&y=50.04843&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.84596%2C50.04843&x=14.84596&y=50.04843&z=16",
+    "dashed": false
+  },
+  {
+    "id": 20,
+    "name": "Zastavení u Šembery + Lávka u Skautské louky",
+    "yearCat": "2024",
+    "yearExact": "2024",
+    "category": "stezka",
+    "fromTo": "Kamenný mostek (Na Šamtalech) → Lávka u Skautské louky → Na Zámkách",
+    "lengthSurface": "3,5 km údolím Šembery, nová lávka a 3 altány",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Ověřeno v OpenStreetMap",
+    "coords": [
+      [
+        50.02249,
+        14.81507
+      ],
+      [
+        50.02288,
+        14.81522
+      ],
+      [
+        50.02322,
+        14.81551
+      ],
+      [
+        50.02448,
+        14.81632
+      ],
+      [
+        50.02476,
+        14.81646
+      ],
+      [
+        50.02503,
+        14.81654
+      ],
+      [
+        50.02507,
+        14.81651
+      ],
+      [
+        50.02527,
+        14.81642
+      ],
+      [
+        50.02537,
+        14.81629
+      ],
+      [
+        50.02542,
+        14.81616
+      ],
+      [
+        50.02569,
+        14.81652
+      ],
+      [
+        50.02586,
+        14.81655
+      ],
+      [
+        50.02614,
+        14.8169
+      ],
+      [
+        50.02637,
+        14.81717
+      ],
+      [
+        50.02678,
+        14.81745
+      ],
+      [
+        50.02705,
+        14.81754
+      ],
+      [
+        50.02721,
+        14.81748
+      ],
+      [
+        50.02737,
+        14.81722
+      ],
+      [
+        50.02747,
+        14.81731
+      ],
+      [
+        50.02755,
+        14.81736
+      ],
+      [
+        50.02826,
+        14.81772
+      ],
+      [
+        50.02841,
+        14.81789
+      ],
+      [
+        50.02858,
+        14.81814
+      ],
+      [
+        50.02871,
+        14.81836
+      ],
+      [
+        50.02886,
+        14.8187
+      ],
+      [
+        50.02898,
+        14.819
+      ],
+      [
+        50.02923,
+        14.81962
+      ],
+      [
+        50.02934,
+        14.81992
+      ],
+      [
+        50.02939,
+        14.82013
+      ],
+      [
+        50.02922,
+        14.8203
+      ],
+      [
+        50.0291,
+        14.82061
+      ],
+      [
+        50.02893,
+        14.82102
+      ],
+      [
+        50.0288,
+        14.82136
+      ],
+      [
+        50.02878,
+        14.82195
+      ],
+      [
+        50.02883,
+        14.82227
+      ],
+      [
+        50.02891,
+        14.82276
+      ],
+      [
+        50.02908,
+        14.82318
+      ],
+      [
+        50.02925,
+        14.82359
+      ],
+      [
+        50.02947,
+        14.82424
+      ],
+      [
+        50.02967,
+        14.8247
+      ],
+      [
+        50.02982,
+        14.82503
+      ],
+      [
+        50.03007,
+        14.82547
+      ],
+      [
+        50.03035,
+        14.82609
+      ],
+      [
+        50.03043,
+        14.8264
+      ],
+      [
+        50.03053,
+        14.82659
+      ],
+      [
+        50.03069,
+        14.82676
+      ],
+      [
+        50.03083,
+        14.82684
+      ],
+      [
+        50.03112,
+        14.82713
+      ],
+      [
+        50.03176,
+        14.82812
+      ],
+      [
+        50.03274,
+        14.82927
+      ],
+      [
+        50.03343,
+        14.82971
+      ],
+      [
+        50.03444,
+        14.83073
+      ],
+      [
+        50.03494,
+        14.83129
+      ],
+      [
+        50.03516,
+        14.83164
+      ],
+      [
+        50.03554,
+        14.833
+      ],
+      [
+        50.03561,
+        14.83356
+      ],
+      [
+        50.03576,
+        14.83398
+      ],
+      [
+        50.03622,
+        14.83474
+      ],
+      [
+        50.03703,
+        14.83549
+      ],
+      [
+        50.0379,
+        14.83663
+      ],
+      [
+        50.03857,
+        14.83749
+      ],
+      [
+        50.03872,
+        14.83764
+      ],
+      [
+        50.03878,
+        14.8377
+      ],
+      [
+        50.03887,
+        14.8378
+      ],
+      [
+        50.03916,
+        14.83809
+      ],
+      [
+        50.03929,
+        14.83823
+      ],
+      [
+        50.03944,
+        14.83848
+      ],
+      [
+        50.03954,
+        14.83866
+      ],
+      [
+        50.04006,
+        14.83967
+      ],
+      [
+        50.04034,
+        14.83991
+      ],
+      [
+        50.04099,
+        14.84033
+      ],
+      [
+        50.04105,
+        14.84036
+      ],
+      [
+        50.04147,
+        14.84058
+      ],
+      [
+        50.04158,
+        14.84057
+      ],
+      [
+        50.04165,
+        14.84053
+      ],
+      [
+        50.04173,
+        14.84042
+      ],
+      [
+        50.04187,
+        14.84017
+      ],
+      [
+        50.04199,
+        14.84025
+      ],
+      [
+        50.04242,
+        14.84073
+      ],
+      [
+        50.04268,
+        14.84091
+      ],
+      [
+        50.04288,
+        14.84114
+      ],
+      [
+        50.04301,
+        14.84131
+      ],
+      [
+        50.04328,
+        14.84158
+      ],
+      [
+        50.04353,
+        14.84178
+      ],
+      [
+        50.04382,
+        14.84206
+      ],
+      [
+        50.04395,
+        14.8423
+      ],
+      [
+        50.04405,
+        14.84244
+      ],
+      [
+        50.04419,
+        14.84262
+      ],
+      [
+        50.04431,
+        14.84273
+      ],
+      [
+        50.04443,
+        14.84285
+      ],
+      [
+        50.04448,
+        14.84291
+      ],
+      [
+        50.04463,
+        14.84321
+      ],
+      [
+        50.04483,
+        14.84352
+      ],
+      [
+        50.04496,
+        14.84369
+      ],
+      [
+        50.04503,
+        14.84379
+      ],
+      [
+        50.04518,
+        14.84397
+      ],
+      [
+        50.04527,
+        14.84407
+      ],
+      [
+        50.04544,
+        14.84427
+      ],
+      [
+        50.04557,
+        14.84451
+      ],
+      [
+        50.04575,
+        14.84503
+      ],
+      [
+        50.0458,
+        14.84514
+      ],
+      [
+        50.04588,
+        14.84535
+      ],
+      [
+        50.04596,
+        14.84555
+      ],
+      [
+        50.04602,
+        14.84566
+      ],
+      [
+        50.04606,
+        14.84574
+      ],
+      [
+        50.04615,
+        14.84572
+      ],
+      [
+        50.04624,
+        14.84572
+      ],
+      [
+        50.04635,
+        14.84571
+      ]
+    ],
+    "center": [
+      50.03554,
+      14.833
+    ],
+    "fromLabel": "Kamenný mostek (Na Šamtalech)",
+    "toLabel": "Lávka u Skautské louky → Na Zámkách",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.04237,14.84287&destination=50.02715,14.82262&waypoints=50.03520,14.83395%7C50.02969,14.82571&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.84287%2C50.04237&x=14.84287&y=50.04237&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.82262%2C50.02715&x=14.82262&y=50.02715&z=16",
+    "dashed": false
+  },
+  {
+    "id": 21,
+    "name": "Hravá naučná stezka Ekocentrum Vrátkov",
+    "yearCat": "2022–2023",
+    "yearExact": "2022–2023",
+    "category": "stezka",
+    "fromTo": "Západní okraj Tuchorazi → Ekocentrum Vrátkov (čp. 38)",
+    "lengthSurface": "1,2 km stezka s herními prvky mimo hlavní tah",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ČÁSTEČNĚ",
+    "mapyNote": "Orientační průběh / v přípravě",
+    "coords": [
+      [
+        50.04986,
+        14.84425
+      ],
+      [
+        50.04942,
+        14.83978
+      ],
+      [
+        50.04876,
+        14.83532
+      ]
+    ],
+    "center": [
+      50.04942,
+      14.83978
+    ],
+    "fromLabel": "Západní okraj Tuchorazi",
+    "toLabel": "Ekocentrum Vrátkov (čp. 38)",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.04986,14.84425&destination=50.04876,14.83532&waypoints=50.04942,14.83978&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.84425%2C50.04986&x=14.84425&y=50.04986&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.83532%2C50.04876&x=14.83532&y=50.04876&z=16",
+    "dashed": true
+  },
+  {
+    "id": 22,
+    "name": "Mrzecká cesta a alej (Limuzy – Mrzky)",
+    "yearCat": "2026",
+    "yearExact": "2026",
+    "category": "stezka",
+    "fromTo": "JV okraj Limuz (parc. 688) → SZ okraj obce Mrzky",
+    "lengthSurface": "1,6 km polní cesta s alejí (obnova 2026)",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Ověřeno v OpenStreetMap",
+    "coords": [
+      [
+        [
+          50.04555,
+          14.81182
+        ],
+        [
+          50.04553,
+          14.81158
+        ],
+        [
+          50.04552,
+          14.81146
+        ],
+        [
+          50.04526,
+          14.81111
+        ],
+        [
+          50.04508,
+          14.81082
+        ],
+        [
+          50.045,
+          14.81018
+        ],
+        [
+          50.04535,
+          14.80964
+        ],
+        [
+          50.04539,
+          14.80958
+        ],
+        [
+          50.04552,
+          14.80942
+        ],
+        [
+          50.04562,
+          14.80946
+        ],
+        [
+          50.04573,
+          14.8095
+        ],
+        [
+          50.04583,
+          14.80955
+        ],
+        [
+          50.04584,
+          14.80894
+        ],
+        [
+          50.04583,
+          14.80842
+        ],
+        [
+          50.04603,
+          14.80808
+        ],
+        [
+          50.04614,
+          14.80787
+        ],
+        [
+          50.04623,
+          14.80748
+        ],
+        [
+          50.04627,
+          14.80709
+        ],
+        [
+          50.04633,
+          14.80673
+        ],
+        [
+          50.04642,
+          14.80649
+        ],
+        [
+          50.04649,
+          14.80637
+        ],
+        [
+          50.04656,
+          14.80623
+        ],
+        [
+          50.04677,
+          14.80596
+        ],
+        [
+          50.04664,
+          14.80511
+        ],
+        [
+          50.04659,
+          14.80461
+        ],
+        [
+          50.04642,
+          14.80398
+        ],
+        [
+          50.0461,
+          14.80281
+        ],
+        [
+          50.04578,
+          14.80165
+        ],
+        [
+          50.04559,
+          14.80119
+        ],
+        [
+          50.04544,
+          14.80068
+        ],
+        [
+          50.04508,
+          14.79946
+        ],
+        [
+          50.04451,
+          14.79818
+        ],
+        [
+          50.04406,
+          14.79707
+        ]
+      ],
+      [
+        [
+          50.05721,
+          14.7854
+        ],
+        [
+          50.0572,
+          14.78572
+        ],
+        [
+          50.05705,
+          14.78716
+        ],
+        [
+          50.05699,
+          14.78802
+        ],
+        [
+          50.05698,
+          14.78846
+        ],
+        [
+          50.05697,
+          14.78859
+        ],
+        [
+          50.057,
+          14.7887
+        ],
+        [
+          50.05702,
+          14.78888
+        ],
+        [
+          50.05757,
+          14.78918
+        ],
+        [
+          50.05797,
+          14.78936
+        ],
+        [
+          50.05803,
+          14.78942
+        ],
+        [
+          50.05809,
+          14.78953
+        ],
+        [
+          50.05825,
+          14.78992
+        ],
+        [
+          50.05848,
+          14.79033
+        ]
+      ]
+    ],
+    "center": [
+      50.05702,
+      14.78888
+    ],
+    "fromLabel": "JV okraj Limuz (parc. 688)",
+    "toLabel": "SZ okraj obce Mrzky",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.05835,14.79172&destination=50.04700,14.80888&waypoints=50.05471,14.79738%7C50.05097,14.80305&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.79172%2C50.05835&x=14.79172&y=50.05835&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.80888%2C50.04700&x=14.80888&y=50.04700&z=16",
+    "dashed": false
+  },
+  {
+    "id": 23,
+    "name": "Obnovená Naučná stezka Klepec (říjen 2026)",
+    "yearCat": "2026",
+    "yearExact": "2026",
+    "category": "stezka",
+    "fromTo": "Skřivany (Přišimasy) → Vrchol Klepec (358 m) → Limuzy",
+    "lengthSurface": "1,0 km, altán s houpací sítí, nové tabule",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Ověřeno v OpenStreetMap",
+    "coords": [
+      [
+        [
+          50.04923,
+          14.77183
+        ],
+        [
+          50.04904,
+          14.77266
+        ],
+        [
+          50.04903,
+          14.77278
+        ],
+        [
+          50.04903,
+          14.7729
+        ],
+        [
+          50.04904,
+          14.77297
+        ],
+        [
+          50.04907,
+          14.773
+        ],
+        [
+          50.04904,
+          14.77297
+        ],
+        [
+          50.04903,
+          14.7729
+        ],
+        [
+          50.04903,
+          14.77278
+        ],
+        [
+          50.04904,
+          14.77266
+        ],
+        [
+          50.04923,
+          14.77183
+        ],
+        [
+          50.04904,
+          14.77266
+        ],
+        [
+          50.04903,
+          14.77278
+        ],
+        [
+          50.04903,
+          14.7729
+        ],
+        [
+          50.04904,
+          14.77297
+        ],
+        [
+          50.04907,
+          14.773
+        ],
+        [
+          50.04904,
+          14.77332
+        ],
+        [
+          50.04901,
+          14.77349
+        ],
+        [
+          50.04876,
+          14.7745
+        ],
+        [
+          50.04868,
+          14.77505
+        ],
+        [
+          50.04855,
+          14.77673
+        ],
+        [
+          50.04848,
+          14.77733
+        ],
+        [
+          50.04848,
+          14.77736
+        ],
+        [
+          50.04845,
+          14.77748
+        ],
+        [
+          50.04833,
+          14.77789
+        ],
+        [
+          50.04827,
+          14.77824
+        ],
+        [
+          50.04812,
+          14.77877
+        ],
+        [
+          50.04807,
+          14.77916
+        ],
+        [
+          50.04812,
+          14.77877
+        ],
+        [
+          50.04827,
+          14.77824
+        ],
+        [
+          50.04833,
+          14.77789
+        ],
+        [
+          50.04845,
+          14.77748
+        ],
+        [
+          50.04848,
+          14.77736
+        ],
+        [
+          50.04848,
+          14.77733
+        ],
+        [
+          50.04855,
+          14.77673
+        ],
+        [
+          50.04868,
+          14.77505
+        ],
+        [
+          50.04876,
+          14.7745
+        ],
+        [
+          50.04901,
+          14.77349
+        ],
+        [
+          50.04904,
+          14.77332
+        ],
+        [
+          50.04907,
+          14.773
+        ],
+        [
+          50.04904,
+          14.77297
+        ],
+        [
+          50.04903,
+          14.7729
+        ],
+        [
+          50.04903,
+          14.77278
+        ],
+        [
+          50.04904,
+          14.77266
+        ],
+        [
+          50.04923,
+          14.77183
+        ]
+      ],
+      [
+        [
+          50.04807,
+          14.77916
+        ],
+        [
+          50.04815,
+          14.77934
+        ],
+        [
+          50.04818,
+          14.7794
+        ],
+        [
+          50.04827,
+          14.77948
+        ],
+        [
+          50.04855,
+          14.7796
+        ],
+        [
+          50.04865,
+          14.77968
+        ],
+        [
+          50.04876,
+          14.77977
+        ],
+        [
+          50.04901,
+          14.77984
+        ],
+        [
+          50.04919,
+          14.77988
+        ],
+        [
+          50.0493,
+          14.77993
+        ],
+        [
+          50.04997,
+          14.78023
+        ],
+        [
+          50.05116,
+          14.78072
+        ],
+        [
+          50.05137,
+          14.78077
+        ],
+        [
+          50.05181,
+          14.78078
+        ],
+        [
+          50.05192,
+          14.78076
+        ],
+        [
+          50.05181,
+          14.78078
+        ],
+        [
+          50.05137,
+          14.78077
+        ],
+        [
+          50.05116,
+          14.78072
+        ],
+        [
+          50.04997,
+          14.78023
+        ],
+        [
+          50.0493,
+          14.77993
+        ],
+        [
+          50.04919,
+          14.77988
+        ],
+        [
+          50.04901,
+          14.77984
+        ],
+        [
+          50.04876,
+          14.77977
+        ],
+        [
+          50.04865,
+          14.77968
+        ],
+        [
+          50.04855,
+          14.7796
+        ],
+        [
+          50.04827,
+          14.77948
+        ],
+        [
+          50.04818,
+          14.7794
+        ],
+        [
+          50.04815,
+          14.77934
+        ],
+        [
+          50.04807,
+          14.77916
+        ],
+        [
+          50.04812,
+          14.77877
+        ],
+        [
+          50.04827,
+          14.77824
+        ],
+        [
+          50.04833,
+          14.77789
+        ],
+        [
+          50.04845,
+          14.77748
+        ],
+        [
+          50.04848,
+          14.77736
+        ],
+        [
+          50.04848,
+          14.77733
+        ],
+        [
+          50.04855,
+          14.77673
+        ],
+        [
+          50.04868,
+          14.77505
+        ],
+        [
+          50.04876,
+          14.7745
+        ],
+        [
+          50.04901,
+          14.77349
+        ],
+        [
+          50.04904,
+          14.77332
+        ],
+        [
+          50.04907,
+          14.773
+        ]
+      ]
+    ],
+    "center": [
+      50.04919,
+      14.77988
+    ],
+    "fromLabel": "Skřivany (Přišimasy)",
+    "toLabel": "Vrchol Klepec (358 m) → Limuzy",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.05174,14.77283&destination=50.05725,14.78880&waypoints=50.05097,14.77627%7C50.05339,14.78485&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.77283%2C50.05174&x=14.77283&y=50.05174&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.78880%2C50.05725&x=14.78880&y=50.05725&z=16",
+    "dashed": false
+  },
+  {
+    "id": 24,
+    "name": "Chodníky 2024–2026 (Štolmířská – Želivského)",
+    "yearCat": "2026",
+    "yearExact": "2026",
+    "category": "stezka",
+    "fromTo": "Ul. Štolmířská (jaro 2026) → Ul. Žižkova, Želivského, Tyršova",
+    "lengthSurface": "Bezbariérové chodníky v uliční síti ČB",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Ověřeno v OpenStreetMap",
+    "coords": [
+      [
+        50.07643,
+        14.84883
+      ],
+      [
+        50.07626,
+        14.84817
+      ],
+      [
+        50.07579,
+        14.84845
+      ],
+      [
+        50.07554,
+        14.84859
+      ],
+      [
+        50.07524,
+        14.84869
+      ],
+      [
+        50.07428,
+        14.84903
+      ],
+      [
+        50.07348,
+        14.84937
+      ],
+      [
+        50.0734,
+        14.84939
+      ],
+      [
+        50.0734,
+        14.84944
+      ],
+      [
+        50.07338,
+        14.84993
+      ],
+      [
+        50.07335,
+        14.85068
+      ],
+      [
+        50.07334,
+        14.85088
+      ],
+      [
+        50.07329,
+        14.85201
+      ],
+      [
+        50.07329,
+        14.85215
+      ],
+      [
+        50.07326,
+        14.85303
+      ],
+      [
+        50.07326,
+        14.85334
+      ],
+      [
+        50.07325,
+        14.85364
+      ],
+      [
+        50.07323,
+        14.85427
+      ],
+      [
+        50.07321,
+        14.85471
+      ],
+      [
+        50.0732,
+        14.85486
+      ],
+      [
+        50.0732,
+        14.85492
+      ],
+      [
+        50.07319,
+        14.85495
+      ],
+      [
+        50.07326,
+        14.85505
+      ],
+      [
+        50.07348,
+        14.85533
+      ],
+      [
+        50.0737,
+        14.85561
+      ],
+      [
+        50.07378,
+        14.8557
+      ],
+      [
+        50.07386,
+        14.85582
+      ],
+      [
+        50.07392,
+        14.85591
+      ],
+      [
+        50.07419,
+        14.85636
+      ],
+      [
+        50.07467,
+        14.85716
+      ],
+      [
+        50.07472,
+        14.85725
+      ],
+      [
+        50.07478,
+        14.85738
+      ]
+    ],
+    "center": [
+      50.07325,
+      14.85364
+    ],
+    "fromLabel": "Ul. Štolmířská (jaro 2026)",
+    "toLabel": "Ul. Žižkova, Želivského, Tyršova",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.07620,14.84879&destination=50.07510,14.85781&waypoints=50.07317,14.85085%7C50.07361,14.85592&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.84879%2C50.07620&x=14.84879&y=50.07620&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.85781%2C50.07510&x=14.85781&y=50.07510&z=16",
+    "dashed": false
+  },
+  {
+    "id": 25,
+    "name": "Chodníky 2020–2023 (Palackého – Krále Jiřího)",
+    "yearCat": "2020–2021",
+    "yearExact": "2020–2021",
+    "category": "stezka",
+    "fromTo": "Sídliště Palackého → B. Němcové → náměstí → Krále Jiřího",
+    "lengthSurface": "Chodníky ze zámkové dlažby a přechody",
+    "suitableFor": "Pěší, rodiny s dětmi, kolo",
+    "mapyStatus": "ANO",
+    "mapyNote": "Ověřeno v OpenStreetMap",
+    "coords": [
+      [
+        50.06695,
+        14.84826
+      ],
+      [
+        50.06709,
+        14.84846
+      ],
+      [
+        50.06726,
+        14.84874
+      ],
+      [
+        50.06795,
+        14.84959
+      ],
+      [
+        50.06817,
+        14.84981
+      ],
+      [
+        50.06851,
+        14.85018
+      ],
+      [
+        50.06859,
+        14.8503
+      ],
+      [
+        50.06864,
+        14.85038
+      ],
+      [
+        50.0687,
+        14.85049
+      ],
+      [
+        50.06875,
+        14.8506
+      ],
+      [
+        50.069,
+        14.85118
+      ],
+      [
+        50.06909,
+        14.85136
+      ],
+      [
+        50.06919,
+        14.85158
+      ],
+      [
+        50.06935,
+        14.8519
+      ],
+      [
+        50.06939,
+        14.85199
+      ],
+      [
+        50.06944,
+        14.85206
+      ],
+      [
+        50.06965,
+        14.85236
+      ],
+      [
+        50.06971,
+        14.85242
+      ],
+      [
+        50.06982,
+        14.85255
+      ],
+      [
+        50.0704,
+        14.85327
+      ],
+      [
+        50.07065,
+        14.85363
+      ],
+      [
+        50.07094,
+        14.85407
+      ],
+      [
+        50.07104,
+        14.85426
+      ],
+      [
+        50.07142,
+        14.85516
+      ],
+      [
+        50.0715,
+        14.85535
+      ],
+      [
+        50.07152,
+        14.85541
+      ],
+      [
+        50.07191,
+        14.85638
+      ],
+      [
+        50.07203,
+        14.85664
+      ],
+      [
+        50.07213,
+        14.85683
+      ],
+      [
+        50.07221,
+        14.85697
+      ],
+      [
+        50.07244,
+        14.85725
+      ],
+      [
+        50.07268,
+        14.85755
+      ],
+      [
+        50.07279,
+        14.85769
+      ],
+      [
+        50.07282,
+        14.85774
+      ],
+      [
+        50.07283,
+        14.85776
+      ],
+      [
+        50.07303,
+        14.85814
+      ],
+      [
+        50.07333,
+        14.85886
+      ],
+      [
+        50.07335,
+        14.8589
+      ],
+      [
+        50.07331,
+        14.85893
+      ],
+      [
+        50.07309,
+        14.85913
+      ],
+      [
+        50.07308,
+        14.85914
+      ],
+      [
+        50.07327,
+        14.85978
+      ],
+      [
+        50.07341,
+        14.86009
+      ],
+      [
+        50.07347,
+        14.86051
+      ],
+      [
+        50.07355,
+        14.86046
+      ],
+      [
+        50.0736,
+        14.86042
+      ],
+      [
+        50.07375,
+        14.86033
+      ],
+      [
+        50.07387,
+        14.8603
+      ],
+      [
+        50.0739,
+        14.86081
+      ],
+      [
+        50.07407,
+        14.86109
+      ],
+      [
+        50.07416,
+        14.86098
+      ],
+      [
+        50.07437,
+        14.8607
+      ],
+      [
+        50.0744,
+        14.86074
+      ],
+      [
+        50.07442,
+        14.86078
+      ],
+      [
+        50.07464,
+        14.86113
+      ],
+      [
+        50.07471,
+        14.86125
+      ],
+      [
+        50.07476,
+        14.86135
+      ],
+      [
+        50.07493,
+        14.86168
+      ],
+      [
+        50.07497,
+        14.86176
+      ],
+      [
+        50.07504,
+        14.86189
+      ],
+      [
+        50.07511,
+        14.86204
+      ],
+      [
+        50.07549,
+        14.86274
+      ],
+      [
+        50.07552,
+        14.8628
+      ],
+      [
+        50.07547,
+        14.86287
+      ],
+      [
+        50.0755,
+        14.86295
+      ],
+      [
+        50.0755,
+        14.86296
+      ],
+      [
+        50.0755,
+        14.86298
+      ],
+      [
+        50.0755,
+        14.86299
+      ],
+      [
+        50.0755,
+        14.86299
+      ],
+      [
+        50.0755,
+        14.86301
+      ],
+      [
+        50.0755,
+        14.86302
+      ],
+      [
+        50.07549,
+        14.86303
+      ],
+      [
+        50.07549,
+        14.86303
+      ],
+      [
+        50.07548,
+        14.86304
+      ],
+      [
+        50.0755,
+        14.86314
+      ],
+      [
+        50.07551,
+        14.86322
+      ],
+      [
+        50.07554,
+        14.86322
+      ],
+      [
+        50.07559,
+        14.86326
+      ],
+      [
+        50.0756,
+        14.86327
+      ],
+      [
+        50.07561,
+        14.86329
+      ],
+      [
+        50.07564,
+        14.86341
+      ],
+      [
+        50.07581,
+        14.86399
+      ],
+      [
+        50.07601,
+        14.86463
+      ],
+      [
+        50.07604,
+        14.8648
+      ],
+      [
+        50.07606,
+        14.86491
+      ],
+      [
+        50.07608,
+        14.865
+      ],
+      [
+        50.07598,
+        14.86544
+      ],
+      [
+        50.076,
+        14.86558
+      ],
+      [
+        50.07608,
+        14.86615
+      ],
+      [
+        50.07608,
+        14.86615
+      ],
+      [
+        50.07596,
+        14.86619
+      ],
+      [
+        50.0759,
+        14.86627
+      ],
+      [
+        50.07585,
+        14.86638
+      ],
+      [
+        50.0756,
+        14.86657
+      ]
+    ],
+    "center": [
+      50.07387,
+      14.8603
+    ],
+    "fromLabel": "Sídliště Palackého",
+    "toLabel": "B. Němcové → náměstí → Krále Jiřího",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.06700,14.84837&destination=50.07582,14.86695&waypoints=50.06976,14.85266%7C50.07270,14.85922&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.84837%2C50.06700&x=14.84837&y=50.06700&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.86695%2C50.07582&x=14.86695&y=50.07582&z=16",
+    "dashed": false
+  }
+];
 
     // Sídla pro orientaci v mapě
     const TOWNS = [
@@ -795,12 +5301,10 @@
       currentMapMode = mode;
       const bOsm = document.getElementById("modeBtnOsm");
       const bDet = document.getElementById("modeBtnDetailed");
-      const bSch = document.getElementById("modeBtnSchematic");
       const activeCls = "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition";
       const idleCls = "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] transition";
-      bOsm.className = mode === "osm" ? activeCls : idleCls;
-      bDet.className = mode === "detailed" ? activeCls : idleCls;
-      bSch.className = mode === "schematic" ? activeCls : idleCls;
+      if (bOsm) bOsm.className = mode === "osm" ? activeCls : idleCls;
+      if (bDet) bDet.className = mode === "detailed" ? activeCls : idleCls;
       renderMapAndList();
     }
 
@@ -849,11 +5353,7 @@
       } else {
         lCont.classList.add("hidden");
         sCont.classList.remove("hidden");
-        if (currentMapMode === "schematic") {
-          renderSchematicSvg(filtered);
-        } else {
-          renderDetailedGeoSvg(filtered);
-        }
+        renderDetailedGeoSvg(filtered);
       }
 
       renderRouteDetailCard();
@@ -899,9 +5399,18 @@
           leafletMap.panTo(r.center);
         });
 
-        if (isSel && r.coords.length >= 2) {
-          const startPt = r.coords[0];
-          const endPt = r.coords[r.coords.length - 1];
+        let startPt = null;
+        let endPt = null;
+        if (Array.isArray(r.coords[0]) && Array.isArray(r.coords[0][0])) {
+          const firstSeg = r.coords[0];
+          const lastSeg = r.coords[r.coords.length - 1];
+          startPt = firstSeg[0];
+          endPt = lastSeg[lastSeg.length - 1];
+        } else if (Array.isArray(r.coords) && r.coords.length >= 2) {
+          startPt = r.coords[0];
+          endPt = r.coords[r.coords.length - 1];
+        }
+        if (isSel && startPt && endPt) {
           const aIcon = L.divIcon({
             className: "",
             html: `<div class="leaflet-badge-icon" style="width:20px;height:20px;background:#16a34a;font-size:10px;">A</div>`,
@@ -1036,54 +5545,6 @@
         svg += `<g onclick="selectRoute(${r.id})" class="cursor-pointer">`;
         svg += `<circle cx="${bx}" cy="${by}" r="${rad}" fill="${col}" stroke="${isSel ? '#0f172a' : '#ffffff'}" stroke-width="${isSel ? 2.5 : 1.5}"/>`;
         svg += `<text x="${bx}" y="${Number(by)+3.5}" fill="#ffffff" font-size="9.5" font-weight="800" text-anchor="middle">${r.id}</text>`;
-        svg += `</g>`;
-      });
-
-      svg += `</svg>`;
-      document.getElementById("svgMapContainer").innerHTML = svg;
-    }
-
-    function renderSchematicSvg(filtered) {
-      // Schematický plánek vycházkových okruhů z Českého Brodu
-      const W = 820, H = 620;
-      const schematicPos = {
-        1: [370, 145], 2: [225, 125], 3: [315, 215], 4: [285, 240],
-        5: [265, 175], 6: [155, 235], 7: [95, 145], 8: [535, 245],
-        9: [495, 315], 10: [485, 195], 11: [585, 145], 12: [665, 95],
-        13: [705, 155], 14: [755, 195], 15: [695, 425], 16: [545, 395],
-        17: [285, 268], 18: [405, 365], 19: [435, 495], 20: [345, 555],
-        21: [245, 485], 22: [195, 385], 23: [95, 455], 24: [395, 265], 25: [425, 295]
-      };
-
-      let svg = `<svg viewBox="0 0 ${W} ${H}" class="w-full h-auto select-none">`;
-      svg += `<rect width="${W}" height="${H}" fill="#f8fafc"/>`;
-
-      // Paprsky z centra Českého Brodu (410, 280)
-      const CX = 410, CY = 280;
-      filtered.forEach(r => {
-        const [tx, ty] = schematicPos[r.id] || [CX, CY];
-        const col = YEAR_COLORS[r.yearCat];
-        const isSel = r.id === selectedRouteId;
-        const dash = r.dashed ? 'stroke-dasharray="7,5"' : '';
-        svg += `<line x1="${CX}" y1="${CY}" x2="${tx}" y2="${ty}" stroke="${col}" stroke-width="${isSel ? 6 : 3.5}" ${dash} opacity="${isSel ? 0.95 : 0.55}" onclick="selectRoute(${r.id})" class="cursor-pointer"/>`;
-      });
-
-      // Středový uzel Český Brod
-      svg += `<rect x="${CX-68}" y="${CY-28}" width="136" height="56" rx="14" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5"/>`;
-      svg += `<text x="${CX}" y="${CY-4}" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle">ČESKÝ BROD</text>`;
-      svg += `<text x="${CX}" y="${CY+14}" fill="#94a3b8" font-size="10" font-weight="600" text-anchor="middle">Výchozí bod tras</text>`;
-
-      // Uzly jednotlivých cílů
-      filtered.forEach(r => {
-        const [tx, ty] = schematicPos[r.id] || [CX, CY];
-        const col = YEAR_COLORS[r.yearCat];
-        const isSel = r.id === selectedRouteId;
-        const shortName = r.name.length > 28 ? r.name.slice(0, 26) + "…" : r.name;
-
-        svg += `<g onclick="selectRoute(${r.id})" class="cursor-pointer">`;
-        svg += `<rect x="${tx-82}" y="${ty-18}" width="164" height="36" rx="9" fill="${isSel ? col : '#ffffff'}" stroke="${col}" stroke-width="${isSel ? 3 : 2}"/>`;
-        svg += `<text x="${tx}" y="${ty-2}" fill="${isSel ? '#ffffff' : '#0f172a'}" font-size="10" font-weight="800" text-anchor="middle">#${r.id} ${shortName}</text>`;
-        svg += `<text x="${tx}" y="${ty+11}" fill="${isSel ? '#f8fafc' : '#64748b'}" font-size="9.5" font-weight="700" text-anchor="middle">${r.yearCat} • Mapy.cz: ${r.mapyStatus}</text>`;
         svg += `</g>`;
       });
 

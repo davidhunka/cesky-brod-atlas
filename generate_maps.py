@@ -331,7 +331,8 @@ def sync_html():
             "gmapsDirUrl": p.get("google_maps_trasa_A_B", ""),
             "mapyStartUrl": p.get("mapy_cz_start_A", ""),
             "mapyEndUrl": p.get("mapy_cz_cil_B", ""),
-            "dashed": not is_osm
+            "dashed": not is_osm,
+            "source": p.get("zdroj", "")
         }
         routes_js_items.append(item)
 

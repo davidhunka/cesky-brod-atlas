@@ -18,7 +18,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "přibližná",
-        "stroke-dasharray": "8,6"
+        "stroke-dasharray": "8,6",
+        "zdroj": "SPÚ Kolín – KoPÚ k.ú. Štolmíř (cesta P9) & Odbor rozvoje města Český Brod"
       },
       "geometry": {
         "type": "LineString",
@@ -91,7 +92,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "OSM",
-        "stroke-dasharray": null
+        "stroke-dasharray": null,
+        "zdroj": "SPÚ Kolín – KoPÚ Štolmíř (hlavní polní cesta HPC 4, kolaudace 2021, Středočeská ovocná stezka)"
       },
       "geometry": {
         "type": "LineString",
@@ -208,7 +210,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "OSM",
-        "stroke-dasharray": null
+        "stroke-dasharray": null,
+        "zdroj": "Město Český Brod – profil zadavatele E-ZAK (zakázka „Polní cesta P3 a biocentrum Na Útulně“, OPŽP)"
       },
       "geometry": {
         "type": "LineString",
@@ -365,7 +368,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "OSM",
-        "stroke-dasharray": null
+        "stroke-dasharray": null,
+        "zdroj": "Město Český Brod – Broďáci Brodu & spolek Sázíme stromy (výsadby a obnova cesty 2021–2025)"
       },
       "geometry": {
         "type": "LineString",
@@ -590,7 +594,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "přibližná",
-        "stroke-dasharray": "8,6"
+        "stroke-dasharray": "8,6",
+        "zdroj": "SPÚ Kolín – realizace plánu společných zařízení (biokoridor LBK 14 Štolmířský potok, 1,2 mil. Kč)"
       },
       "geometry": {
         "type": "LineString",
@@ -667,7 +672,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "přibližná",
-        "stroke-dasharray": "8,6"
+        "stroke-dasharray": "8,6",
+        "zdroj": "SPÚ Kolín – KoPÚ k.ú. Rostoklaty (polní cesta P6 s doprovodnou zelení, ÚP Rostoklaty)"
       },
       "geometry": {
         "type": "LineString",
@@ -708,7 +714,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "přibližná",
-        "stroke-dasharray": "8,6"
+        "stroke-dasharray": "8,6",
+        "zdroj": "SPÚ Kolín – KoPÚ Tuklaty a Břežany II (polní cesta C6 „Mlýnská“, 1,3 km asfalt + alej, 2022)"
       },
       "geometry": {
         "type": "LineString",
@@ -753,7 +760,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "OSM",
-        "stroke-dasharray": null
+        "stroke-dasharray": null,
+        "zdroj": "Město Český Brod – Odbor rozvoje & TS Český Brod (obnova nábřežní stezky Šembery 2021–2024)"
       },
       "geometry": {
         "type": "LineString",
@@ -862,7 +870,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "přibližná",
-        "stroke-dasharray": "8,6"
+        "stroke-dasharray": "8,6",
+        "zdroj": "Město Český Brod – Schválený rozpočet 2025/2026 (výkupy parcel 118/1 a 118/7 u PRO-DOMA, E-ZAK)"
       },
       "geometry": {
         "type": "LineString",
@@ -919,7 +928,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "přibližná",
-        "stroke-dasharray": "8,6"
+        "stroke-dasharray": "8,6",
+        "zdroj": "Spolek Sázíme stromy & Město Český Brod (komunitní výsadba 20 vzrostlých lip u hřbitova, březen 2026)"
       },
       "geometry": {
         "type": "LineString",
@@ -964,7 +974,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "OSM",
-        "stroke-dasharray": null
+        "stroke-dasharray": null,
+        "zdroj": "Obec Klučov & spolek NeKluč z.s. ve spolupráci s městem Český Brod (obnova polní cesty a aleje)"
       },
       "geometry": {
         "type": "LineString",
@@ -1093,7 +1104,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "OSM",
-        "stroke-dasharray": null
+        "stroke-dasharray": null,
+        "zdroj": "Klub českých turistů (KČT), Obec Klučov & MAS Zálabí (obnova historické stezky a alejí 2022–2026)"
       },
       "geometry": {
         "type": "LineString",
@@ -1526,7 +1538,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "přibližná",
-        "stroke-dasharray": "8,6"
+        "stroke-dasharray": "8,6",
+        "zdroj": "Obec Klučov & spolek Sázíme stromy (výsadba 34 stromů podél cesty do Žher 2022–2024)"
       },
       "geometry": {
         "type": "LineString",
@@ -1567,7 +1580,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "přibližná",
-        "stroke-dasharray": "8,6"
+        "stroke-dasharray": "8,6",
+        "zdroj": "Obec Klučov (Skramníky) a Obec Tatce ve spolupráci se spolkem Sázíme stromy (březen 2024)"
       },
       "geometry": {
         "type": "LineString",
@@ -1604,7 +1618,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "přibližná",
-        "stroke-dasharray": "8,6"
+        "stroke-dasharray": "8,6",
+        "zdroj": "SPÚ Kolín – KoPÚ Chrášťany u Českého Brodu (polní cesta C4 a kočárová cesta KZ 7, dokončeno 2025)"
       },
       "geometry": {
         "type": "LineString",
@@ -1645,7 +1660,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "přibližná",
-        "stroke-dasharray": "8,6"
+        "stroke-dasharray": "8,6",
+        "zdroj": "Město Český Brod a Obec Přistoupim – Smlouva o spolupráci a profil E-ZAK (příprava cyklostezky III/1131)"
       },
       "geometry": {
         "type": "LineString",
@@ -1694,7 +1710,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "přibližná",
-        "stroke-dasharray": "8,6"
+        "stroke-dasharray": "8,6",
+        "zdroj": "Město Český Brod – profil zadavatele E-ZAK (vysoutěžená PD na páteřní cyklostezku podél II/245)"
       },
       "geometry": {
         "type": "LineString",
@@ -1751,7 +1768,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "přibližná",
-        "stroke-dasharray": "8,6"
+        "stroke-dasharray": "8,6",
+        "zdroj": "Město Český Brod – Fond komunikací & participativní rozpočet Broďáci Brodu (areál Na Kutilce)"
       },
       "geometry": {
         "type": "LineString",
@@ -1808,7 +1826,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "OSM",
-        "stroke-dasharray": null
+        "stroke-dasharray": null,
+        "zdroj": "Spolek Šemberské stezky z.s. & Obec Tuchoraz (oficiální 5km lesní MTB singletraily od r. 2020)"
       },
       "geometry": {
         "type": "MultiLineString",
@@ -3391,7 +3410,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "OSM",
-        "stroke-dasharray": null
+        "stroke-dasharray": null,
+        "zdroj": "Městské lesy Český Brod s.r.o. (lávka u Skautské louky, 3 odpočívadla a rekonstrukce Cesty lásky 2025)"
       },
       "geometry": {
         "type": "LineString",
@@ -3848,7 +3868,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "přibližná",
-        "stroke-dasharray": "8,6"
+        "stroke-dasharray": "8,6",
+        "zdroj": "Ekocentrum Vrátkov z.s. & Obec Tuchoraz s podporou Fondu hejtmanky Středočeského kraje (2021–2023)"
       },
       "geometry": {
         "type": "LineString",
@@ -3885,7 +3906,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "OSM",
-        "stroke-dasharray": null
+        "stroke-dasharray": null,
+        "zdroj": "Obec Tismice – Program rozvoje obce, obnova aleje na parc. 688 k.ú. Limuzy (Ovocná stezka)"
       },
       "geometry": {
         "type": "MultiLineString",
@@ -4102,7 +4124,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "OSM",
-        "stroke-dasharray": null
+        "stroke-dasharray": null,
+        "zdroj": "Obec Přišimasy – Program obnovy venkova Středočeského kraje (rekonstrukce NS Klepec, říjen 2026)"
       },
       "geometry": {
         "type": "MultiLineString",
@@ -4475,7 +4498,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "OSM",
-        "stroke-dasharray": null
+        "stroke-dasharray": null,
+        "zdroj": "Město Český Brod – profil E-ZAK, Fond komunikací města a TS Český Brod (veřejné zakázky chodníků)"
       },
       "geometry": {
         "type": "LineString",
@@ -4628,7 +4652,8 @@
         "stroke-width": 5,
         "stroke-opacity": 0.9,
         "presnost": "OSM",
-        "stroke-dasharray": null
+        "stroke-dasharray": null,
+        "zdroj": "Město Český Brod – Státní fond dopravní infrastruktury (SFDI) a IROP (dotační programy bezpečnosti)"
       },
       "geometry": {
         "type": "LineString",

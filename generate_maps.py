@@ -339,8 +339,8 @@ def sync_html():
     routes_json = json.dumps(routes_js_items, ensure_ascii=False, indent=2)
 
     # Replace const ROUTES = [...] in index.html
-    pattern = r"const ROUTES = \[.*?\];\n\n    // Sídla"
-    replacement = f"const ROUTES = {routes_json};\n\n    // Sídla"
+    pattern = r"const ROUTES = \[.*?\];\s*\n\s*// ==="
+    replacement = f"const ROUTES = {routes_json};\n\n    // ==="
     html = re.sub(pattern, replacement, html, flags=re.DOTALL)
 
     with open(html_path, "w", encoding="utf-8") as f:

@@ -3,251 +3,443 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Český Brod — Atlas obnovených stezek a Rozpočet města (2020–2026)</title>
+  <title>Český Brod — Datový atlas obnovených cest a městských financí (2020–2026)</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     :root {
-      --background: #f8fafc;
-      --foreground: #0f172a;
-      --card: #ffffff;
-      --border: #e2e8f0;
-      --muted-foreground: #64748b;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --background: #0f172a;
-        --foreground: #f8fafc;
-        --card: #1e293b;
-        --border: #334155;
-        --muted-foreground: #94a3b8;
-      }
+      --bg-page: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --accent-ink: #0f172a;
     }
     body {
-      background-color: var(--background);
-      color: var(--foreground);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     }
-    .route-line { transition: stroke-width 0.2s ease, opacity 0.2s ease; cursor: pointer; }
-    .route-line:hover { stroke-width: 8px; }
-    .sankey-path { transition: opacity 0.2s ease; cursor: pointer; }
-    .sankey-path:hover { opacity: 0.78 !important; }
+    .font-mono-num {
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-variant-numeric: tabular-nums;
+    }
+    .sankey-path {
+      transition: opacity 0.15s ease;
+      cursor: pointer;
+    }
+    .sankey-path:hover {
+      opacity: 0.82 !important;
+    }
     .leaflet-badge-icon {
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 9999px;
       color: #ffffff;
-      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
       font-size: 11px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.45);
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.45);
       border: 2px solid #ffffff;
+      transition: transform 0.15s ease;
     }
+    /* Custom thin scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
   </style>
 </head>
-<body class="bg-[var(--background)] text-[var(--foreground)] antialiased p-4 md:p-6">
+<body class="antialiased selection:bg-slate-900 selection:text-white">
 
-  <!-- Hlavní kontejner -->
-  <div class="max-w-7xl mx-auto space-y-5">
-
-    <!-- Horní lišta s přepínačem sekcí -->
-    <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-      <div>
-        <div class="flex items-center gap-2.5">
-          <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-sky-500/15 text-sky-500 border border-sky-500/30">IČO 00235334</span>
-          <span class="text-xs font-semibold text-[var(--muted-foreground)]">Město Český Brod &amp; region Českobrodsko • Otevřená data 2020–2026</span>
+  <!-- TOP EDITORIAL MASTHEAD -->
+  <header class="bg-white border-b border-slate-200">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      
+      <!-- Top metadata line -->
+      <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-slate-100 text-xs text-slate-500">
+        <div class="flex items-center gap-3">
+          <span class="font-mono-num font-semibold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">IČO 00235334</span>
+          <span class="font-medium uppercase tracking-wider text-slate-500">Město Český Brod &amp; mikroregion Českobrodsko</span>
         </div>
-        <h1 class="text-xl md:text-2xl font-bold mt-1 text-[var(--foreground)]">
-          Atlas obnovených cest a stezek Českobrodska &amp; Rozpočet města
-        </h1>
-        <p class="text-sm text-[var(--muted-foreground)] mt-0.5">
-          Přepínejte mezi vycházkovými mapami (s kontrolou viditelnosti na Mapy.cz) a finančními toky rozpočtu ve stylu App Economy Insights.
-        </p>
-      </div>
-
-      <!-- Hlavní přepínač Cíl 1 vs Cíl 2 -->
-      <div class="flex flex-wrap gap-2">
-        <button id="tabBtnMap" onclick="switchMainTab('map')" class="px-4 py-2.5 rounded-xl text-sm font-bold transition border bg-sky-600 text-white border-sky-600 shadow-sm">
-          🗺️ 1. Mapa stezek a cest (2020–2026)
-        </button>
-        <button id="tabBtnBudget" onclick="switchMainTab('budget')" class="px-4 py-2.5 rounded-xl text-sm font-bold transition border bg-[var(--background)] text-[var(--foreground)] border-[var(--border)] hover:border-sky-500/50">
-          📊 2. Rozpočet města (Sankey 2023–2026)
-        </button>
-      </div>
-    </div>
-
-    <!-- ================================================================== -->
-    <!-- SEKCE 1: MAPA ČESKOBRODSKA A OBNOVENÝCH STEZEK                     -->
-    <!-- ================================================================== -->
-    <div id="sectionMap" class="space-y-5">
-
-      <!-- Ovládací panel mapy -->
-      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm space-y-4">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-[var(--border)] pb-3">
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">Režim mapy:</span>
-            <button id="modeBtnOsm" onclick="setMapMode('osm')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition">
-              🗺️ Interaktivní OpenStreetMap (Zoom &amp; Detaily)
-            </button>
-            <button id="modeBtnDetailed" onclick="setMapMode('detailed')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] transition">
-              📍 Vektorový přehled (WGS-84)
-            </button>
-          </div>
-
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">Kontrola Mapy.cz:</span>
-            <select id="filterMapyCz" onchange="renderMapAndList()" class="bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] rounded-lg px-3 py-1.5 text-xs font-semibold">
-              <option value="all">Všechny stavy na Mapy.cz (25 tras)</option>
-              <option value="ANO">✅ Plně viditelné a routovatelné na Mapy.cz (17)</option>
-              <option value="ČÁSTEČNĚ">⚠️ Částečně (bez názvu nebo nového povrchu) (6)</option>
-              <option value="NE">🚧 Zatím nejsou na Mapy.cz – v přípravě (2)</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Filtr podle roku obnovy a typu -->
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-          <div class="flex items-center gap-1.5 flex-wrap" id="yearFilterBar">
-            <span class="text-xs font-bold text-[var(--muted-foreground)] mr-1">Rok obnovy:</span>
-            <button onclick="setYearFilter('all')" data-year="all" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-sky-600 text-white">Vše (25)</button>
-            <button onclick="setYearFilter('2020–2021')" data-year="2020–2021" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-[var(--background)] border border-[var(--border)] text-blue-500">● 2020–2021</button>
-            <button onclick="setYearFilter('2022–2023')" data-year="2022–2023" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-[var(--background)] border border-[var(--border)] text-teal-500">● 2022–2023</button>
-            <button onclick="setYearFilter('2024')" data-year="2024" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-[var(--background)] border border-[var(--border)] text-green-500">● 2024</button>
-            <button onclick="setYearFilter('2025')" data-year="2025" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-[var(--background)] border border-[var(--border)] text-orange-500">● 2025</button>
-            <button onclick="setYearFilter('2026')" data-year="2026" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-[var(--background)] border border-[var(--border)] text-pink-500">● 2026 (Nové)</button>
-            <button onclick="setYearFilter('Plán 2026+')" data-year="Plán 2026+" class="year-btn px-3 py-1 rounded-lg text-xs font-bold bg-[var(--background)] border border-[var(--border)] text-purple-500">◌ Plán 2026+</button>
-          </div>
-
-          <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-[var(--muted-foreground)]">Typ:</span>
-            <select id="filterCategory" onchange="renderMapAndList()" class="bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] rounded-lg px-3 py-1.5 text-xs font-semibold">
-              <option value="all">Všechny typy cest a stezek</option>
-              <option value="polni">🌾 Krajinné polní cesty a biokoridory (KPÚ/SPÚ)</option>
-              <option value="alej">🌳 Obnovené aleje a přírodní pěší cesty</option>
-              <option value="stezka">🚴 Cyklostezky, údolní a lesní naučné stezky</option>
-              <option value="chodnik">🚶 Městské chodníky a bezbariérové trasy</option>
-            </select>
-          </div>
+        <div class="font-mono-num text-slate-500">
+          Otevřená data: SPÚ • E-ZAK • Monitor MF ČR • OpenStreetMap (2020–2026)
         </div>
       </div>
 
-      <!-- Hlavní dvousloupcový layout: Interaktivní mapa vlevo + Detail vybrané trasy a seznam vpravo -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-
-        <!-- Mapové plátno (7 sloupců) -->
-        <div class="lg:col-span-7 bg-[var(--card)] border border-[var(--border)] rounded-2xl p-3 shadow-sm flex flex-col">
-          <div class="flex items-center justify-between px-2 pb-2">
-            <span id="mapCanvasTitle" class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">
-              Klikněte na libovolnou trasu nebo číslo v mapě pro detail odkud–kam vede
-            </span>
-            <span class="text-xs font-semibold text-sky-500">Souřadnice WGS-84 → přímý proklik na Mapy.cz</span>
-          </div>
-
-          <div id="leafletMapContainer" class="w-full h-[640px] overflow-hidden rounded-xl border border-[var(--border)] z-0"></div>
-          <div id="svgMapContainer" class="hidden w-full overflow-hidden rounded-xl border border-[var(--border)] bg-slate-50 dark:bg-slate-900">
-            <!-- SVG mapa se vykreslí dynamicky pomocí JS -->
-          </div>
-        </div>
-
-        <!-- Detail vybrané trasy + seznam tras (5 sloupců) -->
-        <div class="lg:col-span-5 flex flex-col gap-4">
-
-          <!-- Karta vybrané trasy -->
-          <div id="routeDetailCard" class="bg-[var(--card)] border-2 border-sky-500/60 rounded-2xl p-4 shadow-sm space-y-3">
-            <!-- Dynamicky plněno JS -->
-          </div>
-
-          <!-- Seznam vyfiltrovaných tras -->
-          <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm flex-1">
-            <div class="flex items-center justify-between mb-3">
-              <h3 class="text-sm font-bold text-[var(--foreground)]">Seznam tras (<span id="routeCountBadge">25</span>)</h3>
-              <span class="text-xs text-[var(--muted-foreground)]">Kliknutím zvýrazníte v mapě</span>
-            </div>
-            <div id="routeListContainer" class="space-y-2 max-h-[430px] overflow-y-auto pr-1">
-              <!-- Dynamicky plněno JS -->
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- ================================================================== -->
-    <!-- SEKCE 2: ROZPOČET MĚSTA VE STYLU APP ECONOMY INSIGHTS (2023–2026)  -->
-    <!-- ================================================================== -->
-    <div id="sectionBudget" class="hidden space-y-5">
-
-      <!-- Ovládací lišta rozpočtu (výběr roku) -->
-      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h2 class="text-lg font-bold text-[var(--foreground)]">Český Brod — Jak město hospodaří (Sankey diagram toků peněz)</h2>
-          <p class="text-xs text-[var(--muted-foreground)]">
-            Data z Monitoru Státní pokladny MF ČR (výkaz FIN 2-12 M), Závěrečných účtů a Schváleného rozpočtu města (č. j. 3558/2026).
+      <!-- Main Title & Purpose Statement -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="lg:col-span-5">
+          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 leading-tight">
+            Obnovené cesty v krajině a&nbsp;městské finance pod lupou
+          </h1>
+          <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+            Nezávislý datový přehled, který na jednom místě propojuje fyzický rozvoj města v terénu s reálnými toky peněz z veřejných rozpočtů a účetních uzávěrek.
           </p>
         </div>
-        <div class="flex items-center gap-2 flex-wrap">
-          <span class="text-xs font-bold text-[var(--muted-foreground)]">Období:</span>
-          <button onclick="setBudgetYear('2023')" data-byear="2023" class="byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]">
-            Skutečnost 2023
-          </button>
-          <button onclick="setBudgetYear('2024')" data-byear="2024" class="byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]">
-            Skutečnost 2024
-          </button>
-          <button onclick="setBudgetYear('2025')" data-byear="2025" class="byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-emerald-600 bg-emerald-600 text-white">
-            Skutečnost 2025 (ZÚ)
-          </button>
-          <button onclick="setBudgetYear('2026')" data-byear="2026" class="byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]">
-            Rozpočet 2026 (Schválený)
-          </button>
-          <button onclick="setBudgetYear('vhc')" data-byear="vhc" class="byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]">
-            🏭 Vlastní hosp. činnost (VHČ)
-          </button>
-        </div>
-      </div>
 
-      <!-- 4 KPI karty rozpočtu -->
-      <div id="budgetKpiGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- Dynamicky plněno JS -->
-      </div>
-
-      <!-- Sankey Diagram Plátno -->
-      <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-4 shadow-sm space-y-3">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[var(--border)] pb-3">
-          <div>
-            <span id="sankeyTitle" class="text-base font-bold text-[var(--foreground)]">Toky příjmů a výdajů města Český Brod</span>
-            <p id="sankeySubtitle" class="text-xs text-[var(--muted-foreground)]">Najeďte myší na libovolnou větev pro zobrazení přesné částky, podílu a přepočtu na 1 obyvatele (7 355 obyv.).</p>
+        <!-- 2 Pillars Explanation Box (Smysl projektu) -->
+        <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div class="bg-slate-50 border border-slate-200/90 rounded-lg p-3.5">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[11px] font-mono-num font-bold uppercase tracking-wider text-slate-500">Část 01 • Terén a kartografie</span>
+              <span class="text-[11px] font-mono-num font-semibold text-slate-700 bg-white px-1.5 py-0.5 rounded border border-slate-200">25 tras</span>
+            </div>
+            <div class="text-xs font-bold text-slate-900 mb-1">Zmapování nových a obnovených cest (2020–2026+)</div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Polní cesty z pozemkových úprav, nové aleje, stezky podél Šembery a opravené chodníky. Rozlišuje trasy již zanesené v síti OpenStreetMap (13) od záměrů v přípravě (12) včetně veřejného zdroje.
+            </p>
           </div>
-          <div id="sankeyHoverBadge" class="px-3.5 py-1.5 rounded-xl bg-sky-500/10 border border-sky-500/30 text-xs font-bold text-sky-500">
-            Vyberte nebo najeďte na položku v grafu
+
+          <div class="bg-slate-50 border border-slate-200/90 rounded-lg p-3.5">
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[11px] font-mono-num font-bold uppercase tracking-wider text-slate-500">Část 02 • Veřejné finance</span>
+              <span class="text-[11px] font-mono-num font-semibold text-slate-700 bg-white px-1.5 py-0.5 rounded border border-slate-200">2023–2026</span>
+            </div>
+            <div class="text-xs font-bold text-slate-900 mb-1">Vizualizace rozpočtu a hospodářské činnosti města</div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Sankey diagramy ukazují, odkud město bere peníze (daně RUD, dotace, nájmy bytů a nemocnice, vodné, lesy) a kam přesně míří provozní výdaje i kapitálové investice.
+            </p>
           </div>
         </div>
-
-        <div id="sankeySvgWrapper" class="w-full overflow-x-auto rounded-xl bg-white p-2 border border-slate-200">
-          <!-- SVG Sankey se vykreslí zde -->
-        </div>
       </div>
 
-      <!-- Detailní tabulky: 1) Co město dostává od státu a z daní vs. 2) Největší investice a provoz -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm space-y-3">
-          <h3 class="text-base font-bold text-[var(--foreground)]">📥 Odkud přicházejí peníze (Daně RUD, poplatky a dotace od státu)</h3>
-          <div id="incomeTableContainer" class="space-y-2"></div>
+      <!-- Primary Navigation Tabs -->
+      <div class="mt-6 pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
+        <div class="inline-flex p-1 rounded-lg bg-slate-100 border border-slate-200" role="tablist">
+          <button id="tabBtnMap" onclick="switchMainTab('map')" class="px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-slate-900 text-white shadow-sm">
+            01 / Mapa obnovených cest a stezek (25)
+          </button>
+          <button id="tabBtnBudget" onclick="switchMainTab('budget')" class="px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
+            02 / Finance a rozpočet města (2023–2026)
+          </button>
         </div>
 
-        <div class="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-5 shadow-sm space-y-3">
-          <h3 class="text-base font-bold text-[var(--foreground)]">📤 Kam peníze jdou (Provoz organizací, úřadu a jmenovité investice)</h3>
-          <div id="expenseTableContainer" class="space-y-2"></div>
+        <div class="flex items-center gap-4 text-xs text-slate-500">
+          <a href="./trasy_ceskobrodsko.geojson" target="_blank" class="hover:text-slate-900 underline underline-offset-4 font-mono-num">Stáhnout GeoJSON</a>
+          <span>•</span>
+          <a href="https://github.com/davidhunka/cesky-brod-atlas" target="_blank" class="hover:text-slate-900 underline underline-offset-4 font-mono-num">GitHub repozitář</a>
         </div>
       </div>
 
     </div>
+  </header>
 
-  </div>
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ================================================================== -->
+    <!-- SECTION 01: MAPA OBNOVENÝCH STEZEK A CEST                          -->
+    <!-- ================================================================== -->
+    <section id="sectionMap" class="space-y-4">
+
+      <!-- Unified, Single-Level Filter Toolbar -->
+      <div class="bg-white border border-slate-200 rounded-lg p-3.5 shadow-sm">
+        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
+          
+          <!-- Group 1: Year / Period Segmented Control -->
+          <div class="flex flex-wrap items-center gap-1.5">
+            <span class="text-[11px] font-mono-num uppercase tracking-wider font-semibold text-slate-400 mr-1.5">Období:</span>
+            <div class="inline-flex flex-wrap gap-1 bg-slate-100 p-1 rounded-md border border-slate-200/80" id="yearFilterBar">
+              <button onclick="setYearFilter('all')" data-year="all" class="year-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white">
+                Vše <span class="font-mono-num opacity-75 ml-0.5">25</span>
+              </button>
+              <button onclick="setYearFilter('2020–2021')" data-year="2020–2021" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full inline-block" style="background:#2563eb"></span>2020–21
+              </button>
+              <button onclick="setYearFilter('2022–2023')" data-year="2022–2023" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full inline-block" style="background:#0d9488"></span>2022–23
+              </button>
+              <button onclick="setYearFilter('2024')" data-year="2024" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full inline-block" style="background:#16a34a"></span>2024
+              </button>
+              <button onclick="setYearFilter('2025')" data-year="2025" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full inline-block" style="background:#ea580c"></span>2025
+              </button>
+              <button onclick="setYearFilter('2026')" data-year="2026" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full inline-block" style="background:#db2777"></span>2026
+              </button>
+              <button onclick="setYearFilter('Plán 2026+')" data-year="Plán 2026+" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full inline-block" style="background:#7c3aed"></span>Plán 2026+
+              </button>
+            </div>
+          </div>
+
+          <!-- Group 2: Accuracy & Type + Search -->
+          <div class="flex flex-wrap items-center gap-2.5">
+            <!-- Accuracy Filter (OSM Solid vs Dashed) -->
+            <div class="inline-flex bg-slate-100 p-1 rounded-md border border-slate-200/80" id="accuracyFilterBar">
+              <button onclick="setAccuracyFilter('all')" data-acc="all" class="acc-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white">
+                Všechny trasy
+              </button>
+              <button onclick="setAccuracyFilter('osm')" data-acc="osm" class="acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+                Ověřeno v OSM — plná (13)
+              </button>
+              <button onclick="setAccuracyFilter('approx')" data-acc="approx" class="acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+                Orientační / plán — čárkovaná (12)
+              </button>
+            </div>
+
+            <!-- Category Select -->
+            <select id="filterCategory" onchange="renderMapAndList()" class="bg-slate-50 text-slate-800 border border-slate-200 rounded-md px-2.5 py-1.5 text-xs font-medium focus:outline-none focus:border-slate-400">
+              <option value="all">Typ: Všechny kategorie</option>
+              <option value="polni">Polní cesty a biokoridory (KPÚ)</option>
+              <option value="alej">Obnovené aleje a pěší cesty</option>
+              <option value="stezka">Cyklostezky a naučné stezky</option>
+              <option value="chodnik">Městské chodníky</option>
+            </select>
+
+            <!-- Search Input -->
+            <input id="routeSearchInput" type="text" oninput="renderMapAndList()" placeholder="Hledat trasu, obec, zdroj..." class="bg-slate-50 text-slate-800 placeholder-slate-400 border border-slate-200 rounded-md px-2.5 py-1.5 text-xs w-44 sm:w-52 focus:outline-none focus:border-slate-400" />
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Main Map + Sidebar Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+
+        <!-- Left Column: Interactive Map (7 cols) -->
+        <div class="lg:col-span-7 bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden">
+          <!-- Map Top Bar: Legend & View Presets -->
+          <div class="px-4 py-2.5 border-b border-slate-200 bg-slate-50/60 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex flex-wrap items-center gap-4 text-xs text-slate-600">
+              <span class="flex items-center gap-1.5 font-medium">
+                <span class="w-5 h-0.5 bg-slate-800 inline-block"></span>
+                <span>Plná čára: <strong>Ověřeno v OSM (13)</strong></span>
+              </span>
+              <span class="flex items-center gap-1.5 font-medium">
+                <span class="w-5 h-0 border-t-2 border-dashed border-slate-600 inline-block"></span>
+                <span>Čárkovaná: <strong>Orientační / plán (12)</strong></span>
+              </span>
+            </div>
+            <div class="flex items-center gap-1.5">
+              <button onclick="resetMapView('city')" class="px-2 py-1 text-[11px] font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100 transition">
+                Detail Český Brod
+              </button>
+              <button onclick="resetMapView('region')" class="px-2 py-1 text-[11px] font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100 transition">
+                Celý region
+              </button>
+            </div>
+          </div>
+
+          <!-- Leaflet Container -->
+          <div id="leafletMapContainer" class="w-full h-[640px] z-0 bg-slate-100"></div>
+        </div>
+
+        <!-- Right Column: Selected Route Detail + Route List (5 cols) -->
+        <div class="lg:col-span-5 flex flex-col gap-4">
+
+          <!-- Selected Route Specification Card -->
+          <div id="routeDetailCard" class="bg-white border border-slate-300 rounded-lg p-4 shadow-sm">
+            <!-- Populated by JS -->
+          </div>
+
+          <!-- Filtered Routes Table / List -->
+          <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden">
+            <div class="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">
+                Přehled tras (<span id="routeCountBadge" class="font-mono-num">25</span>)
+              </h3>
+              <span class="text-[11px] text-slate-500">Kliknutím vycentrujete v mapě</span>
+            </div>
+            <div id="routeListContainer" class="divide-y divide-slate-100 max-h-[360px] overflow-y-auto">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SECTION 02: FINANCE A ROZPOČET MĚSTA (2023–2026 + VHČ)             -->
+    <!-- ================================================================== -->
+    <section id="sectionBudget" class="hidden space-y-5">
+
+      <!-- Clean Two-Dimensional Financial Control Bar: Year + Scope -->
+      <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
+        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+          
+          <!-- 1. Výběr rozpočtového roku -->
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-[11px] font-mono-num uppercase tracking-wider font-semibold text-slate-400 mr-1">Rozpočtový rok:</span>
+            <div class="inline-flex flex-wrap gap-1 bg-slate-100 p-1 rounded-md border border-slate-200">
+              <button onclick="setBudgetYear('2026')" data-byear="2026" class="byear-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white">
+                2026 • Schválený rozpočet (letošní)
+              </button>
+              <button onclick="setBudgetYear('2025')" data-byear="2025" class="byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+                2025 • Skutečnost (ZÚ)
+              </button>
+              <button onclick="setBudgetYear('2024')" data-byear="2024" class="byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+                2024 • Skutečnost (ZÚ)
+              </button>
+              <button onclick="setBudgetYear('2023')" data-byear="2023" class="byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+                2023 • Skutečnost (ZÚ)
+              </button>
+            </div>
+          </div>
+
+          <!-- 2. Pohled na hospodaření (Hlavní rozpočet vs. Spojeno s VHČ vs. Samostatná VHČ) -->
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-[11px] font-mono-num uppercase tracking-wider font-semibold text-slate-400 mr-1">Pohled na finance:</span>
+            <div class="inline-flex flex-wrap gap-1 bg-slate-100 p-1 rounded-md border border-slate-200" id="scopeFilterBar">
+              <button onclick="setBudgetScope('main')" data-scope="main" class="scope-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white">
+                Hlavní rozpočet města
+              </button>
+              <button onclick="setBudgetScope('merged')" data-scope="merged" class="scope-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+                Konsolidovaný celek (Rozpočet + HČ)
+              </button>
+              <button onclick="setBudgetScope('vhc')" data-scope="vhc" class="scope-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+                Jen hospodářská činnost (Byty, Voda, Lesy)
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Explanatory Context Bar for how Main Budget and VHC work together -->
+        <div id="budgetContextBanner" class="mt-3 pt-3 border-t border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-2 text-xs text-slate-600">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+
+      <!-- 4 KPI Summary Cards -->
+      <div id="budgetKpiGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Main Sankey Diagram Card -->
+      <div class="bg-white border border-slate-200 rounded-lg p-4 sm:p-5 shadow-sm space-y-3">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+          <div>
+            <h2 id="sankeyTitle" class="text-base sm:text-lg font-bold text-slate-900"></h2>
+            <p id="sankeySubtitle" class="text-xs text-slate-500 mt-0.5"></p>
+          </div>
+          <div id="sankeyHoverBadge" class="px-3 py-1.5 rounded bg-slate-100 border border-slate-200 text-xs font-mono-num text-slate-700 shrink-0">
+            Najeďte myší na libovolný tok v grafu pro detailní propočty (na 1 obyvatele)
+          </div>
+        </div>
+
+        <div id="sankeySvgWrapper" class="w-full overflow-x-auto bg-white pt-1">
+          <!-- SVG Sankey rendered here -->
+        </div>
+      </div>
+
+      <!-- SIDE-BY-SIDE ARCHITECTURE COMPARISON: Hlavní rozpočet vs. Vlastní hospodářská činnost (VHČ) -->
+      <div class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
+        <div class="border-b border-slate-200 pb-3 mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-900">
+              Dva finanční pilíře města vedle sebe: Jak souvisí hlavní rozpočet a vlastní hospodářská činnost (VHČ)
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5">
+              Město Český Brod účtuje běžný rozpočet a hospodářskou činnost (pronájmy bytů, nemocnice, vodovody a lesy) odděleně. Zde je jejich souhrnné porovnání pro období 2025/2026:
+            </p>
+          </div>
+          <button onclick="setBudgetScope(currentBudgetScope === 'merged' ? 'main' : 'merged')" class="px-3 py-1.5 rounded text-xs font-semibold border border-slate-300 text-slate-800 hover:bg-slate-100 transition shrink-0">
+            Přepnout graf výše na spojený pohled
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-11 gap-4 items-stretch">
+          
+          <!-- Pilíř 1: Hlavní rozpočet -->
+          <div class="lg:col-span-5 bg-slate-50 border border-slate-200 rounded-lg p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono-num text-slate-500 mb-1">
+                <span>PILÍŘ I • HLAVNÍ ROZPOČET MĚSTA</span>
+                <span class="font-bold text-slate-900">Letošní plán 2026 (vs. 2025)</span>
+              </div>
+              <div class="text-lg font-extrabold text-slate-900 font-mono-num">
+                478,7 mil. Kč <span class="text-xs font-normal text-slate-500">(2025: 404,1 mil. Kč)</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                Financováno ze sdílených daní RUD (258,6 mil. Kč), státních a EU dotací (93,6 mil. Kč), nedaňových příjmů (25,4 mil. Kč) a zapojení rezerv/úvěru na školství (101,2 mil. Kč).
+              </p>
+              <div class="mt-3 pt-3 border-t border-slate-200/80 space-y-1.5 text-xs">
+                <div class="flex justify-between"><span class="text-slate-600">Běžný provoz města, 7 škol, TS, policie:</span><span class="font-mono-num font-semibold text-slate-900">287,5 mil. Kč (60 %)</span></div>
+                <div class="flex justify-between"><span class="text-slate-600">Kapitálové investice (MŠ Kollárova, ZŠ Žitomířská):</span><span class="font-mono-num font-semibold text-rose-700">191,2 mil. Kč (40 %)</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Propojení (Šipka uprostřed) -->
+          <div class="lg:col-span-1 flex flex-col items-center justify-center bg-slate-100/80 border border-dashed border-slate-300 rounded-lg p-3 text-center">
+            <span class="text-[10px] font-mono-num font-bold uppercase tracking-wider text-slate-500">Tok do města</span>
+            <span class="text-sm font-extrabold font-mono-num text-emerald-700 my-1">+11,4M</span>
+            <span class="text-[11px] text-slate-600 leading-tight">3,0M odvod zisku + 8,4M daň DPPO obce</span>
+          </div>
+
+          <!-- Pilíř 2: Vlastní hospodářská činnost (VHČ) -->
+          <div class="lg:col-span-5 bg-slate-50 border border-slate-200 rounded-lg p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between text-xs font-mono-num text-slate-500 mb-1">
+                <span>PILÍŘ II • VLASTNÍ HOSPODÁŘSKÁ ČINNOST (VHČ)</span>
+                <span class="font-bold text-slate-900">Roční bilance &amp; akce 2025/2026</span>
+              </div>
+              <div class="text-lg font-extrabold text-slate-900 font-mono-num">
+                Výnosy 81,5 mil. Kč <span class="text-xs font-semibold text-emerald-700">(čistý zisk +40,5 mil. Kč/rok)</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+                Účtováno mimo hlavní rozpočet ve 4 střediscích. Spolu s účelovými dotacemi na lesní projekty (26,8M) a vodohospodářským fondem (12,8M) financuje investice za <strong>78,9 mil. Kč</strong>:
+              </p>
+              <div class="mt-3 pt-3 border-t border-slate-200/80 space-y-1 text-xs">
+                <div class="flex justify-between"><span class="text-slate-600">1. Bytové hospodářství a Nemocnice (zisk):</span><span class="font-mono-num font-semibold text-emerald-700">+25,31 mil. Kč</span></div>
+                <div class="flex justify-between"><span class="text-slate-600">2. Vodohospodářský majetek + OHČ (zisk):</span><span class="font-mono-num font-semibold text-emerald-700">+13,58 mil. Kč</span></div>
+                <div class="flex justify-between"><span class="text-slate-600">3. Městské lesy (zisk + investice dětská sk. a Cesta lásky):</span><span class="font-mono-num font-semibold text-slate-900">+1,56M / inv. 49,7M</span></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Detailed Breakdown Tables: Income vs. Expenditure -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div class="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
+          <div class="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Struktura zdrojů a příjmů</h3>
+            <span class="text-[11px] font-mono-num text-slate-500">mil. Kč • podíl na celku</span>
+          </div>
+          <div id="incomeTableContainer" class="divide-y divide-slate-100"></div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
+          <div class="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Struktura výdajů a investičních akcí</h3>
+            <span class="text-[11px] font-mono-num text-slate-500">Provoz vs. Kapitálové investice</span>
+          </div>
+          <div id="expenseTableContainer" class="divide-y divide-slate-100"></div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-6 border-t border-slate-200 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
+    <div>
+      Datový atlas Český Brod (IČO 00235334) • Zdroje: Státní pozemkový úřad (SPÚ), profil zadavatele E-ZAK, Monitor Státní pokladny MF ČR, Závěrečné účty a Rozpočet města 2026 (č. j. 3558/2026).
+    </div>
+    <div class="font-mono-num">
+      Počet obyvatel pro přepočty: 7 355
+    </div>
+  </footer>
 
   <script>
     // =========================================================================
-    // DATA PRO MAPU OBNOVENÝCH STEZEK A CHODNÍKŮ NA ČESKOBRODSKU (25 TRAS)
+    // 1. DATA PRO MAPU OBNOVENÝCH STEZEK A CEST (25 TRAS)
     // =========================================================================
     const YEAR_COLORS = {
       "2020–2021": "#2563eb",
@@ -258,13 +450,20 @@
       "Plán 2026+": "#7c3aed"
     };
 
+    const CATEGORY_LABELS = {
+      "polni": "Polní cesta / biokoridor (KPÚ)",
+      "alej": "Alej a přírodní pěší trasa",
+      "stezka": "Cyklostezka / naučná stezka",
+      "chodnik": "Městský chodník"
+    };
+
     const ROUTES = [
   {
     "id": 1,
     "name": "Polní cesta P9 (Štolmíř – Kounická / Mexiko)",
     "yearCat": "2020–2021",
     "yearExact": "2020–2021",
-    "category": "stezka",
+    "category": "polni",
     "fromTo": "Štolmíř (Ke Hřbitovu) → Ul. Kounická (II/272)",
     "lengthSurface": "1,1 km asfalt + alej (2020–2024)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -337,7 +536,7 @@
     "name": "Hlavní polní cesta HPC 4 (Štolmíř)",
     "yearCat": "2020–2021",
     "yearExact": "2020–2021",
-    "category": "stezka",
+    "category": "polni",
     "fromTo": "Štolmíř (Ke Škole) → Směr Břežany II / háj",
     "lengthSurface": "591 m asfalt, šířka 4 m (2021)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -454,7 +653,7 @@
     "name": "Polní cesta P3 + mokřad „Na Útulně“",
     "yearCat": "2024",
     "yearExact": "2024",
-    "category": "stezka",
+    "category": "polni",
     "fromTo": "Ul. V Lukách (za plynárnou) → Štolmíř (ul. K Lukám)",
     "lengthSurface": "700 m asfalt kolem mokřadu (2024)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -611,7 +810,7 @@
     "name": "Přírodní cesta a alej „Topolovka“",
     "yearCat": "2024",
     "yearExact": "2024",
-    "category": "stezka",
+    "category": "alej",
     "fromTo": "Ul. Topolová / Pod Hájem → Napojení na P9 (Štolmíř)",
     "lengthSurface": "850 m přírodní cesta s alejí (2021–2025)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -836,7 +1035,7 @@
     "name": "Biokoridor LBK 14 Štolmířský potok",
     "yearCat": "2022–2023",
     "yearExact": "2022–2023",
-    "category": "stezka",
+    "category": "polni",
     "fromTo": "Žel. trať (Z od Štolmíře) → Koryto Štolmířského potoka",
     "lengthSurface": "2,6 km zelený pás podél potoka (2023)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -913,7 +1112,7 @@
     "name": "Polní cesta P6 (Rostoklaty – Ovocná stezka)",
     "yearCat": "2022–2023",
     "yearExact": "2022–2023",
-    "category": "stezka",
+    "category": "polni",
     "fromTo": "Severní okraj Rostoklat → Směr Břežany II / Štolmíř",
     "lengthSurface": "1,2 km zpevněná cesta + alej (2022)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -954,7 +1153,7 @@
     "name": "Mlýnská cesta C6 (Tuklaty – Břežany II)",
     "yearCat": "2022–2023",
     "yearExact": "2022–2023",
-    "category": "stezka",
+    "category": "polni",
     "fromTo": "Tuklaty / Tlustovousy → Západní okraj Břežan II",
     "lengthSurface": "1,3 km asfalt + stromořadí (2022)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -1165,7 +1364,7 @@
     "name": "Nová lipová alej u hřbitova",
     "yearCat": "2026",
     "yearExact": "2026",
-    "category": "stezka",
+    "category": "alej",
     "fromTo": "Ul. Klučovská (u hřbitova) → Cesta podél hřbitova (sever)",
     "lengthSurface": "200 m, 20 vzrostlých lip (březen 2026)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -1210,7 +1409,7 @@
     "name": "Obnovená cesta a Alej do Klučova",
     "yearCat": "2022–2023",
     "yearExact": "2022–2023",
-    "category": "stezka",
+    "category": "alej",
     "fromTo": "Ul. Za Drahou (u Klučovské) → Polní cesta směr Klučov",
     "lengthSurface": "2,2 km historická polní cesta s alejí (2023)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -1772,7 +1971,7 @@
     "name": "Alej „Žherák“ (Klučov – Žhery)",
     "yearCat": "2024",
     "yearExact": "2024",
-    "category": "stezka",
+    "category": "alej",
     "fromTo": "JV okraj Klučova → Obec Žhery",
     "lengthSurface": "1,4 km cesta + 34 stromů (2024)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -1813,7 +2012,7 @@
     "name": "Obnovená polní cesta Skramníky – Tatce",
     "yearCat": "2024",
     "yearExact": "2024",
-    "category": "stezka",
+    "category": "polni",
     "fromTo": "SV okraj Skramníků → Směr JZ okraj Tatců",
     "lengthSurface": "150 m obnovený úsek polní cesty (2024)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -1850,7 +2049,7 @@
     "name": "Polní cesta C4 a Kočárová cesta KZ 7",
     "yearCat": "2025",
     "yearExact": "2025",
-    "category": "stezka",
+    "category": "polni",
     "fromTo": "Východní okraj Chrášťan → Západní okraj Chotouně (C2)",
     "lengthSurface": "1,8 km zpevněná cesta + alej (2025)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -4131,7 +4330,7 @@
     "name": "Mrzecká cesta a alej (Limuzy – Mrzky)",
     "yearCat": "2026",
     "yearExact": "2026",
-    "category": "stezka",
+    "category": "alej",
     "fromTo": "JV okraj Limuz (parc. 688) → SZ okraj obce Mrzky",
     "lengthSurface": "1,6 km polní cesta s alejí (obnova 2026)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -4721,7 +4920,7 @@
     "name": "Chodníky 2024–2026 (Štolmířská – Želivského)",
     "yearCat": "2026",
     "yearExact": "2026",
-    "category": "stezka",
+    "category": "chodnik",
     "fromTo": "Ul. Štolmířská (jaro 2026) → Ul. Žižkova, Želivského, Tyršova",
     "lengthSurface": "Bezbariérové chodníky v uliční síti ČB",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -4874,7 +5073,7 @@
     "name": "Chodníky 2020–2023 (Palackého – Krále Jiřího)",
     "yearCat": "2020–2021",
     "yearExact": "2020–2021",
-    "category": "stezka",
+    "category": "chodnik",
     "fromTo": "Sídliště Palackého → B. Němcové → náměstí → Krále Jiřího",
     "lengthSurface": "Chodníky ze zámkové dlažby a přechody",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
@@ -5272,33 +5471,9 @@
   }
 ];
 
-    // Sídla pro orientaci v mapě
-    const TOWNS = [
-      { name: "ČESKÝ BROD", lat: 50.0728, lon: 14.8605, main: true },
-      { name: "Štolmíř", lat: 50.0825, lon: 14.8415 },
-      { name: "Liblice", lat: 50.0760, lon: 14.8860 },
-      { name: "Přistoupim", lat: 50.0595, lon: 14.8755 },
-      { name: "Bylany", lat: 50.0690, lon: 14.9120 },
-      { name: "Chrášťany", lat: 50.0590, lon: 14.9250 },
-      { name: "Tuchoraz", lat: 50.0455, lon: 14.8595 },
-      { name: "Vrátkov", lat: 50.0465, lon: 14.8360 },
-      { name: "Mrzky", lat: 50.0560, lon: 14.8325 },
-      { name: "Limuzy", lat: 50.0595, lon: 14.8125 },
-      { name: "Tismice", lat: 50.0545, lon: 14.8220 },
-      { name: "Klepec (358 m)", lat: 50.0535, lon: 14.7770 },
-      { name: "Rostoklaty", lat: 50.0760, lon: 14.8120 },
-      { name: "Břežany II", lat: 50.0910, lon: 14.8030 },
-      { name: "Tuklaty", lat: 50.0900, lon: 14.7720 },
-      { name: "Klučov", lat: 50.0940, lon: 14.8990 },
-      { name: "Poříčany", lat: 50.1000, lon: 14.9180 },
-      { name: "Žhery", lat: 50.0835, lon: 14.9220 },
-      { name: "Skramníky", lat: 50.0820, lon: 14.9480 },
-      { name: "Zahrady", lat: 50.0565, lon: 14.8520 }
-    ];
-
-    let currentMapMode = "osm"; // 'osm' | 'detailed' | 'schematic'
     let currentYearFilter = "all";
-    let selectedRouteId = 3; // Výchozí: Polní cesta P3 Na Útulně
+    let currentAccuracyFilter = "all"; // 'all' | 'osm' | 'approx'
+    let selectedRouteId = 3;
     let leafletMap = null;
     let leafletLayerGroup = null;
 
@@ -5308,57 +5483,87 @@
       const bMap = document.getElementById("tabBtnMap");
       const bBud = document.getElementById("tabBtnBudget");
 
+      const activeCls = "px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-slate-900 text-white shadow-sm";
+      const idleCls = "px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900";
+
       if (tab === "map") {
         sMap.classList.remove("hidden");
         sBud.classList.add("hidden");
-        bMap.className = "px-4 py-2.5 rounded-xl text-sm font-bold transition border bg-sky-600 text-white border-sky-600 shadow-sm";
-        bBud.className = "px-4 py-2.5 rounded-xl text-sm font-bold transition border bg-[var(--background)] text-[var(--foreground)] border-[var(--border)] hover:border-sky-500/50";
+        bMap.className = activeCls;
+        bBud.className = idleCls;
+        if (leafletMap) setTimeout(() => leafletMap.invalidateSize(), 50);
       } else {
         sMap.classList.add("hidden");
         sBud.classList.remove("hidden");
-        bBud.className = "px-4 py-2.5 rounded-xl text-sm font-bold transition border bg-sky-600 text-white border-sky-600 shadow-sm";
-        bMap.className = "px-4 py-2.5 rounded-xl text-sm font-bold transition border bg-[var(--background)] text-[var(--foreground)] border-[var(--border)] hover:border-sky-500/50";
+        bBud.className = activeCls;
+        bMap.className = idleCls;
         renderBudgetSection();
       }
-    }
-
-    function setMapMode(mode) {
-      currentMapMode = mode;
-      const bOsm = document.getElementById("modeBtnOsm");
-      const bDet = document.getElementById("modeBtnDetailed");
-      const activeCls = "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white transition";
-      const idleCls = "px-3.5 py-1.5 rounded-lg text-xs font-bold bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] transition";
-      if (bOsm) bOsm.className = mode === "osm" ? activeCls : idleCls;
-      if (bDet) bDet.className = mode === "detailed" ? activeCls : idleCls;
-      renderMapAndList();
     }
 
     function setYearFilter(year) {
       currentYearFilter = year;
       document.querySelectorAll(".year-btn").forEach(btn => {
-        if (btn.dataset.year === year) {
-          btn.classList.add("ring-2", "ring-sky-500", "bg-sky-500/15");
+        const isAct = btn.dataset.year === year;
+        if (isAct) {
+          btn.className = "year-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white flex items-center gap-1.5";
         } else {
-          btn.classList.remove("ring-2", "ring-sky-500", "bg-sky-500/15");
+          btn.className = "year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5";
         }
       });
       renderMapAndList();
     }
 
+    function setAccuracyFilter(acc) {
+      currentAccuracyFilter = acc;
+      document.querySelectorAll(".acc-btn").forEach(btn => {
+        const isAct = btn.dataset.acc === acc;
+        btn.className = isAct
+          ? "acc-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white"
+          : "acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white";
+      });
+      renderMapAndList();
+    }
+
+    function resetMapView(mode) {
+      if (!leafletMap) return;
+      if (mode === "city") {
+        leafletMap.setView([50.0755, 14.8600], 14);
+      } else {
+        leafletMap.setView([50.0680, 14.8650], 12);
+      }
+    }
+
     function getFilteredRoutes() {
-      const mapyFilter = document.getElementById("filterMapyCz").value;
       const catFilter = document.getElementById("filterCategory").value;
+      const q = (document.getElementById("routeSearchInput").value || "").trim().toLowerCase();
       return ROUTES.filter(r => {
         if (currentYearFilter !== "all" && r.yearCat !== currentYearFilter) return false;
-        if (mapyFilter !== "all" && r.mapyStatus !== mapyFilter) return false;
+        if (currentAccuracyFilter === "osm" && r.dashed) return false;
+        if (currentAccuracyFilter === "approx" && !r.dashed) return false;
         if (catFilter !== "all" && r.category !== catFilter) return false;
+        if (q) {
+          const hay = `${r.id} ${r.name} ${r.fromTo} ${r.fromLabel} ${r.toLabel} ${r.source || ""}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
         return true;
       });
     }
 
-    function selectRoute(id) {
+    function selectRoute(id, focusMap = true) {
       selectedRouteId = id;
       renderMapAndList();
+      if (focusMap && leafletMap) {
+        const r = ROUTES.find(x => x.id === id);
+        if (r) {
+          try {
+            const poly = L.polyline(r.coords);
+            leafletMap.fitBounds(poly.getBounds(), { padding: [50, 50], maxZoom: 15 });
+          } catch (e) {
+            leafletMap.panTo(r.center);
+          }
+        }
+      }
     }
 
     function renderMapAndList() {
@@ -5369,44 +5574,38 @@
         selectedRouteId = filtered[0].id;
       }
 
-      const lCont = document.getElementById("leafletMapContainer");
-      const sCont = document.getElementById("svgMapContainer");
-      if (currentMapMode === "osm" && typeof L !== "undefined") {
-        lCont.classList.remove("hidden");
-        sCont.classList.add("hidden");
-        renderLeafletMap(filtered);
-      } else {
-        lCont.classList.add("hidden");
-        sCont.classList.remove("hidden");
-        renderDetailedGeoSvg(filtered);
-      }
-
+      renderLeafletMap(filtered);
       renderRouteDetailCard();
       renderRouteList(filtered);
     }
 
     function renderLeafletMap(filtered) {
       if (!leafletMap) {
-        leafletMap = L.map("leafletMapContainer", { zoomControl: true }).setView([50.0755, 14.8600], 13);
-        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        leafletMap = L.map("leafletMapContainer", { zoomControl: true }).setView([50.0725, 14.8620], 13);
+        const osmStd = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
           maxZoom: 19,
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> přispěvatelé'
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(leafletMap);
+        const osmHot = L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution: '&copy; OpenStreetMap, HOT'
+        });
+        L.control.layers({ "Standardní OpenStreetMap": osmStd, "Humanitární / kontrastní podklad": osmHot }, null, { position: "bottomright" }).addTo(leafletMap);
         leafletLayerGroup = L.layerGroup().addTo(leafletMap);
       }
       setTimeout(() => leafletMap.invalidateSize(), 50);
       leafletLayerGroup.clearLayers();
 
       filtered.forEach(r => {
-        const col = YEAR_COLORS[r.yearCat];
+        const col = YEAR_COLORS[r.yearCat] || "#2563eb";
         const isSel = r.id === selectedRouteId;
-        const weight = isSel ? 7 : 4.5;
+        const weight = isSel ? 6.5 : 4.2;
         const dashArray = r.dashed ? "8, 6" : null;
 
         if (isSel) {
-          L.polyline(r.coords, { color: "#fde047", weight: 13, opacity: 0.9, lineCap: "round", lineJoin: "round" }).addTo(leafletLayerGroup);
+          L.polyline(r.coords, { color: "#0f172a", weight: 11, opacity: 0.35, lineCap: "round", lineJoin: "round" }).addTo(leafletLayerGroup);
         } else {
-          L.polyline(r.coords, { color: "#ffffff", weight: 7.5, opacity: 0.85, lineCap: "round", lineJoin: "round" }).addTo(leafletLayerGroup);
+          L.polyline(r.coords, { color: "#ffffff", weight: 7.2, opacity: 0.85, lineCap: "round", lineJoin: "round" }).addTo(leafletLayerGroup);
         }
 
         const poly = L.polyline(r.coords, {
@@ -5418,11 +5617,7 @@
           lineJoin: "round"
         }).addTo(leafletLayerGroup);
 
-        poly.on("click", () => {
-          selectedRouteId = r.id;
-          renderMapAndList();
-          leafletMap.panTo(r.center);
-        });
+        poly.on("click", () => selectRoute(r.id, false));
 
         let startPt = null;
         let endPt = null;
@@ -5435,10 +5630,11 @@
           startPt = r.coords[0];
           endPt = r.coords[r.coords.length - 1];
         }
+
         if (isSel && startPt && endPt) {
           const aIcon = L.divIcon({
             className: "",
-            html: `<div class="leaflet-badge-icon" style="width:20px;height:20px;background:#16a34a;font-size:10px;">A</div>`,
+            html: `<div class="leaflet-badge-icon" style="width:20px;height:20px;background:#0f172a;font-size:10px;">A</div>`,
             iconSize: [20, 20],
             iconAnchor: [10, 10]
           });
@@ -5448,11 +5644,11 @@
             iconSize: [20, 20],
             iconAnchor: [10, 10]
           });
-          L.marker(startPt, { icon: aIcon }).bindTooltip(`START (A): ${r.fromLabel}`).addTo(leafletLayerGroup);
-          L.marker(endPt, { icon: bIcon }).bindTooltip(`CÍL (B): ${r.toLabel}`).addTo(leafletLayerGroup);
+          L.marker(startPt, { icon: aIcon }).bindTooltip(`Start A: ${r.fromLabel}`).addTo(leafletLayerGroup);
+          L.marker(endPt, { icon: bIcon }).bindTooltip(`Cíl B: ${r.toLabel}`).addTo(leafletLayerGroup);
         }
 
-        const sz = isSel ? 26 : 22;
+        const sz = isSel ? 26 : 21;
         const borderCol = isSel ? "#0f172a" : "#ffffff";
         const badgeIcon = L.divIcon({
           className: "",
@@ -5462,164 +5658,74 @@
         });
         const marker = L.marker(r.center, { icon: badgeIcon }).addTo(leafletLayerGroup);
         marker.bindTooltip(`#${r.id} ${r.name} (${r.yearCat})`);
-        marker.on("click", () => {
-          selectedRouteId = r.id;
-          renderMapAndList();
-        });
+        marker.on("click", () => selectRoute(r.id, false));
       });
-    }
-
-    function renderDetailedGeoSvg(filtered) {
-      const W = 820, H = 660;
-      const LAT_MIN = 50.022, LAT_MAX = 50.102;
-      const LON_MIN = 14.765, LON_MAX = 14.960;
-
-      const proj = (lat, lon) => {
-        const x = ((lon - LON_MIN) / (LON_MAX - LON_MIN)) * W;
-        const y = ((LAT_MAX - lat) / (LAT_MAX - LAT_MIN)) * H;
-        return [x.toFixed(1), y.toFixed(1)];
-      };
-
-      const pathStr = coords => "M " + coords.map(([la, lo]) => proj(la, lo).join(",")).join(" L ");
-
-      let svg = `<svg viewBox="0 0 ${W} ${H}" class="w-full h-auto select-none">`;
-      svg += `<rect width="${W}" height="${H}" fill="#f8fafc"/>`;
-
-      // Mřížka WGS84
-      [14.78, 14.82, 14.86, 14.90, 14.94].forEach(lon => {
-        const [gx] = proj(50.05, lon);
-        svg += `<line x1="${gx}" y1="0" x2="${gx}" y2="${H}" stroke="#e2e8f0" stroke-width="1"/>`;
-        svg += `<text x="${Number(gx)+4}" y="14" fill="#94a3b8" font-size="10" font-weight="600">${lon.toFixed(2)}°E</text>`;
-      });
-      [50.03, 50.05, 50.07, 50.09].forEach(lat => {
-        const [, gy] = proj(lat, 14.85);
-        svg += `<line x1="0" y1="${gy}" x2="${W}" y2="${gy}" stroke="#e2e8f0" stroke-width="1"/>`;
-        svg += `<text x="6" y="${Number(gy)-4}" fill="#94a3b8" font-size="10" font-weight="600">${lat.toFixed(2)}°N</text>`;
-      });
-
-      // Lesy (Šembera, Klepec, Štolmířský háj)
-      const forest1 = [[50.052, 14.832], [50.055, 14.855], [50.042, 14.864], [50.023, 14.845], [50.023, 14.820], [50.040, 14.825]];
-      const forest2 = [[50.060, 14.772], [50.060, 14.788], [50.048, 14.788], [50.048, 14.770]];
-      svg += `<path d="${pathStr(forest1)} Z" fill="#dcfce7" opacity="0.8"/>`;
-      svg += `<path d="${pathStr(forest2)} Z" fill="#dcfce7" opacity="0.8"/>`;
-
-      // Zastavěné území ČB
-      const cbPoly = [[50.081, 14.848], [50.081, 14.868], [50.075, 14.872], [50.064, 14.868], [50.065, 14.850], [50.074, 14.845]];
-      svg += `<path d="${pathStr(cbPoly)} Z" fill="#e2e8f0" opacity="0.75"/>`;
-
-      // Říčka Šembera a Štolmířský potok
-      const sembera = [[50.023, 14.830], [50.0365, 14.8460], [50.0445, 14.8535], [50.0645, 14.8555], [50.0712, 14.8632], [50.0745, 14.8810], [50.085, 14.918]];
-      const stolmirP = [[50.074, 14.800], [50.078, 14.835], [50.083, 14.843], [50.091, 14.858], [50.098, 14.882]];
-      svg += `<path d="${pathStr(sembera)}" fill="none" stroke="#60a5fa" stroke-width="3.5" stroke-linecap="round"/>`;
-      svg += `<path d="${pathStr(stolmirP)}" fill="none" stroke="#93c5fd" stroke-width="2.5" stroke-linecap="round"/>`;
-
-      // Silnice I/12 a železnice
-      const roadI12 = [[50.068, 14.765], [50.065, 14.860], [50.060, 14.960]];
-      const rail = [[50.088, 14.765], [50.078, 14.815], [50.0685, 14.8630], [50.079, 14.892], [50.086, 14.958]];
-      svg += `<path d="${pathStr(roadI12)}" fill="none" stroke="#fcd34d" stroke-width="3" opacity="0.75"/>`;
-      svg += `<path d="${pathStr(rail)}" fill="none" stroke="#64748b" stroke-width="2.5" stroke-dasharray="6,6" opacity="0.65"/>`;
-
-      // Obce
-      TOWNS.forEach(t => {
-        const [tx, ty] = proj(t.lat, t.lon);
-        if (t.main) {
-          svg += `<circle cx="${tx}" cy="${ty}" r="5" fill="#0f172a" stroke="#ffffff" stroke-width="1.5"/>`;
-          svg += `<text x="${Number(tx)+38}" y="${Number(ty)+4}" fill="#0f172a" font-size="11.5" font-weight="800" text-anchor="middle">${t.name}</text>`;
-        } else {
-          svg += `<circle cx="${tx}" cy="${ty}" r="3.2" fill="#475569"/>`;
-          svg += `<text x="${tx}" y="${Number(ty)-6}" fill="#334155" font-size="10" font-weight="700" text-anchor="middle">${t.name}</text>`;
-        }
-      });
-
-      // Trasy
-      filtered.forEach(r => {
-        const col = YEAR_COLORS[r.yearCat];
-        const isSel = r.id === selectedRouteId;
-        const d = pathStr(r.coords);
-        const dash = r.dashed ? 'stroke-dasharray="7,5"' : '';
-        const sw = isSel ? 7 : 4.5;
-
-        if (isSel) {
-          svg += `<path d="${d}" fill="none" stroke="#fde047" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>`;
-        } else {
-          svg += `<path d="${d}" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>`;
-        }
-
-        svg += `<path d="${d}" onclick="selectRoute(${r.id})" class="route-line" fill="none" stroke="${col}" stroke-width="${sw}" ${dash} stroke-linecap="round" stroke-linejoin="round"/>`;
-
-        if (isSel && r.coords.length >= 2) {
-          const [sx, sy] = proj(r.coords[0][0], r.coords[0][1]);
-          const [ex, ey] = proj(r.coords[r.coords.length - 1][0], r.coords[r.coords.length - 1][1]);
-          svg += `<circle cx="${sx}" cy="${sy}" r="7.5" fill="#16a34a" stroke="#ffffff" stroke-width="2"/>`;
-          svg += `<text x="${sx}" y="${Number(sy)+3}" fill="#ffffff" font-size="8.5" font-weight="900" text-anchor="middle">A</text>`;
-          svg += `<circle cx="${ex}" cy="${ey}" r="7.5" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>`;
-          svg += `<text x="${ex}" y="${Number(ey)+3}" fill="#ffffff" font-size="8.5" font-weight="900" text-anchor="middle">B</text>`;
-        }
-
-        if (isSel && r.coords.length >= 2) {
-          const [sx, sy] = proj(r.coords[0][0], r.coords[0][1]);
-          const [ex, ey] = proj(r.coords[r.coords.length - 1][0], r.coords[r.coords.length - 1][1]);
-          svg += `<circle cx="${sx}" cy="${sy}" r="7.5" fill="#16a34a" stroke="#ffffff" stroke-width="2"/>`;
-          svg += `<text x="${sx}" y="${Number(sy)+3}" fill="#ffffff" font-size="8.5" font-weight="900" text-anchor="middle">A</text>`;
-          svg += `<circle cx="${ex}" cy="${ey}" r="7.5" fill="#dc2626" stroke="#ffffff" stroke-width="2"/>`;
-          svg += `<text x="${ex}" y="${Number(ey)+3}" fill="#ffffff" font-size="8.5" font-weight="900" text-anchor="middle">B</text>`;
-        }
-
-        const [bx, by] = proj(r.center[0], r.center[1]);
-        const rad = isSel ? 11.5 : 9.5;
-        svg += `<g onclick="selectRoute(${r.id})" class="cursor-pointer">`;
-        svg += `<circle cx="${bx}" cy="${by}" r="${rad}" fill="${col}" stroke="${isSel ? '#0f172a' : '#ffffff'}" stroke-width="${isSel ? 2.5 : 1.5}"/>`;
-        svg += `<text x="${bx}" y="${Number(by)+3.5}" fill="#ffffff" font-size="9.5" font-weight="800" text-anchor="middle">${r.id}</text>`;
-        svg += `</g>`;
-      });
-
-      svg += `</svg>`;
-      document.getElementById("svgMapContainer").innerHTML = svg;
     }
 
     function renderRouteDetailCard() {
       const r = ROUTES.find(x => x.id === selectedRouteId) || ROUTES[0];
-      const col = YEAR_COLORS[r.yearCat];
-      const mapyUrl = `https://mapy.cz/turisticka?x=${r.center[1]}&y=${r.center[0]}&z=15`;
+      const col = YEAR_COLORS[r.yearCat] || "#2563eb";
 
-      let statusBadge = "";
-      if (r.mapyStatus === "ANO") {
-        statusBadge = `<span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-500/15 text-emerald-500 border border-emerald-500/30">✅ Plně na Mapy.cz</span>`;
-      } else if (r.mapyStatus === "ČÁSTEČNĚ") {
-        statusBadge = `<span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/15 text-amber-500 border border-amber-500/30">⚠️ Částečně na Mapy.cz</span>`;
-      } else {
-        statusBadge = `<span class="px-2.5 py-1 rounded-md text-xs font-bold bg-purple-500/15 text-purple-500 border border-purple-500/30">🚧 V přípravě (není na Mapy.cz)</span>`;
+      let sCoord = [50.075, 14.86];
+      let eCoord = [50.075, 14.86];
+      if (Array.isArray(r.coords[0]) && Array.isArray(r.coords[0][0])) {
+        sCoord = r.coords[0][0];
+        const lastSeg = r.coords[r.coords.length - 1];
+        eCoord = lastSeg[lastSeg.length - 1];
+      } else if (Array.isArray(r.coords) && r.coords.length >= 2) {
+        sCoord = r.coords[0];
+        eCoord = r.coords[r.coords.length - 1];
       }
 
-      const sCoord = r.coords[0];
-      const eCoord = r.coords[r.coords.length - 1];
+      const accBadge = r.dashed
+        ? `<span class="px-2 py-0.5 rounded text-[11px] font-mono-num font-semibold bg-amber-50 text-amber-800 border border-amber-200">Orientační / plán (čárkovaně)</span>`
+        : `<span class="px-2 py-0.5 rounded text-[11px] font-mono-num font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200">Ověřeno v OSM (plná čára)</span>`;
+
       document.getElementById("routeDetailCard").innerHTML = `
-        <div class="flex items-start justify-between gap-2 flex-wrap">
+        <div class="flex items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-slate-100">
           <div class="flex items-center gap-2 flex-wrap">
-            <span class="px-2.5 py-1 rounded-md text-xs font-bold text-white" style="background:${col}">Trasa #${r.id} • ${r.yearCat}</span>
-            ${statusBadge}
+            <span class="px-2 py-0.5 rounded text-xs font-mono-num font-bold text-white" style="background:${col}">#${r.id}</span>
+            <span class="text-xs font-mono-num font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">${r.yearCat}</span>
+            <span class="text-xs text-slate-500">${CATEGORY_LABELS[r.category] || "Stezka"}</span>
+          </div>
+          ${accBadge}
+        </div>
+
+        <h3 class="text-base font-bold text-slate-900 leading-snug">${r.name}</h3>
+
+        <div class="mt-3 divide-y divide-slate-100 border-t border-b border-slate-100 text-xs">
+          <div class="py-2 grid grid-cols-12 gap-2">
+            <span class="col-span-4 text-slate-500 font-medium">Start (A) → Cíl (B)</span>
+            <span class="col-span-8 text-slate-900 font-semibold">${r.fromLabel} → ${r.toLabel}</span>
+          </div>
+          <div class="py-2 grid grid-cols-12 gap-2">
+            <span class="col-span-4 text-slate-500 font-medium">Souřadnice WGS-84</span>
+            <span class="col-span-8 font-mono-num text-[11px] text-slate-600">${sCoord[0].toFixed(5)}N, ${sCoord[1].toFixed(5)}E → ${eCoord[0].toFixed(5)}N, ${eCoord[1].toFixed(5)}E</span>
+          </div>
+          <div class="py-2 grid grid-cols-12 gap-2">
+            <span class="col-span-4 text-slate-500 font-medium">Délka a provedení</span>
+            <span class="col-span-8 text-slate-800">${r.lengthSurface}</span>
+          </div>
+          <div class="py-2 grid grid-cols-12 gap-2">
+            <span class="col-span-4 text-slate-500 font-medium">Stav na Mapy.cz</span>
+            <span class="col-span-8 text-slate-800"><strong class="font-mono-num">${r.mapyStatus}</strong> — ${r.mapyNote}</span>
+          </div>
+          <div class="py-2 grid grid-cols-12 gap-2 bg-slate-50/70 -mx-4 px-4">
+            <span class="col-span-4 text-slate-600 font-semibold">Ověřený zdroj</span>
+            <span class="col-span-8 text-slate-900 font-medium">${r.source || "Veřejné podklady města Český Brod / SPÚ"}</span>
           </div>
         </div>
-        <h3 class="text-base font-bold text-[var(--foreground)]">${r.name}</h3>
-        <div class="flex flex-wrap gap-2 pt-1 pb-1">
-          <a href="${r.gmapsDirUrl}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-600 text-white hover:bg-blue-500 transition shadow-sm">
-            🗺️ Vykreslit trasu A→B (Google Maps)
+
+        <div class="mt-3 pt-1 flex flex-wrap items-center gap-2">
+          <a href="${r.gmapsDirUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded text-xs font-semibold bg-slate-900 text-white hover:bg-slate-800 transition">
+            Trasa A→B v Google Maps ↗
           </a>
-          <a href="${r.mapyStartUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-500 transition shadow-sm">
-            🟢 Špendlík START A (Mapy.cz)
+          <a href="${r.mapyStartUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded text-xs font-medium bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 transition">
+            Start A (Mapy.cz) ↗
           </a>
-          <a href="${r.mapyEndUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded-lg text-xs font-bold bg-rose-600 text-white hover:bg-rose-500 transition shadow-sm">
-            🏁 Špendlík CÍL B (Mapy.cz)
+          <a href="${r.mapyEndUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded text-xs font-medium bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 transition">
+            Cíl B (Mapy.cz) ↗
           </a>
-        </div>
-        <div class="space-y-1.5 text-xs">
-          <p><strong class="text-[var(--foreground)]">🟢 START (A):</strong> <span class="text-[var(--muted-foreground)]">${r.fromLabel} (${sCoord[0].toFixed(5)}N, ${sCoord[1].toFixed(5)}E)</span> → <strong class="text-[var(--foreground)]">🏁 CÍL (B):</strong> <span class="text-[var(--muted-foreground)]">${r.toLabel} (${eCoord[0].toFixed(5)}N, ${eCoord[1].toFixed(5)}E)</span></p>
-          <p><strong class="text-[var(--foreground)]">📍 Popis trasy:</strong> <span class="text-[var(--muted-foreground)]">${r.fromTo}</span></p>
-          <p><strong class="text-[var(--foreground)]">🗓️ Rok obnovy / stav:</strong> <span class="text-[var(--muted-foreground)]">${r.yearExact}</span></p>
-          <p><strong class="text-[var(--foreground)]">📏 Délka a povrch:</strong> <span class="text-[var(--muted-foreground)]">${r.lengthSurface}</span></p>
-          <p><strong class="text-[var(--foreground)]">🏃 Pro koho je vhodná:</strong> <span class="text-[var(--muted-foreground)]">${r.suitableFor}</span></p>
-          <p><strong class="text-[var(--foreground)]">🔍 Kontrola Mapy.cz:</strong> <span class="text-[var(--muted-foreground)]">${r.mapyNote}</span></p>
-          <p><strong class="text-[var(--foreground)]">📚 Zdroj existence:</strong> <span class="text-[var(--muted-foreground)] font-medium">${r.source || "Veřejné podklady města / SPÚ"}</span></p>
         </div>
       `;
     }
@@ -5627,26 +5733,26 @@
     function renderRouteList(filtered) {
       const container = document.getElementById("routeListContainer");
       if (filtered.length === 0) {
-        container.innerHTML = `<p class="text-xs text-[var(--muted-foreground)] py-4 text-center">Žádná trasa neodpovídá zvolenému filtru.</p>`;
+        container.innerHTML = `<p class="text-xs text-slate-500 py-6 text-center">Žádná trasa neodpovídá zvolenému filtru.</p>`;
         return;
       }
 
       container.innerHTML = filtered.map(r => {
-        const col = YEAR_COLORS[r.yearCat];
+        const col = YEAR_COLORS[r.yearCat] || "#2563eb";
         const isSel = r.id === selectedRouteId;
-        const statusIcon = r.mapyStatus === "ANO" ? "✅" : (r.mapyStatus === "ČÁSTEČNĚ" ? "⚠️" : "🚧");
+        const lineType = r.dashed ? "Plán / orient." : "OSM";
         return `
-          <div onclick="selectRoute(${r.id})" class="p-2.5 rounded-xl border transition cursor-pointer flex items-center justify-between gap-2 ${isSel ? 'bg-sky-500/10 border-sky-500' : 'bg-[var(--background)] border-[var(--border)] hover:border-sky-500/40'}">
+          <div onclick="selectRoute(${r.id}, true)" class="px-3.5 py-2.5 transition cursor-pointer flex items-center justify-between gap-2 ${isSel ? 'bg-slate-900/5 border-l-4 border-l-slate-900' : 'hover:bg-slate-50'}">
             <div class="flex items-center gap-2.5 min-w-0">
-              <span class="w-6 h-6 rounded-full text-xs font-bold text-white flex items-center justify-center shrink-0" style="background:${col}">${r.id}</span>
+              <span class="w-6 h-6 rounded-full text-[11px] font-mono-num font-bold text-white flex items-center justify-center shrink-0" style="background:${col}">${r.id}</span>
               <div class="truncate">
-                <div class="text-xs font-bold text-[var(--foreground)] truncate">${r.name}</div>
-                <div class="text-xs text-[var(--muted-foreground)] truncate">${r.fromTo}</div>
+                <div class="text-xs font-semibold text-slate-900 truncate">${r.name}</div>
+                <div class="text-[11px] text-slate-500 truncate">${r.fromLabel} → ${r.toLabel}</div>
               </div>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
-              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-[var(--card)] border border-[var(--border)]">${r.yearCat}</span>
-              <span title="Stav na Mapy.cz: ${r.mapyStatus}" class="text-xs">${statusIcon}</span>
+              <span class="text-[10px] font-mono-num font-medium px-1.5 py-0.5 rounded ${r.dashed ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}">${lineType}</span>
+              <span class="text-[11px] font-mono-num font-semibold text-slate-600 w-16 text-right">${r.yearCat}</span>
             </div>
           </div>
         `;
@@ -5654,18 +5760,20 @@
     }
 
     // =========================================================================
-    // DATA PRO ROZPOČET MĚSTA ČESKÝ BROD (2023, 2024, 2025, 2026)
+    // 2. DATA PRO ROZPOČET MĚSTA A VLASTNÍ HOSPODÁŘSKOU ČINNOST (VHČ)
     // =========================================================================
     const BUDGET_DATA = {
       "2023": {
         label: "Skutečnost 2023 (Závěrečný účet & Monitor MF ČR)",
+        subtitle: "Uzavřené hospodaření města za rok 2023 • Celkové výdaje 315,0 mil. Kč",
+        contextNote: "V roce 2023 tvořily provozní výdaje 78,1 % (246,0 mil. Kč) a kapitálové investice 21,9 % (69,0 mil. Kč — dokončení Staré radnice čp. 1 a příprava školských staveb).",
         totalOut: 315.0,
         totalIn: 302.6,
         kpis: [
-          { title: "CELKOVÉ PŘÍJMY 2023", val: "302,6 mil. Kč", sub: "Daňové 194,5M • Dotace 87,3M • Nedaňové 20,8M", color: "border-emerald-500" },
-          { title: "CELKOVÉ VÝDAJE 2023", val: "315,0 mil. Kč", sub: "Provozní 246,0M (78,1 %) • Investiční 69,0M (21,9 %)", color: "border-rose-500" },
-          { title: "HLAVNÍ INVESTICE 2023", val: "69,0 mil. Kč", sub: "Stará radnice čp. 1 (Podkroví), příprava ZŠ Žitomířská, MěÚ čp. 56", color: "border-sky-500" },
-          { title: "SALDO / FINANCOVÁNÍ", val: "-12,4 mil. Kč", sub: "Kryto z úspor minulých let a Fondu komunikací", color: "border-amber-500" }
+          { title: "CELKOVÉ PŘÍJMY 2023", val: "302,6 mil. Kč", sub: "Daňové 194,5M • Dotace 87,3M • Nedaňové 20,8M" },
+          { title: "CELKOVÉ VÝDAJE 2023", val: "315,0 mil. Kč", sub: "Provozní 246,0M (78,1 %) • Investiční 69,0M (21,9 %)" },
+          { title: "HLAVNÍ INVESTICE 2023", val: "69,0 mil. Kč", sub: "Stará radnice čp. 1 (Podkroví), ZŠ Žitomířská, čp. 56" },
+          { title: "SALDO ROZPOČTU", val: "-12,4 mil. Kč", sub: "Kryto z naakumulovaných úspor minulých let" }
         ],
         sources: [
           { name: "DPH (Daň z přidané hodnoty)", val: 76.2, sub: "Sdílená daň od státu (RUD)", color: "#059669", group: "tax" },
@@ -5687,7 +5795,7 @@
         ],
         midRight: [
           { id: "opex", name: "PROVOZNÍ VÝDAJE (Tř. 5)", val: 246.0, pct: "78,1 %", color: "#334155" },
-          { id: "capex", name: "INVESTIČNÍ VÝDAJE (Tř. 6)", val: 69.0, pct: "21,9 %", color: "#dc2626" }
+          { id: "capex", name: "INVESTIČNÍ VÝDAJE (Tř. 6)", val: 69.0, pct: "21,9 %", color: "#be123c" }
         ],
         targets: [
           { name: "Veřejná správa, radnice a IT", val: 74.2, sub: "Chod MěÚ, výkon státní správy ORP, IT", color: "#475569", parent: "opex" },
@@ -5697,20 +5805,22 @@
           { name: "Kultura (CVIK), sport a památky", val: 24.6, sub: "Knihovna, KD Svět, granty sportovním klubům", color: "#7c3aed", parent: "opex" },
           { name: "Doprava, údržba ulic a PID", val: 20.8, sub: "Běžné opravy komunikací a autobusy PID", color: "#d97706", parent: "opex" },
           { name: "Městská policie a hasiči", val: 15.0, sub: "Městská policie ČB, úsekové měření, JSDH", color: "#475569", parent: "opex" },
-          { name: "Rekonstrukce Staré radnice čp. 1", val: 26.5, sub: "Kulturní centrum Podkroví, knihovna, sál", color: "#dc2626", parent: "capex" },
+          { name: "Rekonstrukce Staré radnice čp. 1", val: 26.5, sub: "Kulturní centrum Podkroví, knihovna, sál", color: "#be123c", parent: "capex" },
           { name: "Školské investice a budova čp. 56", val: 22.0, sub: "Zahájení ZŠ Žitomířská, zateplení MěÚ čp. 56", color: "#e11d48", parent: "capex" },
           { name: "Opravy komunikací, chodníků a měření", val: 20.5, sub: "Chodníky Bezručova, Ve Staré vsi, radary I/12", color: "#ea580c", parent: "capex" }
         ]
       },
       "2024": {
         label: "Skutečnost 2024 (Závěrečný účet & Monitor MF ČR)",
+        subtitle: "Uzavřené hospodaření města za rok 2024 • Celkové výdaje 330,5 mil. Kč",
+        contextNote: "V roce 2024 město hospodařilo s přebytkem +0,52 mil. Kč při 102,0 mil. Kč kapitálových investic. Vedlejší hospodářská činnost vygenerovala čistý zisk +40,45 mil. Kč.",
         totalOut: 330.5,
         totalIn: 331.0,
         kpis: [
-          { title: "CELKOVÉ PŘÍJMY 2024", val: "331,0 mil. Kč", sub: "Daňové 203,4M • Dotace 98,7M • Nedaňové/kap. 28,9M", color: "border-emerald-500" },
-          { title: "CELKOVÉ VÝDAJE 2024", val: "330,5 mil. Kč", sub: "Provozní 228,5M (69,1 %) • Investiční 102,0M (30,9 %)", color: "border-rose-500" },
-          { title: "PŘEBYTEK HOSPODAŘENÍ", val: "+0,52 mil. Kč", sub: "Vyrovnané hospodaření i při 102M investic", color: "border-sky-500" },
-          { title: "ZISK HOSPODÁŘSKÉ ČINNOSTI", val: "+40,5 mil. Kč", sub: "Byty/nemocnice (+25,3M), Voda (+13,6M), Lesy (+1,6M)", color: "border-teal-500" }
+          { title: "CELKOVÉ PŘÍJMY 2024", val: "331,0 mil. Kč", sub: "Daňové 203,4M • Dotace 98,7M • Nedaňové/kap. 28,9M" },
+          { title: "CELKOVÉ VÝDAJE 2024", val: "330,5 mil. Kč", sub: "Provozní 228,5M (69,1 %) • Investiční 102,0M (30,9 %)" },
+          { title: "SALDO HOSPODAŘENÍ", val: "+0,52 mil. Kč", sub: "Vyrovnaný rozpočet při 31% podílu investic" },
+          { title: "ZISK HOSP. ČINNOSTI (MIMO ROZP.)", val: "+40,45 mil. Kč", sub: "Byty/nemocnice (+25,3M), Voda (+13,6M), Lesy (+1,6M)" }
         ],
         sources: [
           { name: "DPH (Daň z přidané hodnoty)", val: 79.5, sub: "Sdílená daň od státu (RUD)", color: "#059669", group: "tax" },
@@ -5721,7 +5831,7 @@
           { name: "Státní rozpočet – státní správa", val: 27.8, sub: "Výkon státní správy ORP (24,3M) + SPOD (3,5M)", color: "#2563eb", group: "grants" },
           { name: "Dotace MPSV – Domov Anna", val: 16.9, sub: "Dotace na Domov Anna (16,5M) + soc. práce", color: "#3b82f6", group: "grants" },
           { name: "Investiční dotace EU / IROP / OPŽP", val: 54.0, sub: "Digitalizace (9,2M), kontejnery (6,5M), vůz TS (4,3M), ZŠ", color: "#60a5fa", group: "grants" },
-          { name: "Nedaňové a kapitálové příjmy", val: 28.4, sub: "Pokuty z radarů, prodej pozemku ZZS kraji (5,3M), Resort Antiko", color: "#0d9488", group: "other" }
+          { name: "Nedaňové a kapitálové příjmy", val: 28.4, sub: "Pokuty z radarů, prodej pozemku ZZS kraji (5,3M), Antiko", color: "#0d9488", group: "other" }
         ],
         midLeft: [
           { id: "tax", name: "DAŇOVÉ PŘÍJMY", val: 203.4, pct: "61 %", color: "#059669" },
@@ -5730,7 +5840,7 @@
         ],
         midRight: [
           { id: "opex", name: "PROVOZNÍ VÝDAJE (Tř. 5)", val: 228.5, pct: "69,1 %", color: "#334155" },
-          { id: "capex", name: "INVESTIČNÍ VÝDAJE (Tř. 6)", val: 102.0, pct: "30,9 %", color: "#dc2626" }
+          { id: "capex", name: "INVESTIČNÍ VÝDAJE (Tř. 6)", val: 102.0, pct: "30,9 %", color: "#be123c" }
         ],
         targets: [
           { name: "Veřejná správa, radnice a IT", val: 72.5, sub: "Osobní náklady MěÚ (62,8M), IT (6,9M), provoz radnice", color: "#475569", parent: "opex" },
@@ -5740,21 +5850,23 @@
           { name: "Kultura (CVIK) a podpora sportu", val: 21.0, sub: "CVIK (12,1M), Fond kultury a sportu (4,0M), památky", color: "#7c3aed", parent: "opex" },
           { name: "Doprava, komunikace a PID", val: 20.5, sub: "Běžná údržba ulic a příspěvek na PID (2,1M)", color: "#d97706", parent: "opex" },
           { name: "Městská policie a hasiči", val: 15.5, sub: "Městská policie (15,5M) + HZS a krizová opatření", color: "#475569", parent: "opex" },
-          { name: "Přístavba ZŠ Žitomířská + splátka SŠ", val: 38.4, sub: "Stavba ZŠ Žitomířská + splátka kraji za SŠ Liblice (8,4M)", color: "#dc2626", parent: "capex" },
+          { name: "Přístavba ZŠ Žitomířská + splátka SŠ", val: 38.4, sub: "Stavba ZŠ Žitomířská + splátka kraji za SŠ Liblice (8,4M)", color: "#be123c", parent: "capex" },
           { name: "Polopodzemní kontejnery a technika TS", val: 20.3, sub: "Kontejnery (7,3M), svozový vůz TS (6M), výkup pozemků (7M)", color: "#ea580c", parent: "capex" },
-          { name: "Stará radnice čp. 1, digitalizace a EPS", val: 24.3, sub: "Stavební úpravy čp. 1 (7,6M), digitalizace (7,4M), EPS Domov Anna", color: "#db2777", parent: "capex" },
+          { name: "Stará radnice čp. 1, digitalizace a EPS", val: 24.3, sub: "Stavební úpravy čp. 1 (7,6M), digitalizace (7,4M), EPS", color: "#db2777", parent: "capex" },
           { name: "Chodníky, ulice a lávka u Šembery", val: 19.0, sub: "Chodníky Želivského, B. Smetany, Jeronýmova, Tuchorazská", color: "#e11d48", parent: "capex" }
         ]
       },
       "2025": {
         label: "Skutečnost 2025 (Závěrečný účet & Monitor MF ČR)",
+        subtitle: "Skutečné plnění hlavního rozpočtu města za rok 2025 • Celkové výdaje 404,1 mil. Kč",
+        contextNote: "Hlavní rozpočet 2025 dosáhl 404,1 mil. Kč (z toho 36,4 % kapitálové investice). Souběžně město přes střediska Vlastní hospodářské činnosti realizovalo lesní a vodohospodářské investice (dětská skupina, Cesta lásky, vodovody) — přepněte vpravo nahoře na „Konsolidovaný celek“.",
         totalOut: 404.1,
         totalIn: 396.1,
         kpis: [
-          { title: "CELKOVÉ PŘÍJMY 2025", val: "396,1 mil. Kč", sub: "53 849 Kč / obyvatele (+19,7 % YoY)", color: "border-emerald-500" },
-          { title: "CELKOVÉ VÝDAJE 2025", val: "404,1 mil. Kč", sub: "Provoz 257,2M (63,6 %) • Investice 146,9M (36,4 %)", color: "border-rose-500" },
-          { title: "HOTOVOST A REZERVY MĚSTA", val: "108,6 mil. Kč", sub: "Dluh města pouze 19,0M (5,6 % příjmů vs. limit 60 %)", color: "border-sky-500" },
-          { title: "INVESTICE HOSP. STŘEDISEK", val: "+61,1 mil. Kč", sub: "Městské lesy (49,7M – dětská skupina, Cesta lásky), Voda (9,4M)", color: "border-teal-500" }
+          { title: "CELKOVÉ PŘÍJMY 2025", val: "396,1 mil. Kč", sub: "53 849 Kč / obyvatele (+19,7 % meziročně)" },
+          { title: "CELKOVÉ VÝDAJE 2025", val: "404,1 mil. Kč", sub: "Provoz 257,2M (63,6 %) • Investice 146,9M (36,4 %)" },
+          { title: "HOTOVOST A REZERVY MĚSTA", val: "108,6 mil. Kč", sub: "Dluh města jen 19,0M (5,6 % příjmů vs. zákonný limit 60 %)" },
+          { title: "VEDLEJŠÍ HOSP. ČINNOST (VHČ)", val: "+40,5M zisk", sub: "Roční čistý zisk 4 středisek mimo hlavní rozpočet" }
         ],
         sources: [
           { name: "DPH (Daň z přidané hodnoty)", val: 85.5, sub: "Sdílená daň od státu (RUD) • hlavní daňový pilíř", color: "#059669", group: "tax" },
@@ -5765,7 +5877,7 @@
           { name: "Státní rozpočet – státní správa", val: 27.5, sub: "Souhrnný dotační vztah SR (24,0M) + SPOD (3,5M)", color: "#2563eb", group: "grants" },
           { name: "Dotace MPSV – Domov Anna", val: 16.9, sub: "Účelová státní dotace na Domov pro seniory", color: "#3b82f6", group: "grants" },
           { name: "Investiční dotace EU / IROP / SFŽP", val: 73.8, sub: "ZŠ Žitomířská (IROP 32M+), dětská skupina (20M)", color: "#60a5fa", group: "grants" },
-          { name: "Nedaňové a kapitálové příjmy", val: 59.6, sub: "Nedaňové (26,9M – radary, úroky) + Kapitálové (32,7M – prodej pozemků)", color: "#0d9488", group: "other" },
+          { name: "Nedaňové a kapitálové příjmy", val: 59.6, sub: "Nedaňové (26,9M – radary, úroky) + Kapitálové (32,7M – pozemky)", color: "#0d9488", group: "other" },
           { name: "Zapojení úspor z fondů města", val: 8.0, sub: "Krytí investičního salda z rezerv", color: "#64748b", group: "fin" }
         ],
         midLeft: [
@@ -5776,7 +5888,7 @@
         ],
         midRight: [
           { id: "opex", name: "PROVOZNÍ VÝDAJE (Tř. 5)", val: 257.2, pct: "63,6 %", color: "#334155" },
-          { id: "capex", name: "INVESTIČNÍ VÝDAJE (Tř. 6)", val: 146.9, pct: "36,4 %", color: "#dc2626" }
+          { id: "capex", name: "INVESTIČNÍ VÝDAJE (Tř. 6)", val: 146.9, pct: "36,4 %", color: "#be123c" }
         ],
         targets: [
           { name: "Veřejná správa, radnice a IT", val: 78.5, sub: "Chod MěÚ (platy a státní správa ORP), IT a kamery", color: "#475569", parent: "opex" },
@@ -5786,33 +5898,35 @@
           { name: "Kultura, knihovna, KD Svět a sport", val: 25.4, sub: "CVIK (12,5M), Fond kultury a sportu, památky", color: "#7c3aed", parent: "opex" },
           { name: "Doprava, údržba komunikací a PID", val: 19.8, sub: "Běžné opravy ulic a chodníků, autobusy PID", color: "#d97706", parent: "opex" },
           { name: "Městská policie, bezpečnost a hasiči", val: 15.7, sub: "Městská policie ČB, úsekové měření, JSDH/HZS", color: "#475569", parent: "opex" },
-          { name: "Přístavba a rekonstrukce ZŠ Žitomířská", val: 64.5, sub: "Odborné učebny, hlavní budova a poradenské pracoviště", color: "#dc2626", parent: "capex" },
+          { name: "Přístavba a rekonstrukce ZŠ Žitomířská", val: 64.5, sub: "Odborné učebny, hlavní budova a poradenské pracoviště", color: "#be123c", parent: "capex" },
           { name: "Příprava MŠ Kollárova + splátka SŠ", val: 26.4, sub: "Dočasná MŠ, příprava MŠ Letadýlko + splátka SŠ (8,4M)", color: "#e11d48", parent: "capex" },
           { name: "Rekonstrukce komunikací a stezek", val: 24.2, sub: "Opravy ulic a chodníků z Fondu komunikací, cyklostezky", color: "#ea580c", parent: "capex" },
           { name: "Kultura, Stará radnice čp. 1 a parky", val: 16.0, sub: "Dokončení úprav čp. 1, veřejný prostor, Broďáci Brodu", color: "#db2777", parent: "capex" },
-          { name: "Domov Anna (kotelna) a ekologie", val: 15.8, sub: "Nová kotelna Domov Anna (7,8M), polopodzemní kontejnery", color: "#be123c", parent: "capex" }
+          { name: "Domov Anna (kotelna) a ekologie", val: 15.8, sub: "Nová kotelna Domov Anna (7,8M), polopodzemní kontejnery", color: "#9f1239", parent: "capex" }
         ]
       },
       "2026": {
-        label: "Schválený rozpočet 2026 (č. j. 3558/2026, usnesení 0464/2026-Z)",
+        label: "Schválený rozpočet 2026 — Hlavní rozpočet města (č. j. 3558/2026)",
+        subtitle: "Letošní plán hospodaření města na rok 2026 • Celkové výdaje 478,7 mil. Kč",
+        contextNote: "Zobrazujete hlavní rozpočet města na rok 2026 (478,7 mil. Kč). Pro zobrazení celkové ekonomiky města včetně Vlastní hospodářské činnosti (byty, nemocnice, vodovody, lesy) přepněte vpravo nahoře na „Konsolidovaný celek (Rozpočet + HČ)“.",
         totalOut: 478.7,
         totalIn: 377.5,
         kpis: [
-          { title: "SCHVÁLENÉ PŘÍJMY 2026", val: "377,5 mil. Kč", sub: "Daňové příjmy rostou na 258,6 mil. Kč", color: "border-emerald-500" },
-          { title: "CELKOVÉ VÝDAJE 2026", val: "478,7 mil. Kč", sub: "Provoz 287,5M (60,1 %) • Investice 191,2M (+19M FK)", color: "border-rose-500" },
-          { title: "INVESTICE DO ŠKOLSTVÍ", val: "138,4 mil. Kč", sub: "MŠ Kollárova (61M), ZŠ Žitomířská (59M), DSO (10M), SŠ (8,4M)", color: "border-sky-500" },
-          { title: "KOMUNIKACE, PARKY A NÁMĚSTÍ", val: "39,7 mil. Kč", sub: "Fond komunikací (19M), PD dvojnáměstí (10,8M), Jiráskovy sady", color: "border-amber-500" }
+          { title: "SCHVÁLENÉ PŘÍJMY 2026", val: "377,5 mil. Kč", sub: "Daňové příjmy RUD rostou na 258,6 mil. Kč" },
+          { title: "CELKOVÉ VÝDAJE 2026", val: "478,7 mil. Kč", sub: "Provoz 287,5M (60,1 %) • Investice 191,2M (39,9 %)" },
+          { title: "INVESTICE DO ŠKOLSTVÍ 2026", val: "138,4 mil. Kč", sub: "MŠ Kollárova (61M), ZŠ Žitomířská (59M), DSO (10M), SŠ (8,4M)" },
+          { title: "ULICE, PARKY A NÁMĚSTÍ", val: "39,7 mil. Kč", sub: "Fond komunikací (19M), PD dvojnáměstí (10,8M), Jiráskovy sady" }
         ],
         sources: [
           { name: "DPH (Daň z přidané hodnoty)", val: 101.5, sub: "Sdílená daň od státu (RUD) • nejvyšší příjmová položka", color: "#059669", group: "tax" },
-          { name: "DPPO (Daň z příjmů firem + vlastní)", val: 61.9, sub: "Sdílená DPPO (53,5M) + vlastní daň obce (8,4M)", color: "#059669", group: "tax" },
+          { name: "DPPO (Daň z příjmů firem + vlastní)", val: 61.9, sub: "Sdílená DPPO (53,5M) + vlastní daň obce z VHČ (8,4M)", color: "#059669", group: "tax" },
           { name: "DPFO (Daň z příjmů fyz. osob)", val: 49.5, sub: "Zaměstnanci (40,0M), srážková (6,5M), OSVČ (3,0M)", color: "#10b981", group: "tax" },
           { name: "Daň z nemovitých věcí", val: 25.0, sub: "100 % příjmem města (koef. 2,5) → plní Fond komunikací", color: "#10b981", group: "tax" },
           { name: "Poplatky (odpady, správní) a hazard", val: 20.7, sub: "Správní (9,0M), odpady 1 140 Kč/os (7,9M), hazard (3,0M)", color: "#34d399", group: "tax" },
           { name: "Státní rozpočet – státní správa", val: 28.0, sub: "Výkon státní správy ORP (24,3M) + SPOD (3,7M)", color: "#2563eb", group: "grants" },
           { name: "Dotace MPSV – Domov Anna", val: 15.4, sub: "Státní dotace na Domov Anna (15,0M) + soc. práce", color: "#3b82f6", group: "grants" },
           { name: "Investiční dotace EU / IROP / OPŽP", val: 50.2, sub: "Školské dotace, kyberbezpečnost (8,2M), kontejnery (6,5M)", color: "#60a5fa", group: "grants" },
-          { name: "Nedaňové příjmy a převody z HČ", val: 25.4, sub: "Pokuty z radarů (14,5M), vratka CVIK (7,7M), převody HČ (3M)", color: "#0d9488", group: "other" },
+          { name: "Nedaňové příjmy a převod z VHČ", val: 25.4, sub: "Pokuty z radarů (14,5M), vratka CVIK (7,7M), odvod VHČ (3M)", color: "#0d9488", group: "other" },
           { name: "Fondy města + investiční úvěr na MŠ", val: 101.2, sub: "Fond komunikací (19M), Fond infrastr. a úvěr KB na MŠ (50M)", color: "#64748b", group: "fin" }
         ],
         midLeft: [
@@ -5823,7 +5937,7 @@
         ],
         midRight: [
           { id: "opex", name: "PROVOZNÍ VÝDAJE (BĚŽNÉ)", val: 287.5, pct: "60,1 %", color: "#334155" },
-          { id: "capex", name: "INVESTIČNÍ VÝDAJE (KAPIT.)", val: 191.2, pct: "39,9 %", color: "#dc2626" }
+          { id: "capex", name: "INVESTIČNÍ VÝDAJE (KAPIT.)", val: 191.2, pct: "39,9 %", color: "#be123c" }
         ],
         targets: [
           { name: "Radnice, zaměstnanci MěÚ, IT a správa", val: 97.6, sub: "Osobní náklady MěÚ (70,5M), zastupitelé (5,0M), IT (6,7M)", color: "#475569", parent: "opex" },
@@ -5833,32 +5947,79 @@
           { name: "Domov Anna a sociální služby", val: 22.8, sub: "Domov Anna (15,0M MPSV + 5,8M město) + soc. granty", color: "#0d9488", parent: "opex" },
           { name: "Kultura (CVIK, KD Svět) a sport", val: 28.9, sub: "CVIK a knihovna (13,3M), Fond kultury a sportu (4,2M)", color: "#7c3aed", parent: "opex" },
           { name: "Městská policie, bezpečnost a hasiči", val: 17.5, sub: "Městská policie ČB (16,2M) + HZS Kolín (1,2M)", color: "#475569", parent: "opex" },
-          { name: "Nová MŠ Kollárova + dočasná MŠ", val: 61.0, sub: "Novostavba MŠ Kollárova (50,0M) + dočasná MŠ (11,0M)", color: "#dc2626", parent: "capex" },
+          { name: "Nová MŠ Kollárova + dočasná MŠ", val: 61.0, sub: "Novostavba MŠ Kollárova (50,0M) + dočasná MŠ (11,0M)", color: "#be123c", parent: "capex" },
           { name: "Přístavba a rozšíření ZŠ Žitomířská", val: 59.0, sub: "Hlavní školská investice města (nové učebny a zázemí)", color: "#e11d48", parent: "capex" },
           { name: "Svazková škola (DSO) + splátka SŠ", val: 18.4, sub: "Příspěvek DSO na svazkovou školu (10,0M) + splátka SŠ (8,4M)", color: "#f43f5e", parent: "capex" },
           { name: "Náměstí, Jiráskovy sady a chodníky", val: 20.7, sub: "PD dvojnáměstí (10,8M), PD Jiráskovy sady (2,2M), Gothardka", color: "#ea580c", parent: "capex" },
           { name: "Kyberbezpečnost, IT, radary a radnice", val: 16.5, sub: "Kyberbezpečnost (9,6M), úpravy čp. 70 (2,5M), radary RAMER", color: "#db2777", parent: "capex" },
-          { name: "Sportoviště, pozemky a Broďáci Brodu", val: 15.6, sub: "Pozemky (5,0M), hřiště Sportovní (4,0M), TS (2,5M), participace", color: "#be123c", parent: "capex" }
+          { name: "Sportoviště, pozemky a Broďáci Brodu", val: 15.6, sub: "Pozemky (5,0M), hřiště Sportovní (4,0M), TS (2,5M), participace", color: "#9f1239", parent: "capex" }
+        ]
+      },
+      "2026_merged": {
+        label: "Konsolidovaný pohled 2026: Hlavní rozpočet + Vlastní hospodářská činnost města",
+        subtitle: "Spojená bilance města (478,7M hlavní rozpočet + 99,4M čisté zdroje a fondy VHČ po očištění o 3M interní převod = 578,1 mil. Kč)",
+        contextNote: "Tento graf spojuje hlavní rozpočet města (2026) s Vlastní hospodářskou činností (byty, nemocnice, vodovody, lesy). Vidíte zde kompletní investiční sílu města (270,1 mil. Kč investic celkem).",
+        totalOut: 578.1,
+        totalIn: 578.1,
+        kpis: [
+          { title: "KONSOLIDOVANÉ ZDROJE CELKEM", val: "578,1 mil. Kč", sub: "Hlavní rozpočet 478,7M + Hospodářská činnost 99,4M (očištěno)" },
+          { title: "DAŇOVÉ PŘÍJMY + ZISK HČ", val: "296,0 mil. Kč", sub: "Daně RUD (258,6M) + čistý zisk bytů, vody a lesů (+37,4M mimo převod)" },
+          { title: "VEŠKERÉ INVESTICE MĚSTA A HČ", val: "270,1 mil. Kč", sub: "191,2M hlavní rozpočet + 78,9M investice přes střediska VHČ" },
+          { title: "PROVOZ A REZERVNÍ FONDY", val: "308,0 mil. Kč", sub: "Běžný provoz města (287,5M) + tvorba Fondu BH a nemocnice (20,5M)" }
+        ],
+        sources: [
+          { name: "DPH (Daň z přidané hodnoty)", val: 101.5, sub: "Sdílená daň od státu (RUD)", color: "#059669", group: "tax" },
+          { name: "DPPO a DPFO (Daně z příjmů)", val: 111.4, sub: "DPPO firem a obce (61,9M) + DPFO zaměstnanců a OSVČ (49,5M)", color: "#059669", group: "tax" },
+          { name: "Daň z nemovitostí, poplatky a nedaňové", val: 68.1, sub: "Nemovitosti (25M), poplatky (20,7M), radary a nedaňové (22,4M)", color: "#10b981", group: "tax" },
+          { name: "Čistý zisk VHČ: Byty, Nemocnice, Voda, Lesy", val: 37.4, sub: "Zisk BH (+25,3M), Voda a OHČ (+10,6M po odvodu), Lesy (+1,5M)", color: "#0d9488", group: "vhc_in" },
+          { name: "Vodohospodářský fond a zdroje VHČ", val: 35.2, sub: "Rezervní fond vodohospodářský (12,8M) + kofinancování lesů a BH", color: "#14b8a6", group: "vhc_in" },
+          { name: "Dotace do hlavního rozpočtu (SR, MPSV, EU)", val: 93.6, sub: "Státní správa ORP (28M), Domov Anna (15,4M), investiční dotace (50,2M)", color: "#2563eb", group: "grants" },
+          { name: "Dotace na projekty Městských lesů (VHČ)", val: 26.8, sub: "Dotace na dětskou skupinu (20M), Cestu lásky a lesní tůně", color: "#3b82f6", group: "grants" },
+          { name: "Fondy města + investiční úvěr na MŠ", val: 104.1, sub: "Fond komunikací (19M), Fond infrastr. a úvěr KB na MŠ (50M)", color: "#64748b", group: "fin" }
+        ],
+        midLeft: [
+          { id: "tax", name: "DANĚ A POPLATKY MĚSTA", val: 281.0, pct: "49 %", color: "#059669" },
+          { id: "vhc_in", name: "VÝNOSY A FONDY HOSP. ČINNOSTI", val: 72.6, pct: "12 %", color: "#0d9488" },
+          { id: "grants", name: "DOTACE (MĚSTO + LESY)", val: 120.4, pct: "21 %", color: "#2563eb" },
+          { id: "fin", name: "REZERVY MĚSTA A ÚVĚR", val: 104.1, pct: "18 %", color: "#64748b" }
+        ],
+        midRight: [
+          { id: "opex", name: "PROVOZ MĚSTA A FOND BH", val: 308.0, pct: "53,3 %", color: "#334155" },
+          { id: "capex", name: "VEŠKERÉ INVESTICE (MĚSTO + HČ)", val: 270.1, pct: "46,7 %", color: "#be123c" }
+        ],
+        targets: [
+          { name: "Veřejná správa, radnice, IT a policie", val: 115.1, sub: "Chod MěÚ a ORP (97,6M) + Městská policie a hasiči (17,5M)", color: "#475569", parent: "opex" },
+          { name: "Školství – provoz 7 škol a jídelny", val: 60.2, sub: "ZŠ Žitomířská, ZŠ Tyršova, 3× MŠ, SŠ Liblice a Školní jídelna", color: "#2563eb", parent: "opex" },
+          { name: "Technické služby, doprava PID a Fond kom.", val: 60.5, sub: "TS Český Brod a zeleň (36,1M) + příděl Fondu komunikací a PID (24,4M)", color: "#16a34a", parent: "opex" },
+          { name: "Kultura (CVIK), sport a Domov Anna", val: 51.7, sub: "Kultura a sport (28,9M) + Domov Anna a sociální služby (22,8M)", color: "#7c3aed", parent: "opex" },
+          { name: "Tvorba Fondu bytového hosp. a nemocnice", val: 20.5, sub: "Akumulace čistého zisku z nájmů bytů a polikliniky na další opravy", color: "#0d9488", parent: "opex" },
+          { name: "Školské investice (MŠ Kollárova, ZŠ, DSO)", val: 138.4, sub: "Nová MŠ Kollárova (61M), ZŠ Žitomířská (59M), DSO a SŠ (18,4M)", color: "#be123c", parent: "capex" },
+          { name: "Investice Městských lesů (Dětská sk., Cesta lásky)", val: 48.7, sub: "Dětská skupina (38M), Cesta lásky (6,8M), lesní technika a altán (3,9M)", color: "#e11d48", parent: "capex" },
+          { name: "Investice Vodohospodářského fondu (Tuchorazská + 7 ul.)", val: 25.4, sub: "Vodovod a kanalizace Tuchorazská (16M) + PD 7 ulic a vodoměry (9,4M)", color: "#2563eb", parent: "capex" },
+          { name: "Náměstí, parky, kyberbezpečnost a sportoviště", val: 52.8, sub: "Dvojnáměstí a sady (20,7M), IT/radary (16,5M), pozemky a hřiště (15,6M)", color: "#ea580c", parent: "capex" },
+          { name: "Investice Bytového hospodářství a Nemocnice", val: 4.8, sub: "Nová kotelna v nemocnici (1,2M), PD čp. 202 (1,3M), opravy bytů (2,3M)", color: "#059669", parent: "capex" }
         ]
       },
       "vhc": {
-        label: "Vlastní hospodářská činnost města (Mimo hlavní rozpočet: Byty, Nemocnice, Voda, Lesy)",
+        label: "Vlastní hospodářská činnost města (VHČ — roční bilance a investiční akce 2025/2026)",
+        subtitle: "4 hospodářská střediska účtovaná mimo hlavní rozpočet: Byty a Nemocnice, Vodohospodářský majetek, Ostatní HČ a Městské lesy",
+        contextNote: "Časové určení: Provozní zisk středisek (+40,45 mil. Kč/rok) vychází z poslední uzavřené roční účetní závěrky (výnosy 81,46M minus náklady 41,01M), investiční akce (78,9 mil. Kč) zahrnují běžící projekty let 2025–2026 (dětská skupina, Cesta lásky, vodovod Tuchorazská).",
         totalOut: 102.4,
         totalIn: 102.4,
         kpis: [
-          { title: "ČISTÝ ZISK HOSP. ČINNOSTI", val: "+40,45 mil. Kč", sub: "Výnosy 81,5M minus provozní náklady 41,0M (před zdaněním)", color: "border-emerald-500" },
-          { title: "BYTY A AREÁL NEMOCNICE (BH)", val: "+25,31 mil. Kč", sub: "Nejvyšší čistý zisk: městské byty, poliklinika a nebytové prostory", color: "border-teal-500" },
-          { title: "VODOHOSPODÁŘSKÝ MAJETEK & OHČ", val: "+13,58 mil. Kč", sub: "Pachtovné z vodovodů a kanalizací (+10,2M) + ostatní HČ (+3,4M)", color: "border-sky-500" },
-          { title: "INVESTICE STŘEDISEK HČ", val: "78,9 mil. Kč", sub: "Dětská skupina (38M), vodovody Tuchorazská (16M) a 7 ulic (9,4M), Cesta lásky (6,8M)", color: "border-rose-500" }
+          { title: "ČISTÝ ZISK HOSP. ČINNOSTI", val: "+40,45 mil. Kč", sub: "Roční výnosy 81,5M minus provozní náklady 41,0M (před zdaněním)" },
+          { title: "1. BYTY A AREÁL NEMOCNICE (BH)", val: "+25,31 mil. Kč", sub: "Výnosy 53,5M minus náklady 28,1M • městské byty a poliklinika" },
+          { title: "2. VODOHOSPODÁŘSKÝ MAJETEK & OHČ", val: "+13,58 mil. Kč", sub: "Pachtovné z vodovodů a kanalizací (+10,2M) + ostatní HČ (+3,4M)" },
+          { title: "INVESTICE STŘEDISEK HČ (2025/26)", val: "78,9 mil. Kč", sub: "Dětská skupina (38M), vodovody Tuchorazská (16M) a 7 ulic (9,4M), Cesta lásky" }
         ],
         sources: [
-          { name: "Nájemné z městských bytů a domů", val: 16.8, sub: "Čistý výnos z pronájmu bytového fondu města (středisko BH)", color: "#059669", group: "bh" },
-          { name: "Nebytové prostory a areál Nemocnice", val: 8.5, sub: "Pronájem ordinací polikliniky/nemocnice a komerčních prostor", color: "#10b981", group: "bh" },
-          { name: "Vodohospodářský majetek (pacht a vodné)", val: 10.2, sub: "Výnosy z vodovodní a kanalizační sítě města", color: "#2563eb", group: "voda" },
-          { name: "Ostatní hospodářská činnost (OHČ)", val: 3.4, sub: "Komerční pronájmy pozemků a hospodářské služby města", color: "#3b82f6", group: "voda" },
-          { name: "Rezervní fond vodohospodářský (akumulace)", val: 12.8, sub: "Zapojení naakumulovaných zdrojů fondu na velké rekonstrukce sítí", color: "#60a5fa", group: "voda" },
+          { name: "Nájemné z městských bytů a domů (čistý výnos)", val: 16.8, sub: "Čistý zisk z pronájmu bytového fondu města (středisko BH)", color: "#059669", group: "bh" },
+          { name: "Nebytové prostory a areál Nemocnice (čistý výnos)", val: 8.5, sub: "Pronájem ordinací polikliniky/nemocnice a komerčních prostor", color: "#10b981", group: "bh" },
+          { name: "Vodohospodářský majetek (čistý výnos pachtu)", val: 10.2, sub: "Pachtovné z vodovodní a kanalizační sítě města (výnosy 18,2M - náklady 8,0M)", color: "#2563eb", group: "voda" },
+          { name: "Ostatní hospodářská činnost (OHČ – čistý výnos)", val: 3.4, sub: "Komerční pronájmy pozemků a hospodářské služby města", color: "#3b82f6", group: "voda" },
+          { name: "Rezervní fond vodohospodářský (akumulace)", val: 12.8, sub: "Zapojení naakumulovaných zdrojů fondu na rekonstrukce vodovodů", color: "#60a5fa", group: "voda" },
           { name: "Městské lesy – prodej dřeva a hospodaření", val: 4.2, sub: "Vlastní tržby z těžby dřeva a lesního hospodářství (čistý zisk +1,56M)", color: "#0d9488", group: "lesy" },
-          { name: "Dotace na projekty Městských lesů", val: 26.8, sub: "Dotace na dětskou skupinu (20M), Cestu lásky (80 %), altán a tůně", color: "#14b8a6", group: "lesy" },
+          { name: "Dotace na projekty Městských lesů (2025/26)", val: 26.8, sub: "Dotace na dětskou skupinu (20M), Cestu lásky (80 %), altán a tůně", color: "#14b8a6", group: "lesy" },
           { name: "Fondy města a předfinancování lesních akcí", val: 19.7, sub: "Kofinancování výstavby dětské skupiny a lesní infrastruktury", color: "#64748b", group: "lesy" }
         ],
         midLeft: [
@@ -5867,71 +6028,105 @@
           { id: "lesy", name: "MĚSTSKÉ LESY A DOTACE", val: 50.7, pct: "49 %", color: "#0d9488" }
         ],
         midRight: [
-          { id: "capex", name: "INVESTICE STŘEDISEK HČ", val: 78.9, pct: "77,1 %", color: "#dc2626" },
+          { id: "capex", name: "INVESTICE STŘEDISEK HČ", val: 78.9, pct: "77,1 %", color: "#be123c" },
           { id: "opex", name: "ODVOD MĚSTU A REZERVY", val: 23.5, pct: "22,9 %", color: "#334155" }
         ],
         targets: [
-          { name: "Vybudování nové dětské skupiny", val: 38.0, sub: "Stěžejní investice v rámci Městských lesů / města (dotace 20,0M)", color: "#dc2626", parent: "capex" },
+          { name: "Vybudování nové dětské skupiny", val: 38.0, sub: "Stěžejní investice v rámci Městských lesů / města (dotace 20,0M)", color: "#be123c", parent: "capex" },
           { name: "Rekonstrukce vodovodu a kanalizace Tuchorazská", val: 16.0, sub: "Hlavní vodohospodářská stavba + příprava intenzifikace ČOV", color: "#2563eb", parent: "capex" },
           { name: "PD vodovodů a obnova sítí (7 ulic + vodoměry)", val: 9.4, sub: "PD Klučovská, Za Drahou, Žižkova, Ruská, Sokolovská, 28. října, vodoměry", color: "#3b82f6", parent: "capex" },
           { name: "Lesní cesta „Cesta lásky“ (2. část)", val: 6.8, sub: "Kompletní rekonstrukce lesní cesty Městských lesů (dotace 80 %)", color: "#0d9488", parent: "capex" },
           { name: "Bytový fond a kotelna v Nemocnici", val: 4.8, sub: "Technologie kotelny v nemocnici (1,2M), PD čp. 202 (1,3M), čp. 620, spisovna", color: "#059669", parent: "capex" },
           { name: "Lesní technika, altán Skautská louka a tůně", val: 3.9, sub: "Lesnický traktor (2,6M), altán a lesní workout (1,2M), tůně v lese (0,25M)", color: "#16a34a", parent: "capex" },
           { name: "Tvorba Fondu bytového hospodářství a nemocnice", val: 20.5, sub: "Akumulace čistého zisku z nájmů na budoucí výstavbu a opravy domů", color: "#475569", parent: "opex" },
-          { name: "Převod zisku do hlavního rozpočtu města", val: 3.0, sub: "Příspěvek z OHČ (2,5M), Městských lesů (0,5M) a daň DPPO obce (8,4M)", color: "#334155", parent: "opex" }
+          { name: "Převod zisku do hlavního rozpočtu města", val: 3.0, sub: "Příspěvek z OHČ (2,5M) a Městských lesů (0,5M) + daň DPPO obce (8,4M)", color: "#0f172a", parent: "opex" }
         ]
       }
     };
 
-    let currentBudgetYear = "2025";
+    let currentBudgetYear = "2026";
+    let currentBudgetScope = "main"; // 'main' | 'merged' | 'vhc'
 
     function setBudgetYear(yr) {
       currentBudgetYear = yr;
-      document.querySelectorAll(".byear-btn").forEach(btn => {
-        if (btn.dataset.byear === yr) {
-          btn.className = "byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-emerald-600 bg-emerald-600 text-white shadow-sm";
-        } else {
-          btn.className = "byear-btn px-3.5 py-1.5 rounded-xl text-xs font-bold border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)]";
-        }
-      });
+      if (yr === "2023" || yr === "2024") {
+        if (currentBudgetScope === "merged") currentBudgetScope = "main";
+      }
+      updateBudgetControlsUI();
       renderBudgetSection();
+    }
+
+    function setBudgetScope(scope) {
+      currentBudgetScope = scope;
+      updateBudgetControlsUI();
+      renderBudgetSection();
+    }
+
+    function updateBudgetControlsUI() {
+      document.querySelectorAll(".byear-btn").forEach(btn => {
+        const isAct = btn.dataset.byear === currentBudgetYear && currentBudgetScope !== "vhc";
+        btn.className = isAct
+          ? "byear-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white"
+          : "byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white";
+      });
+      document.querySelectorAll(".scope-btn").forEach(btn => {
+        const isAct = btn.dataset.scope === currentBudgetScope;
+        btn.className = isAct
+          ? "scope-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white"
+          : "scope-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white";
+      });
+    }
+
+    function getActiveBudgetDataset() {
+      if (currentBudgetScope === "vhc") {
+        return BUDGET_DATA["vhc"];
+      }
+      if (currentBudgetScope === "merged") {
+        return BUDGET_DATA["2026_merged"];
+      }
+      return BUDGET_DATA[currentBudgetYear] || BUDGET_DATA["2026"];
     }
 
     function showSankeyInfo(title, val, total, sub) {
       const pct = ((val / total) * 100).toFixed(1);
       const perCap = Math.round((val * 1000000) / 7355).toLocaleString("cs-CZ");
       document.getElementById("sankeyHoverBadge").innerHTML = `
-        <strong>${title}:</strong> ${val.toFixed(1)} mil. Kč (${pct} % rozpočtu • ${perCap} Kč / obyvatele) — <span class="font-normal">${sub}</span>
+        <strong class="text-slate-900">${title}:</strong> ${val.toFixed(1)} mil. Kč (${pct} % • ${perCap} Kč / obyv.) — <span class="text-slate-500 font-sans">${sub}</span>
       `;
     }
 
     function renderBudgetSection() {
-      const b = BUDGET_DATA[currentBudgetYear];
-      document.getElementById("sankeyTitle").textContent = `Český Brod — ${b.label}`;
+      const b = getActiveBudgetDataset();
+      document.getElementById("sankeyTitle").textContent = b.label;
+      document.getElementById("sankeySubtitle").textContent = b.subtitle;
 
-      // 1. KPI karty
+      document.getElementById("budgetContextBanner").innerHTML = `
+        <div><strong class="text-slate-800">Kontext zobrazení:</strong> ${b.contextNote}</div>
+      `;
+
+      // 1. KPI Cards
       document.getElementById("budgetKpiGrid").innerHTML = b.kpis.map(k => `
-        <div class="bg-[var(--card)] border border-[var(--border)] border-l-4 ${k.color} rounded-xl p-4 shadow-sm">
-          <div class="text-xs font-bold uppercase tracking-wider text-[var(--muted-foreground)]">${k.title}</div>
-          <div class="text-xl font-extrabold text-[var(--foreground)] mt-1">${k.val}</div>
-          <div class="text-xs text-[var(--muted-foreground)] mt-1">${k.sub}</div>
+        <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
+          <div class="text-[11px] font-mono-num font-bold uppercase tracking-wider text-slate-400">${k.title}</div>
+          <div class="text-xl font-extrabold font-mono-num text-slate-900 mt-1">${k.val}</div>
+          <div class="text-xs text-slate-500 mt-1 leading-snug">${k.sub}</div>
         </div>
       `).join("");
 
-      // 2. Interaktivní SVG Sankey Diagram
-      const W = 1380, H = 740;
-      const X1 = 275, X2 = 485, X3 = 690, X4 = 895, X5 = 1105;
-      const NW = 18;
-      const SCALE = 430.0 / b.totalOut;
-      const TOP_Y = 48;
+      // 2. Interactive SVG Sankey Diagram
+      const W = 1380, H = 720;
+      const X1 = 290, X2 = 500, X3 = 700, X4 = 900, X5 = 1100;
+      const NW = 16;
+      const SCALE = 420.0 / b.totalOut;
+      const TOP_Y = 46;
 
       const c3H = b.totalOut * SCALE;
-      const c3Y = TOP_Y + (640 - c3H) / 2;
+      const c3Y = TOP_Y + (630 - c3H) / 2;
 
       // Col 2
       const gap2 = 24;
       const totH2 = b.midLeft.reduce((a, g) => a + g.val * SCALE, 0) + gap2 * (b.midLeft.length - 1);
-      let y2 = TOP_Y + (640 - totH2) / 2;
+      let y2 = TOP_Y + (630 - totH2) / 2;
       const c2 = {};
       b.midLeft.forEach(g => {
         const h = Math.max(6, g.val * SCALE);
@@ -5940,9 +6135,9 @@
       });
 
       // Col 1
-      const gap1 = 12;
+      const gap1 = 13;
       const totH1 = b.sources.reduce((a, s) => a + Math.max(5, s.val * SCALE), 0) + gap1 * (b.sources.length - 1);
-      let y1 = TOP_Y + (640 - totH1) / 2;
+      let y1 = TOP_Y + (630 - totH1) / 2;
       const c1 = b.sources.map(s => {
         const h = Math.max(5, s.val * SCALE);
         const obj = { top: y1, bot: y1 + h, data: s };
@@ -5953,7 +6148,7 @@
       // Col 4
       const gap4 = 52;
       const totH4 = b.midRight.reduce((a, g) => a + g.val * SCALE, 0) + gap4 * (b.midRight.length - 1);
-      let y4 = TOP_Y + (640 - totH4) / 2;
+      let y4 = TOP_Y + (630 - totH4) / 2;
       const c4 = {};
       b.midRight.forEach(g => {
         const h = Math.max(8, g.val * SCALE);
@@ -5962,9 +6157,9 @@
       });
 
       // Col 5
-      const gap5 = 11;
+      const gap5 = 12;
       const totH5 = b.targets.reduce((a, t) => a + Math.max(5, t.val * SCALE), 0) + gap5 * (b.targets.length - 1);
-      let y5 = TOP_Y + (640 - totH5) / 2;
+      let y5 = TOP_Y + (630 - totH5) / 2;
       const c5 = b.targets.map(t => {
         const h = Math.max(5, t.val * SCALE);
         const obj = { top: y5, bot: y5 + h, data: t };
@@ -5976,20 +6171,21 @@
         const cx0 = x0 + (x1 - x0) * 0.48;
         const cx1 = x0 + (x1 - x0) * 0.52;
         const safeSub = (sub || "").replace(/'/g, "");
-        return `<path class="sankey-path" onmouseenter="showSankeyInfo('${title}', ${val}, ${b.totalOut}, '${safeSub}')" d="M ${x0},${y0t} C ${cx0},${y0t} ${cx1},${y1t} ${x1},${y1t} L ${x1},${y1b} C ${cx1},${y1b} ${cx0},${y0b} ${x0},${y0b} Z" fill="${col}" opacity="0.40"/>`;
+        return `<path class="sankey-path" onmouseenter="showSankeyInfo('${title}', ${val}, ${b.totalOut}, '${safeSub}')" d="M ${x0},${y0t} C ${cx0},${y0t} ${cx1},${y1t} ${x1},${y1t} L ${x1},${y1b} C ${cx1},${y1b} ${cx0},${y0b} ${x0},${y0b} Z" fill="${col}" opacity="0.34"/>`;
       };
 
       let svg = `<svg viewBox="0 0 ${W} ${H}" class="w-full h-auto select-none">`;
       svg += `<rect width="${W}" height="${H}" fill="#ffffff"/>`;
 
-      // Záhlaví sloupců
-      svg += `<text x="${X1-10}" y="22" fill="#64748b" font-size="11" font-weight="800" text-anchor="end">1. ZDROJE PŘÍJMŮ</text>`;
-      svg += `<text x="${X2+9}" y="22" fill="#64748b" font-size="11" font-weight="800" text-anchor="middle">2. TŘÍDY PŘÍJMŮ</text>`;
-      svg += `<text x="${X3+11}" y="22" fill="#0f172a" font-size="11" font-weight="900" text-anchor="middle">3. ROZPOČET CELKEM</text>`;
-      svg += `<text x="${X4+9}" y="22" fill="#64748b" font-size="11" font-weight="800" text-anchor="middle">4. PROVOZ VS. INVESTICE</text>`;
-      svg += `<text x="${X5+28}" y="22" fill="#64748b" font-size="11" font-weight="800" text-anchor="start">5. NA CO PENÍZE JDOU</text>`;
+      // Column headers
+      svg += `<text x="${X1-10}" y="20" fill="#64748b" font-size="10.5" font-weight="700" text-anchor="end" letter-spacing="0.6">01 / ZDROJE PŘÍJMŮ</text>`;
+      svg += `<text x="${X2+8}" y="20" fill="#64748b" font-size="10.5" font-weight="700" text-anchor="middle" letter-spacing="0.6">02 / KATEGORIE PŘÍJMŮ</text>`;
+      svg += `<text x="${X3+10}" y="20" fill="#0f172a" font-size="10.5" font-weight="800" text-anchor="middle" letter-spacing="0.6">03 / BILANCE CELKEM</text>`;
+      svg += `<text x="${X4+8}" y="20" fill="#64748b" font-size="10.5" font-weight="700" text-anchor="middle" letter-spacing="0.6">04 / PROVOZ VS. INVESTICE</text>`;
+      svg += `<text x="${X5+26}" y="20" fill="#64748b" font-size="10.5" font-weight="700" text-anchor="start" letter-spacing="0.6">05 / ÚČEL VÝDAJŮ A AKCE</text>`;
+      svg += `<line x1="10" y1="28" x2="${W-10}" y2="28" stroke="#f1f5f9" stroke-width="1.5"/>`;
 
-      // Stuhy 1 -> 2
+      // Links 1 -> 2
       c1.forEach(item => {
         const s = item.data;
         const g = c2[s.group];
@@ -5998,7 +6194,7 @@
         g.curIn += h;
       });
 
-      // Stuhy 2 -> 3
+      // Links 2 -> 3
       let cur3In = c3Y;
       b.midLeft.forEach(g => {
         const gb = c2[g.id];
@@ -6007,7 +6203,7 @@
         cur3In += h;
       });
 
-      // Stuhy 3 -> 4
+      // Links 3 -> 4
       let cur3Out = c3Y;
       b.midRight.forEach(g => {
         const gb = c4[g.id];
@@ -6016,7 +6212,7 @@
         cur3Out += h;
       });
 
-      // Stuhy 4 -> 5
+      // Links 4 -> 5
       c5.forEach(item => {
         const t = item.data;
         const p = c4[t.parent];
@@ -6025,64 +6221,67 @@
         p.curOut += h;
       });
 
-      // Uzly Col 1
+      // Nodes Col 1
       c1.forEach(item => {
         const s = item.data;
         const mid = (item.top + item.bot) / 2;
-        svg += `<rect x="${X1}" y="${item.top}" width="${NW}" height="${item.bot - item.top}" rx="3" fill="${s.color}"/>`;
-        svg += `<text x="${X1-8}" y="${mid+4}" fill="#0f172a" font-size="11" font-weight="800" text-anchor="end">${s.name}: <tspan fill="${s.color}">${s.val.toFixed(1)}M</tspan></text>`;
+        svg += `<rect x="${X1}" y="${item.top}" width="${NW}" height="${item.bot - item.top}" rx="2" fill="${s.color}"/>`;
+        svg += `<text x="${X1-8}" y="${mid+4}" fill="#0f172a" font-size="11" font-weight="600" text-anchor="end">${s.name} <tspan fill="${s.color}" font-family="JetBrains Mono, monospace" font-weight="700">${s.val.toFixed(1)}M</tspan></text>`;
       });
 
-      // Uzly Col 2
+      // Nodes Col 2
       b.midLeft.forEach(g => {
         const gb = c2[g.id];
         const mid = (gb.top + gb.bot) / 2;
-        svg += `<rect x="${X2}" y="${gb.top}" width="${NW}" height="${gb.bot - gb.top}" rx="4" fill="${g.color}"/>`;
-        svg += `<rect x="${X2 - 72}" y="${mid - 18}" width="162" height="36" rx="7" fill="#ffffff" stroke="${g.color}" stroke-width="1.8"/>`;
-        svg += `<text x="${X2 + 9}" y="${mid - 3}" fill="#0f172a" font-size="10" font-weight="800" text-anchor="middle">${g.name}</text>`;
-        svg += `<text x="${X2 + 9}" y="${mid + 12}" fill="${g.color}" font-size="11" font-weight="900" text-anchor="middle">${g.val.toFixed(1)}M (${g.pct})</text>`;
+        svg += `<rect x="${X2}" y="${gb.top}" width="${NW}" height="${gb.bot - gb.top}" rx="3" fill="${g.color}"/>`;
+        svg += `<rect x="${X2 - 76}" y="${mid - 18}" width="168" height="36" rx="5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>`;
+        svg += `<text x="${X2 + 8}" y="${mid - 3}" fill="#0f172a" font-size="9.5" font-weight="700" text-anchor="middle">${g.name}</text>`;
+        svg += `<text x="${X2 + 8}" y="${mid + 12}" fill="${g.color}" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle">${g.val.toFixed(1)}M (${g.pct})</text>`;
       });
 
-      // Uzel Col 3 (Střed)
+      // Center Node Col 3
       const c3Mid = c3Y + c3H / 2;
-      svg += `<rect x="${X3}" y="${c3Y}" width="${NW+4}" height="${c3H}" rx="5" fill="#0f172a"/>`;
-      svg += `<rect x="${X3 - 78}" y="${c3Mid - 32}" width="178" height="64" rx="11" fill="#0f172a" stroke="#38bdf8" stroke-width="2"/>`;
-      svg += `<text x="${X3 + 11}" y="${c3Mid - 11}" fill="#38bdf8" font-size="10" font-weight="800" text-anchor="middle">CELKOVÝ ROZPOČET</text>`;
-      svg += `<text x="${X3 + 11}" y="${c3Mid + 12}" fill="#ffffff" font-size="18" font-weight="900" text-anchor="middle">${b.totalOut.toFixed(1)} mil. Kč</text>`;
+      svg += `<rect x="${X3}" y="${c3Y}" width="${NW+4}" height="${c3H}" rx="4" fill="#0f172a"/>`;
+      svg += `<rect x="${X3 - 78}" y="${c3Mid - 30}" width="176" height="60" rx="8" fill="#0f172a"/>`;
+      svg += `<text x="${X3 + 10}" y="${c3Mid - 9}" fill="#94a3b8" font-size="9.5" font-weight="700" text-anchor="middle" letter-spacing="0.6">CELKOVÝ OBJEM</text>`;
+      svg += `<text x="${X3 + 10}" y="${c3Mid + 13}" fill="#ffffff" font-family="JetBrains Mono, monospace" font-size="17" font-weight="800" text-anchor="middle">${b.totalOut.toFixed(1)} mil. Kč</text>`;
 
-      // Uzly Col 4
+      // Nodes Col 4
       b.midRight.forEach(g => {
         const gb = c4[g.id];
         const mid = (gb.top + gb.bot) / 2;
-        svg += `<rect x="${X4}" y="${gb.top}" width="${NW}" height="${gb.bot - gb.top}" rx="4" fill="${g.color}"/>`;
-        svg += `<rect x="${X4 - 78}" y="${mid - 18}" width="174" height="36" rx="7" fill="#ffffff" stroke="${g.color}" stroke-width="1.8"/>`;
-        svg += `<text x="${X4 + 9}" y="${mid - 3}" fill="#0f172a" font-size="10" font-weight="800" text-anchor="middle">${g.name}</text>`;
-        svg += `<text x="${X4 + 9}" y="${mid + 12}" fill="${g.color}" font-size="11" font-weight="900" text-anchor="middle">${g.val.toFixed(1)}M (${g.pct})</text>`;
+        svg += `<rect x="${X4}" y="${gb.top}" width="${NW}" height="${gb.bot - gb.top}" rx="3" fill="${g.color}"/>`;
+        svg += `<rect x="${X4 - 80}" y="${mid - 18}" width="176" height="36" rx="5" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>`;
+        svg += `<text x="${X4 + 8}" y="${mid - 3}" fill="#0f172a" font-size="9.5" font-weight="700" text-anchor="middle">${g.name}</text>`;
+        svg += `<text x="${X4 + 8}" y="${mid + 12}" fill="${g.color}" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700" text-anchor="middle">${g.val.toFixed(1)}M (${g.pct})</text>`;
       });
 
-      // Uzly Col 5
+      // Nodes Col 5
       c5.forEach(item => {
         const t = item.data;
         const mid = (item.top + item.bot) / 2;
-        svg += `<rect x="${X5}" y="${item.top}" width="${NW}" height="${item.bot - item.top}" rx="3" fill="${t.color}"/>`;
-        svg += `<text x="${X5 + NW + 8}" y="${mid + 4}" fill="#0f172a" font-size="11" font-weight="800" text-anchor="start">${t.name}: <tspan fill="${t.color}">${t.val.toFixed(1)}M</tspan></text>`;
+        svg += `<rect x="${X5}" y="${item.top}" width="${NW}" height="${item.bot - item.top}" rx="2" fill="${t.color}"/>`;
+        svg += `<text x="${X5 + NW + 8}" y="${mid + 4}" fill="#0f172a" font-size="11" font-weight="600" text-anchor="start"><tspan fill="${t.color}" font-family="JetBrains Mono, monospace" font-weight="700">${t.val.toFixed(1)}M</tspan> ${t.name}</text>`;
       });
 
       svg += `</svg>`;
       document.getElementById("sankeySvgWrapper").innerHTML = svg;
 
-      // 3. Tabulky příjmů a výdajů
+      // 3. Breakdown Tables
       document.getElementById("incomeTableContainer").innerHTML = b.sources.map(s => {
         const pct = ((s.val / b.totalOut) * 100).toFixed(1);
         return `
-          <div class="p-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-between gap-2">
-            <div>
-              <div class="text-xs font-bold text-[var(--foreground)]">${s.name}</div>
-              <div class="text-xs text-[var(--muted-foreground)]">${s.sub}</div>
+          <div class="px-4 py-2.5 flex items-center justify-between gap-3 hover:bg-slate-50/80">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="w-2 h-2 rounded-full mt-1.5 shrink-0" style="background:${s.color}"></span>
+              <div>
+                <div class="text-xs font-semibold text-slate-900">${s.name}</div>
+                <div class="text-[11px] text-slate-500">${s.sub}</div>
+              </div>
             </div>
-            <div class="text-right shrink-0">
-              <div class="text-xs font-extrabold" style="color:${s.color}">${s.val.toFixed(1)} mil. Kč</div>
-              <div class="text-xs text-[var(--muted-foreground)]">${pct} %</div>
+            <div class="text-right shrink-0 font-mono-num">
+              <div class="text-xs font-bold text-slate-900">${s.val.toFixed(1)} mil. Kč</div>
+              <div class="text-[11px] text-slate-500">${pct} %</div>
             </div>
           </div>
         `;
@@ -6090,26 +6289,29 @@
 
       document.getElementById("expenseTableContainer").innerHTML = b.targets.map(t => {
         const pct = ((t.val / b.totalOut) * 100).toFixed(1);
-        const badge = t.parent === "capex" ? "Investice" : "Provoz";
+        const isCapex = t.parent === "capex";
         return `
-          <div class="p-2.5 rounded-xl bg-[var(--background)] border border-[var(--border)] flex items-center justify-between gap-2">
-            <div>
-              <div class="flex items-center gap-1.5">
-                <span class="text-xs font-bold text-[var(--foreground)]">${t.name}</span>
-                <span class="px-1.5 py-0.5 rounded text-xs font-semibold ${t.parent === 'capex' ? 'bg-rose-500/15 text-rose-500' : 'bg-slate-500/15 text-slate-400'}">${badge}</span>
+          <div class="px-4 py-2.5 flex items-center justify-between gap-3 hover:bg-slate-50/80">
+            <div class="flex items-start gap-2.5 min-w-0">
+              <span class="w-2 h-2 rounded-full mt-1.5 shrink-0" style="background:${t.color}"></span>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-semibold text-slate-900">${t.name}</span>
+                  <span class="px-1.5 py-0.2 rounded text-[10px] font-mono-num font-semibold ${isCapex ? 'bg-rose-50 text-rose-800 border border-rose-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}">${isCapex ? 'Investice' : 'Provoz'}</span>
+                </div>
+                <div class="text-[11px] text-slate-500">${t.sub}</div>
               </div>
-              <div class="text-xs text-[var(--muted-foreground)]">${t.sub}</div>
             </div>
-            <div class="text-right shrink-0">
-              <div class="text-xs font-extrabold" style="color:${t.color}">${t.val.toFixed(1)} mil. Kč</div>
-              <div class="text-xs text-[var(--muted-foreground)]">${pct} %</div>
+            <div class="text-right shrink-0 font-mono-num">
+              <div class="text-xs font-bold text-slate-900">${t.val.toFixed(1)} mil. Kč</div>
+              <div class="text-[11px] text-slate-500">${pct} %</div>
             </div>
           </div>
         `;
       }).join("");
     }
 
-    // Inicializace při načtení
+    // Initialize on load
     renderMapAndList();
   </script>
 </body>

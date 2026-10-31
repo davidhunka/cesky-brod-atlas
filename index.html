@@ -7354,6 +7354,211 @@
     "source": "Město Český Brod – Státní fond dopravní infrastruktury (SFDI) a IROP (dotační programy bezpečnosti)"
   }
 ];
+
+    let currentYearFilter = "all";
+    let currentAccuracyFilter = "all"; // 'all' | 'osm' | 'approx'
+    let selectedRouteId = 3;
+    let leafletMap = null;
+    let leafletLayerGroup = null;
+
+    function switchMainTab(tab) {
+      const sMap = document.getElementById("sectionMap");
+      const sBud = document.getElementById("sectionBudget");
+      const bMap = document.getElementById("tabBtnMap");
+      const bBud = document.getElementById("tabBtnBudget");
+
+      const activeCls = "px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-slate-900 text-white shadow-sm";
+      const idleCls = "px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900";
+
+      if (tab === "map") {
+        sMap.classList.remove("hidden");
+        sBud.classList.add("hidden");
+        bMap.className = activeCls;
+        bBud.className = idleCls;
+        if (leafletMap) setTimeout(() => leafletMap.invalidateSize(), 50);
+      } else {
+        sMap.classList.add("hidden");
+        sBud.classList.remove("hidden");
+        bBud.className = activeCls;
+        bMap.className = idleCls;
+        renderBudgetSection();
+      }
+    }
+
+    function setYearFilter(year) {
+      currentYearFilter = year;
+      document.querySelectorAll(".year-btn").forEach(btn => {
+        const isAct = btn.dataset.year === year;
+        if (isAct) {
+          btn.className = "year-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white flex items-center gap-1.5";
+        } else {
+          btn.className = "year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5";
+        }
+      });
+      renderMapAndList();
+    }
+
+    function setAccuracyFilter(acc) {
+      currentAccuracyFilter = acc;
+      document.querySelectorAll(".acc-btn").forEach(btn => {
+        const isAct = btn.dataset.acc === acc;
+        btn.className = isAct
+          ? "acc-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white"
+          : "acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white";
+      });
+      renderMapAndList();
+    }
+
+    function resetMapView(mode) {
+      if (!leafletMap) return;
+      if (mode === "city") {
+        leafletMap.setView([50.0755, 14.8600], 14);
+      } else {
+        leafletMap.setView([50.0680, 14.8650], 12);
+      }
+    }
+
+    function getFilteredRoutes() {
+      const catFilter = document.getElementById("filterCategory").value;
+      const q = (document.getElementById("routeSearchInput").value || "").trim().toLowerCase();
+      return ROUTES.filter(r => {
+        if (currentYearFilter !== "all" && r.yearCat !== currentYearFilter) return false;
+        if (currentAccuracyFilter === "osm" && r.dashed) return false;
+        if (currentAccuracyFilter === "approx" && !r.dashed) return false;
+        if (catFilter !== "all" && r.category !== catFilter) return false;
+        if (q) {
+          const hay = `${r.id} ${r.name} ${r.fromTo} ${r.fromLabel} ${r.toLabel} ${r.source || ""}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+    }
+
+    function selectRoute(id, focusMap = true) {
+      selectedRouteId = id;
+      renderMapAndList();
+      if (focusMap && leafletMap) {
+        const r = ROUTES.find(x => x.id === id);
+        if (r) {
+          try {
+            const poly = L.polyline(r.coords);
+            leafletMap.fitBounds(poly.getBounds(), { padding: [50, 50], maxZoom: 15 });
+          } catch (e) {
+            leafletMap.panTo(r.center);
+          }
+        }
+      }
+    }
+
+    function renderMapAndList() {
+      const filtered = getFilteredRoutes();
+      document.getElementById("routeCountBadge").textContent = filtered.length;
+
+      if (filtered.length > 0 && !filtered.some(r => r.id === selectedRouteId)) {
+        selectedRouteId = filtered[0].id;
+      }
+
+      renderLeafletMap(filtered);
+      renderRouteDetailCard();
+      renderRouteList(filtered);
+    }
+
+    function renderLeafletMap(filtered) {
+      if (!leafletMap) {
+        leafletMap = L.map("leafletMapContainer", { zoomControl: true }).setView([50.0725, 14.8620], 13);
+        const osmStd = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        }).addTo(leafletMap);
+        const osmHot = L.tileLayer("https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution: '&copy; OpenStreetMap, HOT'
+        });
+        L.control.layers({ "Standardní OpenStreetMap": osmStd, "Humanitární / kontrastní podklad": osmHot }, null, { position: "bottomright" }).addTo(leafletMap);
+        leafletLayerGroup = L.layerGroup().addTo(leafletMap);
+      }
+      setTimeout(() => leafletMap.invalidateSize(), 50);
+      leafletLayerGroup.clearLayers();
+
+      filtered.forEach(r => {
+        const col = YEAR_COLORS[r.yearCat] || "#2563eb";
+        const isSel = r.id === selectedRouteId;
+        const weight = isSel ? 6.5 : 4.2;
+        const dashArray = r.dashed ? "8, 6" : null;
+
+        if (isSel) {
+          L.polyline(r.coords, { color: "#0f172a", weight: 11, opacity: 0.35, lineCap: "round", lineJoin: "round" }).addTo(leafletLayerGroup);
+        } else {
+          L.polyline(r.coords, { color: "#ffffff", weight: 7.2, opacity: 0.85, lineCap: "round", lineJoin: "round" }).addTo(leafletLayerGroup);
+        }
+
+        const poly = L.polyline(r.coords, {
+          color: col,
+          weight: weight,
+          opacity: 0.95,
+          dashArray: dashArray,
+          lineCap: "round",
+          lineJoin: "round"
+        }).addTo(leafletLayerGroup);
+
+        poly.on("click", () => selectRoute(r.id, false));
+
+        let startPt = null;
+        let endPt = null;
+        if (Array.isArray(r.coords[0]) && Array.isArray(r.coords[0][0])) {
+          const firstSeg = r.coords[0];
+          const lastSeg = r.coords[r.coords.length - 1];
+          startPt = firstSeg[0];
+          endPt = lastSeg[lastSeg.length - 1];
+        } else if (Array.isArray(r.coords) && r.coords.length >= 2) {
+          startPt = r.coords[0];
+          endPt = r.coords[r.coords.length - 1];
+        }
+
+        if (isSel && startPt && endPt) {
+          const aIcon = L.divIcon({
+            className: "",
+            html: `<div class="leaflet-badge-icon" style="width:20px;height:20px;background:#0f172a;font-size:10px;">A</div>`,
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+          });
+          const bIcon = L.divIcon({
+            className: "",
+            html: `<div class="leaflet-badge-icon" style="width:20px;height:20px;background:#dc2626;font-size:10px;">B</div>`,
+            iconSize: [20, 20],
+            iconAnchor: [10, 10]
+          });
+          L.marker(startPt, { icon: aIcon }).bindTooltip(`Start A: ${r.fromLabel}`).addTo(leafletLayerGroup);
+          L.marker(endPt, { icon: bIcon }).bindTooltip(`Cíl B: ${r.toLabel}`).addTo(leafletLayerGroup);
+        }
+
+        const sz = isSel ? 26 : 21;
+        const borderCol = isSel ? "#0f172a" : "#ffffff";
+        const badgeIcon = L.divIcon({
+          className: "",
+          html: `<div class="leaflet-badge-icon" style="width:${sz}px;height:${sz}px;background:${col};border-color:${borderCol};border-width:${isSel?2.5:2}px;">${r.id}</div>`,
+          iconSize: [sz, sz],
+          iconAnchor: [sz/2, sz/2]
+        });
+        const marker = L.marker(r.center, { icon: badgeIcon }).addTo(leafletLayerGroup);
+        marker.bindTooltip(`#${r.id} ${r.name} (${r.yearCat})`);
+        marker.on("click", () => selectRoute(r.id, false));
+      });
+    }
+
+    function renderRouteDetailCard() {
+      const r = ROUTES.find(x => x.id === selectedRouteId) || ROUTES[0];
+      const col = YEAR_COLORS[r.yearCat] || "#2563eb";
+
+      let sCoord = [50.075, 14.86];
+      let eCoord = [50.075, 14.86];
+      if (Array.isArray(r.coords[0]) && Array.isArray(r.coords[0][0])) {
+        sCoord = r.coords[0][0];
+        const lastSeg = r.coords[r.coords.length - 1];
+        eCoord = lastSeg[lastSeg.length - 1];
+      } else if (Array.isArray(r.coords) && r.coords.length >= 2) {
+        sCoord = r.coords[0];
+        eCoord = r.coords[r.coords.length - 1];
       }
 
       const accBadge = r.dashed

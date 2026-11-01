@@ -9,10 +9,8 @@ ve stylu "App Economy Insights" (How They Make & Spend Money):
 
 import os
 
-OUT_DIR = "/Users/david.hunka/.gemini/antigravity/scratch/cesky-brod-atlas"
-ARTIFACT_DIR = "/Users/david.hunka/.gemini/antigravity/brain/fb04040c-a126-472b-977a-b11f7bcc8927"
+OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 os.makedirs(OUT_DIR, exist_ok=True)
-os.makedirs(ARTIFACT_DIR, exist_ok=True)
 
 
 def sankey_ribbon(x0, y0_top, y0_bot, x1, y1_top, y1_bot, color, opacity=0.42):
@@ -291,9 +289,8 @@ def build_app_economy_sankey(
 </svg>''')
 
     svg_str = "\n".join(svg)
-    for d in [OUT_DIR, ARTIFACT_DIR]:
-        with open(os.path.join(d, f"{filename_base}.svg"), "w", encoding="utf-8") as f:
-            f.write(svg_str)
+    with open(os.path.join(OUT_DIR, f"{filename_base}.svg"), "w", encoding="utf-8") as f:
+        f.write(svg_str)
     print(f"Generated {filename_base}.svg")
 
 

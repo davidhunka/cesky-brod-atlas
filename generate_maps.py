@@ -10,17 +10,22 @@ import json
 import math
 import subprocess
 import re
+import shutil
 
 OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = os.path.join(OUT_DIR, "tile_cache")
 
-YEAR_COLORS = {
-    "2020–2021": "#2563eb",
-    "2022–2023": "#0d9488",
-    "2024":      "#16a34a",
-    "2025":      "#ea580c",
-    "2026":      "#db2777",
-    "Plán 2026+": "#7c3aed"
+CATEGORY_COLORS = {
+    "stezka": "#1d4ed8",
+    "alej": "#15803d",
+    "polni": "#b45309",
+    "chodnik": "#334155",
+}
+CATEGORY_LABELS = {
+    "stezka": "Cyklostezky / naučné stezky",
+    "alej": "Aleje / přírodní pěší trasy",
+    "polni": "Polní cesty / biokoridory",
+    "chodnik": "Městské chodníky",
 }
 
 def latlon_to_tile_float(lat, lon, zoom):
@@ -41,8 +46,67 @@ def load_regional_grid():
         return json.load(f)
 
 def load_geojson():
-    with open(os.path.join(OUT_DIR, "trasy_ceskobrodsko.geojson"), "r", encoding="utf-8") as f:
-        return json.load(f)
+    with open(os.path.join(OUT_DIR, "index.html"), "r", encoding="utf-8") as f:
+        html = f.read()
+    match = re.search(r"const ROUTES = (\[.*?\]);", html, flags=re.DOTALL)
+    if not match:
+        raise ValueError("Cannot find the canonical ROUTES array in index.html")
+    routes = json.loads(match.group(1))
+    ids = [route.get("id") for route in routes]
+    if len(ids) != len(set(ids)) or not all(isinstance(route.get("coords"), list) and route["coords"] for route in routes):
+        raise ValueError("Routes must have unique IDs and non-empty coordinates")
+    features = []
+    for route in routes:
+        coords = route["coords"]
+        if coords and isinstance(coords[0][0], list):
+            points = [point for line in coords for point in line]
+            geometry = {"type": "MultiLineString", "coordinates": [
+                [[lon, lat] for lat, lon in line] for line in coords
+            ]}
+        else:
+            points = coords
+            geometry = {"type": "LineString", "coordinates": [[lon, lat] for lat, lon in coords]}
+        if not all(
+            isinstance(point, list) and len(point) == 2 and
+            -90 <= point[0] <= 90 and -180 <= point[1] <= 180
+            for point in points
+        ):
+            raise ValueError(f"Route {route.get('id')} has invalid latitude/longitude coordinates")
+        features.append({
+            "type": "Feature",
+            "properties": {
+                "id": route["id"],
+                "name": f'#{route["id"]} {route["name"]}',
+                "rok_obnovy": route.get("yearCat", ""),
+                "category": route.get("category", ""),
+                "mapy_cz_stav": route.get("mapyStatus", ""),
+                "stroke": CATEGORY_COLORS.get(route.get("category"), "#2563eb"),
+                "presnost": "orientacni" if route.get("dashed") else "OSM",
+                "stroke-dasharray": "8,6" if route.get("dashed") else None,
+                "delka_povrch": route.get("lengthSurface", ""),
+                "odkud_A": route.get("fromLabel", ""),
+                "kam_B": route.get("toLabel", ""),
+                "zdroj": route.get("source", ""),
+                "zdroj_url": route.get("sourceUrl", ""),
+                "zdroj_dokument": route.get("sourceDoc", ""),
+                "zdroj_citace": route.get("sourceQuote", ""),
+                "zdroj_url2": route.get("sourceUrl2", ""),
+                "osm_url": route.get("osmUrl", ""),
+                "stav_zakresu": "orientacni_nebo_plan" if route.get("dashed") else "oznaceno_osm",
+                "naklady": route.get("costAmount", ""),
+                "poznamka_k_nakladum": route.get("costScopeNote", ""),
+            },
+            "geometry": geometry,
+        })
+    return {"type": "FeatureCollection", "features": features}
+
+
+def write_geojson():
+    path = os.path.join(OUT_DIR, "trasy_ceskobrodsko.geojson")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(load_geojson(), f, ensure_ascii=False, indent=2)
+        f.write("\n")
+    print(f"Generated {os.path.basename(path)}")
 
 def render_svg_to_png(svg_path, width=1920, height=1280):
     png_path = svg_path.replace(".svg", ".png")
@@ -50,7 +114,7 @@ def render_svg_to_png(svg_path, width=1920, height=1280):
         r"C:\Program Files\Google\Chrome\Application\chrome.exe",
         r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
     ]
-    browser = next((b for b in chrome_candidates if os.path.exists(b)), None)
+    browser = shutil.which("chromium") or shutil.which("chromium-browser") or shutil.which("google-chrome") or shutil.which("google-chrome-stable") or next((b for b in chrome_candidates if os.path.exists(b)), None)
     if not browser:
         print("Warning: No headless browser found for PNG rendering.")
         return
@@ -98,7 +162,7 @@ def generate_regional_map():
   <!-- Hlavička -->
   <rect x="24" y="16" width="{W-48}" height="74" rx="14" fill="url(#hdrReg)" filter="url(#regShadow)"/>
   <text x="48" y="48" fill="#ffffff" font-size="23" font-weight="900">MAPA OBNOVENÝCH STEZEK A POLNÍCH CEST NA CELÉM ČESKOBRODSKU (2020–2026+)</text>
-  <text x="48" y="72" fill="#94a3b8" font-size="13.5" font-weight="600">Reálný mapový podklad OpenStreetMap (Zoom 13) • 13 tras ověřeno v OSM (plná čára) • 12 tras orientačních/v přípravě (čárkovaná čára)</text>
+  <text x="48" y="72" fill="#94a3b8" font-size="13.5" font-weight="600">Podklad OpenStreetMap (Zoom 13) • Plná čára: označení OSM • Čárkovaná: orientační / plán</text>
 
   <g clip-path="url(#regClip)">
 ''')
@@ -118,7 +182,7 @@ def generate_regional_map():
         rid = p["id"]
         geom = f["geometry"]
         is_osm = p.get("presnost") == "OSM"
-        col = p.get("stroke") or YEAR_COLORS.get(p.get("rok_obnovy"), "#2563eb")
+        col = p.get("stroke") or CATEGORY_COLORS.get(p.get("category"), "#2563eb")
         dash = "" if is_osm else 'stroke-dasharray="9,6"'
         sw = 5.2 if is_osm else 4.4
 
@@ -166,19 +230,7 @@ def generate_regional_map():
     }
 
     # Popisky klíčových oblastí
-    reg_callouts = [
-        (7, 105, -45, "Mlýnská cesta C6 (1,3 km asfalt)", "Tuklaty / Tlustovousy → Břežany II"),
-        (6, -15, -46, "Polní cesta P6 Rostoklaty", "Rostoklaty → směr Břežany II / Štolmíř"),
-        (23, 85, -56, "Obnovená NS Klepec (říjen 2026)", "Skřivany → vrch Klepec (358 m)"),
-        (22, -35, 62, "Mrzecká cesta a alej (2026)", "Limuzy → Mrzky (1,6 km)"),
-        (21, -40, -64, "Hravá NS Ekocentrum Vrátkov", "Západní okraj Tuchorazi → Vrátkov"),
-        (19, 155, -10, "Šemberské stezky (Singletraily)", "5 km lesních MTB trailů u Tuchorazi"),
-        (20, 155, 36, "Nová lávka u Skautské louky", "Na Šamtalech → Skautská louka → Na Zámkách"),
-        (15, 0, -46, "Cesta C4 + Kočárová KZ 7 (2025)", "Chrášťany → Chotouň (1,8 km)"),
-        (12, -125, -28, "Kudrnáčova stezka (2022–26)", "Klučov → hradiště → Poříčany"),
-        (13, 15, 44, "Alej „Žherák“ (Klučov–Žhery)", "Klučov → Žhery (1,4 km)"),
-        (14, -105, -44, "Polní cesta Skramníky–Tatce", "Obnovený úsek cesty (březen 2024)")
-    ]
+    reg_callouts = []
 
     # Vodící linky ke kartičkám
     for rid, ox, oy, l1, l2 in reg_callouts:
@@ -192,7 +244,7 @@ def generate_regional_map():
     # Číselné odznaky
     for f in gj["features"]:
         rid = f["properties"]["id"]
-        col = f["properties"].get("stroke") or YEAR_COLORS.get(f["properties"].get("rok_obnovy"), "#2563eb")
+        col = f["properties"].get("stroke") or CATEGORY_COLORS.get(f["properties"].get("category"), "#2563eb")
         if rid in badge_positions:
             mx, my = badge_positions[rid]
             ox, oy = offsets.get(rid, (0, 0))
@@ -204,7 +256,7 @@ def generate_regional_map():
     for rid, ox, oy, l1, l2 in reg_callouts:
         if rid in badge_positions:
             f = next(x for x in gj["features"] if x["properties"]["id"] == rid)
-            col = f["properties"].get("stroke") or YEAR_COLORS.get(f["properties"].get("rok_obnovy"), "#2563eb")
+            col = f["properties"].get("stroke") or CATEGORY_COLORS.get(f["properties"].get("category"), "#2563eb")
             px, py = badge_positions[rid]
             cw, ch = 224, 38
             bx = max(MAP_X + cw/2 + 10, min(MAP_X + MAP_W - cw/2 - 10, px + ox))
@@ -223,26 +275,27 @@ def generate_regional_map():
     PW = W - PX - 24
     svg.append(f'''
   <rect x="{PX}" y="{MAP_Y}" width="{PW}" height="{MAP_H}" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#regShadow)"/>
-  <text x="{PX+18}" y="{MAP_Y+30}" fill="#0f172a" font-size="16" font-weight="900">SEZNAM VŠECH 25 TRAS (ODKUD → KAM &amp; STAV)</text>
-  <text x="{PX+18}" y="{MAP_Y+48}" fill="#64748b" font-size="11" font-weight="600">Číslo odpovídá značce v mapě • Rozlišení ověřených a orientačních tras</text>
+  <text x="{PX+18}" y="{MAP_Y+30}" fill="#0f172a" font-size="16" font-weight="900">SEZNAM TRAS (ODKUD → KAM &amp; ZÁKRES)</text>
+  <text x="{PX+18}" y="{MAP_Y+48}" fill="#64748b" font-size="11" font-weight="600">Číslo odpovídá značce v mapě • Stav ověřte v citovaných zdrojích</text>
   <line x1="{PX+14}" y1="{MAP_Y+58}" x2="{PX+PW-14}" y2="{MAP_Y+58}" stroke="#e2e8f0" stroke-width="1.5"/>
 ''')
 
-    # Legenda roků
+    # Legenda kategorií
     ly = MAP_Y + 76
     lx = PX + 16
-    for ylabel, ycol in YEAR_COLORS.items():
+    for category, ylabel in CATEGORY_LABELS.items():
+        ycol = CATEGORY_COLORS[category]
         svg.append(f'  <rect x="{lx}" y="{ly-11}" width="12" height="12" rx="3" fill="{ycol}"/>')
         svg.append(f'  <text x="{lx+16}" y="{ly-1}" fill="#1e293b" font-size="10.5" font-weight="700">{ylabel}</text>')
-        lx += 70 if len(ylabel) < 6 else 96
+        ly += 18
 
     # Legenda stylu čáry
     ly2 = MAP_Y + 98
     svg.append(f'''
   <line x1="{PX+16}" y1="{ly2-5}" x2="{PX+46}" y2="{ly2-5}" stroke="#0f172a" stroke-width="4"/>
-  <text x="{PX+52}" y="{ly2-1}" fill="#0f172a" font-size="10.5" font-weight="800">Plná čára = Ověřeno v OSM (13)</text>
+  <text x="{PX+52}" y="{ly2-1}" fill="#0f172a" font-size="10.5" font-weight="800">Plná čára = označeno jako OSM</text>
   <line x1="{PX+220}" y1="{ly2-5}" x2="{PX+250}" y2="{ly2-5}" stroke="#0f172a" stroke-width="3" stroke-dasharray="6,4"/>
-  <text x="{PX+256}" y="{ly2-1}" fill="#64748b" font-size="10.5" font-weight="700">Čárkovaná = Orientační / plán (12)</text>
+  <text x="{PX+256}" y="{ly2-1}" fill="#64748b" font-size="10.5" font-weight="700">Čárkovaná = orientační / plán</text>
   <line x1="{PX+14}" y1="{MAP_Y+108}" x2="{PX+PW-14}" y2="{MAP_Y+108}" stroke="#e2e8f0" stroke-width="1.5"/>
 ''')
 
@@ -250,11 +303,11 @@ def generate_regional_map():
     for f in gj["features"]:
         p = f["properties"]
         rid = p["id"]
-        col = p.get("stroke") or YEAR_COLORS.get(p.get("rok_obnovy"), "#2563eb")
+        col = p.get("stroke") or CATEGORY_COLORS.get(p.get("category"), "#2563eb")
         is_osm = p.get("presnost") == "OSM"
         badge_bg = "#dcfce7" if is_osm else "#fef3c7"
         badge_fg = "#166534" if is_osm else "#92400e"
-        badge_txt = "✅ OSM ověřeno" if is_osm else "⚠️ Orientační"
+        badge_txt = "OSM v datech" if is_osm else "Orientační / plán"
 
         svg.append(f'  <circle cx="{PX+26}" cy="{row_y-2}" r="10" fill="{col}"/>')
         svg.append(f'  <text x="{PX+26}" y="{row_y+2}" fill="#ffffff" font-size="9.5" font-weight="800" text-anchor="middle">{rid}</text>')
@@ -275,10 +328,10 @@ def generate_regional_map():
     BY = MAP_Y + MAP_H + 16
     svg.append(f'''
   <rect x="24" y="{BY}" width="{W-48}" height="102" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" filter="url(#regShadow)"/>
-  <text x="48" y="{BY+28}" fill="#0f172a" font-size="14" font-weight="800">SHRNUTÍ METADAT A PŘESNOSTI TRAS:</text>
-  <text x="48" y="{BY+50}" fill="#166534" font-size="12.5" font-weight="700">✅ 13 TRAS OVĚŘENO V SÍTI OPENSTREETMAP (plná čára): <tspan fill="#334155" font-weight="500">P3 Na Útulně, HPC 4, Topolovka, Stezka B. Jedličky-Brodského, Alej do Klučova, Kudrnáčova stezka, Šemberské singletraily, Lávka u Skautské louky, Mrzecká cesta, NS Klepec a opravené chodníky.</tspan></text>
-  <text x="48" y="{BY+71}" fill="#92400e" font-size="12.5" font-weight="700">⚠️ 12 TRAS ORIENTAČNÍCH / V PŘÍPRAVĚ (čárkovaná čára): <tspan fill="#334155" font-weight="500">P9 Mexiko, LBK 14 Štolmířský potok, P6 Rostoklaty, C6 Mlýnská cesta, alej u hřbitova, Skramníky–Tatce, C4 Chrášťany, Ekocentrum Vrátkov, cyklostezky do Přistoupimi a Štolmíře.</tspan></text>
-  <text x="48" y="{BY+90}" fill="#64748b" font-size="11" font-weight="600">Interaktivní verze s možností libovolného zoomu a přepínání vrstev: https://davidhunka.github.io/cesky-brod-atlas/</text>
+  <text x="48" y="{BY+28}" fill="#0f172a" font-size="14" font-weight="800">METODICKÁ POZNÁMKA:</text>
+  <text x="48" y="{BY+50}" fill="#334155" font-size="12.5" font-weight="600">Styl čáry přebírá označení z dat aplikace; není potvrzením dokončení ani veřejné přístupnosti projektu.</text>
+  <text x="48" y="{BY+71}" fill="#334155" font-size="12.5" font-weight="600">Geometrie slouží k orientační lokalizaci. Před navigací ověřte trasu v terénu a v primárním zdroji.</text>
+  <text x="48" y="{BY+90}" fill="#64748b" font-size="11" font-weight="600">Podklad: © OpenStreetMap contributors • https://www.openstreetmap.org/copyright</text>
 </svg>''')
 
     svg_path = os.path.join(OUT_DIR, "mapa_stezky_podle_roku.svg")
@@ -287,66 +340,6 @@ def generate_regional_map():
     print(f"Generated {os.path.basename(svg_path)}")
     render_svg_to_png(svg_path, W, H)
 
-def sync_html():
-    gj = load_geojson()
-    html_path = os.path.join(OUT_DIR, "index.html")
-    if not os.path.exists(html_path):
-        return
-
-    with open(html_path, "r", encoding="utf-8") as f:
-        html = f.read()
-
-    # Build updated JS ROUTES array
-    routes_js_items = []
-    for f in gj["features"]:
-        p = f["properties"]
-        rid = p["id"]
-        geom = f["geometry"]
-        is_osm = p.get("presnost") == "OSM"
-        
-        # Coords for leaflet: [lat, lon]
-        if geom["type"] == "MultiLineString":
-            coords = [[[round(lat, 5), round(lon, 5)] for lon, lat in seg] for seg in geom["coordinates"]]
-            mid_seg = coords[len(coords) // 2]
-            center = mid_seg[len(mid_seg) // 2]
-        else:
-            coords = [[round(lat, 5), round(lon, 5)] for lon, lat in geom["coordinates"]]
-            center = coords[len(coords) // 2]
-
-        item = {
-            "id": rid,
-            "name": p["name"].replace(f"#{rid} ", ""),
-            "yearCat": p.get("rok_obnovy", "2024"),
-            "yearExact": p.get("rok_obnovy", "2024"),
-            "category": "stezka",
-            "fromTo": f"{p['odkud_A']} → {p['kam_B']}",
-            "lengthSurface": p.get("delka_povrch", ""),
-            "suitableFor": "Pěší, rodiny s dětmi, kolo",
-            "mapyStatus": p.get("mapy_cz_stav", "ANO"),
-            "mapyNote": "Ověřeno v OpenStreetMap" if is_osm else "Orientační průběh / v přípravě",
-            "coords": coords,
-            "center": center,
-            "fromLabel": p.get("odkud_A", ""),
-            "toLabel": p.get("kam_B", ""),
-            "gmapsDirUrl": p.get("google_maps_trasa_A_B", ""),
-            "mapyStartUrl": p.get("mapy_cz_start_A", ""),
-            "mapyEndUrl": p.get("mapy_cz_cil_B", ""),
-            "dashed": not is_osm,
-            "source": p.get("zdroj", "")
-        }
-        routes_js_items.append(item)
-
-    routes_json = json.dumps(routes_js_items, ensure_ascii=False, indent=2)
-
-    # Replace const ROUTES = [...] in index.html
-    pattern = r"const ROUTES = \[.*?\];\s*\n\s*// ==="
-    replacement = f"const ROUTES = {routes_json};\n\n    // ==="
-    html = re.sub(pattern, replacement, html, flags=re.DOTALL)
-
-    with open(html_path, "w", encoding="utf-8") as f:
-        f.write(html)
-    print("Updated index.html with real route geometries")
-
 if __name__ == "__main__":
+    write_geojson()
     generate_regional_map()
-    sync_html()

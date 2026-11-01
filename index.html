@@ -1331,16 +1331,12 @@
     "yearCat": "2026",
     "yearExact": "2026",
     "category": "alej",
-    "fromTo": "Severozápadní strana hřbitova → Východní konec aleje po vnější severní straně",
+    "fromTo": "Ulice Hřbitovní → Východní konec aleje po vnější severní straně",
     "lengthSurface": "235 m pěší cesta podél hřbitova, 40 lip (2025–2026)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
     "mapyStatus": "ORIENTAČNĚ",
     "mapyNote": "Orientační zákres pěší trasy po vnější severní straně městského hřbitova; přesná geometrie aleje není ověřena.",
     "coords": [
-      [
-        50.06889,
-        14.86197
-      ],
       [
         50.06913,
         14.86197
@@ -1358,10 +1354,10 @@
       50.06903,
       14.8632
     ],
-    "fromLabel": "Pěší spojka u městského hřbitova",
+    "fromLabel": "Ulice Hřbitovní, severozápadní okraj hřbitova",
     "toLabel": "Východní konec aleje na severní straně hřbitova",
-    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.06889,14.86197&destination=50.06892,14.86475&waypoints=50.06913,14.86197%7C50.06903,14.8631&travelmode=walking",
-    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.86197%2C50.06889&x=14.86197&y=50.06889&z=16",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.06913,14.86197&destination=50.06892,14.86475&waypoints=50.06903,14.8631&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.86197%2C50.06913&x=14.86197&y=50.06913&z=16",
     "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.86475%2C50.06892&x=14.86475&y=50.06892&z=16",
     "dashed": true,
     "source": "Sázíme stromy z.ú. (akce č. 1622 a 1715): „Nová lipová alej v Českém Brodě u hřbitova“",
@@ -7565,7 +7561,7 @@
           lineJoin: "round"
         }).addTo(leafletLayerGroup);
 
-        poly.on("click", () => selectRoute(r.id, false));
+        poly.on("click", () => selectRoute(r.id));
 
         let startPt = null;
         let endPt = null;
@@ -7606,7 +7602,7 @@
         });
         const marker = L.marker(r.center, { icon: badgeIcon }).addTo(leafletLayerGroup);
         marker.bindTooltip(`#${r.id} ${r.name} (${r.yearCat})`);
-        marker.on("click", () => selectRoute(r.id, false));
+        marker.on("click", () => selectRoute(r.id));
       });
     }
 

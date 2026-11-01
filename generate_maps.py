@@ -11,6 +11,7 @@ import math
 import subprocess
 import re
 import shutil
+from pathlib import Path
 
 OUT_DIR = os.path.dirname(os.path.abspath(__file__))
 CACHE_DIR = os.path.join(OUT_DIR, "tile_cache")
@@ -118,16 +119,20 @@ def render_svg_to_png(svg_path, width=1920, height=1280):
     if not browser:
         print("Warning: No headless browser found for PNG rendering.")
         return
-    file_url = "file:///" + os.path.abspath(svg_path).replace("\\", "/")
-    subprocess.run([
-        browser,
-        "--headless",
-        "--disable-gpu",
-        "--force-device-scale-factor=1",
-        f"--window-size={width},{height}",
-        f"--screenshot={png_path}",
-        file_url
-    ], check=True)
+    file_url = Path(svg_path).resolve().as_uri()
+    try:
+        subprocess.run([
+            browser,
+            "--headless",
+            "--disable-gpu",
+            "--force-device-scale-factor=1",
+            f"--window-size={width},{height}",
+            f"--screenshot={png_path}",
+            file_url
+        ], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except subprocess.CalledProcessError:
+        print("Warning: SVG and GeoJSON were generated, but PNG rendering failed in this environment.")
+        return
     print(f"Rendered {os.path.basename(png_path)} ({os.path.getsize(png_path) // 1024} KB)")
 
 def generate_regional_map():
@@ -290,16 +295,16 @@ def generate_regional_map():
         ly += 18
 
     # Legenda stylu čáry
-    ly2 = MAP_Y + 98
+    ly2 = MAP_Y + 150
     svg.append(f'''
   <line x1="{PX+16}" y1="{ly2-5}" x2="{PX+46}" y2="{ly2-5}" stroke="#0f172a" stroke-width="4"/>
   <text x="{PX+52}" y="{ly2-1}" fill="#0f172a" font-size="10.5" font-weight="800">Plná čára = označeno jako OSM</text>
   <line x1="{PX+220}" y1="{ly2-5}" x2="{PX+250}" y2="{ly2-5}" stroke="#0f172a" stroke-width="3" stroke-dasharray="6,4"/>
   <text x="{PX+256}" y="{ly2-1}" fill="#64748b" font-size="10.5" font-weight="700">Čárkovaná = orientační / plán</text>
-  <line x1="{PX+14}" y1="{MAP_Y+108}" x2="{PX+PW-14}" y2="{MAP_Y+108}" stroke="#e2e8f0" stroke-width="1.5"/>
+  <line x1="{PX+14}" y1="{MAP_Y+164}" x2="{PX+PW-14}" y2="{MAP_Y+164}" stroke="#e2e8f0" stroke-width="1.5"/>
 ''')
 
-    row_y = MAP_Y + 128
+    row_y = MAP_Y + 180
     for f in gj["features"]:
         p = f["properties"]
         rid = p["id"]
@@ -323,7 +328,7 @@ def generate_regional_map():
 
         svg.append(f'  <rect x="{PX+PW-106}" y="{row_y-13}" width="92" height="18" rx="5" fill="{badge_bg}"/>')
         svg.append(f'  <text x="{PX+PW-60}" y="{row_y-1}" fill="{badge_fg}" font-size="9.2" font-weight="800" text-anchor="middle">{badge_txt}</text>')
-        row_y += 36.4
+        row_y += 34
 
     BY = MAP_Y + MAP_H + 16
     svg.append(f'''

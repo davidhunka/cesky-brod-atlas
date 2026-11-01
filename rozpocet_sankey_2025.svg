@@ -187,7 +187,7 @@
     <rect x="0" y="0" width="8" height="106" rx="4" fill="#059669"/>
     <text x="24" y="28" fill="#64748b" font-size="11.5" font-weight="800" letter-spacing="0.5">CELKOVÉ PŘÍJMY 2025 (SKUTEČNOST)</text>
     <text x="24" y="60" fill="#0f172a" font-size="24" font-weight="900">396,1 mil. Kč</text>
-    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">53 849 Kč na obyvatele (+19,7 % oproti r. 2024)</text>
+    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">+19,7 % oproti roku 2024</text>
   </g>
 
   <g transform="translate(509.0, 1075)" filter="url(#cardShadow)">
@@ -195,7 +195,7 @@
     <rect x="0" y="0" width="8" height="106" rx="4" fill="#dc2626"/>
     <text x="24" y="28" fill="#64748b" font-size="11.5" font-weight="800" letter-spacing="0.5">PODÍL INVESTIC NA VÝDAJÍCH</text>
     <text x="24" y="60" fill="#0f172a" font-size="24" font-weight="900">36,4 % (146,9M)</text>
-    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">Mimořádně vysoká míra investic (průměr obcí ČR je ~22 %)</text>
+    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">Podíl kapitálových výdajů na celkových výdajích rozpočtu</text>
   </g>
 
   <g transform="translate(970.0, 1075)" filter="url(#cardShadow)">

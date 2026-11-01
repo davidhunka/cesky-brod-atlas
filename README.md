@@ -12,8 +12,8 @@ Nezávislý datový přehled pro město Český Brod (IČO 00235334) a mikroregi
 | :--- | :--- | :--- |
 | **Interaktivní webová aplikace** | Statická aplikace s mapou 25 tras, zdroji a filtry a s oddělenými pohledy na rozpočty 2023–2026 a VHČ. Konsolidovaný pohled je skryt do ověření účetní metodiky. | [Otevřít aplikaci (GitHub Pages)](https://davidhunka.github.io/cesky-brod-atlas/) / [`index.html`](./index.html) |
 | **Prostorová data (GeoJSON)** | Export geometrií ze seznamu tras v aplikaci v souřadnicovém systému WGS-84 (`EPSG:4326`) s dostupnými zdroji a poznámkami. Linie jsou orientační; nejde o zaměření skutečných staveb. | [`trasy_ceskobrodsko.geojson`](./trasy_ceskobrodsko.geojson) |
-| **Kartografická přehledová mapa** | Statická mapa regionu s barvami podle kategorie trasy a stejným číslováním jako aplikace. | [`mapa_stezky_podle_roku.png`](./mapa_stezky_podle_roku.png) |
-| **Sankey diagramy rozpočtu a VHČ** | Statické exporty aktuálně dostupných grafů (skutečnost 2025, schválený rozpočet 2026 a samostatný pohled VHČ). | [`2026`](./rozpocet_sankey_2026.png) · [`2025`](./rozpocet_sankey_2025.png) · [`VHČ`](./rozpocet_sankey_vhc.png) |
+| **Kartografická přehledová mapa** | Statická mapa regionu s barvami podle kategorie trasy a stejným číslováním jako aplikace. | [`mapa_stezky_podle_roku.svg`](./mapa_stezky_podle_roku.svg) |
+| **Sankey diagramy rozpočtu a VHČ** | Statické exporty aktuálně dostupných grafů (skutečnost 2025, schválený rozpočet 2026 a samostatný pohled VHČ). | [`2026`](./rozpocet_sankey_2026.svg) · [`2025`](./rozpocet_sankey_2025.svg) · [`VHČ`](./rozpocet_sankey_vhc.svg) |
 
 ---
 
@@ -21,7 +21,7 @@ Nezávislý datový přehled pro město Český Brod (IČO 00235334) a mikroregi
 
 Datová sada obsahuje **25 vybraných záznamů** k cestám, alejím, stezkám a chodníkům na Českobrodsku. Jde o orientační přehled, nikoli úplný registr realizovaných staveb.
 
-![Mapa obnovených stezek Českobrodska 2020–2026+](./mapa_stezky_podle_roku.png)
+![Mapa obnovených stezek Českobrodska 2020–2026+](./mapa_stezky_podle_roku.svg)
 
 ### Barevný systém a typologie tras v mapě
 Barevnost tras v mapě odpovídá jejich **fyzickému typu a charakteru v terénu**, namísto náhodného přebarvování podle roku realizace:
@@ -39,7 +39,7 @@ Barevnost tras v mapě odpovídá jejich **fyzickému typu a charakteru v terén
 
 | ID | Název trasy | Úsek (Odkud → Kam) | Období dle evidence | Náklady / investice (rozsah viz detail) | Označení zákresu v aplikaci | Evidenční pramen (odkaz; jeho povaha se liší) |
 | :-: | :--- | :--- | :-: | :--- | :--- | :--- |
-| **1** | Chodníky 2020–2023 | Sídliště Palackého → Zborovská → Jana Kouly → Krále Jiřího | 2020–2021 | **~6,8 mil. Kč** | Označeno OSM | [E-ZAK ČB zakázka č. 225 – Chodníky Zborovská, Jana Kouly a Krále Jiřího](https://ezak.cesbrod.cz/contract_display_225.html) |
+| **1** | Chodníky 2020–2023 | Sídliště Palackého → Zborovská → Jana Kouly → Krále Jiřího | 2020–2021? (název uvádí 2020–2023) | **~6,8 mil. Kč** | Označeno OSM | [E-ZAK ČB zakázka č. 225 – Chodníky Zborovská, Jana Kouly a Krále Jiřího](https://ezak.cesbrod.cz/contract_display_225.html) |
 | **2** | Cyklostezka pravý břeh Šembery | Nábřežní / Havlíčkova → Prokopa Velikého (Pod Malechovem) | 2026 | **6,31 mil. Kč** | Označeno OSM; realizaci ověřte | [Usnesení Města ČB příloha 7381 (p.č. 118/1 a 118/7)](https://usneseni.cesbrod.cz/usneseni/usneseni/priloha/7381) · [Situace DSP (PDF)](https://lotus.cesbrod.cz/MUCB%5Carz.nsf/0/E69C91EF472CB0EEC125878F00318694/%24file/z199_SITUACE_DSP_PRACOVNI_211117_PREDAVANE.pdf) |
 | **3** | Stezka B. Jedličky-Brodského | Podskalí (Kouřimská brána) → sv. Gothard → Liblice | 2024 | **~380 tis. Kč** | Označeno OSM | [IC CVIK ČB – Detail trasy](https://ic.cvik.info/stezka-bretislava-jedlicky-brodskeho) · [Registr smluv č. 33545964 (V Podskalí)](https://smlouvy.gov.cz/smlouva/33545964) |
 | **4** | Chodníky 2024–2026 | Ul. Štolmířská, Sportovní, Žižkova, Želivského, Tuchorazská | 2026 | **4,2M chodníky (19,3M se sítěmi)** | Označeno OSM | [E-ZAK ČB dok. č. 3425 (Štolmířská)](https://ezak.cesbrod.cz/document_download_3425.html) · [zakázka č. 222 (Sportovní)](https://ezak.cesbrod.cz/contract_display_222.html) |
@@ -51,19 +51,19 @@ Barevnost tras v mapě odpovídá jejich **fyzickému typu a charakteru v terén
 | **10** | Cyklostezka Nad Malechovem – Přistoupim | Ul. Přistoupimská (Nad Malechovem) → Přistoupim (III/1131) | Plán 2026+ | **Odhad 6–9 mil. Kč (plán)** | Orientační / plán | [Vyjádření místostarosty T. Klineckého – Cyklostezka ČB – Přistoupim (600 m)](https://www.top09.cz/regiony/stredocesky-kraj/top-09-v-mediich/klinecky-nova-cyklostezka-spoji-cesky-brod-se-sousedni-obci-30834.html) |
 | **11** | Obnovená cesta a Alej do Klučova | Český Brod – Liblice (ul. Za Drahou) → JZ okraj Klučova | 2022–2023 | **450 000 Kč (dotace)** | Částečně v OSM (dle evidence) | [Českobrodský zpravodaj – veřejná zakázka „Alej Klučov – Český Brod“ (PDF)](https://cesbrod.cz/files/ceskybrod/gallery/12171/66ac980452048_CeskobrodskyZpravodaj-2020-rijen.pdf) |
 | **12** | Polní cesta P9 | Štolmíř (Ke Hřbitovu) → Silnice II/272 (směr Kounice) | 2020–2021 | **~5,8 mil. Kč (cesta P9)** | Označeno OSM | [SPÚ & MZe – Veřejná zakázka „Výstavba polní cesty P 9 v k.ú. Štolmíř“ (PDF)](https://zakazky.eagri.cz/document_audit_12838/c03811b5be611464e043821411aca521-pdf) |
-| **13** | Biokoridor LBK 14 Štolmířský potok | Žel. trať (Z od Štolmíře) → koryto Štolmířského potoka | 2022–2023 | **1,20 mil. Kč s DPH** | Biokoridor (čárk.) | [SPÚ Kolín – Projektový list „Výsadba biokoridoru LBK 14 v k.ú. Štolmíř“ (PDF)](https://spu.gov.cz/frontend/webroot/uploads/files/2018/01/vysadba_biokoridoru_lbk_14_v_k7383.u7383._stolmir7383.pdf) |
-| **14** | Hlavní polní cesta HPC 4 | Štolmíř (Ke Škole) → směr Břežany II / háj | 2020–2021 | **~4,1 mil. Kč s DPH** | Hotovo (OSM) | [SPÚ Kolín – Realizované projekty PRV: KoPÚ Štolmíř (cesta HPC 4, 591 m)](https://spu.gov.cz/pozemkove-upravy/program-rozvoje-venkova/projekty/projekty-zrealizovane) |
-| **15** | Hravá NS Ekocentrum Vrátkov | Západní okraj Tuchorazi → hájovna Ekocentrum Vrátkov čp. 38 | 2022–2023 | **~350 tis. Kč (jen stezka)** | Hotovo (OSM) | [Město ČB – Projekt Ekocentrum Vrátkov](https://cesbrod.cz/default/default/18045_ekocentrum-vratkov) · [ekocentrumvratkov.cz](https://www.ekocentrumvratkov.cz/) |
-| **16** | Zastavení u Šembery + Lávka u Skautské louky | Kamenný mostek (Na Šamtalech) → Skautská louka → Na Zámkách | 2024 | **300 tis. Kč + 1,2M altán** | Hotovo (OSM) | [Město ČB – „Zastavení u Šembery a lávka“](https://cesbrod.cz/default/default/24199_nadace-cez) · [E-ZAK VZ00000164 (Altán)](https://ezak.cesbrod.cz/vz00000164) |
-| **17** | Mrzecká cesta a alej | Východní okraj Limuz (parc. 688) → západní okraj obce Mrzky | 2026 | **~150 tis. Kč** | Hotovo (OSM) | [Obec Tismice – Obnova aleje na Mrzecké cestě (parc. 688 k.ú. Limuzy)](https://www.tismice.cz/obec/aktuality/do-jasanove-aleje-na-mrzecke-ceste-vstup-jen-na-vlastni-nebezpeci-443cs.html) |
-| **18** | Šemberské stezky – singletraily | Tuchoraz (nástup u lesa) → lesní MTB okruh (5 km) | 2020–2021 | **Komunitně (~200 tis. Kč)** | Hotovo (OSM) | [Spolek Šemberské stezky z.s. – Oficiální mapa a dokumentace singletrailů](https://www.semberskestezky.cz/) |
-| **19** | Kudrnáčova stezka a aleje | Klučov (od návsi přes hradiště) → jižní okraj Poříčan | 2022–2023 | **60 tis. + ~120 tis. Kč** | Hotovo (OSM) | [Naučné-stezky.cz – Kudrnáčova stezka](https://www.naucne-stezky.cz/kudrnacova-stezka/) · [Sázíme stromy č. 1314](https://sazimestromy.cz/sazeni/1314) |
-| **20** | Polní cesta P6 s biokoridorem | Severní okraj Rostoklat → jižní okraj Břežan II (900 m) | 2022–2023 | **~4,5M cesta (5,35M biocentra)** | Hotovo (OSM) | [SPÚ Kolín – Projektový list KoPÚ v k.ú. Rostoklaty a Nová Ves II (PDF)](https://spu.gov.cz/frontend/webroot/uploads/files/2020/05/realizace_lokalnich_biocenter_bc_4_a_bc_6_v_k10370.u10370._nova_ves_ii10370._a_bc_2a_v_k10370.u10370._rostoklaty10370.pdf) |
-| **21** | Alej „Žherák“ | JV okraj Klučova → severní okraj obce Žhery | 2024 | **~95 tis. Kč** | Hotovo (OSM) | [Sázíme stromy č. 950 – „Z Klučova na Žhery krásným stromořadím“](https://sazimestromy.cz/sazeni/950) |
-| **22** | Mlýnská cesta C6 | Tuklaty / Tlustovousy → západní okraj Břežan II | 2022–2023 | **9,05 mil. Kč s DPH** | Hotovo (OSM) | [SPÚ Kolín – Projektový list „Polní cesta C 6 v k.ú. Tuklaty a Břežany II“ (PDF)](https://spu.gov.cz/frontend/webroot/uploads/files/2018/01/polni_cesta_c_6_v_k7388.u7388._tuklaty7388.pdf) |
-| **23** | Cesta C4 a Kočárová cesta KZ 7 | Východní okraj Chrášťan → západní okraj Chotouně | 2025 | **11,55 mil. Kč s DPH** | Hotovo (OSM) | [SPÚ Kolín – Projektový list „Polní cesta C4 a KZ7 v k.ú. Chrášťany u ČB“ (PDF)](https://spu.gov.cz/frontend/webroot/uploads/files/2025/01/polni_cesta_c4_v_k24503.u24503._chrastany_u_cb_s_doprovodnou_zeleni_a_vysadbou_zelene_v_doprovodnem_prvku_kz7_224503.pdf) |
-| **24** | Obnovená Naučná stezka Klepec | Skřivany (Přišimasy) → okruh přes vrchol Klepec (358 m) zpět do Skřivan | 2026 | **~480 tis. Kč** | Hotovo (OSM) | [Obec Přišimasy – „Klepec má novou naučnou stezku“ (kompletní obnova)](https://www.prisimasy.cz/zivot-v-obci/aktuality/klepec-ma-novou-naucnou-stezku-1623cs.html) |
-| **25** | Polní cesta Skramníky – Tatce | SV okraj Skramníků → směr JZ okraj Tatců | 2024 | **~85 tis. Kč** | Hotovo (OSM) | [Sázíme stromy č. 1143 – Obnova a výsadba na polní cestě Skramníky – Tatce](https://sazimestromy.cz/sazeni/1143) |
+| **13** | Biokoridor LBK 14 Štolmířský potok | Žel. trať (Z od Štolmíře) → koryto Štolmířského potoka | 2022–2023 | **1,20 mil. Kč s DPH** | Orientační zákres; stav zvlášť | [SPÚ Kolín – Projektový list „Výsadba biokoridoru LBK 14 v k.ú. Štolmíř“ (PDF)](https://spu.gov.cz/frontend/webroot/uploads/files/2018/01/vysadba_biokoridoru_lbk_14_v_k7383.u7383._stolmir7383.pdf) |
+| **14** | Hlavní polní cesta HPC 4 | Štolmíř (Ke Škole) → směr Břežany II / háj | 2020–2021 | **~4,1 mil. Kč s DPH** | Označeno OSM | [SPÚ Kolín – Realizované projekty PRV: KoPÚ Štolmíř (cesta HPC 4, 591 m)](https://spu.gov.cz/pozemkove-upravy/program-rozvoje-venkova/projekty/projekty-zrealizovane) |
+| **15** | Hravá NS Ekocentrum Vrátkov | Západní okraj Tuchorazi → hájovna Ekocentrum Vrátkov čp. 38 | 2022–2023 | **~350 tis. Kč (jen stezka)** | Částečně v OSM (dle evidence) | [Město ČB – Projekt Ekocentrum Vrátkov](https://cesbrod.cz/default/default/18045_ekocentrum-vratkov) · [ekocentrumvratkov.cz](https://www.ekocentrumvratkov.cz/) |
+| **16** | Zastavení u Šembery + Lávka u Skautské louky | Kamenný mostek (Na Šamtalech) → Skautská louka → Na Zámkách | 2024 | **300 tis. Kč + 1,2M altán** | Označeno OSM | [Město ČB – „Zastavení u Šembery a lávka“](https://cesbrod.cz/default/default/24199_nadace-cez) · [E-ZAK VZ00000164 (Altán)](https://ezak.cesbrod.cz/vz00000164) |
+| **17** | Mrzecká cesta a alej | Východní okraj Limuz (parc. 688) → západní okraj obce Mrzky | 2026 | **~150 tis. Kč** | Označeno OSM | [Obec Tismice – Obnova aleje na Mrzecké cestě (parc. 688 k.ú. Limuzy)](https://www.tismice.cz/obec/aktuality/do-jasanove-aleje-na-mrzecke-ceste-vstup-jen-na-vlastni-nebezpeci-443cs.html) |
+| **18** | Šemberské stezky – singletraily | Tuchoraz (nástup u lesa) → lesní MTB okruh (5 km) | 2020–2021 | **Komunitně (~200 tis. Kč)** | Označeno OSM | [Spolek Šemberské stezky z.s. – Oficiální mapa a dokumentace singletrailů](https://www.semberskestezky.cz/) |
+| **19** | Kudrnáčova stezka a aleje | Klučov (od návsi přes hradiště) → jižní okraj Poříčan | 2022–2023 | **60 tis. + ~120 tis. Kč** | Označeno OSM | [Naučné-stezky.cz – Kudrnáčova stezka](https://www.naucne-stezky.cz/kudrnacova-stezka/) · [Sázíme stromy č. 1314](https://sazimestromy.cz/sazeni/1314) |
+| **20** | Polní cesta P6 s biokoridorem | Severní okraj Rostoklat → jižní okraj Břežan II (900 m) | 2022–2023 | **~4,5M cesta (5,35M biocentra)** | Označeno OSM | [SPÚ Kolín – Projektový list KoPÚ v k.ú. Rostoklaty a Nová Ves II (PDF)](https://spu.gov.cz/frontend/webroot/uploads/files/2020/05/realizace_lokalnich_biocenter_bc_4_a_bc_6_v_k10370.u10370._nova_ves_ii10370._a_bc_2a_v_k10370.u10370._rostoklaty10370.pdf) |
+| **21** | Alej „Žherák“ | JV okraj Klučova → severní okraj obce Žhery | 2024 | **~95 tis. Kč** | Označeno OSM | [Sázíme stromy č. 950 – „Z Klučova na Žhery krásným stromořadím“](https://sazimestromy.cz/sazeni/950) |
+| **22** | Mlýnská cesta C6 | Tuklaty / Tlustovousy → západní okraj Břežan II | 2022–2023 | **9,05 mil. Kč s DPH** | Označeno OSM | [SPÚ Kolín – Projektový list „Polní cesta C 6 v k.ú. Tuklaty a Břežany II“ (PDF)](https://spu.gov.cz/frontend/webroot/uploads/files/2018/01/polni_cesta_c_6_v_k7388.u7388._tuklaty7388.pdf) |
+| **23** | Cesta C4 a Kočárová cesta KZ 7 | Východní okraj Chrášťan → západní okraj Chotouně | 2025 | **11,55 mil. Kč s DPH** | Částečně v OSM (dle evidence) | [SPÚ Kolín – Projektový list „Polní cesta C4 a KZ7 v k.ú. Chrášťany u ČB“ (PDF)](https://spu.gov.cz/frontend/webroot/uploads/files/2025/01/polni_cesta_c4_v_k24503.u24503._chrastany_u_cb_s_doprovodnou_zeleni_a_vysadbou_zelene_v_doprovodnem_prvku_kz7_224503.pdf) |
+| **24** | Obnovená Naučná stezka Klepec | Skřivany (Přišimasy) → okruh přes vrchol Klepec (358 m) zpět do Skřivan | 2026? (ověřit) | **~480 tis. Kč** | Částečně v OSM (dle evidence) | [Obec Přišimasy – „Klepec má novou naučnou stezku“ (kompletní obnova)](https://www.prisimasy.cz/zivot-v-obci/aktuality/klepec-ma-novou-naucnou-stezku-1623cs.html) |
+| **25** | Polní cesta Skramníky – Tatce | SV okraj Skramníků → směr JZ okraj Tatců | 2024 | **~85 tis. Kč** | Částečně v OSM (dle evidence) | [Sázíme stromy č. 1143 – Obnova a výsadba na polní cestě Skramníky – Tatce](https://sazimestromy.cz/sazeni/1143) |
 
 ---
 
@@ -82,13 +82,13 @@ Druhá část projektu zpracovává rozpočtová data města Český Brod z port
 | **Vlastní hosp. činnost (VHČ)** | Roční výnosy 81,5M (čistý zisk **+40,5M**) | **102,4 mil. Kč** (alokace zisku, fondů a dotací) | 23,5 mil. Kč (odvod městu a tvorba Fondu BH) | 78,9 mil. Kč (investice středisek 2025/26) | Dětská skupina (38,0M), vodovod a kanalizace Tuchorazská (16,0M), PD vodovodů 7 ulic (9,4M), Cesta lásky (6,8M) |
 
 ### Schválený rozpočet města na rok 2026 (478,7 mil. Kč)
-![Rozpočet Český Brod 2026 — Sankey diagram](./rozpocet_sankey_2026.png)
+![Rozpočet Český Brod 2026 — Sankey diagram](./rozpocet_sankey_2026.svg)
 
 ### Skutečnost roku 2025 (404,1 mil. Kč)
-![Rozpočet Český Brod 2025 — Sankey diagram](./rozpocet_sankey_2025.png)
+![Rozpočet Český Brod 2025 — Sankey diagram](./rozpocet_sankey_2025.svg)
 
 ### Vlastní hospodářská činnost města (samostatný ilustrativní pohled)
-![Vlastní hospodářská činnost města Český Brod — Sankey diagram](./rozpocet_sankey_vhc.png)
+![Vlastní hospodářská činnost města Český Brod — Sankey diagram](./rozpocet_sankey_vhc.svg)
 
 Poznámka: VHČ kombinuje výsledky uzavřeného účetního období s investičními akcemi jiných let. Nepovažujte ji za konsolidovanou roční uzávěrku. Částky ani zdroje zatím nebyly nezávisle ověřeny proti primárním finančním výkazům.
 
@@ -104,9 +104,12 @@ python -m http.server 8000
 
 # Přegenerování GeoJSON a mapového SVG (a PNG, pokud je nainstalován podporovaný prohlížeč)
 python generate_maps.py
+
+# Přegenerování statických Sankey diagramů (SVG)
+python generate_budget_sankey.py
 ```
 
-`generate_maps.py` bere trasová data z pole `ROUTES` v `index.html`; po úpravě tras spusťte generátor, aby se GeoJSON a mapové výstupy aktualizovaly. Převod mapy do PNG vyžaduje Chromium/Chrome/Edge. Rozpočtová data jsou stále duplicitní v aplikaci a generátoru SVG; před publikováním finančních změn je porovnejte s primárními dokumenty.
+`generate_maps.py` bere trasová data z pole `ROUTES` v `index.html`; po úpravě tras spusťte generátor, aby se GeoJSON a mapové výstupy aktualizovaly. Převod mapy do PNG vyžaduje Chromium/Chrome/Edge s funkčním sandboxem. Rozpočtová data jsou stále duplicitní v aplikaci a generátoru SVG; před publikováním finančních změn je porovnejte s primárními dokumenty.
 
 ### Metodika, aktuálnost a licence
 - V repozitáři nejsou u všech položek zaznamenána data posledního ověření; finanční částky a stavy tras zde nejsou nezávislým auditem.

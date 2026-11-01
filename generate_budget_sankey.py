@@ -4,7 +4,7 @@
 Generátor Sankey diagramů rozpočtu města Český Brod (IČO 00235334)
 ve stylu "App Economy Insights" (How They Make & Spend Money):
 1. Skutečnost FY 2025 (Závěrečný účet & Monitor Státní pokladny MF ČR — 404,1 mil. Kč)
-2. Schválený rozpočet FY 2026 (č. j. 3558/2026 — 478,7 mil. Kč, rekordní investice)
+2. Schválený rozpočet FY 2026 (č. j. 3558/2026 — 478,7 mil. Kč)
 """
 
 import os
@@ -344,8 +344,8 @@ def generate_2025_actual():
     ]
 
     kpi_cards = [
-        ("CELKOVÉ PŘÍJMY 2025 (SKUTEČNOST)", "396,1 mil. Kč", "53 849 Kč na obyvatele (+19,7 % oproti r. 2024)", "#059669"),
-        ("PODÍL INVESTIC NA VÝDAJÍCH", "36,4 % (146,9M)", "Mimořádně vysoká míra investic (průměr obcí ČR je ~22 %)", "#dc2626"),
+        ("CELKOVÉ PŘÍJMY 2025 (SKUTEČNOST)", "396,1 mil. Kč", "+19,7 % oproti roku 2024", "#059669"),
+        ("PODÍL INVESTIC NA VÝDAJÍCH", "36,4 % (146,9M)", "Podíl kapitálových výdajů na celkových výdajích rozpočtu", "#dc2626"),
         ("HOTOVOST NA ÚČTECH A V REZERVÁCH", "108,6 mil. Kč", "Dluh města jen 19,0 mil. Kč (5,6 % příjmů vs. limit 60 %)", "#2563eb"),
         ("VLASTNÍ HOSPODÁŘSKÁ ČINNOST (MIMO ROZP.)", "+40,5 mil. Kč zisk", "Byty a nemocnice (+25,3M), Voda (+13,6M), Městské lesy (+1,6M)", "#0d9488"),
     ]
@@ -417,7 +417,7 @@ def generate_2026_budget():
 
     kpi_cards = [
         ("SCHVÁLENÉ PŘÍJMY 2026", "377,5 mil. Kč", "Daňové příjmy rostou na 258,6 mil. Kč (+27 % oproti r. 2024)", "#059669"),
-        ("REKORDNÍ INVESTICE 2026", "210,2 mil. Kč", "191,2M v hlavním rozpočtu + 19,0M z Fondu komunikací na ulice", "#dc2626"),
+        ("INVESTIČNÍ VÝDAJE 2026", "191,2 mil. Kč", "Výdaje hlavního rozpočtu; další fondové toky nejsou přičteny bez ověřené metodiky", "#dc2626"),
         ("INVESTICE DO ŠKOLSTVÍ 2026", "138,4 mil. Kč", "MŠ Kollárova (61M), ZŠ Žitomířská (59M), Svazková škola (10M), SŠ (8,4M)", "#2563eb"),
         ("OPRAVY ULIC, PARKŮ A STEZEK", "39,7 mil. Kč", "Fond komunikací (19M), PD dvojnáměstí (10,8M), Jiráskovy sady a Gothardka", "#ea580c"),
     ]
@@ -425,7 +425,7 @@ def generate_2026_budget():
     build_app_economy_sankey(
         filename_base="rozpocet_sankey_2026",
         title_main="ČESKÝ BROD — SCHVÁLENÝ ROZPOČET (FY 2026)",
-        title_sub="Plán hospodaření na rok 2026 (č. j. 3558/2026): Rekordní investice do škol, náměstí, parků a komunikací",
+        title_sub="Plán hospodaření na rok 2026 (č. j. 3558/2026): Investice do škol, náměstí, parků a komunikací",
         period_badge="ROZPOČET 2026 (SCHVÁLENÝ)",
         total_label="CELKOVÉ VÝDAJE 2026",
         total_val=478.7,
@@ -448,7 +448,7 @@ def generate_vhc_sankey():
         {"name": "Ostatní hospodářská činnost (OHČ)", "val": 3.4, "sub": "Komerční pronájmy pozemků a hospodářské služby města", "color": "#3b82f6", "group": "ohc"},
         {"name": "Rezervní fond vodohospodářský (akumulace)", "val": 12.8, "sub": "Zapojení naakumulovaných zdrojů fondu na velké rekonstrukce sítí", "color": "#60a5fa", "group": "ohc"},
 
-        {"name": "Městské lesy – prodej dřeva a hospodaření", "val": 4.2, "sub": "Vlastní tržby z těžby dřeva a lesního hospodářství (zisk +1,56M)", "color": "#0d9488", "group": "lesy"},
+        {"name": "Městské lesy – hrubé tržby", "val": 4.2, "sub": "Hrubé tržby z těžby dřeva; čistý zisk střediska je uváděn samostatně (+1,56M)", "color": "#0d9488", "group": "lesy"},
         {"name": "Dotace na projekty Městských lesů", "val": 26.8, "sub": "Dotace na dětskou skupinu (20M), Cestu lásky (80 %), altán a tůně", "color": "#14b8a6", "group": "lesy"},
         {"name": "Fondy města a předfinancování lesních akcí", "val": 19.7, "sub": "Kofinancování výstavby dětské skupiny a lesní infrastruktury", "color": "#64748b", "group": "lesy"},
     ]

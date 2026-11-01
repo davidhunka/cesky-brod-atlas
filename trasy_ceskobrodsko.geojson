@@ -29,7 +29,10 @@
         "sourceLabel2": "Archiv veřejných zakázek E-ZAK ČB (chodníky 2020–2023) ↗",
         "kategorie": "chodnik",
         "vzdalenost_od_centra_cb_km": 0.02,
-        "stav_popis": "Existující zrekonstruované městské chodníky v uliční síti OpenStreetMap (way/77889551)"
+        "stav_popis": "Existující zrekonstruované městské chodníky v uliční síti OpenStreetMap (way/77889551)",
+        "cena_zkracene": "~6,8 mil. Kč",
+        "cena_investice": "cca 6,8 mil. Kč (etapy 2020–2023 z Fondu komunikací)",
+        "cena_rozsah_poznamka": "Pouze chodníky a přechody: Zahrnuje výměnu povrchů chodníků a žulových obrubníků ve 4 úsecích ul. Zborovská a Jana Kouly (VZ ZP-225), chodníky v sídlišti Palackého, Bezručově a Krále Jiřího vč. chrániček VO a přisvětlení přechodů (bez vozovek silnic)."
       },
       "geometry": {
         "type": "LineString",
@@ -443,7 +446,10 @@
         "vzdalenost_od_centra_cb_km": 0.2,
         "stav_popis": "Otevřená nábřežní stezka (2026) — z ul. Havlíčkova kolem PRO-DOMA k resortu Pod Malechovem (6,31 mil. Kč)",
         "zdroj_dokument": "Rozpočet města Český Brod 2026 (Fond komunikací: akce „Cyklostezka u PRO DOMA“ — 6 306 tis. Kč) & Usnesení ZM č. 7381 (pozemky p. č. 118/1, 118/7 a 115/4 k. ú. Český Brod)",
-        "zdroj_citace": "Vybudování a zprovoznění třímetrové stezky pro pěší a cyklisty podél pravého břehu říčky Šembery v úseku od ulice Havlíčkova a Nábřežní podél areálu PRO-DOMA k rezidenci Pod Malechovem a ulici Prokopa Velikého (v rozpočtu Fondu komunikací 2026 vyčleněno 6 306 tis. Kč)."
+        "zdroj_citace": "Vybudování a zprovoznění třímetrové stezky pro pěší a cyklisty podél pravého břehu říčky Šembery v úseku od ulice Havlíčkova a Nábřežní podél areálu PRO-DOMA k rezidenci Pod Malechovem a ulici Prokopa Velikého (v rozpočtu Fondu komunikací 2026 vyčleněno 6 306 tis. Kč).",
+        "cena_zkracene": "6,31 mil. Kč",
+        "cena_investice": "6 306 000 Kč (Rozpočet 2026 – Fond komunikací: „Cyklostezka u PRO DOMA“)",
+        "cena_rozsah_poznamka": "Stavba stezky + výkup pruhu pozemků a oplocení: Částka 6,31 mil. Kč pokrývá vybudování 3 m široké stezky od ul. Havlíčkova k Pod Malechovem, odkup 3m pásu pozemků (p. č. 118/1, 118/7, 115/4) a nové oplocení s podhrabovými deskami; PD lávky přes Šemberu (p. č. 117) byla účtována zvlášť."
       },
       "geometry": {
         "type": "LineString",
@@ -567,7 +573,10 @@
         "sourceLabel2": "Registr smluv č. 33545964: Zábradlí V Podskalí – nová stezka podél Šembery ↗",
         "kategorie": "alej",
         "vzdalenost_od_centra_cb_km": 0.21,
-        "stav_popis": "Existující pojmenovaná stezka v databázi OpenStreetMap (way/956159451)"
+        "stav_popis": "Existující pojmenovaná stezka v databázi OpenStreetMap (way/956159451)",
+        "cena_zkracene": "~380 tis. Kč",
+        "cena_investice": "cca 380 000 Kč (dílčí úpravy pěšiny, značení a akátové zábradlí V Podskalí)",
+        "cena_rozsah_poznamka": "Pouze úprava stávající pěšiny a bezpečnostní prvky: Nešlo o těžkou asfaltovou stavbu, ale o kultivaci nábřežní trasy, informační prvky CVIK a osazení nového akátového zábradlí u stezky podél Šembery v lokalitě V Podskalí (Registr smluv č. 33545964)."
       },
       "geometry": {
         "type": "LineString",
@@ -687,7 +696,10 @@
         "sourceLabel2": "Zakázka E-ZAK č. 222: Rozšíření chodníku ul. Sportovní ↗",
         "kategorie": "chodnik",
         "vzdalenost_od_centra_cb_km": 0.25,
-        "stav_popis": "Existující zrekonstruované městské chodníky v uliční síti OpenStreetMap (way/29731886)"
+        "stav_popis": "Existující zrekonstruované městské chodníky v uliční síti OpenStreetMap (way/29731886)",
+        "cena_zkracene": "4,2M chodníky (19,3M se sítěmi)",
+        "cena_investice": "cca 4,2 mil. Kč samotné chodníky (celkem 19,3 mil. Kč vč. vodovodu a kanalizace)",
+        "cena_rozsah_poznamka": "Pozor — celková investice v Tuchorazské zahrnuje i podzemní sítě: Samotné chodníky Štolmířská stály 2,12 mil. Kč bez DPH (05/2026), přechod Zborovská × Kounická 242 tis. Kč, chodník Tuchorazská z Fondu komunikací 580 tis. Kč a podjezd Sportovní (VZ 2026/6) + Masarykova cca 1,2 mil. Kč. Hlavní částka u Tuchorazské (15,07 mil. Kč přes VHČ) však platila nový vodovodní řad a opravu kanalizace pod ulicí."
       },
       "geometry": {
         "type": "LineString",
@@ -851,7 +863,10 @@
         "sourceLabel2": "2. etapa výsadby lipové aleje u hřbitova (akce č. 1715) ↗",
         "kategorie": "alej",
         "vzdalenost_od_centra_cb_km": 0.53,
-        "stav_popis": "Existující pěší cesta podél severní zdi hřbitova s novou výsadbou 40 lip v OpenStreetMap (way/37894694)"
+        "stav_popis": "Existující pěší cesta podél severní zdi hřbitova s novou výsadbou 40 lip v OpenStreetMap (way/37894694)",
+        "cena_zkracene": "~180 tis. Kč",
+        "cena_investice": "cca 180 000 Kč (2 etapy výsadby 40 vzrostlých lip — Sázíme stromy č. 1622 a 1715)",
+        "cena_rozsah_poznamka": "Pouze výsadba stromů a péče: Pěší cesta podél severní zdi hřbitova již existovala; částka zahrnuje nákup 40 ks vzrostlých lip, kůly, úvazky a komunitní výsadbu bez stavebních zásahů do povrchu cesty."
       },
       "geometry": {
         "type": "LineString",
@@ -903,7 +918,10 @@
         "sourceLabel2": "Českobrodský zpravodaj 03/2026 – obnova Topolovky (PDF) ↗",
         "kategorie": "alej",
         "vzdalenost_od_centra_cb_km": 0.69,
-        "stav_popis": "Existující přírodní pěší cesta v databázi OpenStreetMap (way/51999115)"
+        "stav_popis": "Existující přírodní pěší cesta v databázi OpenStreetMap (way/51999115)",
+        "cena_zkracene": "~250 tis. Kč",
+        "cena_investice": "cca 250 000 Kč (Participativní rozpočet Broďáci Brodu — 2 etapy)",
+        "cena_rozsah_poznamka": "Pouze mobiliář, herní prvky a dosadba: Přírodní cesta s alejí z roku 1930 již existovala; částka z participativního rozpočtu („Zútulnění pěších tras z Brodu na Štolmíř“ + navazující akce za 87 000 Kč) hradila akátové posezení, houpací lavice, stoly a ošetření dřevin."
       },
       "geometry": {
         "type": "LineString",
@@ -1139,7 +1157,10 @@
         "sourceLabel2": "Dokumentace pozorovatelny Kukaň u mokřadu Na Útulně ↗",
         "kategorie": "polni",
         "vzdalenost_od_centra_cb_km": 0.72,
-        "stav_popis": "Existující polní cesta kolem mokřadu Na Útulně v OpenStreetMap (way/1489280672)"
+        "stav_popis": "Existující polní cesta kolem mokřadu Na Útulně v OpenStreetMap (way/1489280672)",
+        "cena_zkracene": "3,4M cesta + 253 tis. Kč prvky",
+        "cena_investice": "cca 3,4 mil. Kč (asfaltová cesta P3 z KPÚ) + 253 000 Kč (pozorovatelna Kukaň a hřiště)",
+        "cena_rozsah_poznamka": "Rozděleno na 2 samostatné akce: 1) Samotnou 700 m asfaltovou cestu P3 vybudoval Státní pozemkový úřad v rámci KoPÚ Štolmíř (~3,4 mil. Kč). 2) Dřevěná ornitologická pozorovatelna „Kukaň / Ptačí svět“ (166 000 Kč) a herní prvky (87 000 Kč) byly doplněny z participativního rozpočtu města; samotné vyhloubení tůní Na Útulně bylo financováno zvlášť."
       },
       "geometry": {
         "type": "LineString",
@@ -1307,7 +1328,10 @@
         "sourceLabel2": "Harmonogram přípravy cyklostezky do Štolmíře ↗",
         "kategorie": "stezka",
         "vzdalenost_od_centra_cb_km": 0.75,
-        "stav_popis": "Záměr v přípravě (Plán 2026+) — čára sleduje koridor podél silnice II/245 mezi Českým Brodem a Štolmíří"
+        "stav_popis": "Záměr v přípravě (Plán 2026+) — čára sleduje koridor podél silnice II/245 mezi Českým Brodem a Štolmíří",
+        "cena_zkracene": "Odhad 12–15 mil. Kč (plán)",
+        "cena_investice": "Odhad 12–15 mil. Kč (záměr v přípravě dle Generelu cyklodopravy, dosud nestavěno)",
+        "cena_rozsah_poznamka": "Plánovaná investice za samotnou stezku a osvětlení: Odhad nákladů na vybudování 950 m dlouhé a 3 m široké asfaltové stezky pro pěší a cyklisty s veřejným osvětlením podél silnice II/245 (bez případných výkupů pozemků)."
       },
       "geometry": {
         "type": "LineString",
@@ -1563,7 +1587,10 @@
         "sourceLabel2": "Generel cyklodopravy ČB – napojení Kutilka / Podviňák (PDF) ↗",
         "kategorie": "stezka",
         "vzdalenost_od_centra_cb_km": 0.83,
-        "stav_popis": "Existující pěší a cyklo propojení kolem stadionu Kutilka k hrázi Podviňáku v OpenStreetMap (way/32059904)"
+        "stav_popis": "Existující pěší a cyklo propojení kolem stadionu Kutilka k hrázi Podviňáku v OpenStreetMap (way/32059904)",
+        "cena_zkracene": "350 tis. Kč (etapa 2026)",
+        "cena_investice": "350 000 Kč v rozpočtu 2026 (úpravy před Kutilkou) + stávající cesty města",
+        "cena_rozsah_poznamka": "Pouze cyklo/pěší úpravy (mimo sportovní haly): Trasa využívá dříve vybudované chodníky kolem stadionu a pěšinu k hrázi Podviňáku; ve Fondu komunikací 2026 je vyčleněno 350 000 Kč na akci „Cyklostezka a prostor před Kutilkou“ (celková urbanistická studie areálu Kutilka řešila i sportoviště a haly mimo stezku)."
       },
       "geometry": {
         "type": "LineString",
@@ -1767,7 +1794,10 @@
         "sourceLabel2": "Generel cyklodopravy města Český Brod (PDF) ↗",
         "kategorie": "stezka",
         "vzdalenost_od_centra_cb_km": 1.4,
-        "stav_popis": "Záměr v přípravě (Plán 2026+) — čára sleduje koridor podél silnice III/1131 z Malechova do Přistoupimi"
+        "stav_popis": "Záměr v přípravě (Plán 2026+) — čára sleduje koridor podél silnice III/1131 z Malechova do Přistoupimi",
+        "cena_zkracene": "Odhad 6–9 mil. Kč (plán)",
+        "cena_investice": "Odhad 6–9 mil. Kč (záměr v přípravě — probíhá výkup pozemků ČB a Přistoupimi)",
+        "cena_rozsah_poznamka": "Plánovaná investice dle Memoranda o spolupráci: Odhad zahrnuje vybudování 600 m dlouhé a 3 m široké asfaltové cyklostezky s veřejným osvětlením podél silnice III/1131; v současnosti město a obec Přistoupim řeší výkupy pozemků ve spolupráci se SPÚ."
       },
       "geometry": {
         "type": "LineString",
@@ -1915,7 +1945,10 @@
         "sourceLabel2": "Článek A2: Spolek NeKluč! a obnova polních cest v Klučově ↗",
         "kategorie": "alej",
         "vzdalenost_od_centra_cb_km": 1.43,
-        "stav_popis": "Existující polní cesta s alejí v databázi OpenStreetMap (way/4780725 + way/31237982)"
+        "stav_popis": "Existující polní cesta s alejí v databázi OpenStreetMap (way/4780725 + way/31237982)",
+        "cena_zkracene": "450 000 Kč (dotace)",
+        "cena_investice": "450 000 Kč (100% dotace z Programu péče o krajinu MŽP, 2020)",
+        "cena_rozsah_poznamka": "Pouze obnova polní cesty a výsadba aleje: Společná zakázka města Český Brod a obce Klučov pokrývala vytýčení historické cesty, terénní úpravu nezpevněného povrchu a výsadbu stromořadí s následnou péčí (bez asfaltování)."
       },
       "geometry": {
         "type": "LineString",
@@ -2159,7 +2192,10 @@
         "sourceLabel2": "Projekt Broďáci Brodu: Pěší trasy na Štolmíř ↗",
         "kategorie": "polni",
         "vzdalenost_od_centra_cb_km": 1.73,
-        "stav_popis": "Existující zpevněná polní cesta v databázi OpenStreetMap (way/31253067–231258842)"
+        "stav_popis": "Existující zpevněná polní cesta v databázi OpenStreetMap (way/31253067–231258842)",
+        "cena_zkracene": "~5,8 mil. Kč (cesta P9)",
+        "cena_investice": "cca 5,8 mil. Kč samotná cesta P9 (součást sdružené zakázky MZe č. 212854)",
+        "cena_rozsah_poznamka": "Pozor — zakázka MZe/SPÚ obsahovala i suchou nádrž: Veřejná zakázka č. 212854 byla zadána společně pro „Výstavbu polní cesty P 9 v k. ú. Štolmíř (Část I) a suché retenční nádrže v k. ú. Zadní Hrádek (Část II)“; uvedená částka ~5,8 mil. Kč odpovídá pouze Části I (1,1 km asfaltové cesty P9 s alejí)."
       },
       "geometry": {
         "type": "LineString",
@@ -2319,7 +2355,10 @@
         "sourceLabel2": null,
         "kategorie": "polni",
         "vzdalenost_od_centra_cb_km": 1.95,
-        "stav_popis": "Zelený krajinný pás bez zpevněné vozovky — čára sleduje koryto Štolmířského potoka v OSM (way/82223015)"
+        "stav_popis": "Zelený krajinný pás bez zpevněné vozovky — čára sleduje koryto Štolmířského potoka v OSM (way/82223015)",
+        "cena_zkracene": "1,20 mil. Kč s DPH",
+        "cena_investice": "1 197 282 Kč s DPH (972 489 Kč bez DPH — dotace PRV 1 151 302 Kč)",
+        "cena_rozsah_poznamka": "Pouze založení 2,6 km biokoridoru (bez vozovky): Přesná vysoutěžená cena SPÚ Kolín (zhotovitel KAVYL, spol. s r.o.) zahrnovala výsadbu dřevin a zatravnění biokoridoru LBK 14 (část A a B, celkem 2,1 ha) podél Štolmířského potoka."
       },
       "geometry": {
         "type": "LineString",
@@ -2551,7 +2590,10 @@
         "sourceLabel2": "Generel cyklodopravy města Český Brod (PDF) ↗",
         "kategorie": "polni",
         "vzdalenost_od_centra_cb_km": 1.96,
-        "stav_popis": "Existující asfaltová polní cesta v databázi OpenStreetMap (way/231258841)"
+        "stav_popis": "Existující asfaltová polní cesta v databázi OpenStreetMap (way/231258841)",
+        "cena_zkracene": "~4,1 mil. Kč s DPH",
+        "cena_investice": "cca 4,1 mil. Kč s DPH (SPÚ Kolín — Program rozvoje venkova, KoPÚ Štolmíř)",
+        "cena_rozsah_poznamka": "Samotná stavba polní cesty HPC 4: Hrazeno Státním pozemkovým úřadem z PRV; zahrnuje kompletní stavbu 591 m dlouhé a 4 m široké asfaltové vozovky včetně podkladních vrstev, odvodnění a doprovodné výsadby."
       },
       "geometry": {
         "type": "LineString",
@@ -2679,7 +2721,10 @@
         "sourceLabel2": "Oficiální web Ekocentra Vrátkov čp. 38 ↗",
         "kategorie": "stezka",
         "vzdalenost_od_centra_cb_km": 2.9,
-        "stav_popis": "Existující trasa od Tuchorazi k Ekocentru Vrátkov v databázi OpenStreetMap (way/29702459)"
+        "stav_popis": "Existující trasa od Tuchorazi k Ekocentru Vrátkov v databázi OpenStreetMap (way/29702459)",
+        "cena_zkracene": "~350 tis. Kč (jen stezka)",
+        "cena_investice": "cca 350 000 Kč samotná stezka a sochy (mimo přestavbu budov Ekocentra za 38M)",
+        "cena_rozsah_poznamka": "Pozor — nezahrnuje stavbu budovy Ekocentra a dětské skupiny: Samotná 1,2 km lesní stezka s vyřezávanými sochami zvířat a edukačními prvky stála v řádu statisíců Kč (s podporou Středočeského kraje), zatímco rekonstrukce hájovny čp. 38 a nová dětská skupina (38,0 mil. Kč v rozpočtu Městských lesů) jsou investice do budov."
       },
       "geometry": {
         "type": "LineString",
@@ -2963,7 +3008,10 @@
         "sourceLabel2": "Veřejná zakázka E-ZAK VZ00000164: Altán na Skautské louce ↗",
         "kategorie": "stezka",
         "vzdalenost_od_centra_cb_km": 3.23,
-        "stav_popis": "Existující turistická trasa Údolím Šembery v databázi OpenStreetMap (relation/3397926)"
+        "stav_popis": "Existující turistická trasa Údolím Šembery v databázi OpenStreetMap (relation/3397926)",
+        "cena_zkracene": "300 tis. Kč + 1,2M altán",
+        "cena_investice": "300 000 Kč (lávka a 3 odpočívadla, Nadace ČEZ) + 1 200 000 Kč (altán a workout)",
+        "cena_rozsah_poznamka": "Rozděleno na 2 akce v údolí Šembery: 1) Grant 300 000 Kč od Nadace ČEZ pokryl novou lávku přes Šemberu a 3 modřínová zastřešená odpočívadla podél trasy. 2) V rozpočtu Městských lesů (VZ00000164) je zvlášť vyčleněno 1,2 mil. Kč na velký altán a lesní workout přímo na Skautské louce."
       },
       "geometry": {
         "type": "LineString",
@@ -3431,7 +3479,10 @@
         "sourceLabel2": "Naučné-stezky.cz: Ovocná naučná stezka Limuzy – Mrzky ↗",
         "kategorie": "alej",
         "vzdalenost_od_centra_cb_km": 3.31,
-        "stav_popis": "Existující úvozová a polní cesta z Limuz do Mrzek v databázi OpenStreetMap (way/62358639)"
+        "stav_popis": "Existující úvozová a polní cesta z Limuz do Mrzek v databázi OpenStreetMap (way/62358639)",
+        "cena_zkracene": "~150 tis. Kč",
+        "cena_investice": "cca 150 000 Kč (grant Nadace ČEZ „Stromy“ + obec Tismice)",
+        "cena_rozsah_poznamka": "Pouze obnova a výsadba aleje: Samotná polní a úvozová Mrzecká cesta (parc. č. 688 k. ú. Limuzy) již existovala; částka pokrývala arboristické ošetření a výsadbu javorového a ovocného stromořadí."
       },
       "geometry": {
         "type": "LineString",
@@ -3571,7 +3622,10 @@
         "sourceLabel2": "Cesty a památky: Údolí Šembery ↗",
         "kategorie": "stezka",
         "vzdalenost_od_centra_cb_km": 3.44,
-        "stav_popis": "Existující lesní MTB singletraily v databázi OpenStreetMap (way/917168859)"
+        "stav_popis": "Existující lesní MTB singletraily v databázi OpenStreetMap (way/917168859)",
+        "cena_zkracene": "Komunitně (~200 tis. Kč)",
+        "cena_investice": "Dobrovolnický projekt spolku Šemberské stezky z.s. (materiál cca 200 000 Kč)",
+        "cena_rozsah_poznamka": "Budováno svépomocí bez veřejné stavební zakázky: 5 km lesních MTB singletrailů vybudovali a udržují členové spolku formou dobrovolnických brigád na pozemcích Městských lesů ČB; finanční náklady ze sponzorských darů pokrývají pouze dřevěné lávky, nářadí a značení."
       },
       "geometry": {
         "type": "MultiLineString",
@@ -5165,7 +5219,10 @@
         "sourceLabel2": "Sázíme stromy č. 1314: Výsadba starých odrůd na Kudrnáčově stezce ↗",
         "kategorie": "stezka",
         "vzdalenost_od_centra_cb_km": 3.96,
-        "stav_popis": "Existující značená Kudrnáčova naučná stezka v databázi OpenStreetMap (relation/12553775)"
+        "stav_popis": "Existující značená Kudrnáčova naučná stezka v databázi OpenStreetMap (relation/12553775)",
+        "cena_zkracene": "60 tis. + ~120 tis. Kč",
+        "cena_investice": "60 000 Kč (grant Nadace ČS na stezku) + cca 120 000 Kč (výsadba Sázíme stromy č. 1314)",
+        "cena_rozsah_poznamka": "Pouze infopanely, bosonohá stezka a dosadba stromů: Vznik 2,5 km naučné stezky s 11 tabulemi podpořila Nadace České spořitelny (60 000 Kč) za přispění brigád obcí Klučov a Poříčany; výsadbu krajových ovocných dřevin v roce 2024 uhradil projekt Sázíme stromy."
       },
       "geometry": {
         "type": "LineString",
@@ -5609,7 +5666,10 @@
         "sourceLabel2": null,
         "kategorie": "polni",
         "vzdalenost_od_centra_cb_km": 4.11,
-        "stav_popis": "Existující asfaltová stezka z roku 2020 v databázi OpenStreetMap (way/796536864)"
+        "stav_popis": "Existující asfaltová stezka z roku 2020 v databázi OpenStreetMap (way/796536864)",
+        "cena_zkracene": "~4,5M cesta (5,35M biocentra)",
+        "cena_investice": "cca 4,5 mil. Kč samotná asfaltová cesta P6 (mimo 5,35 mil. Kč za 3 biocentra)",
+        "cena_rozsah_poznamka": "Pozor — v k. ú. Rostoklaty šlo o 2 různé akce SPÚ: Projektový list SPÚ na 5 351 623 Kč s DPH (dotace PRV 5,26 mil. Kč) hradil založení tří biocenter a tůní (BC 2a Rostoklaty, BC 4 a BC 6 Nová Ves II), zatímco samotná 900 m asfaltová cesta P6 z Rostoklat do Břežan II byla financována zvlášť jako stavba polní cesty z KoPÚ."
       },
       "geometry": {
         "type": "LineString",
@@ -5709,7 +5769,10 @@
         "sourceLabel2": "Výroční zpráva Sázíme stromy 2022 – Klučov–Žhery (PDF) ↗",
         "kategorie": "alej",
         "vzdalenost_od_centra_cb_km": 4.2,
-        "stav_popis": "Existující polní cesta s obnovenou alejí „Žherák“ v databázi OpenStreetMap (way/83196136)"
+        "stav_popis": "Existující polní cesta s obnovenou alejí „Žherák“ v databázi OpenStreetMap (way/83196136)",
+        "cena_zkracene": "~95 tis. Kč",
+        "cena_investice": "cca 95 000 Kč (nadační výsadba Sázíme stromy č. 950 + dobrovolníci NeKluč!)",
+        "cena_rozsah_poznamka": "Pouze výsadba 34 stromů podél cesty: Polní cesta mezi Klučovem a Žherami již existovala; částka pokrývala nákup 34 listnatých a ovocných stromů, kůlů a chrániček vysazených zdarma 62 dobrovolníky spolku NeKluč!."
       },
       "geometry": {
         "type": "LineString",
@@ -5949,7 +6012,10 @@
         "sourceLabel2": null,
         "kategorie": "polni",
         "vzdalenost_od_centra_cb_km": 4.72,
-        "stav_popis": "Existující zpevněná cesta v databázi OpenStreetMap (way/497503151)"
+        "stav_popis": "Existující zpevněná cesta v databázi OpenStreetMap (way/497503151)",
+        "cena_zkracene": "9,05 mil. Kč s DPH",
+        "cena_investice": "9 054 027 Kč s DPH (způsobilé výdaje dotace PRV: 8 962 067 Kč)",
+        "cena_rozsah_poznamka": "Kompletní stavba 1 302 m asfaltové cesty C6 a aleje: Přesná vysoutěžená cena SPÚ Kolín (zhotovitel COLAS CZ, a.s.) zahrnuje konstrukci 5 m široké asfaltobetonové vozovky, sjezdy, odvodnění i doprovodnou výsadbu stromořadí a keřů."
       },
       "geometry": {
         "type": "LineString",
@@ -6141,7 +6207,10 @@
         "sourceLabel2": "Veřejná zakázka SPÚ č. 45910: Cesta C4 a KZ7 Chrášťany ↗",
         "kategorie": "polni",
         "vzdalenost_od_centra_cb_km": 4.72,
-        "stav_popis": "Existující polní a kočárová cesta v databázi OpenStreetMap (way/659399358)"
+        "stav_popis": "Existující polní a kočárová cesta v databázi OpenStreetMap (way/659399358)",
+        "cena_zkracene": "11,55 mil. Kč s DPH",
+        "cena_investice": "11 548 698 Kč s DPH (9 544 380 Kč bez DPH — dotace SPÚ / PRV 11 540 712 Kč)",
+        "cena_rozsah_poznamka": "Zahrnuje 2 objekty společných zařízení najednou: Vysoutěžená cena SPÚ Kolín (zhotovitel Ing. Petr Bareš) pokrývá jak stavbu samotné zpevněné polní cesty C4 s doprovodnou zelení, tak souběžnou obnovu a ozelenění historické Kočárové cesty KZ 7 v k. ú. Chrášťany u ČB."
       },
       "geometry": {
         "type": "LineString",
@@ -6233,7 +6302,10 @@
         "sourceLabel2": "Naučné-stezky.cz: Detail trasy Naučná stezka Klepec ↗",
         "kategorie": "stezka",
         "vzdalenost_od_centra_cb_km": 6.2,
-        "stav_popis": "Existující okruh Naučné stezky Klepec v databázi OpenStreetMap (relation/3399722)"
+        "stav_popis": "Existující okruh Naučné stezky Klepec v databázi OpenStreetMap (relation/3399722)",
+        "cena_zkracene": "~480 tis. Kč",
+        "cena_investice": "cca 480 000 Kč (dotace Středočeského kraje z fondu nerostů + obec Přišimasy)",
+        "cena_rozsah_poznamka": "Pouze obnova tabulí, altánu a mobiliáře stezky: Lesní a polní cesty na vrch Klepec již existovaly; zakázka obce Přišimasy (zhotovitel ACER WOODWAY s.r.o.) pokrývala 8 nových infotabulí s QR kódy, směrovky, lavičky a kryté posezení s houpací sítí."
       },
       "geometry": {
         "type": "MultiLineString",
@@ -6617,7 +6689,10 @@
         "sourceLabel2": "Článek A2: Vyměření a obnova zaoraných cest spolkem NeKluč! ↗",
         "kategorie": "polni",
         "vzdalenost_od_centra_cb_km": 7.09,
-        "stav_popis": "Existující polní cesta mezi Skramníky a Tatci v databázi OpenStreetMap (way/83196137)"
+        "stav_popis": "Existující polní cesta mezi Skramníky a Tatci v databázi OpenStreetMap (way/83196137)",
+        "cena_zkracene": "~85 tis. Kč",
+        "cena_investice": "cca 85 000 Kč (geodetické vytýčení obcí + výsadba Sázíme stromy č. 1143)",
+        "cena_rozsah_poznamka": "Pouze vytýčení rozorané cesty a výsadba stromů (bez asfaltování): Náklady zahrnovaly geodetické vyměření obecních parcel mezi Skramníky a Tatci a nákup stromů, kůlů a chrániček v rámci komunitní výsadby Sázíme stromy č. 1143."
       },
       "geometry": {
         "type": "LineString",

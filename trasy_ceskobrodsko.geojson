@@ -804,20 +804,20 @@
         "name": "#5 Nová lipová alej u hřbitova",
         "rok_obnovy": "2026",
         "category": "alej",
-        "mapy_cz_stav": "ČÁSTEČNĚ",
+        "mapy_cz_stav": "ORIENTAČNĚ",
         "stroke": "#15803d",
-        "presnost": "OSM",
-        "stroke-dasharray": null,
+        "presnost": "orientacni",
+        "stroke-dasharray": "8,6",
         "delka_povrch": "235 m pěší cesta podél hřbitova, 40 lip (2025–2026)",
-        "odkud_A": "Městský hřbitov (ul. Hřbitovní)",
-        "kam_B": "Východní roh hřbitova (směr Prokopa Velikého)",
+        "odkud_A": "Pěší spojka u městského hřbitova",
+        "kam_B": "Východní konec aleje směrem k poli",
         "zdroj": "Sázíme stromy z.ú. (akce č. 1622 a 1715): „Nová lipová alej v Českém Brodě u hřbitova“",
         "zdroj_url": "https://sazimestromy.cz/sazeni/1622",
         "zdroj_dokument": "Sázíme stromy z.ú. & Město Český Brod (Odbor životního prostředí, Ing. Vodička) – Dokumentace výsadby č. 1622 („Nová lipová alej pro Český Brod“, březen 2025) a č. 1715 („Výsadba druhé části lipové aleje v Českém Brodě vedle hřbitova“, říjen 2025)",
         "zdroj_citace": "Na louce a podél pěší spojky vedle městského hřbitova v Českém Brodě (mezi ul. Za Nemocnicí a ul. V Lukách) byla ve dvou etapách (akce Sázíme stromy č. 1622 a č. 1715) vysazena nová lipová alej čítající celkem 40 vzrostlých lip v délce přibližně 200 metrů.",
         "zdroj_url2": "https://sazimestromy.cz/sazeni/1715",
-        "osm_url": "https://www.openstreetmap.org/way/30101117",
-        "stav_zakresu": "oznaceno_osm",
+        "osm_url": "",
+        "stav_zakresu": "orientacni_nebo_plan",
         "naklady": "cca 180 000 Kč (2 etapy výsadby 40 vzrostlých lip — Sázíme stromy č. 1622 a 1715)",
         "poznamka_k_nakladum": "Pouze výsadba stromů a péče: Pěší cesta podél severní zdi hřbitova již existovala; částka zahrnuje nákup 40 ks vzrostlých lip, kůly, úvazky a komunitní výsadbu bez stavebních zásahů do povrchu cesty."
       },
@@ -826,19 +826,19 @@
         "coordinates": [
           [
             14.86197,
-            50.06916
+            50.06889
           ],
           [
             14.86196,
-            50.06911
+            50.06884
           ],
           [
             14.8619,
-            50.06888
+            50.06861
           ],
           [
             14.86467,
-            50.06852
+            50.06825
           ]
         ]
       }

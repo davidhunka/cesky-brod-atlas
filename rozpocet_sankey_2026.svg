@@ -28,7 +28,7 @@
   </g>
 
   <text x="128" y="56" fill="#0f172a" font-size="30" font-weight="900" letter-spacing="-0.4">ČESKÝ BROD — SCHVÁLENÝ ROZPOČET (FY 2026)</text>
-  <text x="128" y="82" fill="#475569" font-size="15" font-weight="600">Plán hospodaření na rok 2026 (č. j. 3558/2026): Rekordní investice do škol, náměstí, parků a komunikací</text>
+  <text x="128" y="82" fill="#475569" font-size="15" font-weight="600">Plán hospodaření na rok 2026 (č. j. 3558/2026): Investice do škol, náměstí, parků a komunikací</text>
 
   <!-- Pravý horní odznak období -->
   <g transform="translate(1580, 30)" filter="url(#cardShadow)">
@@ -193,9 +193,9 @@
   <g transform="translate(509.0, 1075)" filter="url(#cardShadow)">
     <rect x="0" y="0" width="441.0" height="106" rx="14" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
     <rect x="0" y="0" width="8" height="106" rx="4" fill="#dc2626"/>
-    <text x="24" y="28" fill="#64748b" font-size="11.5" font-weight="800" letter-spacing="0.5">REKORDNÍ INVESTICE 2026</text>
-    <text x="24" y="60" fill="#0f172a" font-size="24" font-weight="900">210,2 mil. Kč</text>
-    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">191,2M v hlavním rozpočtu + 19,0M z Fondu komunikací na ulice</text>
+    <text x="24" y="28" fill="#64748b" font-size="11.5" font-weight="800" letter-spacing="0.5">INVESTIČNÍ VÝDAJE 2026</text>
+    <text x="24" y="60" fill="#0f172a" font-size="24" font-weight="900">191,2 mil. Kč</text>
+    <text x="24" y="84" fill="#475569" font-size="11.5" font-weight="600">Výdaje hlavního rozpočtu; další fondové toky nejsou přičteny bez ověřené metodiky</text>
   </g>
 
   <g transform="translate(970.0, 1075)" filter="url(#cardShadow)">

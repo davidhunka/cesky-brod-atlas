@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Český Brod — Datový atlas obnovených cest a městských financí (2020–2026)</title>
+  <meta name="description" content="Orientační atlas cest na Českobrodsku a přehled veřejných financí města s odkazy na evidenční zdroje a metodickými upozorněními." />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,10 +30,12 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     }
+    .hidden { display: none !important; }
     .font-mono-num {
       font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-variant-numeric: tabular-nums;
     }
+    .route-list-item { font: inherit; }
     .sankey-path {
       transition: opacity 0.15s ease;
       cursor: pointer;
@@ -69,10 +73,10 @@
       <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-slate-100 text-xs text-slate-500">
         <div class="flex items-center gap-3">
           <span class="font-mono-num font-semibold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">IČO 00235334</span>
-          <span class="font-medium uppercase tracking-wider text-slate-500">Město Český Brod &amp; mikroregion Českobrodsko</span>
+          <span class="font-medium uppercase tracking-wider text-slate-600">Město Český Brod &amp; mikroregion Českobrodsko</span>
         </div>
         <div class="font-mono-num text-slate-500">
-          Otevřená data: SPÚ • E-ZAK • Monitor MF ČR • OpenStreetMap (2020–2026)
+          Veřejné zdroje: SPÚ • E-ZAK • Monitor MF ČR • OpenStreetMap (2020–2026)
         </div>
       </div>
 
@@ -96,7 +100,7 @@
             </div>
             <div class="text-xs font-bold text-slate-900 mb-1">Zmapování nových a obnovených cest (2020–2026+)</div>
             <p class="text-xs text-slate-600 leading-relaxed">
-              Polní cesty z pozemkových úprav, nové aleje, stezky podél Šembery a opravené chodníky. Rozlišuje fyzicky existující a otevřené cesty v mapové síti OpenStreetMap (22) od chystaných záměrů a přírodního biokoridoru (3) včetně veřejného zdroje.
+              Polní cesty z pozemkových úprav, aleje, stezky a opravené chodníky. Zákres rozlišuje mapové podklady OSM od orientačních linií; stav realizace musí být ověřen zvlášť podle zdrojů.
             </p>
           </div>
 
@@ -115,11 +119,11 @@
 
       <!-- Primary Navigation Tabs -->
       <div class="mt-6 pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
-        <div class="inline-flex p-1 rounded-lg bg-slate-100 border border-slate-200" role="tablist">
-          <button id="tabBtnMap" onclick="switchMainTab('map')" class="px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-slate-900 text-white shadow-sm">
+        <div class="inline-flex p-1 rounded-lg bg-slate-100 border border-slate-200" role="tablist" aria-label="Část aplikace">
+          <button id="tabBtnMap" type="button" role="tab" aria-selected="true" aria-controls="sectionMap" onclick="switchMainTab('map')" class="px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-slate-900 text-white shadow-sm">
             01 / Mapa obnovených cest a stezek (25)
           </button>
-          <button id="tabBtnBudget" onclick="switchMainTab('budget')" class="px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
+          <button id="tabBtnBudget" type="button" role="tab" aria-selected="false" aria-controls="sectionBudget" onclick="switchMainTab('budget')" class="px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
             02 / Finance a rozpočet města (2023–2026)
           </button>
         </div>
@@ -127,7 +131,7 @@
         <div class="flex items-center gap-4 text-xs text-slate-500">
           <a href="./trasy_ceskobrodsko.geojson" target="_blank" class="hover:text-slate-900 underline underline-offset-4 font-mono-num">Stáhnout GeoJSON</a>
           <span>•</span>
-          <a href="https://github.com/davidhunka/cesky-brod-atlas" target="_blank" class="hover:text-slate-900 underline underline-offset-4 font-mono-num">GitHub repozitář</a>
+          <a href="https://github.com/davidhunka/cesky-brod-atlas" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 underline underline-offset-4 font-mono-num">GitHub repozitář</a>
         </div>
       </div>
 
@@ -140,7 +144,7 @@
     <!-- ================================================================== -->
     <!-- SECTION 01: MAPA OBNOVENÝCH STEZEK A CEST                          -->
     <!-- ================================================================== -->
-    <section id="sectionMap" class="space-y-4">
+    <section id="sectionMap" role="tabpanel" aria-labelledby="tabBtnMap" class="space-y-4">
 
       <!-- Unified, Single-Level Filter Toolbar -->
       <div class="bg-white border border-slate-200 rounded-lg p-3.5 shadow-sm">
@@ -148,27 +152,27 @@
           
           <!-- Group 1: Year / Period Segmented Control -->
           <div class="flex flex-wrap items-center gap-1.5">
-            <span class="text-[11px] font-mono-num uppercase tracking-wider font-semibold text-slate-400 mr-1.5">Období:</span>
+            <span class="text-[11px] font-mono-num uppercase tracking-wider font-semibold text-slate-500 mr-1.5">Období:</span>
             <div class="inline-flex flex-wrap gap-1 bg-slate-100 p-1 rounded-md border border-slate-200/80" id="yearFilterBar">
-              <button onclick="setYearFilter('all')" data-year="all" class="year-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white">
+              <button type="button" aria-pressed="true" onclick="setYearFilter('all')" data-year="all" class="year-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white">
                 Vše (25)
               </button>
-              <button onclick="setYearFilter('2020–2021')" data-year="2020–2021" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+              <button type="button" aria-pressed="false" onclick="setYearFilter('2020–2021')" data-year="2020–2021" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
                 2020–21
               </button>
-              <button onclick="setYearFilter('2022–2023')" data-year="2022–2023" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+              <button type="button" aria-pressed="false" onclick="setYearFilter('2022–2023')" data-year="2022–2023" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
                 2022–23
               </button>
-              <button onclick="setYearFilter('2024')" data-year="2024" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+              <button type="button" aria-pressed="false" onclick="setYearFilter('2024')" data-year="2024" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
                 2024
               </button>
-              <button onclick="setYearFilter('2025')" data-year="2025" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+              <button type="button" aria-pressed="false" onclick="setYearFilter('2025')" data-year="2025" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
                 2025
               </button>
-              <button onclick="setYearFilter('2026')" data-year="2026" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+              <button type="button" aria-pressed="false" onclick="setYearFilter('2026')" data-year="2026" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
                 2026
               </button>
-              <button onclick="setYearFilter('Plán 2026+')" data-year="Plán 2026+" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+              <button type="button" aria-pressed="false" onclick="setYearFilter('Plán 2026+')" data-year="Plán 2026+" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
                 Plán 2026+
               </button>
             </div>
@@ -178,18 +182,19 @@
           <div class="flex flex-wrap items-center gap-2.5">
             <!-- Accuracy Filter (OSM Solid vs Dashed) -->
             <div class="inline-flex bg-slate-100 p-1 rounded-md border border-slate-200/80" id="accuracyFilterBar">
-              <button onclick="setAccuracyFilter('all')" data-acc="all" class="acc-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white">
+              <button type="button" aria-pressed="true" onclick="setAccuracyFilter('all')" data-acc="all" class="acc-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white">
                 Všechny trasy (25)
               </button>
-              <button onclick="setAccuracyFilter('osm')" data-acc="osm" class="acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white" title="Trasy, které jsou již otevřené a v terénu fyzicky stojí (22 tras)">
-                Hotové cesty — plná (22)
+              <button type="button" aria-pressed="false" onclick="setAccuracyFilter('osm')" data-acc="osm" class="acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white" title="Geometrie označené v datech aplikace jako OpenStreetMap (22 tras)">
+                Zákres v OSM — plná (22)
               </button>
-              <button onclick="setAccuracyFilter('approx')" data-acc="approx" class="acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white" title="2 chystané stezky v přípravě (#8 do Štolmíře, #10 do Přistoupimi) a 1 přírodní biokoridor podél potoka (#13)">
-                V přípravě / koridor — čárkovaná (3)
+              <button type="button" aria-pressed="false" onclick="setAccuracyFilter('approx')" data-acc="approx" class="acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white" title="Orientace geometrie a projektový záměr jsou v datech sloučeny; zkontrolujte kartu a zdroje">
+                Orientační / plán — čárkovaná (3)
               </button>
             </div>
 
             <!-- Category Select -->
+            <label class="sr-only" for="filterCategory">Filtro podle typu trasy</label>
             <select id="filterCategory" onchange="renderMapAndList()" class="bg-slate-50 text-slate-800 border border-slate-200 rounded-md px-2.5 py-1.5 text-xs font-medium focus:outline-none focus:border-slate-400">
               <option value="all">Typ: Všechny kategorie (25)</option>
               <option value="polni">Polní cesty a biokoridory KPÚ (8)</option>
@@ -199,7 +204,8 @@
             </select>
 
             <!-- Search Input -->
-            <input id="routeSearchInput" type="text" oninput="renderMapAndList()" placeholder="Hledat trasu, obec, zdroj..." class="bg-slate-50 text-slate-800 placeholder-slate-400 border border-slate-200 rounded-md px-2.5 py-1.5 text-xs w-44 sm:w-52 focus:outline-none focus:border-slate-400" />
+            <label class="sr-only" for="routeSearchInput">Hledat trasu, obec nebo zdroj</label>
+            <input id="routeSearchInput" type="search" oninput="renderMapAndList()" placeholder="Hledat trasu, obec, zdroj..." class="bg-slate-50 text-slate-800 placeholder-slate-400 border border-slate-200 rounded-md px-2.5 py-1.5 text-xs w-44 sm:w-52 focus:outline-none focus:border-slate-400" />
           </div>
 
         </div>
@@ -233,17 +239,17 @@
               <span class="text-slate-300">|</span>
               <span class="flex items-center gap-1 text-[11px] text-slate-500 font-medium">
                 <span class="w-4 h-0 border-t border-dashed border-slate-700 inline-block"></span>
-                <span>Čárkovaně: v přípravě (3)</span>
+                <span>Čárkovaně: orientačně / plán (3)</span>
               </span>
               <button onclick="document.getElementById('osmExplainBox').classList.toggle('hidden')" class="text-[11px] font-semibold text-blue-700 hover:text-blue-900 underline decoration-blue-300 underline-offset-2 cursor-pointer ml-1">
                 ⓘ info
               </button>
             </div>
             <div class="flex items-center gap-1.5">
-              <button onclick="resetMapView('city')" class="px-2 py-1 text-[11px] font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100 transition shadow-2xs">
+              <button onclick="resetMapView('city')" class="px-2 py-1 text-[11px] font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100 transition shadow-sm">
                 Český Brod
               </button>
-              <button onclick="resetMapView('region')" class="px-2 py-1 text-[11px] font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100 transition shadow-2xs">
+              <button onclick="resetMapView('region')" class="px-2 py-1 text-[11px] font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100 transition shadow-sm">
                 Celý region
               </button>
             </div>
@@ -256,12 +262,13 @@
               <button onclick="document.getElementById('osmExplainBox').classList.add('hidden')" class="text-slate-400 hover:text-slate-700 font-bold text-xs px-1 cursor-pointer">✕</button>
             </div>
             <p><strong>OpenStreetMap (zkratka OSM)</strong> je otevřená celosvětová mapová databáze (obdoba Wikipedie pro mapy), ze které berou podklady Mapy.cz i tato interaktivní mapa. Každá reálná polní cesta, ulice, lávka nebo potok v ní má své jednoznačné ID (např. <code class="font-mono-num bg-white px-1 py-0.5 rounded border border-slate-200">way/231258841</code>) a přesnou GPS křivku.</p>
-            <p><strong>Plná čára (22 tras):</strong> Cesta, stezka, alej nebo chodník v terénu již fyzicky stojí a je otevřená pro veřejnost (včetně nově otevřené nábřežní cyklostezky <strong>#2 Pravý břeh Šembery</strong> u PRO-DOMA).</p>
-            <p><strong>Čárkovaná čára (3 trasy):</strong> Dvě chystané příměstské cyklostezky v přípravě (<strong>#8</strong> ČB – Štolmíř podél silnice II/245 a <strong>#10</strong> Nad Malechovem – Přistoupim), u nichž probíhá projektová příprava a výkup pozemků, a jeden přírodní <strong>biokoridor (#13 Štolmířský potok)</strong>, což je zatravněný pás zeleně podél potoka bez vyasfaltované vozovky.</p>
+            <p><strong>Plná čára:</strong> Geometrie je v datech aplikace označena jako OSM. Samo o sobě to nedokládá datum realizace, veřejnou přístupnost ani přesnou shodu s projektem.</p>
+            <p><strong>Čárkovaná čára:</strong> Zákres je v datech označen jako orientační, plán nebo koridor. Ověřte stav v kartě trasy a v citovaných zdrojích; evidence není nezávisle zkontrolována.</p>
           </div>
 
           <!-- Leaflet Container -->
-          <div id="leafletMapContainer" class="w-full h-[640px] z-0 bg-slate-100"></div>
+          <div id="leafletMapContainer" class="w-full h-[640px] z-0 bg-slate-100" role="region" aria-label="Mapa tras"></div>
+          <p class="px-4 py-2 text-xs text-slate-600 border-t border-slate-200">Průběh čar je orientační a slouží k lokalizaci projektu; nemusí odpovídat skutečné délce ani celé trase stavby. Přesná geometrie a její zdroj nejsou u všech položek nezávisle ověřeny.</p>
         </div>
 
         <!-- Right Column: Selected Route Detail + Route List (5 cols) -->
@@ -284,7 +291,6 @@
                   <option value="distance" selected>Nejblíže centru Č. Brodu (#1 → #25)</option>
                   <option value="relevance">Podle významu pro město</option>
                   <option value="newest">Od nejnovějších (2026+ → 2020)</option>
-                  <option value="length">Podle délky (nejdelší první)</option>
                 </select>
               </div>
             </div>
@@ -301,7 +307,7 @@
     <!-- ================================================================== -->
     <!-- SECTION 02: FINANCE A ROZPOČET MĚSTA (2023–2026 + VHČ)             -->
     <!-- ================================================================== -->
-    <section id="sectionBudget" class="hidden space-y-5">
+    <section id="sectionBudget" role="tabpanel" aria-labelledby="tabBtnBudget" class="hidden space-y-5">
 
       <!-- Clean Two-Dimensional Financial Control Bar: Year + Scope -->
       <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
@@ -309,18 +315,18 @@
           
           <!-- 1. Výběr rozpočtového roku -->
           <div class="flex flex-wrap items-center gap-2">
-            <span class="text-[11px] font-mono-num uppercase tracking-wider font-semibold text-slate-400 mr-1">Rozpočtový rok:</span>
+            <span class="text-[11px] font-mono-num uppercase tracking-wider font-semibold text-slate-500 mr-1">Rozpočtový rok:</span>
             <div class="inline-flex flex-wrap gap-1 bg-slate-100 p-1 rounded-md border border-slate-200">
-              <button onclick="setBudgetYear('2026')" data-byear="2026" class="byear-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white">
-                2026 • Schválený rozpočet (letošní)
+              <button type="button" onclick="setBudgetYear('2026')" data-byear="2026" aria-pressed="true" class="byear-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white">
+                    2026 • Schválený rozpočet
               </button>
-              <button onclick="setBudgetYear('2025')" data-byear="2025" class="byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+              <button type="button" onclick="setBudgetYear('2025')" data-byear="2025" aria-pressed="false" class="byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
                 2025 • Skutečnost (ZÚ)
               </button>
-              <button onclick="setBudgetYear('2024')" data-byear="2024" class="byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+              <button type="button" onclick="setBudgetYear('2024')" data-byear="2024" aria-pressed="false" class="byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
                 2024 • Skutečnost (ZÚ)
               </button>
-              <button onclick="setBudgetYear('2023')" data-byear="2023" class="byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+              <button type="button" onclick="setBudgetYear('2023')" data-byear="2023" aria-pressed="false" class="byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
                 2023 • Skutečnost (ZÚ)
               </button>
             </div>
@@ -328,15 +334,15 @@
 
           <!-- 2. Pohled na hospodaření (Hlavní rozpočet vs. Spojeno s VHČ vs. Samostatná VHČ) -->
           <div class="flex flex-wrap items-center gap-2">
-            <span class="text-[11px] font-mono-num uppercase tracking-wider font-semibold text-slate-400 mr-1">Pohled na finance:</span>
+            <span class="text-[11px] font-mono-num uppercase tracking-wider font-semibold text-slate-500 mr-1">Pohled na finance:</span>
             <div class="inline-flex flex-wrap gap-1 bg-slate-100 p-1 rounded-md border border-slate-200" id="scopeFilterBar">
-              <button onclick="setBudgetScope('main')" data-scope="main" class="scope-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white">
+              <button type="button" onclick="setBudgetScope('main')" data-scope="main" aria-pressed="true" class="scope-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white">
                 Hlavní rozpočet města
               </button>
-              <button onclick="setBudgetScope('merged')" data-scope="merged" class="scope-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
-                Konsolidovaný celek (Rozpočet + HČ)
+              <button type="button" disabled aria-disabled="true" title="Konsolidovaný pohled je skryt, dokud nebudou ověřeny a odsouhlaseny metodika a součty interních převodů." class="px-3 py-1.5 rounded text-xs font-medium text-slate-500 cursor-not-allowed">
+                Konsolidovaný pohled — čeká na ověření
               </button>
-              <button onclick="setBudgetScope('vhc')" data-scope="vhc" class="scope-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+              <button type="button" onclick="setBudgetScope('vhc')" data-scope="vhc" aria-pressed="false" class="scope-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
                 Jen hospodářská činnost (Byty, Voda, Lesy)
               </button>
             </div>
@@ -363,7 +369,7 @@
             <p id="sankeySubtitle" class="text-xs text-slate-500 mt-0.5"></p>
           </div>
           <div id="sankeyHoverBadge" class="px-3 py-1.5 rounded bg-slate-100 border border-slate-200 text-xs font-mono-num text-slate-700 shrink-0">
-            Najeďte myší na libovolný tok v grafu pro detailní propočty (na 1 obyvatele)
+            Zvolte finanční tok pro detailní částku a podíl
           </div>
         </div>
 
@@ -372,8 +378,11 @@
         </div>
       </div>
 
+      <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-950" role="note">
+        Konsolidovaný pohled hlavního rozpočtu a hospodářské činnosti je dočasně skrytý. Před jeho zveřejněním je potřeba sjednotit období, účetní veličiny a vyloučit vnitřní převody právě jednou.
+      </div>
       <!-- SIDE-BY-SIDE ARCHITECTURE COMPARISON: Hlavní rozpočet vs. Vlastní hospodářská činnost (VHČ) -->
-      <div class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
+      <div class="hidden bg-white border border-slate-200 rounded-lg p-5 shadow-sm" style="display:none">
         <div class="border-b border-slate-200 pb-3 mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h3 class="text-sm font-bold uppercase tracking-wider text-slate-900">
@@ -395,7 +404,7 @@
             <div>
               <div class="flex items-center justify-between text-xs font-mono-num text-slate-500 mb-1">
                 <span>PILÍŘ I • HLAVNÍ ROZPOČET MĚSTA</span>
-                <span class="font-bold text-slate-900">Letošní plán 2026 (vs. 2025)</span>
+                <span class="font-bold text-slate-900">Schválený plán 2026 (vs. 2025)</span>
               </div>
               <div class="text-lg font-extrabold text-slate-900 font-mono-num">
                 478,7 mil. Kč <span class="text-xs font-normal text-slate-500">(2025: 404,1 mil. Kč)</span>
@@ -411,11 +420,10 @@
           </div>
 
           <!-- Propojení (Šipka uprostřed) -->
-          <div class="lg:col-span-1 flex flex-col items-center justify-center bg-slate-100/80 border border-dashed border-slate-300 rounded-lg p-3 text-center">
-            <span class="text-[10px] font-mono-num font-bold uppercase tracking-wider text-slate-500">Tok do města</span>
-            <span class="text-sm font-extrabold font-mono-num text-emerald-700 my-1">+11,4M</span>
-            <span class="text-[11px] text-slate-600 leading-tight">3,0M odvod zisku + 8,4M daň DPPO obce</span>
-          </div>
+            <div class="lg:col-span-1 flex flex-col items-center justify-center bg-amber-50 border border-dashed border-amber-300 rounded-lg p-3 text-center">
+              <span class="text-[10px] font-mono-num font-bold uppercase tracking-wider text-amber-800">Tok mezi pohledy</span>
+              <span class="text-[11px] text-amber-900 leading-tight">Částky nejsou konsolidovány; vzájemné převody se zde neporovnávají.</span>
+            </div>
 
           <!-- Pilíř 2: Vlastní hospodářská činnost (VHČ) -->
           <div class="lg:col-span-5 bg-slate-50 border border-slate-200 rounded-lg p-4 flex flex-col justify-between">
@@ -467,9 +475,6 @@
   <footer class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-6 border-t border-slate-200 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
     <div>
       Datový atlas Český Brod (IČO 00235334) • Zdroje: Státní pozemkový úřad (SPÚ), profil zadavatele E-ZAK, Monitor Státní pokladny MF ČR, Závěrečné účty a Rozpočet města 2026 (č. j. 3558/2026).
-    </div>
-    <div class="font-mono-num">
-      Počet obyvatel pro přepočty: 7 355
     </div>
   </footer>
 
@@ -1329,39 +1334,38 @@
     "fromTo": "Městský hřbitov (ul. Hřbitovní) → Východní roh hřbitova",
     "lengthSurface": "235 m pěší cesta podél hřbitova, 40 lip (2025–2026)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
-    "mapyStatus": "ČÁSTEČNĚ",
-    "mapyNote": "Existující pěší cesta podél severní zdi hřbitova s novou výsadbou 40 lip v OpenStreetMap (way/37894694)",
+    "mapyStatus": "ORIENTAČNĚ",
+    "mapyNote": "Orientační zákres pěší spojky po straně mezi hřbitovem a polem; přesná geometrie aleje není ověřena.",
     "coords": [
       [
-        50.06916,
+        50.06889,
         14.86197
       ],
       [
-        50.06911,
+        50.06884,
         14.86196
       ],
       [
-        50.06888,
+        50.06861,
         14.8619
       ],
       [
-        50.06852,
+        50.06825,
         14.86467
       ]
     ],
     "center": [
-      50.06888,
-      14.8619
+      50.0686,
+      14.8632
     ],
-    "fromLabel": "Městský hřbitov (ul. Hřbitovní)",
-    "toLabel": "Východní roh hřbitova (směr Prokopa Velikého)",
-    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.06916,14.86197&destination=50.06852,14.86467&waypoints=50.06911,14.86196%7C50.06888,14.8619&travelmode=walking",
-    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.86197%2C50.06916&x=14.86197&y=50.06916&z=16",
-    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.86467%2C50.06852&x=14.86467&y=50.06852&z=16",
-    "dashed": false,
+    "fromLabel": "Pěší spojka u městského hřbitova",
+    "toLabel": "Východní konec aleje směrem k poli",
+    "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.06889,14.86197&destination=50.06825,14.86467&waypoints=50.06884,14.86196%7C50.06861,14.8619&travelmode=walking",
+    "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.86197%2C50.06889&x=14.86197&y=50.06889&z=16",
+    "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.86467%2C50.06825&x=14.86467&y=50.06825&z=16",
+    "dashed": true,
     "source": "Sázíme stromy z.ú. (akce č. 1622 a 1715): „Nová lipová alej v Českém Brodě u hřbitova“",
     "sourceUrl": "https://sazimestromy.cz/sazeni/1622",
-    "osmUrl": "https://www.openstreetmap.org/way/30101117",
     "sourceDoc": "Sázíme stromy z.ú. & Město Český Brod (Odbor životního prostředí, Ing. Vodička) – Dokumentace výsadby č. 1622 („Nová lipová alej pro Český Brod“, březen 2025) a č. 1715 („Výsadba druhé části lipové aleje v Českém Brodě vedle hřbitova“, říjen 2025)",
     "sourceQuote": "Na louce a podél pěší spojky vedle městského hřbitova v Českém Brodě (mezi ul. Za Nemocnicí a ul. V Lukách) byla ve dvou etapách (akce Sázíme stromy č. 1622 a č. 1715) vysazena nová lipová alej čítající celkem 40 vzrostlých lip v délce přibližně 200 metrů.",
     "sourceUrl2": "https://sazimestromy.cz/sazeni/1715",
@@ -7414,12 +7418,16 @@
         sBud.classList.add("hidden");
         bMap.className = activeCls;
         bBud.className = idleCls;
+        bMap.setAttribute("aria-selected", "true");
+        bBud.setAttribute("aria-selected", "false");
         if (leafletMap) setTimeout(() => leafletMap.invalidateSize(), 50);
       } else {
         sMap.classList.add("hidden");
         sBud.classList.remove("hidden");
         bBud.className = activeCls;
         bMap.className = idleCls;
+        bMap.setAttribute("aria-selected", "false");
+        bBud.setAttribute("aria-selected", "true");
         renderBudgetSection();
       }
     }
@@ -7428,6 +7436,7 @@
       currentYearFilter = year;
       document.querySelectorAll(".year-btn").forEach(btn => {
         const isAct = btn.dataset.year === year;
+        btn.setAttribute("aria-pressed", String(isAct));
         btn.className = isAct
           ? "year-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white"
           : "year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white";
@@ -7439,6 +7448,7 @@
       currentAccuracyFilter = acc;
       document.querySelectorAll(".acc-btn").forEach(btn => {
         const isAct = btn.dataset.acc === acc;
+        btn.setAttribute("aria-pressed", String(isAct));
         btn.className = isAct
           ? "acc-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white"
           : "acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white";
@@ -7461,14 +7471,14 @@
       const catFilter = document.getElementById("filterCategory").value;
       const sortEl = document.getElementById("routeSortSelect");
       const sortMode = sortEl ? sortEl.value : "distance";
-      const q = (document.getElementById("routeSearchInput").value || "").trim().toLowerCase();
+      const q = (document.getElementById("routeSearchInput").value || "").trim().toLocaleLowerCase("cs").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       const res = ROUTES.filter(r => {
         if (currentYearFilter !== "all" && r.yearCat !== currentYearFilter) return false;
         if (currentAccuracyFilter === "osm" && r.dashed) return false;
         if (currentAccuracyFilter === "approx" && !r.dashed) return false;
         if (catFilter !== "all" && r.category !== catFilter) return false;
         if (q) {
-          const hay = `${r.id} ${r.name} ${r.fromTo} ${r.fromLabel} ${r.toLabel} ${r.source || ""} ${r.distLabel || ""} ${r.costAmount || ""}`.toLowerCase();
+          const hay = `${r.id} ${r.name} ${r.fromTo} ${r.fromLabel} ${r.toLabel} ${r.source || ""} ${r.distLabel || ""} ${r.costAmount || ""}`.toLocaleLowerCase("cs").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
           if (!hay.includes(q)) return false;
         }
         return true;
@@ -7477,7 +7487,6 @@
         if (sortMode === "distance") return (a.distFromCenterKm - b.distFromCenterKm) || (a.id - b.id);
         if (sortMode === "relevance") return (a.relevanceRank - b.relevanceRank) || (a.id - b.id);
         if (sortMode === "newest") return ((YEAR_SORT_ORDER[b.yearCat] || 0) - (YEAR_SORT_ORDER[a.yearCat] || 0)) || (a.distFromCenterKm - b.distFromCenterKm);
-        if (sortMode === "length") return ((b.lengthMeters || 0) - (a.lengthMeters || 0)) || (a.id - b.id);
         return a.id - b.id;
       });
       return res;
@@ -7505,6 +7514,8 @@
 
       if (filtered.length > 0 && !filtered.some(r => r.id === selectedRouteId)) {
         selectedRouteId = filtered[0].id;
+      } else if (filtered.length === 0) {
+        selectedRouteId = null;
       }
 
       renderLeafletMap(filtered);
@@ -7513,6 +7524,10 @@
     }
 
     function renderLeafletMap(filtered) {
+      if (!window.L) {
+        document.getElementById("leafletMapContainer").innerHTML = '<p class="p-4 text-sm text-slate-700">Interaktivní mapa se nenačetla. Seznam tras a jejich zdroje zůstávají dostupné níže.</p>';
+        return;
+      }
       if (!leafletMap) {
         leafletMap = L.map("leafletMapContainer", { zoomControl: true }).setView([50.0725, 14.8620], 13);
         const osmStd = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -7596,8 +7611,13 @@
     }
 
     function renderRouteDetailCard() {
-      const r = ROUTES.find(x => x.id === selectedRouteId) || ROUTES[0];
+      const r = ROUTES.find(x => x.id === selectedRouteId);
+      if (!r) {
+        document.getElementById("routeDetailCard").innerHTML = '<p class="text-sm text-slate-600">Pro zvolený filtr nebyla nalezena žádná trasa. Upravte nebo vymažte filtry.</p>';
+        return;
+      }
       const col = CATEGORY_COLORS[r.category] || "#2563eb";
+      const mapyNoteText = (r.mapyNote || "").replace(/\s*\(way\/[^)]*\)/g, "");
 
       let sCoord = [50.075, 14.86];
       let eCoord = [50.075, 14.86];
@@ -7611,8 +7631,8 @@
       }
 
       const accBadge = r.dashed
-        ? `<span class="px-2 py-0.5 rounded text-[11px] font-mono-num font-semibold bg-amber-50 text-amber-800 border border-amber-200" title="Záměr v přípravě nebo přírodní biokoridor bez zpevněné vozovky">V přípravě / koridor (čárkovaně)</span>`
-        : `<span class="px-2 py-0.5 rounded text-[11px] font-mono-num font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200" title="Fyzicky existující cesta zanesená v mapové databázi OpenStreetMap">Hotová cesta v OSM (plná čára)</span>`;
+        ? `<span class="px-2 py-0.5 rounded text-[11px] font-mono-num font-semibold bg-amber-50 text-amber-800 border border-amber-200" title="Zákres je označen jako orientační; stav realizace ověřte v citovaných zdrojích">Orientační / plán (čárkovaně)</span>`
+        : `<span class="px-2 py-0.5 rounded text-[11px] font-mono-num font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200" title="Geometrie je v datech označena jako OSM; realizace ani přesnost nejsou tímto potvrzeny">Geometrie označena OSM (plná čára)</span>`;
 
       document.getElementById("routeDetailCard").innerHTML = `
         <div class="flex items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-slate-100">
@@ -7645,7 +7665,7 @@
           </div>
           <div class="py-2 grid grid-cols-12 gap-2">
             <span class="col-span-4 text-slate-500 font-medium">Mapový podklad (OSM)</span>
-            <span class="col-span-8 text-slate-800"><strong class="font-mono-num">${r.mapyStatus}</strong> — ${r.mapyNote}</span>
+            <span class="col-span-8 text-slate-800"><strong class="font-mono-num">${r.mapyStatus}</strong> — ${mapyNoteText}</span>
           </div>
           <div class="py-2.5 grid grid-cols-12 gap-2 bg-emerald-50/50 -mx-4 px-4 border-t border-emerald-100/80">
             <span class="col-span-4 text-slate-700 font-semibold pt-0.5">Náklady / investice</span>
@@ -7661,7 +7681,7 @@
                 <span>${r.source || "Veřejné podklady města Český Brod / SPÚ"}</span>
                 <span class="text-[11px] shrink-0 font-mono-num">↗</span>
               </a>
-              <details class="group mt-2 bg-white border border-slate-200 rounded-md shadow-2xs overflow-hidden" ${window.citationBoxOpen ? 'open' : ''} ontoggle="window.citationBoxOpen = this.open">
+              <details class="group mt-2 bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden" ${window.citationBoxOpen ? 'open' : ''} ontoggle="window.citationBoxOpen = this.open">
                 <summary class="px-2.5 py-1.5 text-[11px] font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-50 cursor-pointer select-none flex items-center justify-between gap-2 list-none">
                   <span class="inline-flex items-center gap-1.5">
                     <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
@@ -7671,7 +7691,7 @@
                 </summary>
                 <div class="px-3 py-2.5 border-t border-slate-100 bg-slate-50/50 text-[11px] space-y-2 leading-relaxed">
                   <div>
-                    <div class="text-[10px] font-mono-num uppercase tracking-wider text-slate-400 font-bold">Evidenční pramen / spis</div>
+                    <div class="text-[10px] font-mono-num uppercase tracking-wider text-slate-500 font-bold">Evidenční pramen / spis</div>
                     <div class="text-slate-800 font-medium mt-0.5">${r.sourceDoc || r.source}</div>
                   </div>
                   <blockquote class="pl-2.5 border-l-2 border-blue-600 text-slate-700 italic bg-white p-2 rounded border border-slate-200/80">
@@ -7682,7 +7702,7 @@
                       Otevřít primární dokument / záznam ↗
                     </a>
                     ${r.sourceUrl2 ? `<a href="${r.sourceUrl2}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 rounded text-[11px] font-medium bg-slate-100 text-slate-800 border border-slate-300 hover:bg-slate-200 transition inline-flex items-center gap-1">${r.sourceLabel2 || 'Další související dokument ↗'}</a>` : ''}
-                    ${r.osmUrl ? `<a href="${r.osmUrl}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 rounded text-[11px] font-medium bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition inline-flex items-center gap-1">Geometrie v OpenStreetMap ↗</a>` : ''}
+                    ${r.osmUrl ? `<a href="${r.osmUrl}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 rounded text-[11px] font-medium bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition inline-flex items-center gap-1">                    Odkaz na OpenStreetMap (neověřený) ↗</a>` : ''}
                   </div>
                 </div>
               </details>
@@ -7714,15 +7734,15 @@
       container.innerHTML = filtered.map(r => {
         const col = CATEGORY_COLORS[r.category] || "#2563eb";
         const isSel = r.id === selectedRouteId;
-        const lineType = r.dashed ? "Záměr / koridor" : "Hotovo";
+        const lineType = r.dashed ? "Orientační / plán" : "OSM v datech";
         return `
-          <div onclick="selectRoute(${r.id}, true)" class="px-3.5 py-2.5 transition cursor-pointer flex items-center justify-between gap-2 ${isSel ? 'bg-slate-900/5 border-l-4 border-l-slate-900' : 'hover:bg-slate-50'}">
+          <button type="button" aria-pressed="${isSel}" onclick="selectRoute(${r.id}, true)" class="route-list-item w-full text-left px-3.5 py-2.5 transition cursor-pointer flex items-center justify-between gap-2 ${isSel ? 'bg-slate-900/5 border-l-4 border-l-slate-900' : 'hover:bg-slate-50'}">
             <div class="flex items-center gap-2.5 min-w-0">
               <span class="w-6 h-6 rounded-full text-[11px] font-mono-num font-bold text-white flex items-center justify-center shrink-0" style="background:${col}">${r.id}</span>
               <div class="truncate">
                 <div class="text-xs font-semibold text-slate-900 truncate">${r.name}</div>
                 <div class="text-[11px] text-slate-500 truncate"><span class="font-medium text-slate-700">${r.distLabel}</span> • <span class="font-mono-num font-semibold text-emerald-800">${r.costShort}</span> • ${r.fromLabel} → ${r.toLabel}</div>
-              </div>
+              </button>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
               <span class="text-[10px] font-mono-num font-medium px-1.5 py-0.5 rounded ${r.dashed ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-emerald-50 text-emerald-800 border border-emerald-200'}">${lineType}</span>
@@ -7833,11 +7853,11 @@
       "2025": {
         label: "Skutečnost 2025 (Závěrečný účet & Monitor MF ČR)",
         subtitle: "Skutečné plnění hlavního rozpočtu města za rok 2025 • Celkové výdaje 404,1 mil. Kč",
-        contextNote: "Hlavní rozpočet 2025 dosáhl 404,1 mil. Kč (z toho 36,4 % kapitálové investice). Souběžně město přes střediska Vlastní hospodářské činnosti realizovalo lesní a vodohospodářské investice (dětská skupina, Cesta lásky, vodovody) — přepněte vpravo nahoře na „Konsolidovaný celek“.",
+        contextNote: "Hlavní rozpočet 2025 dosáhl 404,1 mil. Kč (z toho 36,4 % kapitálové investice). Související VHČ se zobrazuje samostatně, protože její data pokrývají jiné časové období a nejsou konsolidována.",
         totalOut: 404.1,
         totalIn: 396.1,
         kpis: [
-          { title: "CELKOVÉ PŘÍJMY 2025", val: "396,1 mil. Kč", sub: "53 849 Kč / obyvatele (+19,7 % meziročně)" },
+          { title: "CELKOVÉ PŘÍJMY 2025", val: "396,1 mil. Kč", sub: "+19,7 % meziročně" },
           { title: "CELKOVÉ VÝDAJE 2025", val: "404,1 mil. Kč", sub: "Provoz 257,2M (63,6 %) • Investice 146,9M (36,4 %)" },
           { title: "HOTOVOST A REZERVY MĚSTA", val: "108,6 mil. Kč", sub: "Dluh města jen 19,0M (5,6 % příjmů vs. zákonný limit 60 %)" },
           { title: "VEDLEJŠÍ HOSP. ČINNOST (VHČ)", val: "+40,5M zisk", sub: "Roční čistý zisk 4 středisek mimo hlavní rozpočet" }
@@ -7881,8 +7901,8 @@
       },
       "2026": {
         label: "Schválený rozpočet 2026 — Hlavní rozpočet města (č. j. 3558/2026)",
-        subtitle: "Letošní plán hospodaření města na rok 2026 • Celkové výdaje 478,7 mil. Kč",
-        contextNote: "Zobrazujete hlavní rozpočet města na rok 2026 (478,7 mil. Kč). Pro zobrazení celkové ekonomiky města včetně Vlastní hospodářské činnosti (byty, nemocnice, vodovody, lesy) přepněte vpravo nahoře na „Konsolidovaný celek (Rozpočet + HČ)“.",
+        subtitle: "Schválený plán hospodaření města na rok 2026 • Celkové výdaje 478,7 mil. Kč",
+        contextNote: "Zobrazujete hlavní rozpočet města na rok 2026 (478,7 mil. Kč). VHČ je uvedena samostatně; společný součet není k dispozici, dokud nebude ověřeno časové přiřazení a metodika interních převodů.",
         totalOut: 478.7,
         totalIn: 377.5,
         kpis: [
@@ -7992,7 +8012,7 @@
           { name: "Vodohospodářský majetek (čistý výnos pachtu)", val: 10.2, sub: "Pachtovné z vodovodní a kanalizační sítě města (výnosy 18,2M - náklady 8,0M)", color: "#2563eb", group: "voda" },
           { name: "Ostatní hospodářská činnost (OHČ – čistý výnos)", val: 3.4, sub: "Komerční pronájmy pozemků a hospodářské služby města", color: "#3b82f6", group: "voda" },
           { name: "Rezervní fond vodohospodářský (akumulace)", val: 12.8, sub: "Zapojení naakumulovaných zdrojů fondu na rekonstrukce vodovodů", color: "#60a5fa", group: "voda" },
-          { name: "Městské lesy – prodej dřeva a hospodaření", val: 4.2, sub: "Vlastní tržby z těžby dřeva a lesního hospodářství (čistý zisk +1,56M)", color: "#0d9488", group: "lesy" },
+          { name: "Městské lesy – hrubé tržby", val: 4.2, sub: "Hrubé tržby z těžby dřeva; čistý zisk střediska je uváděn samostatně (+1,56M)", color: "#0d9488", group: "lesy" },
           { name: "Dotace na projekty Městských lesů (2025/26)", val: 26.8, sub: "Dotace na dětskou skupinu (20M), Cestu lásky (80 %), altán a tůně", color: "#14b8a6", group: "lesy" },
           { name: "Fondy města a předfinancování lesních akcí", val: 19.7, sub: "Kofinancování výstavby dětské skupiny a lesní infrastruktury", color: "#64748b", group: "lesy" }
         ],
@@ -8017,20 +8037,20 @@
         ]
       }
     };
+    delete BUDGET_DATA["2026_merged"];
 
     let currentBudgetYear = "2026";
     let currentBudgetScope = "main"; // 'main' | 'merged' | 'vhc'
 
     function setBudgetYear(yr) {
+      if (currentBudgetScope !== "main") return;
       currentBudgetYear = yr;
-      if (yr === "2023" || yr === "2024") {
-        if (currentBudgetScope === "merged") currentBudgetScope = "main";
-      }
       updateBudgetControlsUI();
       renderBudgetSection();
     }
 
     function setBudgetScope(scope) {
+      if (scope === "merged") return;
       currentBudgetScope = scope;
       updateBudgetControlsUI();
       renderBudgetSection();
@@ -8038,13 +8058,16 @@
 
     function updateBudgetControlsUI() {
       document.querySelectorAll(".byear-btn").forEach(btn => {
-        const isAct = btn.dataset.byear === currentBudgetYear && currentBudgetScope !== "vhc";
+        const isAct = btn.dataset.byear === currentBudgetYear && currentBudgetScope === "main";
+        btn.disabled = currentBudgetScope !== "main";
+        btn.setAttribute("aria-pressed", String(isAct));
         btn.className = isAct
           ? "byear-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white"
-          : "byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white";
+          : `byear-btn px-3 py-1.5 rounded text-xs font-medium transition ${currentBudgetScope === "main" ? "text-slate-700 hover:bg-white" : "text-slate-500 cursor-not-allowed"}`;
       });
       document.querySelectorAll(".scope-btn").forEach(btn => {
         const isAct = btn.dataset.scope === currentBudgetScope;
+        btn.setAttribute("aria-pressed", String(isAct));
         btn.className = isAct
           ? "scope-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white"
           : "scope-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white";
@@ -8055,41 +8078,49 @@
       if (currentBudgetScope === "vhc") {
         return BUDGET_DATA["vhc"];
       }
-      if (currentBudgetScope === "merged") {
-        return BUDGET_DATA["2026_merged"];
-      }
       return BUDGET_DATA[currentBudgetYear] || BUDGET_DATA["2026"];
     }
 
     function showSankeyInfo(title, val, total, sub) {
       const pct = ((val / total) * 100).toFixed(1);
-      const perCap = Math.round((val * 1000000) / 7355).toLocaleString("cs-CZ");
-      document.getElementById("sankeyHoverBadge").innerHTML = `
-        <strong class="text-slate-900">${title}:</strong> ${val.toFixed(1)} mil. Kč (${pct} % • ${perCap} Kč / obyv.) — <span class="text-slate-500 font-sans">${sub}</span>
-      `;
+      document.getElementById("sankeyHoverBadge").textContent = `${title}: ${val.toFixed(1)} mil. Kč (${pct} %) — ${sub}`;
     }
 
     function renderBudgetSection() {
       const b = getActiveBudgetDataset();
+      const sourceSum = b.sources.reduce((sum, item) => sum + item.val, 0);
+      const operatingSourceSum = b.sources.filter(item => item.group !== "fin").reduce((sum, item) => sum + item.val, 0);
+      const targetSum = b.targets.reduce((sum, item) => sum + item.val, 0);
+      const expenditureGroupSum = b.midRight.reduce((sum, item) => sum + item.val, 0);
+      const differences = [
+        Math.abs(sourceSum - b.totalOut) > 0.05 ? `detailní zdroje ${sourceSum.toFixed(1)} vs. celkový tok ${b.totalOut.toFixed(1)} mil. Kč` : null,
+        Math.abs(targetSum - b.totalOut) > 0.05 ? `detailní výdaje ${targetSum.toFixed(1)} vs. celkový tok ${b.totalOut.toFixed(1)} mil. Kč` : null,
+        Math.abs(expenditureGroupSum - b.totalOut) > 0.05 ? `kategorie výdajů ${expenditureGroupSum.toFixed(1)} vs. celkový tok ${b.totalOut.toFixed(1)} mil. Kč` : null,
+        currentBudgetScope === "main" && Math.abs(operatingSourceSum - b.totalIn) > 0.05
+          ? `příjmy bez zapojení fondů ${operatingSourceSum.toFixed(1)} vs. vykázané příjmy ${b.totalIn.toFixed(1)} mil. Kč`
+          : null
+      ].filter(Boolean);
       document.getElementById("sankeyTitle").textContent = b.label;
       document.getElementById("sankeySubtitle").textContent = b.subtitle;
+      document.getElementById("sankeyHoverBadge").textContent = "Zvolte finanční tok kliknutím, klepnutím nebo klávesnicí pro detail.";
 
       document.getElementById("budgetContextBanner").innerHTML = `
-        <div><strong class="text-slate-800">Kontext zobrazení:</strong> ${b.contextNote}</div>
+        <div><strong class="text-slate-800">Kontext zobrazení:</strong> ${b.contextNote}${currentBudgetScope === "vhc" ? " (Pohled VHČ kombinuje poslední roční výsledky s investičními akcemi 2025–2026; nejde o jednu uzavřenou rozpočtovou periodu.)" : ""}</div>
+        ${differences.length ? `<div class="text-rose-800" role="alert"><strong>Kontrola součtů:</strong> ${differences.join("; ")}. Ověřte tyto částky proti zdrojovým výkazům.</div>` : ""}
       `;
 
       // 1. KPI Cards
       document.getElementById("budgetKpiGrid").innerHTML = b.kpis.map(k => `
         <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
-          <div class="text-[11px] font-mono-num font-bold uppercase tracking-wider text-slate-400">${k.title}</div>
+          <div class="text-[11px] font-mono-num font-bold uppercase tracking-wider text-slate-500">${k.title}</div>
           <div class="text-xl font-extrabold font-mono-num text-slate-900 mt-1">${k.val}</div>
           <div class="text-xs text-slate-500 mt-1 leading-snug">${k.sub}</div>
         </div>
       `).join("");
 
       // 2. Interactive SVG Sankey Diagram
-      const W = 1380, H = 720;
-      const X1 = 290, X2 = 500, X3 = 700, X4 = 900, X5 = 1100;
+      const W = 1520, H = 720;
+      const X1 = 340, X2 = 535, X3 = 730, X4 = 925, X5 = 1120;
       const NW = 16;
       const SCALE = 420.0 / b.totalOut;
       const TOP_Y = 46;
@@ -8144,11 +8175,11 @@
       const ribbon = (x0, y0t, y0b, x1, y1t, y1b, col, title, val, sub) => {
         const cx0 = x0 + (x1 - x0) * 0.48;
         const cx1 = x0 + (x1 - x0) * 0.52;
-        const safeSub = (sub || "").replace(/'/g, "");
-        return `<path class="sankey-path" onmouseenter="showSankeyInfo('${title}', ${val}, ${b.totalOut}, '${safeSub}')" d="M ${x0},${y0t} C ${cx0},${y0t} ${cx1},${y1t} ${x1},${y1t} L ${x1},${y1b} C ${cx1},${y1b} ${cx0},${y0b} ${x0},${y0b} Z" fill="${col}" opacity="0.34"/>`;
+        const escapeAttr = text => String(text || "").replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        return `<path class="sankey-path" tabindex="0" role="button" aria-label="${escapeAttr(`${title}: ${val} milionů Kč. ${sub}`)}" data-title="${escapeAttr(title)}" data-val="${val}" data-total="${b.totalOut}" data-sub="${escapeAttr(sub)}" d="M ${x0},${y0t} C ${cx0},${y0t} ${cx1},${y1t} ${x1},${y1t} L ${x1},${y1b} C ${cx1},${y1b} ${cx0},${y0b} ${x0},${y0b} Z" fill="${col}" opacity="0.34"/>`;
       };
 
-      let svg = `<svg viewBox="0 0 ${W} ${H}" class="w-full h-auto select-none">`;
+      let svg = `<svg viewBox="0 0 ${W} ${H}" class="w-full h-auto select-none" style="min-width:1380px" role="group" aria-label="Interaktivní Sankey diagram rozpočtu">`;
       svg += `<rect width="${W}" height="${H}" fill="#ffffff"/>`;
 
       // Column headers
@@ -8240,6 +8271,24 @@
 
       svg += `</svg>`;
       document.getElementById("sankeySvgWrapper").innerHTML = svg;
+      document.querySelectorAll(".sankey-path").forEach(path => {
+        const show = () => showSankeyInfo(path.dataset.title, Number(path.dataset.val), Number(path.dataset.total), path.dataset.sub);
+        path.addEventListener("mouseenter", show);
+        path.addEventListener("focus", show);
+        path.addEventListener("click", show);
+        path.addEventListener("keydown", event => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            show();
+          }
+        });
+        path.addEventListener("mouseleave", () => {
+          document.getElementById("sankeyHoverBadge").textContent = "Zvolte finanční tok kliknutím, klepnutím nebo klávesnicí pro detail.";
+        });
+        path.addEventListener("blur", () => {
+          document.getElementById("sankeyHoverBadge").textContent = "Zvolte finanční tok kliknutím, klepnutím nebo klávesnicí pro detail.";
+        });
+      });
 
       // 3. Breakdown Tables
       document.getElementById("incomeTableContainer").innerHTML = b.sources.map(s => {
@@ -8271,7 +8320,7 @@
               <div>
                 <div class="flex items-center gap-2">
                   <span class="text-xs font-semibold text-slate-900">${t.name}</span>
-                  <span class="px-1.5 py-0.2 rounded text-[10px] font-mono-num font-semibold ${isCapex ? 'bg-rose-50 text-rose-800 border border-rose-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}">${isCapex ? 'Investice' : 'Provoz'}</span>
+                  <span class="px-1.5 py-0.5 rounded text-[10px] font-mono-num font-semibold ${isCapex ? 'bg-rose-50 text-rose-800 border border-rose-200' : 'bg-slate-100 text-slate-700 border border-slate-200'}">${isCapex ? 'Investice' : 'Provoz'}</span>
                 </div>
                 <div class="text-[11px] text-slate-500">${t.sub}</div>
               </div>

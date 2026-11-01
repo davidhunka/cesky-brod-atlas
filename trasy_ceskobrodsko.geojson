@@ -810,7 +810,7 @@
         "stroke-dasharray": "8,6",
         "delka_povrch": "235 m pěší cesta podél hřbitova, 40 lip (2025–2026)",
         "odkud_A": "Pěší spojka u městského hřbitova",
-        "kam_B": "Východní konec aleje směrem k poli",
+        "kam_B": "Východní konec aleje na severní straně hřbitova",
         "zdroj": "Sázíme stromy z.ú. (akce č. 1622 a 1715): „Nová lipová alej v Českém Brodě u hřbitova“",
         "zdroj_url": "https://sazimestromy.cz/sazeni/1622",
         "zdroj_dokument": "Sázíme stromy z.ú. & Město Český Brod (Odbor životního prostředí, Ing. Vodička) – Dokumentace výsadby č. 1622 („Nová lipová alej pro Český Brod“, březen 2025) a č. 1715 („Výsadba druhé části lipové aleje v Českém Brodě vedle hřbitova“, říjen 2025)",
@@ -829,16 +829,16 @@
             50.06889
           ],
           [
-            14.86196,
-            50.06884
+            14.86197,
+            50.06913
           ],
           [
-            14.8619,
-            50.06861
+            14.8631,
+            50.06903
           ],
           [
-            14.86467,
-            50.06825
+            14.86475,
+            50.06892
           ]
         ]
       }

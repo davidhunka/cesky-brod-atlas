@@ -3356,9 +3356,9 @@
         "kam_B": "Hráz a břeh rybníka Podviňák",
         "delka_povrch": "650 m pěší a cyklo stezka kolem stadionu (2024)",
         "mapy_cz_stav": "ANO",
-        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.06729,14.85482&destination=50.05543,14.84923&waypoints=50.06376,14.85379%7C50.06089,14.85123&travelmode=walking",
+        "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.06729,14.85482&destination=50.06014,14.84998&waypoints=50.06406,14.85386%7C50.0628,14.85167&travelmode=walking",
         "mapy_cz_start_A": "https://mapy.cz/turisticka?source=coor&id=14.85482%2C50.06729&x=14.85482&y=50.06729&z=16",
-        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.84923%2C50.05543&x=14.84923&y=50.05543&z=16",
+        "mapy_cz_cil_B": "https://mapy.cz/turisticka?source=coor&id=14.84998%2C50.06014&x=14.84998&y=50.06014&z=16",
         "stroke": "#16a34a",
         "stroke-width": 5,
         "stroke-opacity": 0.9,
@@ -3541,44 +3541,8 @@
             50.059988
           ],
           [
-            14.850659,
-            50.059861
-          ],
-          [
-            14.850696,
-            50.059794
-          ],
-          [
-            14.850352,
-            50.059294
-          ],
-          [
-            14.850389,
-            50.059105
-          ],
-          [
-            14.849685,
-            50.058109
-          ],
-          [
-            14.849381,
-            50.057842
-          ],
-          [
-            14.849571,
-            50.056905
-          ],
-          [
-            14.849557,
-            50.056843
-          ],
-          [
-            14.849391,
-            50.056124
-          ],
-          [
-            14.84923,
-            50.055427
+            14.849984,
+            50.060144
           ]
         ]
       }

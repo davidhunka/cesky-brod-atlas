@@ -2168,10 +2168,10 @@
       "type": "Feature",
       "properties": {
         "id": 12,
-        "name": "#12 Polní cesta P9 (Štolmíř – Kounická / Mexiko)",
+        "name": "#12 Polní cesta P9 (Štolmíř – silnice II/272 na Kounice)",
         "rok_obnovy": "2020–2021",
         "odkud_A": "Štolmíř (Ke Hřbitovu)",
-        "kam_B": "Ul. Kounická (II/272)",
+        "kam_B": "Silnice II/272 (směr Kounice)",
         "delka_povrch": "1,1 km asfalt + alej (2020–2024)",
         "mapy_cz_stav": "ANO",
         "google_maps_trasa_A_B": "https://www.google.com/maps/dir/?api=1&origin=50.08676,14.84176&destination=50.09102,14.86478&waypoints=50.08876,14.84914%7C50.08938,14.85696&travelmode=walking",
@@ -2187,7 +2187,7 @@
         "sourceUrl": "https://zakazky.eagri.cz/document_audit_12838/c03811b5be611464e043821411aca521-pdf",
         "osmUrl": "https://www.openstreetmap.org/way/231258842",
         "sourceDoc": "Profil zadavatele MZe / Státní pozemkový úřad (zakazky.eagri.cz, dokument č. 12838): „Výstavba polní cesty P 9 v k. ú. Štolmíř – Část I: Polní cesta P 9 ve Štolmíři“",
-        "sourceQuote": "Předmětem veřejné zakázky z Plánu společných zařízení KoPÚ v k.ú. Štolmíř je výstavba polní cesty P 9 (nová parcela p.č. 746) propojující severní okraj Štolmíře od hřbitova s ul. Kounická (silnice II/272) u lokality Mexiko, včetně doprovodné výsadby stromořadí.",
+        "sourceQuote": "Předmětem veřejné zakázky z Plánu společných zařízení KoPÚ v k.ú. Štolmíř je výstavba polní cesty P 9 (nová parcela p.č. 746) propojující severovýchodní okraj Štolmíře od hřbitova s krajskou silnicí II/272 (spojnice Český Brod – Kounice), včetně nového mostku přes potok a doprovodné výsadby stromořadí.",
         "sourceUrl2": "https://www.participativni-rozpocet.cz/ceskybrod/navrhy/zutulneni-pesich-tras-z-brodu-na-stolmir/",
         "sourceLabel2": "Projekt Broďáci Brodu: Pěší trasy na Štolmíř ↗",
         "kategorie": "polni",
@@ -2195,7 +2195,9 @@
         "stav_popis": "Existující zpevněná polní cesta v databázi OpenStreetMap (way/31253067–231258842)",
         "cena_zkracene": "~5,8 mil. Kč (cesta P9)",
         "cena_investice": "cca 5,8 mil. Kč samotná cesta P9 (součást sdružené zakázky MZe č. 212854)",
-        "cena_rozsah_poznamka": "Pozor — zakázka MZe/SPÚ obsahovala i suchou nádrž: Veřejná zakázka č. 212854 byla zadána společně pro „Výstavbu polní cesty P 9 v k. ú. Štolmíř (Část I) a suché retenční nádrže v k. ú. Zadní Hrádek (Část II)“; uvedená částka ~5,8 mil. Kč odpovídá pouze Části I (1,1 km asfaltové cesty P9 s alejí)."
+        "cena_rozsah_poznamka": "Pozor — zakázka MZe/SPÚ obsahovala i suchou nádrž: Veřejná zakázka č. 212854 byla zadána společně pro „Výstavbu polní cesty P 9 v k. ú. Štolmíř (Část I) a suché retenční nádrže v k. ú. Zadní Hrádek (Část II)“; uvedená částka ~5,8 mil. Kč odpovídá pouze Části I (1,1 km asfaltové cesty P9 s alejí).",
+        "odkud_kam": "Štolmíř (Ke Hřbitovu) → Silnice II/272 (směr Kounice)",
+        "zdroj_citace": "Předmětem veřejné zakázky z Plánu společných zařízení KoPÚ v k.ú. Štolmíř je výstavba polní cesty P 9 (nová parcela p.č. 746) propojující severovýchodní okraj Štolmíře od hřbitova s krajskou silnicí II/272 (spojnice Český Brod – Kounice), včetně nového mostku přes potok a doprovodné výsadby stromořadí."
       },
       "geometry": {
         "type": "LineString",

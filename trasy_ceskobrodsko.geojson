@@ -17,7 +17,7 @@
         "stroke": "#2563eb",
         "stroke-width": 5,
         "stroke-opacity": 0.9,
-        "presnost": "přibližná",
+        "presnost": "OSM",
         "stroke-dasharray": "8,6",
         "zdroj": "SPÚ Kolín – KoPÚ k.ú. Štolmíř (cesta P9) & Odbor rozvoje města Český Brod",
         "source": "SPÚ & MZe – Veřejná zakázka „Výstavba polní cesty P 9 v k.ú. Štolmíř“ (PDF)",
@@ -26,7 +26,10 @@
         "sourceDoc": "Profil zadavatele MZe / Státní pozemkový úřad (zakazky.eagri.cz, dokument č. 12838): „Výstavba polní cesty P 9 v k. ú. Štolmíř – Část I: Polní cesta P 9 ve Štolmíři“",
         "sourceQuote": "Předmětem veřejné zakázky z Plánu společných zařízení KoPÚ v k.ú. Štolmíř je výstavba polní cesty P 9 (nová parcela p.č. 746) propojující severní okraj Štolmíře od hřbitova s ul. Kounická (silnice II/272) u lokality Mexiko, včetně doprovodné výsadby stromořadí.",
         "sourceUrl2": "https://www.participativni-rozpocet.cz/ceskybrod/navrhy/zutulneni-pesich-tras-z-brodu-na-stolmir/",
-        "sourceLabel2": "Projekt Broďáci Brodu: Pěší trasy na Štolmíř ↗"
+        "sourceLabel2": "Projekt Broďáci Brodu: Pěší trasy na Štolmíř ↗",
+        "kategorie": "polni",
+        "vzdalenost_od_centra_cb_km": 1.73,
+        "stav_popis": "Existující zpevněná polní cesta v databázi OpenStreetMap (way/31253067–231258842)"
       },
       "geometry": {
         "type": "LineString",
@@ -183,7 +186,10 @@
         "sourceDoc": "Státní pozemkový úřad (Pobočka Kolín) – Zrealizované projekty z Programu rozvoje venkova: „Hlavní polní cesta HPC 4 v k.ú. Štolmíř“ (2021) & Generel cyklodopravy města Český Brod (PDF)",
         "sourceQuote": "Stavba hlavní polní cesty HPC 4 v k.ú. Štolmíř od severního okraje zástavby (ul. Ke Škole / Ke Hřbitovu) směrem k háji a Břežanům II v délce 591 m a šířce 4,0 m s asfaltovým krytem, zasakovacím příkopem, propustkem z lomového kamene a doprovodnou výsadbou 55 listnatých stromů (dub zimní, lípa srdčitá, javor babyka, jeřáb břek, třešeň ptačí).",
         "sourceUrl2": "https://cesbrod.cz/files/ceskybrod/gallery/12024/668e6669c9eac_Generel-cyklodopravy-text.pdf",
-        "sourceLabel2": "Generel cyklodopravy města Český Brod (PDF) ↗"
+        "sourceLabel2": "Generel cyklodopravy města Český Brod (PDF) ↗",
+        "kategorie": "polni",
+        "vzdalenost_od_centra_cb_km": 1.96,
+        "stav_popis": "Existující asfaltová polní cesta v databázi OpenStreetMap (way/231258841)"
       },
       "geometry": {
         "type": "LineString",
@@ -308,7 +314,10 @@
         "sourceDoc": "Město Český Brod (ns.cesbrod.cz) – Koncepční studie rozvoje přírodní lokality a mokřadu „Na Útulně“ u cesty P3 mezi Českým Brodem (ul. V Lukách) a Štolmíří (ul. K Lukám) & Dokumentace ptačí pozorovatelny",
         "sourceQuote": "Vybudování asfaltové vedlejší polní cesty P3 z KoPÚ Štolmíř (700 m od ul. V Lukách za plynárnou do Štolmíře) a navazující obnova příměstské přírodní lokality Na Útulně: soustava tůní a mokřadů v nivě Štolmířského potoka, dřevěná krytá ornitologická pozorovatelna „Kukaň / Ptačí svět“ (říjen 2024) a přírodní mobiliář.",
         "sourceUrl2": "https://rozhledny.webzdarma.cz/cbrod.htm",
-        "sourceLabel2": "Dokumentace pozorovatelny Kukaň u mokřadu Na Útulně ↗"
+        "sourceLabel2": "Dokumentace pozorovatelny Kukaň u mokřadu Na Útulně ↗",
+        "kategorie": "polni",
+        "vzdalenost_od_centra_cb_km": 0.72,
+        "stav_popis": "Existující polní cesta kolem mokřadu Na Útulně v OpenStreetMap (way/1489280672)"
       },
       "geometry": {
         "type": "LineString",
@@ -473,7 +482,10 @@
         "sourceDoc": "Participativní rozpočet města Český Brod „Broďáci Brodu“ – projekt Ing. arch. Markéty Havlíčkové „Zútulnění pěších tras z Brodu na Štolmíř (Topolovka a Útulna)“ & Českobrodský zpravodaj 03/2026 (PDF)",
         "sourceQuote": "Historická alej a přírodní pěší cesta „Topolovka“ z roku 1930 spojující Český Brod (od ul. Topolová / Pod Hájem) se Štolmíří (napojení na cestu P9) prošla obnovou stromořadí a v rámci participativního rozpočtu Broďáci Brodu byla doplněna o nový akátový mobiliář (houpací lavice, stoly a odpočinková místa).",
         "sourceUrl2": "https://cesbrod.cz/files/ceskybrod/gallery/18256/69b7bfd58ecdc_Zpravodaj-Brezen-2026-7.pdf",
-        "sourceLabel2": "Českobrodský zpravodaj 03/2026 – obnova Topolovky (PDF) ↗"
+        "sourceLabel2": "Českobrodský zpravodaj 03/2026 – obnova Topolovky (PDF) ↗",
+        "kategorie": "alej",
+        "vzdalenost_od_centra_cb_km": 0.69,
+        "stav_popis": "Existující přírodní pěší cesta v databázi OpenStreetMap (way/51999115)"
       },
       "geometry": {
         "type": "LineString",
@@ -697,7 +709,7 @@
         "stroke": "#0d9488",
         "stroke-width": 5,
         "stroke-opacity": 0.9,
-        "presnost": "přibližná",
+        "presnost": "koridor_plan",
         "stroke-dasharray": "8,6",
         "zdroj": "SPÚ Kolín – realizace plánu společných zařízení (biokoridor LBK 14 Štolmířský potok, 1,2 mil. Kč)",
         "source": "SPÚ Kolín – Projektový list „Výsadba biokoridoru LBK 14 v k.ú. Štolmíř“ (PDF)",
@@ -706,7 +718,10 @@
         "sourceDoc": "Státní pozemkový úřad (Pobočka Kolín) – Oficiální list stavby „Výsadba biokoridoru LBK 14 v k.ú. Štolmíř“ (zpracovatel Agroplan, dodavatel KAVYL, spolufinancováno z PRV / OPŽP)",
         "sourceQuote": "Založení lokálního biokoridoru LBK 14 v k.ú. Štolmíř podél Štolmířského potoka západně od Štolmíře od železniční trati směrem k soutoku s Kounickým potokem (pozemky p.č. 649–655). Cílem realizovaného opatření z Plánu společných zařízení je zvýšení ekologické stability krajiny, protierozní ochrana, retence vody a průchodný luční pás.",
         "sourceUrl2": null,
-        "sourceLabel2": null
+        "sourceLabel2": null,
+        "kategorie": "polni",
+        "vzdalenost_od_centra_cb_km": 1.95,
+        "stav_popis": "Zelený krajinný pás bez zpevněné vozovky — čára sleduje koryto Štolmířského potoka v OSM (way/82223015)"
       },
       "geometry": {
         "type": "LineString",
@@ -935,7 +950,10 @@
         "sourceDoc": "Státní pozemkový úřad (Pobočka Kolín) – Oficiální list stavby z KoPÚ v k.ú. Rostoklaty a k.ú. Nová Ves II (cestní síť P6 a biocentra BC 2A, BC 4 a BC 6)",
         "sourceQuote": "Realizace společných zařízení z komplexních pozemkových úprav (KoPÚ) v k.ú. Rostoklaty a k.ú. Nová Ves II: zpřístupnění a zpevnění polní cesty P6 s doprovodným biokoridorem severně od Rostoklat směrem k Nové Vsi II v návaznosti na založení biocenter a tůní.",
         "sourceUrl2": null,
-        "sourceLabel2": null
+        "sourceLabel2": null,
+        "kategorie": "polni",
+        "vzdalenost_od_centra_cb_km": 4.11,
+        "stav_popis": "Existující asfaltová stezka z roku 2020 v databázi OpenStreetMap (way/796536864)"
       },
       "geometry": {
         "type": "LineString",
@@ -1023,7 +1041,7 @@
         "stroke": "#0d9488",
         "stroke-width": 5,
         "stroke-opacity": 0.9,
-        "presnost": "přibližná",
+        "presnost": "OSM",
         "stroke-dasharray": "8,6",
         "zdroj": "SPÚ Kolín – KoPÚ Tuklaty a Břežany II (polní cesta C6 „Mlýnská“, 1,3 km asfalt + alej, 2022)",
         "source": "SPÚ Kolín – Projektový list „Polní cesta C 6 v k.ú. Tuklaty a Břežany II“ (PDF)",
@@ -1032,7 +1050,10 @@
         "sourceDoc": "Státní pozemkový úřad (Pobočka Kolín) – Oficiální list stavby „Polní cesta C 6 v k. ú. Tuklaty“ (zpracovatel Geovap, dodavatel COLAS CZ, předáno do majetku obcí Tuklaty a Břežany II)",
         "sourceQuote": "Stavba hlavní polní cesty C 6 („Mlýnská cesta“) o celkové délce 1 302 m procházející katastrálními územími Tuklaty a Břežany II (od severního okraje Tuklat na Hlavní ul. v Břežanech II), včetně doprovodné výsadby stromořadí a keřového patra, odvodnění a hospodářských sjezdů.",
         "sourceUrl2": null,
-        "sourceLabel2": null
+        "sourceLabel2": null,
+        "kategorie": "polni",
+        "vzdalenost_od_centra_cb_km": 4.72,
+        "stav_popis": "Existující zpevněná cesta v databázi OpenStreetMap (way/497503151)"
       },
       "geometry": {
         "type": "LineString",
@@ -1221,7 +1242,10 @@
         "sourceDoc": "Informační a kulturní centrum CVIK Český Brod („Stezka Břetislava Jedličky-Brodského“) & Registr smluv ČR č. 33545964 (ID 31433568): „OBJEDNÁVKA Akátové zábradlí V Podskalí - nová stezka podél Šembery“",
         "sourceQuote": "Pěší a cyklistická stezka pojmenovaná po českobrodském spisovateli Břetislavu Jedličkovi-Brodském vede po levém břehu říčky Šembery z lokality V Podskalí (kde město dle Registru smluv č. 33545964 osadilo nové akátové zábradlí u nové stezky podél Šembery) kolem kapličky sv. Gotharda a Chodotínského rybníka až do Liblic.",
         "sourceUrl2": "https://smlouvy.gov.cz/smlouva/33545964",
-        "sourceLabel2": "Registr smluv č. 33545964: Zábradlí V Podskalí – nová stezka podél Šembery ↗"
+        "sourceLabel2": "Registr smluv č. 33545964: Zábradlí V Podskalí – nová stezka podél Šembery ↗",
+        "kategorie": "alej",
+        "vzdalenost_od_centra_cb_km": 0.21,
+        "stav_popis": "Existující pojmenovaná stezka v databázi OpenStreetMap (way/956159451)"
       },
       "geometry": {
         "type": "LineString",
@@ -1329,7 +1353,7 @@
         "stroke": "#db2777",
         "stroke-width": 5,
         "stroke-opacity": 0.9,
-        "presnost": "přibližná",
+        "presnost": "koridor_plan",
         "stroke-dasharray": "8,6",
         "zdroj": "Město Český Brod – Schválený rozpočet 2025/2026 (výkupy parcel 118/1 a 118/7 u PRO-DOMA, E-ZAK)",
         "source": "Usnesení Města ČB (příloha 7381): „Cyklostezka p.č. 118/1 a 118/7“ & Situace DSP (PDF)",
@@ -1338,7 +1362,10 @@
         "sourceDoc": "Usnesení Rady / Zastupitelstva města Český Brod, příloha č. 7381 („Cyklostezka na pozemku p. č. 118/1 a p. č. 118/7, v k. ú. Český Brod“) & Výkres situace DSP z199_SITUACE_DSP (lotus.cesbrod.cz, PDF)",
         "sourceQuote": "Vybudování nové nábřežní cyklostezky a pěší promenády po pravém břehu Šembery a náhonu (pozemky p.č. 118/1 a 118/7 v k.ú. Český Brod) od ulice Nábřežní / Havlíčkova podél revitalizovaného areálu bývalé PRO-DOMA a Pivovarského rybníka až k lávce do ul. Prokopa Velikého a Pod Malechovem.",
         "sourceUrl2": "https://lotus.cesbrod.cz/MUCB%5Carz.nsf/0/E69C91EF472CB0EEC125878F00318694/%24file/z199_SITUACE_DSP_PRACOVNI_211117_PREDAVANE.pdf",
-        "sourceLabel2": "Výkres situace DSP nábřežní stezky Pod Malechovem (PDF) ↗"
+        "sourceLabel2": "Výkres situace DSP nábřežní stezky Pod Malechovem (PDF) ↗",
+        "kategorie": "stezka",
+        "vzdalenost_od_centra_cb_km": 0.2,
+        "stav_popis": "Stavba v přípravě (výkup pozemků a PD) — čára sleduje projektovaný koridor pravého břehu Šembery v OSM"
       },
       "geometry": {
         "type": "LineString",
@@ -1450,7 +1477,7 @@
         "stroke": "#db2777",
         "stroke-width": 5,
         "stroke-opacity": 0.9,
-        "presnost": "přibližná",
+        "presnost": "OSM",
         "stroke-dasharray": "8,6",
         "zdroj": "Spolek Sázíme stromy & Město Český Brod (komunitní výsadba 20 vzrostlých lip u hřbitova, březen 2026)",
         "source": "Sázíme stromy z.ú. (akce č. 1622 a 1715): „Nová lipová alej v Českém Brodě u hřbitova“",
@@ -1459,7 +1486,10 @@
         "sourceDoc": "Sázíme stromy z.ú. & Město Český Brod (Odbor životního prostředí, Ing. Vodička) – Dokumentace výsadby č. 1622 („Nová lipová alej pro Český Brod“, březen 2025) a č. 1715 („Výsadba druhé části lipové aleje v Českém Brodě vedle hřbitova“, říjen 2025)",
         "sourceQuote": "Na louce a podél pěší spojky vedle městského hřbitova v Českém Brodě (mezi ul. Za Nemocnicí a ul. V Lukách) byla ve dvou etapách (akce Sázíme stromy č. 1622 a č. 1715) vysazena nová lipová alej čítající celkem 40 vzrostlých lip v délce přibližně 200 metrů.",
         "sourceUrl2": "https://sazimestromy.cz/sazeni/1715",
-        "sourceLabel2": "2. etapa výsadby lipové aleje u hřbitova (akce č. 1715) ↗"
+        "sourceLabel2": "2. etapa výsadby lipové aleje u hřbitova (akce č. 1715) ↗",
+        "kategorie": "alej",
+        "vzdalenost_od_centra_cb_km": 0.53,
+        "stav_popis": "Existující pěší cesta podél severní zdi hřbitova s novou výsadbou 40 lip v OpenStreetMap (way/37894694)"
       },
       "geometry": {
         "type": "LineString",
@@ -1508,7 +1538,10 @@
         "sourceDoc": "Město Český Brod – Českobrodský zpravodaj (veřejná zakázka „Alej Klučov – Český Brod“, výsadba 92 ovocných stromů, PDF) & Spolek NeKluč! (dokumentace obnovy polních cest v Klučově)",
         "sourceQuote": "Obnova historické polní cesty z Českého Brodu (od ul. Za Drahou za železniční tratí v Liblicích) do Klučova v nivě Šembery. V rámci projektu „Alej Klučov – Český Brod“ zde město vysadilo stromořadí 92 ovocných stromů (třešně a višně), na které navázaly výsadby spolku NeKluč! v katastru Klučova.",
         "sourceUrl2": "https://advojka.cz/a2-article/2024-17-spolek-nekluc/",
-        "sourceLabel2": "Článek A2: Spolek NeKluč! a obnova polních cest v Klučově ↗"
+        "sourceLabel2": "Článek A2: Spolek NeKluč! a obnova polních cest v Klučově ↗",
+        "kategorie": "alej",
+        "vzdalenost_od_centra_cb_km": 1.43,
+        "stav_popis": "Existující polní cesta s alejí v databázi OpenStreetMap (way/4780725 + way/31237982)"
       },
       "geometry": {
         "type": "LineString",
@@ -1749,7 +1782,10 @@
         "sourceDoc": "Portál Naučné-stezky.cz („Kudrnáčova stezka“) & Sázíme stromy z.ú. (akce č. 1314: „Historická Kudrnáčova stezka osázena starými ovocnými druhy a odrůdami“, listopad 2024)",
         "sourceQuote": "Naučná stezka s 11 zastaveními a bosonohou stezkou propojující Klučov, slovanské hradiště Na Ptáčku a Poříčany (pojmenovaná po archeologovi PhDr. Jaroslavu Kudrnáčovi, CSc.). V listopadu 2024 byla trasa v rámci projektu Sázíme stromy (č. 1314) nově osázena starými a krajovými odrůdami ovocných stromů (jabloně, hrušně, oskeruše, břeky a dříny).",
         "sourceUrl2": "https://sazimestromy.cz/sazeni/1314",
-        "sourceLabel2": "Sázíme stromy č. 1314: Výsadba starých odrůd na Kudrnáčově stezce ↗"
+        "sourceLabel2": "Sázíme stromy č. 1314: Výsadba starých odrůd na Kudrnáčově stezce ↗",
+        "kategorie": "stezka",
+        "vzdalenost_od_centra_cb_km": 3.96,
+        "stav_popis": "Existující značená Kudrnáčova naučná stezka v databázi OpenStreetMap (relation/12553775)"
       },
       "geometry": {
         "type": "LineString",
@@ -2181,7 +2217,7 @@
         "stroke": "#16a34a",
         "stroke-width": 5,
         "stroke-opacity": 0.9,
-        "presnost": "přibližná",
+        "presnost": "OSM",
         "stroke-dasharray": "8,6",
         "zdroj": "Obec Klučov & spolek Sázíme stromy (výsadba 34 stromů podél cesty do Žher 2022–2024)",
         "source": "Sázíme stromy z.ú. (akce č. 950): „Z Klučova na Žhery krásným stromořadím (Žherák)“",
@@ -2190,7 +2226,10 @@
         "sourceDoc": "Sázíme stromy z.ú., Obec Klučov & spolek NeKluč! – Dokumentace akce č. 950 („Z Klučova na Žhery krásným stromořadím“) a Výroční zpráva Sázíme stromy 2022 (PDF)",
         "sourceQuote": "Obnova historické polní cesty a výsadba doprovodné aleje „Žherák“ mezi obcemi Klučov a Žhery (1,2 km): za účasti 62 dobrovolníků spolku NeKluč! zde bylo vysazeno stromořadí 34 listnatých a ovocných stromů s následnou komunitní péčí.",
         "sourceUrl2": "https://sazimestromy.cz/uploads/pdf/2022.pdf",
-        "sourceLabel2": "Výroční zpráva Sázíme stromy 2022 – Klučov–Žhery (PDF) ↗"
+        "sourceLabel2": "Výroční zpráva Sázíme stromy 2022 – Klučov–Žhery (PDF) ↗",
+        "kategorie": "alej",
+        "vzdalenost_od_centra_cb_km": 4.2,
+        "stav_popis": "Existující polní cesta s obnovenou alejí „Žherák“ v databázi OpenStreetMap (way/83196136)"
       },
       "geometry": {
         "type": "LineString",
@@ -2418,7 +2457,7 @@
         "stroke": "#16a34a",
         "stroke-width": 5,
         "stroke-opacity": 0.9,
-        "presnost": "přibližná",
+        "presnost": "OSM",
         "stroke-dasharray": "8,6",
         "zdroj": "Obec Klučov (Skramníky) a Obec Tatce ve spolupráci se spolkem Sázíme stromy (březen 2024)",
         "source": "Sázíme stromy z.ú. (akce č. 1143): Obnova a výsadba na polní cestě Skramníky – Tatce",
@@ -2427,7 +2466,10 @@
         "sourceDoc": "Sázíme stromy z.ú. (akce č. 1143, 28. 3. 2024) & Spolek NeKluč! – Geodetické vyměření a komunitní obnova dříve zaorané obecní polní cesty mezi Skramníky a Tatci",
         "sourceQuote": "Obnova dříve rozorané polní cesty na obecních pozemcích mezi vesnicemi Skramníky (část obce Klučov) a Tatce (s přímou návazností na železniční zastávku Tatce na trati 011): po geodetickém vytýčení hranic byla cesta v březnu 2024 osázena stromořadím (akce Sázíme stromy č. 1143) a vrácena pěším i cyklistům.",
         "sourceUrl2": "https://advojka.cz/a2-article/2024-17-spolek-nekluc/",
-        "sourceLabel2": "Článek A2: Vyměření a obnova zaoraných cest spolkem NeKluč! ↗"
+        "sourceLabel2": "Článek A2: Vyměření a obnova zaoraných cest spolkem NeKluč! ↗",
+        "kategorie": "polni",
+        "vzdalenost_od_centra_cb_km": 7.09,
+        "stav_popis": "Existující polní cesta mezi Skramníky a Tatci v databázi OpenStreetMap (way/83196137)"
       },
       "geometry": {
         "type": "LineString",
@@ -2679,7 +2721,7 @@
         "stroke": "#ea580c",
         "stroke-width": 5,
         "stroke-opacity": 0.9,
-        "presnost": "přibližná",
+        "presnost": "OSM",
         "stroke-dasharray": "8,6",
         "zdroj": "SPÚ Kolín – KoPÚ Chrášťany u Českého Brodu (polní cesta C4 a kočárová cesta KZ 7, dokončeno 2025)",
         "source": "SPÚ Kolín – Projektový list „Polní cesta C4 a kočárová cesta KZ7 v k.ú. Chrášťany u ČB“ (PDF)",
@@ -2688,7 +2730,10 @@
         "sourceDoc": "Státní pozemkový úřad (Pobočka Kolín) – Oficiální list stavby „Polní cesta C4 v k.ú. Chrášťany u ČB s doprovodnou zelení a výsadbou zeleně v doprovodném prvku KZ7“ (leden 2025, PDF) & Veřejná zakázka SPÚ č. 45910",
         "sourceQuote": "Stavba polní cesty C4 (parc. č. KN 304) s doprovodnou zelení a obnova historické Kočárové cesty KZ 7 (parc. č. KN 299) v k.ú. Chrášťany u Českého Brodu směrem k Chotouni, realizovaná Státním pozemkovým úřadem z Plánu společných zařízení KoPÚ pro zvýšení prostupnosti krajiny a protierozní ochranu.",
         "sourceUrl2": "https://zakazky.spucr.cz/contract_display_45910.html",
-        "sourceLabel2": "Veřejná zakázka SPÚ č. 45910: Cesta C4 a KZ7 Chrášťany ↗"
+        "sourceLabel2": "Veřejná zakázka SPÚ č. 45910: Cesta C4 a KZ7 Chrášťany ↗",
+        "kategorie": "polni",
+        "vzdalenost_od_centra_cb_km": 4.72,
+        "stav_popis": "Existující polní a kočárová cesta v databázi OpenStreetMap (way/659399358)"
       },
       "geometry": {
         "type": "LineString",
@@ -2768,7 +2813,7 @@
         "stroke": "#7c3aed",
         "stroke-width": 5,
         "stroke-opacity": 0.9,
-        "presnost": "přibližná",
+        "presnost": "koridor_plan",
         "stroke-dasharray": "8,6",
         "zdroj": "Město Český Brod a Obec Přistoupim – Smlouva o spolupráci a profil E-ZAK (příprava cyklostezky III/1131)",
         "source": "Článek místostarosty T. Klineckého: „Nová cyklostezka spojí Český Brod s Přistoupimí“",
@@ -2777,7 +2822,10 @@
         "sourceDoc": "Vyjádření místostarosty města Český Brod Ing. Tomáše Klineckého („Nová cyklostezka spojí Český Brod se sousední obcí Přistoupim“, 10. 5. 2023) & Generel cyklodopravy města Český Brod (PDF)",
         "sourceQuote": "Projekt nové asfaltové stezky pro pěší a cyklisty o délce cca 600 m a šířce 3 m s veřejným osvětlením, která propojí ulici Nad Malechovem na jižním okraji Českého Brodu se severním okrajem obce Přistoupim mimo úzkou silnici III/1131.",
         "sourceUrl2": "https://cesbrod.cz/files/ceskybrod/gallery/12024/668e6669c9eac_Generel-cyklodopravy-text.pdf",
-        "sourceLabel2": "Generel cyklodopravy města Český Brod (PDF) ↗"
+        "sourceLabel2": "Generel cyklodopravy města Český Brod (PDF) ↗",
+        "kategorie": "stezka",
+        "vzdalenost_od_centra_cb_km": 1.4,
+        "stav_popis": "Záměr v přípravě (Plán 2026+) — čára sleduje koridor podél silnice III/1131 z Malechova do Přistoupimi"
       },
       "geometry": {
         "type": "LineString",
@@ -2913,7 +2961,7 @@
         "stroke": "#7c3aed",
         "stroke-width": 5,
         "stroke-opacity": 0.9,
-        "presnost": "přibližná",
+        "presnost": "koridor_plan",
         "stroke-dasharray": "8,6",
         "zdroj": "Město Český Brod – profil zadavatele E-ZAK (vysoutěžená PD na páteřní cyklostezku podél II/245)",
         "source": "Generel cyklodopravy města Český Brod – páteřní stezka ČB – Štolmíř podél II/245 (PDF)",
@@ -2922,7 +2970,10 @@
         "sourceDoc": "Město Český Brod – Generel cyklodopravy města Český Brod (textová část, PDF) – návrhové opatření bezmotorového propojení Český Brod (ul. Žitomířská) – Štolmíř (ul. Českobrodská) v koridoru silnice II/245",
         "sourceQuote": "V Generelu cyklodopravy města Český Brod je navržena přímá osvětlená stezka pro pěší a cyklisty podél krajské silnice II/245 ze severního okraje Českého Brodu (ul. Žitomířská) do místní části Štolmíř (ul. Českobrodská) jako celoroční bezpečná alternativa k frekventované vozovce.",
         "sourceUrl2": "https://www.top09.cz/regiony/stredocesky-kraj/top-09-v-mediich/klinecky-nova-cyklostezka-spoji-cesky-brod-se-sousedni-obci-30834.html",
-        "sourceLabel2": "Harmonogram přípravy cyklostezky do Štolmíře ↗"
+        "sourceLabel2": "Harmonogram přípravy cyklostezky do Štolmíře ↗",
+        "kategorie": "stezka",
+        "vzdalenost_od_centra_cb_km": 0.75,
+        "stav_popis": "Záměr v přípravě (Plán 2026+) — čára sleduje koridor podél silnice II/245 mezi Českým Brodem a Štolmíří"
       },
       "geometry": {
         "type": "LineString",
@@ -3166,7 +3217,7 @@
         "stroke": "#16a34a",
         "stroke-width": 5,
         "stroke-opacity": 0.9,
-        "presnost": "přibližná",
+        "presnost": "OSM",
         "stroke-dasharray": "8,6",
         "zdroj": "Město Český Brod – Fond komunikací & participativní rozpočet Broďáci Brodu (areál Na Kutilce)",
         "source": "Zastupitelstvo ČB (Tisk 44): „Urbanistická studie areálu Kutilka“ (PDF) & Generel cyklodopravy",
@@ -3175,7 +3226,10 @@
         "sourceDoc": "Zastupitelstvo města Český Brod, Tisk č. 44 („Zpracování urbanistické studie areálu Kutilka“, Ing. arch. Jakub Nekolný, PDF) & Generel cyklodopravy města Český Brod (PDF)",
         "sourceQuote": "Řešení prostupnosti a vybudování pěší a cyklistické stezky po obvodu sportovního areálu a atletického stadionu Na Kutilce (od křižovatky Sokolská / Na Bělidle přes ul. Na Kutilce kolem stadionu pod silnicí I/12 k říčce Šembeře a rybníku Podviňák).",
         "sourceUrl2": "https://cesbrod.cz/files/ceskybrod/gallery/12024/668e6669c9eac_Generel-cyklodopravy-text.pdf",
-        "sourceLabel2": "Generel cyklodopravy ČB – napojení Kutilka / Podviňák (PDF) ↗"
+        "sourceLabel2": "Generel cyklodopravy ČB – napojení Kutilka / Podviňák (PDF) ↗",
+        "kategorie": "stezka",
+        "vzdalenost_od_centra_cb_km": 0.83,
+        "stav_popis": "Existující pěší a cyklo propojení kolem stadionu Kutilka k hrázi Podviňáku v OpenStreetMap (way/32059904)"
       },
       "geometry": {
         "type": "LineString",
@@ -3376,7 +3430,10 @@
         "sourceDoc": "Šemberské stezky z.s. (IČO 06905469) & Městské lesy Český Brod – Oficiální dokumentace a mapa přírodních singletrailů v údolí Šembery u Tuchorazi",
         "sourceQuote": "Síť přírodních jednosměrných i obousměrných lesních MTB stezek (singletrailů) na svazích údolí Šembery mezi Tuchorazským mlýnem a obcí Tuchoraz, budovaná a udržovaná spolkem Šemberské stezky z.s. se souhlasem Města Český Brod a Městských lesů.",
         "sourceUrl2": "https://www.cestyapamatky.cz/kolinsko/cesky-brod/naucna-stezka-udolim-sembery",
-        "sourceLabel2": "Cesty a památky: Údolí Šembery ↗"
+        "sourceLabel2": "Cesty a památky: Údolí Šembery ↗",
+        "kategorie": "stezka",
+        "vzdalenost_od_centra_cb_km": 3.44,
+        "stav_popis": "Existující lesní MTB singletraily v databázi OpenStreetMap (way/917168859)"
       },
       "geometry": {
         "type": "MultiLineString",
@@ -4967,7 +5024,10 @@
         "sourceDoc": "Oficiální web Města Český Brod (článek č. 24199: „Zastavení u Šembery: Místa pro relaxaci i setkávání“) & Profil zadavatele E-ZAK (vz00000164: „Altán na Skautské louce, p. č. 176/6, k. ú. Doubravčice“ & dok. č. 1150 „Lesní cesta lásky“)",
         "sourceQuote": "V úseku lesa mezi lokalitou Na Šamtalech, Skautskou loukou a hradištěm Na Zámkách město Český Brod v roce 2025 vybudovalo tři modřínová odpočívadla („Zastavení u Šembery“ s podporou Nadace ČEZ), osadilo novou dřevěnou lávku přes Šemberu u Skautské louky a vyhlásilo zakázku VZ00000164 na nový altán.",
         "sourceUrl2": "https://ezak.cesbrod.cz/vz00000164",
-        "sourceLabel2": "Veřejná zakázka E-ZAK VZ00000164: Altán na Skautské louce ↗"
+        "sourceLabel2": "Veřejná zakázka E-ZAK VZ00000164: Altán na Skautské louce ↗",
+        "kategorie": "stezka",
+        "vzdalenost_od_centra_cb_km": 3.23,
+        "stav_popis": "Existující turistická trasa Údolím Šembery v databázi OpenStreetMap (relation/3397926)"
       },
       "geometry": {
         "type": "LineString",
@@ -5423,7 +5483,7 @@
         "stroke": "#0d9488",
         "stroke-width": 5,
         "stroke-opacity": 0.9,
-        "presnost": "přibližná",
+        "presnost": "OSM",
         "stroke-dasharray": "8,6",
         "zdroj": "Ekocentrum Vrátkov z.s. & Obec Tuchoraz s podporou Fondu hejtmanky Středočeského kraje (2021–2023)",
         "source": "Město Český Brod – „Ekocentrum Vrátkov“ & Hravá naučná stezka lesem od Tuchorazi",
@@ -5432,7 +5492,10 @@
         "sourceDoc": "Oficiální web Města Český Brod (článek č. 18045: „Ekocentrum Vrátkov“) & Ekocentrum Vrátkov z.s. (bývalá hájovna Vrátkov čp. 38 v Městských lesích Český Brod)",
         "sourceQuote": "Interaktivní dětská lesní trasa (1,2 km) vedoucí od západního okraje Tuchorazi k bývalé hájovně Ekocentrum Vrátkov čp. 38, doplněná o řezbářské dřevěné sochy lesních zvířat, hravé edukační prvky a navazující environmentální zázemí v rekonstruované hájovně.",
         "sourceUrl2": "https://www.ekocentrumvratkov.cz/",
-        "sourceLabel2": "Oficiální web Ekocentra Vrátkov čp. 38 ↗"
+        "sourceLabel2": "Oficiální web Ekocentra Vrátkov čp. 38 ↗",
+        "kategorie": "stezka",
+        "vzdalenost_od_centra_cb_km": 2.9,
+        "stav_popis": "Existující trasa od Tuchorazi k Ekocentru Vrátkov v databázi OpenStreetMap (way/29702459)"
       },
       "geometry": {
         "type": "LineString",
@@ -5713,7 +5776,10 @@
         "sourceDoc": "Obec Tismice (aktuality č. 443: Obnova aleje na „Mrzecké cestě“ na pozemku parc. č. 688 v k.ú. Limuzy) & Portál Naučné-stezky.cz („Ovocná stezka Limuzy – Mrzky“)",
         "sourceQuote": "Obnova historické úvozové „Mrzecké cesty“ na pozemku parc. č. 688 v k.ú. Limuzy (1,1 km mezi obcemi Limuzy a Mrzky): ošetření stávající aleje, nová výsadba javorů a ovocných dřevin s podporou Nadace ČEZ (2024) v trase Ovocné naučné stezky.",
         "sourceUrl2": "https://www.naucne-stezky.cz/ovocna-stezka-limuzy/",
-        "sourceLabel2": "Naučné-stezky.cz: Ovocná naučná stezka Limuzy – Mrzky ↗"
+        "sourceLabel2": "Naučné-stezky.cz: Ovocná naučná stezka Limuzy – Mrzky ↗",
+        "kategorie": "alej",
+        "vzdalenost_od_centra_cb_km": 3.31,
+        "stav_popis": "Existující úvozová a polní cesta z Limuz do Mrzek v databázi OpenStreetMap (way/62358639)"
       },
       "geometry": {
         "type": "LineString",
@@ -5850,7 +5916,10 @@
         "sourceDoc": "Oficiální web obce Přišimasy (aktualita č. 1623: „Klepec má novou naučnou stezku“, říjen 2025) & Portál Naučné-stezky.cz („Naučná stezka Klepec“)",
         "sourceQuote": "V říjnu 2025 byla dokončena kompletní obnova Naučné stezky Klepec (z Přišimas a Skřivan na vrch Klepec, 358 m n. m.): instalace 8 nových informačních tabulí s QR kódy, vybudování dřevěného zastřešeného posezení, stojanů na kola a relaxační houpací sítě mezi stromy.",
         "sourceUrl2": "https://www.naucne-stezky.cz/naucna-stezka-klepec/",
-        "sourceLabel2": "Naučné-stezky.cz: Detail trasy Naučná stezka Klepec ↗"
+        "sourceLabel2": "Naučné-stezky.cz: Detail trasy Naučná stezka Klepec ↗",
+        "kategorie": "stezka",
+        "vzdalenost_od_centra_cb_km": 6.2,
+        "stav_popis": "Existující okruh Naučné stezky Klepec v databázi OpenStreetMap (relation/3399722)"
       },
       "geometry": {
         "type": "MultiLineString",
@@ -6231,7 +6300,10 @@
         "sourceDoc": "Profil zadavatele Města Český Brod (E-ZAK, dokument č. 3425: „Stavební úpravy chodníků v ulici Štolmířská a oprava VO“ & zakázka č. 222: „Rozšíření chodníku, Sportovní, Český Brod“ & VZ00000080: „Ul. Tuchorazská“)",
         "sourceQuote": "Veřejné zakázky města Český Brod na souvislou rekonstrukci a rozšíření chodníků ze zámkové dlažby, bezbariérové úpravy přechodů a obnovu veřejného osvětlení v ulicích Štolmířská, Sportovní (úsek u podjezdu pod železniční tratí), Želivského a Tuchorazská (2024–2026).",
         "sourceUrl2": "https://ezak.cesbrod.cz/contract_display_222.html",
-        "sourceLabel2": "Zakázka E-ZAK č. 222: Rozšíření chodníku ul. Sportovní ↗"
+        "sourceLabel2": "Zakázka E-ZAK č. 222: Rozšíření chodníku ul. Sportovní ↗",
+        "kategorie": "chodnik",
+        "vzdalenost_od_centra_cb_km": 0.25,
+        "stav_popis": "Existující zrekonstruované městské chodníky v uliční síti OpenStreetMap (way/29731886)"
       },
       "geometry": {
         "type": "LineString",
@@ -6392,7 +6464,10 @@
         "sourceDoc": "Profil zadavatele Města Český Brod (ezak.cesbrod.cz/contract_display_225.html): Veřejná zakázka „Stavební úpravy chodníků v ulici Zborovská a Jana Kouly“ & PD „Jana Kouly, Zborovská, Krále Jiřího, Palackého, Bezručova“",
         "sourceQuote": "Etapová modernizace hlavních městských pěších tahů v Českém Brodě v letech 2020–2023 (ul. Palackého, Zborovská, Jana Kouly, Krále Jiřího a Bezručova): kompletní výměna povrchů chodníků a obrubníků, uložení chrániček a vybudování bezbariérových přechodů s přisvětlením.",
         "sourceUrl2": "https://ezak.cesbrod.cz/contract_index.html?page=2&orderby=date_start&direction=asc",
-        "sourceLabel2": "Archiv veřejných zakázek E-ZAK ČB (chodníky 2020–2023) ↗"
+        "sourceLabel2": "Archiv veřejných zakázek E-ZAK ČB (chodníky 2020–2023) ↗",
+        "kategorie": "chodnik",
+        "vzdalenost_od_centra_cb_km": 0.02,
+        "stav_popis": "Existující zrekonstruované městské chodníky v uliční síti OpenStreetMap (way/77889551)"
       },
       "geometry": {
         "type": "LineString",

@@ -24,15 +24,15 @@ Datová sada eviduje **25 polních cest z komplexních pozemkových úprav (KPÚ
 ![Mapa obnovených stezek Českobrodska 2020–2026+](./mapa_stezky_podle_roku.png)
 
 ### Metodika zákresu a přesnost geometrie
-- **Plná čára — Hotová cesta v OpenStreetMap (21 tras):** Cesta, alej nebo chodník v terénu již fyzicky stojí a v otevřené mapové databázi OpenStreetMap (OSM) má zanesenou svou vlastní trasu.
-- **Čárkovaná čára — V přípravě / přírodní koridor (4 trasy):** Tři chystané cyklostezky v přípravě (**#2** Pravý břeh Šembery, **#8** ČB – Štolmíř podél silnice II/245, **#10** Nad Malechovem – Přistoupim), které se teprve projektují a jejich čára ukazuje koridor podél řeky či silnice, kudy povedou, a jeden přírodní **biokoridor (#13 Štolmířský potok)**, což je zatravněný pás zeleně podél potoka bez vyasfaltované vozovky.
+- **Plná čára — Hotová / otevřená cesta (22 tras):** Cesta, stezka, alej nebo chodník v terénu již fyzicky stojí a je zpřístupněná veřejnosti (včetně v roce 2026 otevřené nábřežní cyklostezky **#2 Pravý břeh Šembery** u PRO-DOMA).
+- **Čárkovaná čára — V přípravě / přírodní koridor (3 trasy):** Dvě chystané příměstské cyklostezky v přípravě (**#8** ČB – Štolmíř podél silnice II/245 a **#10** Nad Malechovem – Přistoupim), u nichž probíhá výkup pozemků a projektová příprava, a jeden přírodní **biokoridor (#13 Štolmířský potok)**, což je zatravněný pás zeleně podél potoka bez vyasfaltované vozovky.
 
 ### Souhrnný přehled 25 tras (seřazeno a očíslováno #1–#25 podle vzdálenosti od centra Českého Brodu)
 
 | ID | Název trasy | Úsek (Odkud → Kam) | Období | Zákres v OSM | Primární evidenční pramen (přímý odkaz na dokument) |
 | :-: | :--- | :--- | :-: | :--- | :--- |
 | **1** | Chodníky 2020–2023 | Sídliště Palackého → Zborovská → Jana Kouly → Krále Jiřího | 2020–2021 | Hotovo (OSM) | [E-ZAK ČB zakázka č. 225 – Chodníky Zborovská, Jana Kouly a Krále Jiřího](https://ezak.cesbrod.cz/contract_display_225.html) |
-| **2** | Cyklostezka pravý břeh Šembery | Nábřežní / Havlíčkova → Prokopa Velikého (Pod Malechovem) | 2026 | V přípravě (čárk.) | [Usnesení Města ČB příloha 7381 (p.č. 118/1 a 118/7)](https://usneseni.cesbrod.cz/usneseni/usneseni/priloha/7381) · [Situace DSP (PDF)](https://lotus.cesbrod.cz/MUCB%5Carz.nsf/0/E69C91EF472CB0EEC125878F00318694/%24file/z199_SITUACE_DSP_PRACOVNI_211117_PREDAVANE.pdf) |
+| **2** | Cyklostezka pravý břeh Šembery | Nábřežní / Havlíčkova → Prokopa Velikého (Pod Malechovem) | 2026 | Hotovo (2026) | [Usnesení Města ČB příloha 7381 (p.č. 118/1 a 118/7)](https://usneseni.cesbrod.cz/usneseni/usneseni/priloha/7381) · [Situace DSP (PDF)](https://lotus.cesbrod.cz/MUCB%5Carz.nsf/0/E69C91EF472CB0EEC125878F00318694/%24file/z199_SITUACE_DSP_PRACOVNI_211117_PREDAVANE.pdf) |
 | **3** | Stezka B. Jedličky-Brodského | Podskalí (Kouřimská brána) → sv. Gothard → Liblice | 2024 | Hotovo (OSM) | [IC CVIK ČB – Detail trasy](https://ic.cvik.info/stezka-bretislava-jedlicky-brodskeho) · [Registr smluv č. 33545964 (V Podskalí)](https://smlouvy.gov.cz/smlouva/33545964) |
 | **4** | Chodníky 2024–2026 | Ul. Štolmířská, Sportovní, Žižkova, Želivského, Tuchorazská | 2026 | Hotovo (OSM) | [E-ZAK ČB dok. č. 3425 (Štolmířská)](https://ezak.cesbrod.cz/document_download_3425.html) · [zakázka č. 222 (Sportovní)](https://ezak.cesbrod.cz/contract_display_222.html) |
 | **5** | Nová lipová alej u hřbitova | Městský hřbitov (ul. Hřbitovní) → východní roh hřbitova (235 m) | 2026 | Hotovo (OSM) | [Sázíme stromy č. 1622 (1. etapa)](https://sazimestromy.cz/sazeni/1622) · [akce č. 1715 (2. etapa u hřbitova)](https://sazimestromy.cz/sazeni/1715) |

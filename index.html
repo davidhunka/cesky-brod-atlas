@@ -96,7 +96,7 @@
             </div>
             <div class="text-xs font-bold text-slate-900 mb-1">Zmapování nových a obnovených cest (2020–2026+)</div>
             <p class="text-xs text-slate-600 leading-relaxed">
-              Polní cesty z pozemkových úprav, nové aleje, stezky podél Šembery a opravené chodníky. Rozlišuje fyzicky existující cesty v mapové síti OpenStreetMap (21) od chystaných záměrů a přírodního biokoridoru (4) včetně veřejného zdroje.
+              Polní cesty z pozemkových úprav, nové aleje, stezky podél Šembery a opravené chodníky. Rozlišuje fyzicky existující a otevřené cesty v mapové síti OpenStreetMap (22) od chystaných záměrů a přírodního biokoridoru (3) včetně veřejného zdroje.
             </p>
           </div>
 
@@ -181,11 +181,11 @@
               <button onclick="setAccuracyFilter('all')" data-acc="all" class="acc-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white">
                 Všechny trasy (25)
               </button>
-              <button onclick="setAccuracyFilter('osm')" data-acc="osm" class="acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white" title="Trasy, které v terénu již fyzicky stojí a mají vlastní cestu v mapovém podkladu OpenStreetMap">
-                Hotové cesty — plná (21)
+              <button onclick="setAccuracyFilter('osm')" data-acc="osm" class="acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white" title="Trasy, které jsou již otevřené a v terénu fyzicky stojí (22 tras)">
+                Hotové cesty — plná (22)
               </button>
-              <button onclick="setAccuracyFilter('approx')" data-acc="approx" class="acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white" title="3 chystané stezky v přípravě (#2, #8, #10) a 1 přírodní biokoridor podél potoka (#13)">
-                V přípravě / koridor — čárkovaná (4)
+              <button onclick="setAccuracyFilter('approx')" data-acc="approx" class="acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white" title="2 chystané stezky v přípravě (#8 do Štolmíře, #10 do Přistoupimi) a 1 přírodní biokoridor podél potoka (#13)">
+                V přípravě / koridor — čárkovaná (3)
               </button>
             </div>
 
@@ -215,14 +215,14 @@
             <div class="flex flex-wrap items-center gap-3 text-xs text-slate-600">
               <span class="flex items-center gap-1.5 font-medium">
                 <span class="w-5 h-0.5 bg-slate-800 inline-block"></span>
-                <span>Plná: <strong>Hotová cesta v OSM (21)</strong></span>
+                <span>Plná: <strong>Hotová cesta (22)</strong></span>
               </span>
               <span class="flex items-center gap-1.5 font-medium">
                 <span class="w-5 h-0 border-t-2 border-dashed border-slate-600 inline-block"></span>
-                <span>Čárkovaná: <strong>V přípravě / biokoridor (4)</strong></span>
+                <span>Čárkovaná: <strong>V přípravě / biokoridor (3)</strong></span>
               </span>
               <button onclick="document.getElementById('osmExplainBox').classList.toggle('hidden')" class="text-[11px] font-semibold text-blue-700 hover:text-blue-900 underline decoration-blue-300 underline-offset-2 cursor-pointer">
-                Co je OSM a proč jsou 4 čárkované?
+                Co je OSM a proč jsou 3 čárkované?
               </button>
             </div>
             <div class="flex items-center gap-1.5">
@@ -242,8 +242,8 @@
               <button onclick="document.getElementById('osmExplainBox').classList.add('hidden')" class="text-slate-400 hover:text-slate-700 font-bold text-xs px-1 cursor-pointer">✕</button>
             </div>
             <p><strong>OpenStreetMap (zkratka OSM)</strong> je otevřená celosvětová mapová databáze (obdoba Wikipedie pro mapy), ze které berou podklady Mapy.cz i tato interaktivní mapa. Každá reálná polní cesta, ulice, lávka nebo potok v ní má své jednoznačné ID (např. <code class="font-mono-num bg-white px-1 py-0.5 rounded border border-slate-200">way/231258841</code>) a přesnou GPS křivku.</p>
-            <p><strong>Plná čára (21 tras):</strong> Cesta, alej nebo chodník v terénu již fyzicky stojí a v databázi OpenStreetMap má zanesenou svou vlastní cestu.</p>
-            <p><strong>Čárkovaná čára (4 trasy):</strong> Tři chystané stezky v přípravě (<strong>#2</strong> Pravý břeh Šembery, <strong>#8</strong> ČB – Štolmíř podél silnice II/245, <strong>#10</strong> Nad Malechovem – Přistoupim), které se teprve projektují a jejich čára ukazuje koridor podél řeky či silnice, kudy povedou, a jeden přírodní <strong>biokoridor (#13 Štolmířský potok)</strong>, což je zatravněný pás zeleně podél potoka bez vyasfaltované vozovky.</p>
+            <p><strong>Plná čára (22 tras):</strong> Cesta, stezka, alej nebo chodník v terénu již fyzicky stojí a je otevřená pro veřejnost (včetně nově otevřené nábřežní cyklostezky <strong>#2 Pravý břeh Šembery</strong> u PRO-DOMA).</p>
+            <p><strong>Čárkovaná čára (3 trasy):</strong> Dvě chystané příměstské cyklostezky v přípravě (<strong>#8</strong> ČB – Štolmíř podél silnice II/245 a <strong>#10</strong> Nad Malechovem – Přistoupim), u nichž probíhá projektová příprava a výkup pozemků, a jeden přírodní <strong>biokoridor (#13 Štolmířský potok)</strong>, což je zatravněný pás zeleně podél potoka bez vyasfaltované vozovky.</p>
           </div>
 
           <!-- Leaflet Container -->
@@ -898,10 +898,10 @@
     "yearExact": "2026",
     "category": "stezka",
     "fromTo": "Nábřežní / Havlíčkova → Prokopa Velikého (Pod Malechovem)",
-    "lengthSurface": "450 m nábřežní stezka šířky 3 m (2026)",
+    "lengthSurface": "450 m nábřežní stezka šířky 3 m + napojení u lávky přes Šemberu (otevřeno 2026, 6,31 mil. Kč)",
     "suitableFor": "Pěší, rodiny s dětmi, kolo",
-    "mapyStatus": "ČÁSTEČNĚ",
-    "mapyNote": "Stavba v přípravě (výkup pozemků a PD) — čára sleduje projektovaný koridor pravého břehu Šembery v OSM",
+    "mapyStatus": "ANO",
+    "mapyNote": "Otevřená nábřežní stezka (2026) — z ul. Havlíčkova kolem PRO-DOMA k resortu Pod Malechovem (6,31 mil. Kč)",
     "coords": [
       [
         50.06716,
@@ -1001,12 +1001,12 @@
     "gmapsDirUrl": "https://www.google.com/maps/dir/?api=1&origin=50.06716,14.85697&destination=50.07221,14.86231&waypoints=50.06928,14.85656%7C50.07052,14.85743&travelmode=walking",
     "mapyStartUrl": "https://mapy.cz/turisticka?source=coor&id=14.85697%2C50.06716&x=14.85697&y=50.06716&z=16",
     "mapyEndUrl": "https://mapy.cz/turisticka?source=coor&id=14.86231%2C50.07221&x=14.86231&y=50.07221&z=16",
-    "dashed": true,
-    "source": "Usnesení Města ČB (příloha 7381): „Cyklostezka p.č. 118/1 a 118/7“ & Situace DSP (PDF)",
+    "dashed": false,
+    "source": "Rozpočet ČB 2026 (Fond komunikací: „Cyklostezka u PRO DOMA“ – 6,31 mil. Kč) & Usnesení ZM (p.č. 118/1, 118/7, 115/4)",
     "sourceUrl": "https://usneseni.cesbrod.cz/usneseni/usneseni/priloha/7381",
     "osmUrl": "https://www.openstreetmap.org/way/37975376",
-    "sourceDoc": "Usnesení Rady / Zastupitelstva města Český Brod, příloha č. 7381 („Cyklostezka na pozemku p. č. 118/1 a p. č. 118/7, v k. ú. Český Brod“) & Výkres situace DSP z199_SITUACE_DSP (lotus.cesbrod.cz, PDF)",
-    "sourceQuote": "Vybudování nové nábřežní cyklostezky a pěší promenády po pravém břehu Šembery a náhonu (pozemky p.č. 118/1 a 118/7 v k.ú. Český Brod) od ulice Nábřežní / Havlíčkova podél revitalizovaného areálu bývalé PRO-DOMA a Pivovarského rybníka až k lávce do ul. Prokopa Velikého a Pod Malechovem.",
+    "sourceDoc": "Rozpočet města Český Brod 2026 (Fond komunikací: akce „Cyklostezka u PRO DOMA“ — 6 306 tis. Kč) & Usnesení ZM č. 7381 (pozemky p. č. 118/1, 118/7 a 115/4 k. ú. Český Brod)",
+    "sourceQuote": "Vybudování a zprovoznění třímetrové stezky pro pěší a cyklisty podél pravého břehu říčky Šembery v úseku od ulice Havlíčkova a Nábřežní podél areálu PRO-DOMA k rezidenci Pod Malechovem a ulici Prokopa Velikého (v rozpočtu Fondu komunikací 2026 vyčleněno 6 306 tis. Kč).",
     "sourceUrl2": "https://lotus.cesbrod.cz/MUCB%5Carz.nsf/0/E69C91EF472CB0EEC125878F00318694/%24file/z199_SITUACE_DSP_PRACOVNI_211117_PREDAVANE.pdf",
     "sourceLabel2": "Výkres situace DSP nábřežní stezky Pod Malechovem (PDF) ↗",
     "distFromCenterKm": 0.2,
@@ -1288,7 +1288,7 @@
     "sourceUrl": "https://ezak.cesbrod.cz/document_download_3425.html",
     "osmUrl": "https://www.openstreetmap.org/way/37863039",
     "sourceDoc": "Profil zadavatele Města Český Brod (E-ZAK, dokument č. 3425: „Stavební úpravy chodníků v ulici Štolmířská a oprava VO“ & zakázka č. 222: „Rozšíření chodníku, Sportovní, Český Brod“ & VZ00000080: „Ul. Tuchorazská“)",
-    "sourceQuote": "Veřejné zakázky města Český Brod na souvislou rekonstrukci a rozšíření chodníků ze zámkové dlažby, bezbariérové úpravy přechodů a obnovu veřejného osvětlení v ulicích Štolmířská, Sportovní (úsek u podjezdu pod železniční tratí), Želivského a Tuchorazská (2024–2026).",
+    "sourceQuote": "Souvislé rekonstrukce městských chodníků 2024–2026: ul. Štolmířská (dokončeno 05/2026, 2,12 mil. Kč bez DPH), ul. Tuchorazská od Na Kutilce po K Dolánkám (2025–2026, 15,65 mil. Kč vč. sítí), rozšíření chodníku v podjezdu ul. Sportovní (VZ 2026/6), ul. Masarykova, Žižkova a přechod Zborovská × Kounická.",
     "sourceUrl2": "https://ezak.cesbrod.cz/contract_display_222.html",
     "sourceLabel2": "Zakázka E-ZAK č. 222: Rozšíření chodníku ul. Sportovní ↗",
     "distFromCenterKm": 0.25,

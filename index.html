@@ -151,25 +151,25 @@
             <span class="text-[11px] font-mono-num uppercase tracking-wider font-semibold text-slate-400 mr-1.5">Období:</span>
             <div class="inline-flex flex-wrap gap-1 bg-slate-100 p-1 rounded-md border border-slate-200/80" id="yearFilterBar">
               <button onclick="setYearFilter('all')" data-year="all" class="year-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white">
-                Vše <span class="font-mono-num opacity-75 ml-0.5">25</span>
+                Vše (25)
               </button>
-              <button onclick="setYearFilter('2020–2021')" data-year="2020–2021" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full inline-block" style="background:#2563eb"></span>2020–21
+              <button onclick="setYearFilter('2020–2021')" data-year="2020–2021" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+                2020–21
               </button>
-              <button onclick="setYearFilter('2022–2023')" data-year="2022–2023" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full inline-block" style="background:#0d9488"></span>2022–23
+              <button onclick="setYearFilter('2022–2023')" data-year="2022–2023" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+                2022–23
               </button>
-              <button onclick="setYearFilter('2024')" data-year="2024" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full inline-block" style="background:#16a34a"></span>2024
+              <button onclick="setYearFilter('2024')" data-year="2024" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+                2024
               </button>
-              <button onclick="setYearFilter('2025')" data-year="2025" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full inline-block" style="background:#ea580c"></span>2025
+              <button onclick="setYearFilter('2025')" data-year="2025" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+                2025
               </button>
-              <button onclick="setYearFilter('2026')" data-year="2026" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full inline-block" style="background:#db2777"></span>2026
+              <button onclick="setYearFilter('2026')" data-year="2026" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+                2026
               </button>
-              <button onclick="setYearFilter('Plán 2026+')" data-year="Plán 2026+" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full inline-block" style="background:#7c3aed"></span>Plán 2026+
+              <button onclick="setYearFilter('Plán 2026+')" data-year="Plán 2026+" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
+                Plán 2026+
               </button>
             </div>
           </div>
@@ -210,26 +210,40 @@
 
         <!-- Left Column: Interactive Map (7 cols) -->
         <div class="lg:col-span-7 bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden">
-          <!-- Map Top Bar: Legend & View Presets -->
-          <div class="px-4 py-2.5 border-b border-slate-200 bg-slate-50/60 flex flex-wrap items-center justify-between gap-2">
-            <div class="flex flex-wrap items-center gap-3 text-xs text-slate-600">
+          <!-- Map Top Bar: Clean Legend by Category & View Presets -->
+          <div class="px-4 py-2 border-b border-slate-200 bg-slate-50/80 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <!-- Category Color Legend -->
+            <div class="flex flex-wrap items-center gap-3.5 text-slate-700">
               <span class="flex items-center gap-1.5 font-medium">
-                <span class="w-5 h-0.5 bg-slate-800 inline-block"></span>
-                <span>Plná: <strong>Hotová cesta (22)</strong></span>
+                <span class="w-3 h-3 rounded-full inline-block bg-[#1d4ed8]"></span>
+                <span>Cyklostezky (9)</span>
               </span>
               <span class="flex items-center gap-1.5 font-medium">
-                <span class="w-5 h-0 border-t-2 border-dashed border-slate-600 inline-block"></span>
-                <span>Čárkovaná: <strong>V přípravě / biokoridor (3)</strong></span>
+                <span class="w-3 h-3 rounded-full inline-block bg-[#15803d]"></span>
+                <span>Aleje a přírodní stezky (6)</span>
               </span>
-              <button onclick="document.getElementById('osmExplainBox').classList.toggle('hidden')" class="text-[11px] font-semibold text-blue-700 hover:text-blue-900 underline decoration-blue-300 underline-offset-2 cursor-pointer">
-                Co je OSM a proč jsou 3 čárkované?
+              <span class="flex items-center gap-1.5 font-medium">
+                <span class="w-3 h-3 rounded-full inline-block bg-[#b45309]"></span>
+                <span>Polní cesty KPÚ (8)</span>
+              </span>
+              <span class="flex items-center gap-1.5 font-medium">
+                <span class="w-3 h-3 rounded-full inline-block bg-[#334155]"></span>
+                <span>Chodníky (2)</span>
+              </span>
+              <span class="text-slate-300">|</span>
+              <span class="flex items-center gap-1 text-[11px] text-slate-500 font-medium">
+                <span class="w-4 h-0 border-t border-dashed border-slate-700 inline-block"></span>
+                <span>Čárkovaně: v přípravě (3)</span>
+              </span>
+              <button onclick="document.getElementById('osmExplainBox').classList.toggle('hidden')" class="text-[11px] font-semibold text-blue-700 hover:text-blue-900 underline decoration-blue-300 underline-offset-2 cursor-pointer ml-1">
+                ⓘ info
               </button>
             </div>
             <div class="flex items-center gap-1.5">
-              <button onclick="resetMapView('city')" class="px-2 py-1 text-[11px] font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100 transition">
-                Detail Český Brod
+              <button onclick="resetMapView('city')" class="px-2 py-1 text-[11px] font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100 transition shadow-2xs">
+                Český Brod
               </button>
-              <button onclick="resetMapView('region')" class="px-2 py-1 text-[11px] font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100 transition">
+              <button onclick="resetMapView('region')" class="px-2 py-1 text-[11px] font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100 transition shadow-2xs">
                 Celý region
               </button>
             </div>
@@ -463,13 +477,11 @@
     // =========================================================================
     // 1. DATA PRO MAPU OBNOVENÝCH STEZEK A CEST (25 TRAS)
     // =========================================================================
-    const YEAR_COLORS = {
-      "2020–2021": "#2563eb",
-      "2022–2023": "#0d9488",
-      "2024":      "#16a34a",
-      "2025":      "#ea580c",
-      "2026":      "#db2777",
-      "Plán 2026+": "#7c3aed"
+    const CATEGORY_COLORS = {
+      "stezka":  "#1d4ed8", // Safírová modrá pro cyklistické a turistické stezky
+      "alej":    "#15803d", // Lesní zelená pro stromořadí a přírodní pěšiny
+      "polni":   "#b45309", // Zemitá teplá okrová pro polní cesty KPÚ
+      "chodnik": "#334155"  // Břidlicově grafitová pro městské chodníky
     };
 
     const CATEGORY_LABELS = {
@@ -7416,11 +7428,9 @@
       currentYearFilter = year;
       document.querySelectorAll(".year-btn").forEach(btn => {
         const isAct = btn.dataset.year === year;
-        if (isAct) {
-          btn.className = "year-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white flex items-center gap-1.5";
-        } else {
-          btn.className = "year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white flex items-center gap-1.5";
-        }
+        btn.className = isAct
+          ? "year-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white"
+          : "year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white";
       });
       renderMapAndList();
     }
@@ -7520,7 +7530,7 @@
       leafletLayerGroup.clearLayers();
 
       filtered.forEach(r => {
-        const col = YEAR_COLORS[r.yearCat] || "#2563eb";
+        const col = CATEGORY_COLORS[r.category] || "#2563eb";
         const isSel = r.id === selectedRouteId;
         const weight = isSel ? 6.5 : 4.2;
         const dashArray = r.dashed ? "8, 6" : null;
@@ -7587,7 +7597,7 @@
 
     function renderRouteDetailCard() {
       const r = ROUTES.find(x => x.id === selectedRouteId) || ROUTES[0];
-      const col = YEAR_COLORS[r.yearCat] || "#2563eb";
+      const col = CATEGORY_COLORS[r.category] || "#2563eb";
 
       let sCoord = [50.075, 14.86];
       let eCoord = [50.075, 14.86];
@@ -7702,7 +7712,7 @@
       }
 
       container.innerHTML = filtered.map(r => {
-        const col = YEAR_COLORS[r.yearCat] || "#2563eb";
+        const col = CATEGORY_COLORS[r.category] || "#2563eb";
         const isSel = r.id === selectedRouteId;
         const lineType = r.dashed ? "Záměr / koridor" : "Hotovo";
         return `

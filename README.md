@@ -23,6 +23,13 @@ Datová sada eviduje **25 polních cest z komplexních pozemkových úprav (KPÚ
 
 ![Mapa obnovených stezek Českobrodska 2020–2026+](./mapa_stezky_podle_roku.png)
 
+### Barevný systém a typologie tras v mapě
+Barevnost tras v mapě odpovídá jejich **fyzickému typu a charakteru v terénu**, namísto náhodného přebarvování podle roku realizace:
+- **Safírová modrá (`#1d4ed8`):** Cyklostezky a turistické naučné stezky (9 tras)
+- **Lesní zelená (`#15803d`):** Obnovené aleje a přírodní pěší stezky v zeleni (6 tras)
+- **Zemitá okrová (`#b45309`):** Zpevněné a polní cesty z pozemkových úprav KPÚ (8 tras)
+- **Grafitová břidlice (`#334155`):** Zrekonstruované městské chodníky a bezbariérové přechody (2 trasy)
+
 ### Metodika zákresu a přesnost geometrie
 - **Plná čára — Hotová / otevřená cesta (22 tras):** Cesta, stezka, alej nebo chodník v terénu již fyzicky stojí a je zpřístupněná veřejnosti (včetně v roce 2026 otevřené nábřežní cyklostezky **#2 Pravý břeh Šembery** u PRO-DOMA).
 - **Čárkovaná čára — V přípravě / přírodní koridor (3 trasy):** Dvě chystané příměstské cyklostezky v přípravě (**#8** ČB – Štolmíř podél silnice II/245 a **#10** Nad Malechovem – Přistoupim), u nichž probíhá výkup pozemků a projektová příprava, a jeden přírodní **biokoridor (#13 Štolmířský potok)**, což je zatravněný pás zeleně podél potoka bez vyasfaltované vozovky.

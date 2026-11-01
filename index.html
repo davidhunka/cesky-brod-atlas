@@ -115,11 +115,11 @@
 
       <!-- Primary Navigation Tabs -->
       <div class="mt-6 pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
-        <div class="inline-flex p-1 rounded-lg bg-slate-100 border border-slate-200" role="tablist">
-          <button id="tabBtnMap" onclick="switchMainTab('map')" class="px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-slate-900 text-white shadow-sm">
+        <div class="inline-flex p-1 rounded-lg bg-slate-100 border border-slate-200" role="tablist" aria-label="Část aplikace">
+          <button id="tabBtnMap" type="button" role="tab" aria-selected="true" aria-controls="sectionMap" onclick="switchMainTab('map')" class="px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-slate-900 text-white shadow-sm">
             01 / Mapa obnovených cest a stezek (25)
           </button>
-          <button id="tabBtnBudget" onclick="switchMainTab('budget')" class="px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
+          <button id="tabBtnBudget" type="button" role="tab" aria-selected="false" aria-controls="sectionBudget" onclick="switchMainTab('budget')" class="px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
             02 / Finance a rozpočet města (2023–2026)
           </button>
         </div>
@@ -190,6 +190,7 @@
             </div>
 
             <!-- Category Select -->
+            <label class="sr-only" for="filterCategory">Filtro podle typu trasy</label>
             <select id="filterCategory" onchange="renderMapAndList()" class="bg-slate-50 text-slate-800 border border-slate-200 rounded-md px-2.5 py-1.5 text-xs font-medium focus:outline-none focus:border-slate-400">
               <option value="all">Typ: Všechny kategorie (25)</option>
               <option value="polni">Polní cesty a biokoridory KPÚ (8)</option>
@@ -199,7 +200,8 @@
             </select>
 
             <!-- Search Input -->
-            <input id="routeSearchInput" type="text" oninput="renderMapAndList()" placeholder="Hledat trasu, obec, zdroj..." class="bg-slate-50 text-slate-800 placeholder-slate-400 border border-slate-200 rounded-md px-2.5 py-1.5 text-xs w-44 sm:w-52 focus:outline-none focus:border-slate-400" />
+            <label class="sr-only" for="routeSearchInput">Hledat trasu, obec nebo zdroj</label>
+            <input id="routeSearchInput" type="search" oninput="renderMapAndList()" placeholder="Hledat trasu, obec, zdroj..." class="bg-slate-50 text-slate-800 placeholder-slate-400 border border-slate-200 rounded-md px-2.5 py-1.5 text-xs w-44 sm:w-52 focus:outline-none focus:border-slate-400" />
           </div>
 
         </div>
@@ -261,7 +263,8 @@
           </div>
 
           <!-- Leaflet Container -->
-          <div id="leafletMapContainer" class="w-full h-[640px] z-0 bg-slate-100"></div>
+          <div id="leafletMapContainer" class="w-full h-[640px] z-0 bg-slate-100" role="region" aria-label="Mapa tras"></div>
+          <p class="px-4 py-2 text-xs text-slate-600 border-t border-slate-200">Průběh čar je orientační a slouží k lokalizaci projektu; nemusí odpovídat skutečné délce ani celé trase stavby. Přesná geometrie a její zdroj nejsou u všech položek nezávisle ověřeny.</p>
         </div>
 
         <!-- Right Column: Selected Route Detail + Route List (5 cols) -->
@@ -284,7 +287,6 @@
                   <option value="distance" selected>Nejblíže centru Č. Brodu (#1 → #25)</option>
                   <option value="relevance">Podle významu pro město</option>
                   <option value="newest">Od nejnovějších (2026+ → 2020)</option>
-                  <option value="length">Podle délky (nejdelší první)</option>
                 </select>
               </div>
             </div>
@@ -333,8 +335,8 @@
               <button onclick="setBudgetScope('main')" data-scope="main" class="scope-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white">
                 Hlavní rozpočet města
               </button>
-              <button onclick="setBudgetScope('merged')" data-scope="merged" class="scope-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
-                Konsolidovaný celek (Rozpočet + HČ)
+              <button type="button" disabled aria-disabled="true" title="Konsolidovaný pohled je skryt, dokud nebudou ověřeny a odsouhlaseny metodika a součty interních převodů." class="px-3 py-1.5 rounded text-xs font-medium text-slate-400 cursor-not-allowed">
+                Konsolidovaný pohled — čeká na ověření
               </button>
               <button onclick="setBudgetScope('vhc')" data-scope="vhc" class="scope-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
                 Jen hospodářská činnost (Byty, Voda, Lesy)
@@ -372,8 +374,11 @@
         </div>
       </div>
 
+      <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-950" role="note">
+        Konsolidovaný pohled hlavního rozpočtu a hospodářské činnosti je dočasně skrytý. Před jeho zveřejněním je potřeba sjednotit období, účetní veličiny a vyloučit vnitřní převody právě jednou.
+      </div>
       <!-- SIDE-BY-SIDE ARCHITECTURE COMPARISON: Hlavní rozpočet vs. Vlastní hospodářská činnost (VHČ) -->
-      <div class="bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
+      <div class="hidden bg-white border border-slate-200 rounded-lg p-5 shadow-sm">
         <div class="border-b border-slate-200 pb-3 mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h3 class="text-sm font-bold uppercase tracking-wider text-slate-900">

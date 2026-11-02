@@ -7372,6 +7372,11 @@
     let leafletLayerGroup = null;
 
     function switchMainTab(tab) {
+      const tabHash = tab === "budget" ? "#finance" : "#routes";
+      if (window.location.hash !== tabHash) {
+        window.history.replaceState(null, "", tabHash);
+      }
+
       const sMap = document.getElementById("sectionMap");
       const sBud = document.getElementById("sectionBudget");
       const bMap = document.getElementById("tabBtnMap");
@@ -8375,6 +8380,7 @@
     });
 
     renderMapAndList();
+    if (window.location.hash === "#finance") switchMainTab("budget");
   </script>
 </body>
 </html>

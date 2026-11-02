@@ -41,6 +41,34 @@
       -webkit-line-clamp: 2;
       overflow: hidden;
     }
+    .map-legend > summary {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      list-style: none;
+    }
+    .map-legend { margin-top: 4rem; }
+    .map-legend > summary::-webkit-details-marker { display: none; }
+    .map-legend > summary::after {
+      width: 0.4rem;
+      height: 0.4rem;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      content: "";
+      transform: rotate(45deg) translateY(-2px);
+      transition: transform 0.15s ease;
+    }
+    .map-legend[open] > summary::after {
+      transform: rotate(225deg) translate(-1px, -1px);
+    }
+    #sankeyHoverBadge {
+      display: -webkit-box;
+      height: 3.25rem;
+      overflow: hidden;
+      white-space: pre-line;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
     .route-list-item { font: inherit; }
     .route-list-item:focus-visible,
     button:focus-visible,
@@ -191,7 +219,7 @@
 
         <section id="mapColumn" aria-label="Mapa tras" class="relative min-w-0 overflow-hidden rounded-2xl bg-white">
           <div class="absolute top-3 left-3 right-3 z-[500] flex items-start justify-between gap-2 pointer-events-none">
-            <details class="pointer-events-auto max-w-[min(100%,28rem)] rounded-xl bg-white/95 p-3 shadow-md backdrop-blur">
+            <details class="map-legend pointer-events-auto max-w-[min(100%,28rem)] rounded-xl bg-white/95 p-3 shadow-md backdrop-blur">
               <summary class="cursor-pointer text-xs font-semibold text-slate-700">Legenda a přesnost</summary>
               <div class="mt-3 space-y-2 text-xs text-slate-700">
                 <p><span class="inline-block w-2.5 h-2.5 rounded-full bg-[#1d4ed8] mr-2"></span>Cyklostezky a naučné stezky <span class="text-slate-400">(9)</span></p>
@@ -248,6 +276,7 @@
             <option value="2025">2025 · Skutečnost (ZÚ)</option>
             <option value="2024">2024 · Skutečnost (ZÚ)</option>
             <option value="2023">2023 · Skutečnost (ZÚ)</option>
+            <option value="vhc" disabled>Více období (VHČ)</option>
           </select>
         </label>
         <label for="budgetScopeSelect" class="block text-xs font-semibold text-slate-600">
@@ -279,7 +308,7 @@
             <h2 id="sankeyTitle" class="text-base sm:text-lg font-bold text-slate-900"></h2>
             <p id="sankeySubtitle" class="text-xs text-slate-500 mt-0.5"></p>
           </div>
-          <div id="sankeyHoverBadge" class="px-3 py-1.5 rounded bg-slate-100 border border-slate-200 text-xs font-mono-num text-slate-700 shrink-0">
+          <div id="sankeyHoverBadge" class="w-full lg:w-[28rem] rounded bg-slate-100 px-3 py-1.5 text-xs text-slate-700 shrink-0">
             Zvolte finanční tok pro detailní částku a podíl
           </div>
         </div>
@@ -2150,7 +2179,7 @@
     "lengthMeters": 1152,
     "relevanceRank": 4,
     "distLabel": "Český Brod (0,8 km od centra)",
-    "costShort": "350 tis. Kč (etapa 2026)",
+    "costShort": "350 tis. Kč · rozpočet 2026",
     "costAmount": "350 000 Kč v rozpočtu 2026 (úpravy před Kutilkou) + stávající cesty města",
     "costScopeNote": "Pouze cyklo/pěší úpravy (mimo sportovní haly): Trasa využívá dříve vybudované chodníky kolem stadionu a pěšinu k hrázi Podviňáku; ve Fondu komunikací 2026 je vyčleněno 350 000 Kč na akci „Cyklostezka a prostor před Kutilkou“ (celková urbanistická studie areálu Kutilka řešila i sportoviště a haly mimo stezku)."
   },
@@ -7589,7 +7618,7 @@
         <div class="flex items-center justify-between gap-2">
           <div class="flex min-w-0 items-center gap-2">
             <span class="shrink-0 rounded px-2 py-1 text-[10px] font-mono-num font-bold text-white" style="background:${col}">#${r.id}</span>
-            <span class="truncate text-[11px] font-medium text-slate-500">${r.yearCat} · ${CATEGORY_LABELS[r.category] || "Stezka"}</span>
+              <span class="truncate text-[11px] font-medium text-slate-500">Trasa · ${r.yearCat} · ${CATEGORY_LABELS[r.category] || "Stezka"}</span>
           </div>
           <div class="flex shrink-0 items-center gap-2">
             ${accBadge}
@@ -7624,18 +7653,13 @@
               <a href="${r.sourceUrl || '#'}" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-700 underline decoration-blue-300 underline-offset-2" title="Otevřít primární zdroj / dokument v novém okně">
                 ${r.source || "Veřejné podklady města Český Brod / SPÚ"} ↗
               </a>
-              <details class="group mt-2 rounded-lg border border-slate-200 bg-white">
-                <summary class="cursor-pointer px-2.5 py-2 font-semibold text-slate-700">Citace a další ověřovací odkazy</summary>
-                <div class="space-y-2 border-t border-slate-100 bg-slate-50 p-2.5 text-[11px] leading-relaxed">
-                  <p><span class="font-semibold text-slate-800">Evidenční pramen:</span> ${r.sourceDoc || r.source}</p>
-                  <blockquote class="border-l-2 border-blue-600 bg-white p-2 italic text-slate-700">„${r.sourceQuote || r.lengthSurface}“</blockquote>
-                  <div class="flex flex-wrap gap-2">
-                    <a href="${r.sourceUrl || '#'}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">Primární dokument ↗</a>
-                    ${r.sourceUrl2 ? `<a href="${r.sourceUrl2}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">${r.sourceLabel2 || 'Další dokument ↗'}</a>` : ''}
-                    ${r.osmUrl ? `<a href="${r.osmUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">OpenStreetMap ↗</a>` : ''}
-                  </div>
-                </div>
-              </details>
+              <p class="mt-1 text-[11px]"><span class="font-semibold text-slate-800">Evidenční pramen:</span> ${r.sourceDoc || r.source}</p>
+              <blockquote class="mt-2 border-l-2 border-blue-600 bg-slate-50 p-2 text-[11px] italic leading-relaxed text-slate-700">„${r.sourceQuote || r.lengthSurface}“</blockquote>
+              <div class="mt-2 flex flex-wrap gap-2 text-[11px]">
+                <a href="${r.sourceUrl || '#'}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">Primární dokument ↗</a>
+                ${r.sourceUrl2 ? `<a href="${r.sourceUrl2}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">${r.sourceLabel2 || 'Další dokument ↗'}</a>` : ''}
+                ${r.osmUrl ? `<a href="${r.osmUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">OpenStreetMap ↗</a>` : ''}
+              </div>
             </div>
             <div class="flex flex-wrap gap-2 border-t border-slate-200 pt-2">
               <a href="${r.gmapsDirUrl}" target="_blank" rel="noopener noreferrer" class="rounded bg-slate-900 px-2.5 py-1.5 font-semibold text-white hover:bg-slate-800">Trasa A→B v Google Maps ↗</a>
@@ -7983,9 +8007,8 @@
     function updateBudgetControlsUI() {
       const yearSelect = document.getElementById("budgetYearSelect");
       const scopeSelect = document.getElementById("budgetScopeSelect");
-      yearSelect.value = currentBudgetYear;
+      yearSelect.value = currentBudgetScope === "main" ? currentBudgetYear : "vhc";
       yearSelect.disabled = currentBudgetScope !== "main";
-      document.getElementById("budgetYearControl").classList.toggle("hidden", currentBudgetScope !== "main");
       scopeSelect.value = currentBudgetScope;
     }
 
@@ -7998,7 +8021,7 @@
 
     function showSankeyInfo(title, val, total, sub) {
       const pct = ((val / total) * 100).toFixed(1);
-      document.getElementById("sankeyHoverBadge").textContent = `${title}: ${val.toFixed(1)} mil. Kč (${pct} %) — ${sub}`;
+      document.getElementById("sankeyHoverBadge").textContent = `${title}: ${val.toFixed(1)} mil. Kč (${pct} %)\n${sub}`;
     }
 
     function renderBudgetSection() {
@@ -8200,12 +8223,6 @@
             event.preventDefault();
             show();
           }
-        });
-        path.addEventListener("mouseleave", () => {
-          document.getElementById("sankeyHoverBadge").textContent = "Zvolte finanční tok kliknutím, klepnutím nebo klávesnicí pro detail.";
-        });
-        path.addEventListener("blur", () => {
-          document.getElementById("sankeyHoverBadge").textContent = "Zvolte finanční tok kliknutím, klepnutím nebo klávesnicí pro detail.";
         });
       });
 

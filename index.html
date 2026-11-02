@@ -63,11 +63,22 @@
     }
     #sankeyHoverBadge {
       display: -webkit-box;
+      width: 100%;
+      min-width: 0;
       height: 3.25rem;
       overflow: hidden;
       white-space: pre-line;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
+    }
+    #sankeyHeader {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 28rem);
+      align-items: center;
+    }
+    #sankeyHeader > div:first-child { min-width: 0; }
+    @media (max-width: 1023px) {
+      #sankeyHeader { grid-template-columns: minmax(0, 1fr); }
     }
     .route-list-item { font: inherit; }
     .route-list-item:focus-visible,
@@ -134,7 +145,7 @@
 <body class="antialiased selection:bg-slate-900 selection:text-white">
 
   <header class="bg-white border-b border-slate-200">
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-start gap-x-6 gap-y-3">
       <a href="./" class="flex items-center gap-3 text-slate-900 no-underline">
         <span class="w-9 h-9 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold">ČB</span>
         <span>
@@ -303,7 +314,7 @@
 
       <!-- Main Sankey Diagram Card -->
       <div class="bg-white border border-slate-200 rounded-lg p-4 sm:p-5 shadow-sm space-y-3">
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-slate-200 pb-3">
+        <div id="sankeyHeader" class="gap-3 border-b border-slate-200 pb-3">
           <div>
             <h2 id="sankeyTitle" class="text-base sm:text-lg font-bold text-slate-900"></h2>
             <p id="sankeySubtitle" class="text-xs text-slate-500 mt-0.5"></p>

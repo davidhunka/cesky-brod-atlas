@@ -61,6 +61,24 @@
     .map-legend[open] > summary::after {
       transform: rotate(225deg) translate(-1px, -1px);
     }
+    .site-header-inner {
+      display: grid;
+      grid-template-columns: auto auto;
+      align-items: center;
+      column-gap: 1rem;
+      row-gap: 0.75rem;
+    }
+    .site-brand { grid-column: 1 / -1; }
+    .site-nav { grid-column: 1; }
+    .site-project { grid-column: 2; justify-self: start; }
+    .site-nav button { display: inline-flex; min-width: 6rem; justify-content: center; }
+    @media (min-width: 768px) {
+      .site-header-inner {
+        display: flex;
+        justify-content: flex-start;
+        column-gap: 1.5rem;
+      }
+    }
     #sankeyHoverBadge {
       display: -webkit-box;
       width: 100%;
@@ -145,15 +163,15 @@
 <body class="antialiased selection:bg-slate-900 selection:text-white">
 
   <header class="bg-white border-b border-slate-200">
-    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-start gap-x-6 gap-y-3">
-      <a href="./" class="flex items-center gap-3 text-slate-900 no-underline">
+    <div class="site-header-inner max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3">
+      <a href="./" class="site-brand flex items-center gap-3 text-slate-900 no-underline">
         <span class="w-9 h-9 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold">ČB</span>
         <span>
           <span class="block text-base font-bold tracking-tight">Českobrodsko</span>
           <span class="block text-[11px] text-slate-500">Atlas cest a městských financí</span>
         </span>
       </a>
-      <nav class="inline-flex items-center gap-1 p-1 rounded-xl bg-slate-100" role="tablist" aria-label="Část aplikace">
+      <nav class="site-nav inline-flex items-center gap-1 p-1 rounded-xl bg-slate-100" role="tablist" aria-label="Část aplikace">
         <button id="tabBtnMap" type="button" role="tab" aria-selected="true" aria-controls="sectionMap" onclick="switchMainTab('map')" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-slate-900 text-white shadow-sm">
           Cesty <span class="ml-1 font-mono-num text-xs">25</span>
         </button>
@@ -161,7 +179,7 @@
           Finance
         </button>
       </nav>
-      <a href="https://github.com/davidhunka/cesky-brod-atlas" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-500 hover:text-slate-900 underline underline-offset-4">
+      <a href="https://github.com/davidhunka/cesky-brod-atlas" target="_blank" rel="noopener noreferrer" class="site-project text-xs text-slate-500 hover:text-slate-900 underline underline-offset-4">
         O projektu ↗
       </a>
     </div>
@@ -281,20 +299,22 @@
 
       <div class="flex flex-col gap-3 sm:flex-row sm:items-end">
         <label id="budgetYearControl" for="budgetYearSelect" class="block text-xs font-semibold text-slate-600">
-          Rok
+          Rok / období
           <select id="budgetYearSelect" onchange="setBudgetYear(this.value)" class="mt-1 block w-full min-w-48 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm">
             <option value="2026">2026 · Schválený rozpočet</option>
             <option value="2025">2025 · Skutečnost (ZÚ)</option>
             <option value="2024">2024 · Skutečnost (ZÚ)</option>
             <option value="2023">2023 · Skutečnost (ZÚ)</option>
-            <option value="vhc" disabled>Více období (VHČ)</option>
+            <option value="vhc-results" disabled>VHČ · uzavřený výsledek 2024</option>
+            <option value="vhc-investments" disabled>VHČ · investice 2025–26</option>
           </select>
         </label>
         <label for="budgetScopeSelect" class="block text-xs font-semibold text-slate-600">
-          Pohled
+          Přehled
           <select id="budgetScopeSelect" onchange="setBudgetScope(this.value)" class="mt-1 block w-full min-w-52 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm">
             <option value="main">Hlavní rozpočet města</option>
-            <option value="vhc">Hospodářská činnost (VHČ)</option>
+            <option value="vhc-results">VHČ · uzavřený výsledek</option>
+            <option value="vhc-investments">VHČ · investiční akce</option>
           </select>
         </label>
         <details class="text-xs text-slate-600 sm:ml-auto sm:max-w-xl">
@@ -312,8 +332,13 @@
         <!-- Populated by JS -->
       </div>
 
+      <section id="vhcSummaryPanel" class="hidden space-y-3" aria-live="polite">
+        <p id="vhcSummaryNote" class="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm leading-relaxed text-slate-700"></p>
+        <div id="vhcInvestmentList" class="hidden divide-y divide-slate-200 border-y border-slate-200 bg-white"></div>
+      </section>
+
       <!-- Main Sankey Diagram Card -->
-      <div class="bg-white border border-slate-200 rounded-lg p-4 sm:p-5 shadow-sm space-y-3">
+      <div id="budgetFlowCard" class="bg-white border border-slate-200 rounded-lg p-4 sm:p-5 shadow-sm space-y-3">
         <div id="sankeyHeader" class="gap-3 border-b border-slate-200 pb-3">
           <div>
             <h2 id="sankeyTitle" class="text-base sm:text-lg font-bold text-slate-900"></h2>
@@ -378,7 +403,7 @@
             <div>
               <div class="flex items-center justify-between text-xs font-mono-num text-slate-500 mb-1">
                 <span>PILÍŘ II • VLASTNÍ HOSPODÁŘSKÁ ČINNOST (VHČ)</span>
-                <span class="font-bold text-slate-900">Roční bilance &amp; akce 2025/2026</span>
+                <span class="font-bold text-slate-900">Výsledek 2024 &amp; akce 2025/2026</span>
               </div>
               <div class="text-lg font-extrabold text-slate-900 font-mono-num">
                 Výnosy 81,5 mil. Kč <span class="text-xs font-semibold text-emerald-700">(čistý zisk +40,5 mil. Kč/rok)</span>
@@ -398,7 +423,7 @@
       </div>
 
       <!-- Detailed Breakdown Tables: Income vs. Expenditure -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div id="budgetBreakdownGrid" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <div class="bg-white border border-slate-200 rounded-lg overflow-hidden shadow-sm">
           <div class="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
             <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800">Struktura zdrojů a příjmů</h3>
@@ -7999,7 +8024,7 @@
     delete BUDGET_DATA["2026_merged"];
 
     let currentBudgetYear = "2026";
-    let currentBudgetScope = "main"; // 'main' | 'merged' | 'vhc'
+    let currentBudgetScope = "main"; // 'main' | 'vhc-results' | 'vhc-investments'
 
     function setBudgetYear(yr) {
       if (currentBudgetScope !== "main") return;
@@ -8009,7 +8034,7 @@
     }
 
     function setBudgetScope(scope) {
-      if (scope === "merged") return;
+      if (!["main", "vhc-results", "vhc-investments"].includes(scope)) return;
       currentBudgetScope = scope;
       updateBudgetControlsUI();
       renderBudgetSection();
@@ -8018,14 +8043,56 @@
     function updateBudgetControlsUI() {
       const yearSelect = document.getElementById("budgetYearSelect");
       const scopeSelect = document.getElementById("budgetScopeSelect");
-      yearSelect.value = currentBudgetScope === "main" ? currentBudgetYear : "vhc";
+      yearSelect.value = currentBudgetScope === "main" ? currentBudgetYear : currentBudgetScope;
       yearSelect.disabled = currentBudgetScope !== "main";
       scopeSelect.value = currentBudgetScope;
     }
 
     function getActiveBudgetDataset() {
-      if (currentBudgetScope === "vhc") {
-        return BUDGET_DATA["vhc"];
+      if (currentBudgetScope === "vhc-results") {
+        return {
+          label: "VHČ · uzavřený výsledek 2024",
+          subtitle: "Roční výnosy, náklady a výsledek před zdaněním podle Závěrečného účtu 2024",
+          contextNote: "Výsledek VHČ za rok 2024: výnosy 81,46 mil. Kč minus náklady 41,01 mil. Kč = zisk před zdaněním 40,45 mil. Kč.",
+          summaryNote: "Jde o poslední uzavřený výsledek VHČ doložený v podkladech atlasu (Závěrečný účet 2024), nikoli o výsledek za rok 2025. Zisk podle středisek: bytové hospodářství a nemocnice +25,31 mil. Kč; voda a ostatní hospodářská činnost +13,58 mil. Kč; městské lesy +1,56 mil. Kč.",
+          totalOut: 81.46,
+          totalIn: 81.46,
+          kpis: [
+            { title: "VÝNOSY · ZÚ 2024", val: "81,46 mil. Kč", sub: "Roční výnosy hospodářské činnosti" },
+            { title: "NÁKLADY · ZÚ 2024", val: "41,01 mil. Kč", sub: "Roční náklady hospodářské činnosti" },
+            { title: "ZISK PŘED ZDANĚNÍM", val: "+40,45 mil. Kč", sub: "Výnosy minus náklady" },
+            { title: "ZISK PODLE STŘEDISEK", val: "3 výsledky", sub: "Byty +25,31M • voda +13,58M • lesy +1,56M" }
+          ],
+          sources: [],
+          midLeft: [],
+          midRight: [],
+          targets: [],
+          summaryOnly: true
+        };
+      }
+      if (currentBudgetScope === "vhc-investments") {
+        const projects = BUDGET_DATA["vhc"].targets.filter(item => item.parent === "capex");
+        const projectTotal = projects.reduce((sum, item) => sum + item.val, 0);
+        return {
+          label: "VHČ · investiční akce 2025–2026",
+          subtitle: "Vybrané investiční projekty mimo hlavní rozpočet města",
+          contextNote: "Přehled investičních akcí VHČ za období 2025–2026. Uvedené částky nejsou rozdělené podle ročního čerpání.",
+          summaryNote: `Součet uvedených akcí je ${projectTotal.toFixed(1).replace(".", ",")} mil. Kč. Podklady atlasu spojují projekty z let 2025–2026 a neuvádějí jejich roční čerpání; samostatný součet investic za rok 2026 proto nelze spolehlivě určit.`,
+          totalOut: projectTotal,
+          totalIn: projectTotal,
+          kpis: [
+            { title: "VYBRANÉ INVESTICE", val: `${projectTotal.toFixed(1).replace(".", ",")} mil. Kč`, sub: `${projects.length} akcí v období 2025–2026` },
+            { title: "DĚTSKÁ SKUPINA", val: "38,0 mil. Kč", sub: "Největší uvedená investiční akce" },
+            { title: "VODA A SÍTĚ", val: "25,4 mil. Kč", sub: "Tuchorazská a projektová příprava 7 ulic" },
+            { title: "DALŠÍ AKCE", val: "15,5 mil. Kč", sub: "Lesní projekty, bytový fond a nemocnice" }
+          ],
+          investmentProjects: projects,
+          sources: [],
+          midLeft: [],
+          midRight: [],
+          targets: [],
+          summaryOnly: true
+        };
       }
       return BUDGET_DATA[currentBudgetYear] || BUDGET_DATA["2026"];
     }
@@ -8041,7 +8108,7 @@
       const operatingSourceSum = b.sources.filter(item => item.group !== "fin").reduce((sum, item) => sum + item.val, 0);
       const targetSum = b.targets.reduce((sum, item) => sum + item.val, 0);
       const expenditureGroupSum = b.midRight.reduce((sum, item) => sum + item.val, 0);
-      const differences = [
+      const differences = b.summaryOnly ? [] : [
         Math.abs(sourceSum - b.totalOut) > 0.05 ? `detailní zdroje ${sourceSum.toFixed(1)} vs. celkový tok ${b.totalOut.toFixed(1)} mil. Kč` : null,
         Math.abs(targetSum - b.totalOut) > 0.05 ? `detailní výdaje ${targetSum.toFixed(1)} vs. celkový tok ${b.totalOut.toFixed(1)} mil. Kč` : null,
         Math.abs(expenditureGroupSum - b.totalOut) > 0.05 ? `kategorie výdajů ${expenditureGroupSum.toFixed(1)} vs. celkový tok ${b.totalOut.toFixed(1)} mil. Kč` : null,
@@ -8052,9 +8119,24 @@
       document.getElementById("sankeyTitle").textContent = b.label;
       document.getElementById("sankeySubtitle").textContent = b.subtitle;
       document.getElementById("sankeyHoverBadge").textContent = "Zvolte finanční tok kliknutím, klepnutím nebo klávesnicí pro detail.";
+      document.getElementById("budgetFlowCard").classList.toggle("hidden", b.summaryOnly);
+      document.getElementById("budgetBreakdownGrid").classList.toggle("hidden", b.summaryOnly);
+      document.getElementById("vhcSummaryPanel").classList.toggle("hidden", !b.summaryOnly);
+      document.getElementById("vhcSummaryNote").textContent = b.summaryNote || "";
+      const investmentList = document.getElementById("vhcInvestmentList");
+      investmentList.classList.toggle("hidden", !b.investmentProjects);
+      investmentList.innerHTML = (b.investmentProjects || []).map(project => `
+        <article class="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-start sm:gap-5">
+          <div class="shrink-0 font-mono-num text-sm font-bold text-slate-900 sm:w-32">${project.val.toFixed(1).replace(".", ",")} mil. Kč</div>
+          <div>
+            <h3 class="text-sm font-semibold text-slate-800">${project.name}</h3>
+            <p class="mt-0.5 text-xs leading-relaxed text-slate-500">${project.sub}</p>
+          </div>
+        </article>
+      `).join("");
 
       document.getElementById("budgetContextBanner").innerHTML = `
-        <div><strong class="text-slate-800">Kontext zobrazení:</strong> ${b.contextNote}${currentBudgetScope === "vhc" ? " (Pohled VHČ kombinuje poslední roční výsledky s investičními akcemi 2025–2026; nejde o jednu uzavřenou rozpočtovou periodu.)" : ""}</div>
+        <div><strong class="text-slate-800">Kontext zobrazení:</strong> ${b.contextNote}</div>
         ${differences.length ? `<div class="text-rose-800" role="alert"><strong>Kontrola součtů:</strong> ${differences.join("; ")}. Ověřte tyto částky proti zdrojovým výkazům.</div>` : ""}
         <div class="text-slate-500">Konsolidovaný pohled není dostupný, dokud nebudou ověřeny časové období, účetní veličiny a interní převody.</div>
       `;

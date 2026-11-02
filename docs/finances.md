@@ -12,7 +12,13 @@ Druhá část projektu zpracovává rozpočtová data města Český Brod z port
 | **2024 — Skutečnost (ZÚ)** | 331,0 mil. Kč | **330,5 mil. Kč** | 228,5 mil. Kč (69,1 %) | 102,0 mil. Kč (30,9 %) | Zahájení přístavby ZŠ Žitomířská, polopodzemní kontejnery, digitalizace úřadu, chodníky |
 | **2025 — Skutečnost (ZÚ)** | 396,1 mil. Kč | **404,1 mil. Kč** | 257,2 mil. Kč (63,6 %) | 146,9 mil. Kč (36,4 %) | Přístavba ZŠ Žitomířská (64,5M), příprava MŠ Kollárova (26,4M), Fond komunikací (24,2M) |
 | **2026 — Schválený rozpočet** | 377,5 mil. Kč (+ 101,2M fondy a úvěr) | **478,7 mil. Kč** | 287,5 mil. Kč (60,1 %) | 191,2 mil. Kč (39,9 %) | Novostavba MŠ Kollárova (61,0M), dokončení ZŠ Žitomířská (59,0M), PD dvojnáměstí (10,8M) |
-| **Vlastní hosp. činnost (VHČ)** | Roční výnosy 81,5M (čistý zisk **+40,5M**) | **102,4 mil. Kč** (alokace zisku, fondů a dotací) | 23,5 mil. Kč (odvod městu a tvorba Fondu BH) | 78,9 mil. Kč (investice středisek 2025/26) | Dětská skupina (38,0M), vodovod a kanalizace Tuchorazská (16,0M), PD vodovodů 7 ulic (9,4M), Cesta lásky (6,8M) |
+
+### VHČ: oddělený uzavřený výsledek a investiční akce
+
+- **Uzavřený výsledek 2024:** výnosy 81,46 mil. Kč, náklady 41,01 mil. Kč a zisk před zdaněním 40,45 mil. Kč. Rozpad zisku ve zdrojových podkladech: byty a nemocnice 25,31 mil. Kč, voda a ostatní hospodářská činnost 13,58 mil. Kč, městské lesy 1,56 mil. Kč.
+- **Investiční akce 2025–2026:** vybrané akce v celkové hodnotě 78,9 mil. Kč. Dostupné podklady nerozepisují částky podle roku čerpání, proto z nich nelze určit samostatný objem investic za rok 2026.
+
+Závěrečný účet VHČ za rok 2025 se nepodařilo dohledat v [seznamu závěrečných účtů města](https://cesbrod.cz/default/default/14762_zaverecne-ucty). Výsledek za rok 2024 proto není označen jako „loňský“.
 
 ### Schválený rozpočet města na rok 2026 (478,7 mil. Kč)
 ![Rozpočet Český Brod 2026 — Sankey diagram](../assets/finance/rozpocet_sankey_2026.svg)
@@ -20,9 +26,9 @@ Druhá část projektu zpracovává rozpočtová data města Český Brod z port
 ### Skutečnost roku 2025 (404,1 mil. Kč)
 ![Rozpočet Český Brod 2025 — Sankey diagram](../assets/finance/rozpocet_sankey_2025.svg)
 
-### Vlastní hospodářská činnost města (samostatný ilustrativní pohled)
+### Archivní ilustrace VHČ (kombinuje více období)
 ![Vlastní hospodářská činnost města Český Brod — Sankey diagram](../assets/finance/rozpocet_sankey_vhc.svg)
 
-Poznámka: VHČ kombinuje výsledky uzavřeného účetního období s investičními akcemi jiných let. Nepovažujte ji za konsolidovanou roční uzávěrku. Částky ani zdroje zatím nebyly nezávisle ověřeny proti primárním finančním výkazům.
+Tento archivní diagram kombinuje výsledek za rok 2024 s investičními akcemi z období 2025–2026; není to roční uzávěrka ani přehled investic jednoho roku. V aplikaci jsou proto výsledek a investiční akce dostupné jako samostatné pohledy.
 
 ---

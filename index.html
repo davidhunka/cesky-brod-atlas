@@ -298,17 +298,39 @@
     <section id="sectionBudget" role="tabpanel" aria-labelledby="tabBtnBudget" class="hidden space-y-5">
 
       <div class="flex flex-col gap-3 sm:flex-row sm:items-end">
-        <label id="budgetYearControl" for="budgetYearSelect" class="block text-xs font-semibold text-slate-600">
-          Období a přehled
-          <select id="budgetYearSelect" onchange="setBudgetYear(this.value)" class="mt-1 block w-full min-w-64 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm">
+        <div class="flex flex-wrap items-end gap-3">
+          <div>
+            <div class="mb-1 text-xs font-semibold text-slate-600">Co chcete zobrazit?</div>
+            <div class="inline-flex rounded-lg bg-slate-100 p-1" role="group" aria-label="Druh finančního přehledu">
+              <button id="budgetScopeMain" type="button" aria-pressed="true" onclick="setBudgetScope('main')" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm">
+                Běžný rozpočet
+              </button>
+              <button id="budgetScopeVhc" type="button" aria-pressed="false" onclick="setBudgetScope('vhc-investments')" class="rounded-md px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900">
+                Podnikání města
+              </button>
+            </div>
+          </div>
+          <label id="budgetYearControl" for="budgetYearSelect" class="block text-xs font-semibold text-slate-600">
+            Rok
+            <select id="budgetYearSelect" onchange="setBudgetYear(this.value)" class="mt-1 block w-full min-w-56 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm">
             <option value="2026">2026 · Schválený rozpočet města</option>
             <option value="2025">2025 · Skutečné hospodaření města</option>
             <option value="2024">2024 · Skutečné hospodaření města</option>
             <option value="2023">2023 · Skutečné hospodaření města</option>
-            <option value="vhc-investments">Hospodářská činnost města · investice 2025–2026</option>
-            <option value="vhc-results">Hospodářská činnost města · uzavřený výsledek 2024</option>
-          </select>
-        </label>
+            </select>
+          </label>
+          <div id="vhcPeriodControl" class="hidden">
+            <div class="mb-1 text-xs font-semibold text-slate-600">Část hospodářské činnosti</div>
+            <div class="inline-flex rounded-lg bg-slate-100 p-1" role="group" aria-label="Část přehledu podnikání města">
+              <button id="vhcPeriodInvestments" type="button" aria-pressed="true" onclick="setBudgetScope('vhc-investments')" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm">
+                Investice 2025–2026
+              </button>
+              <button id="vhcPeriodResults" type="button" aria-pressed="false" onclick="setBudgetScope('vhc-results')" class="rounded-md px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900">
+                Uzavřený výsledek 2024
+              </button>
+            </div>
+          </div>
+        </div>
         <details class="text-xs text-slate-600 sm:ml-auto sm:max-w-xl">
           <summary class="flex cursor-pointer items-center gap-2 py-2 font-semibold text-slate-700">
             Metodika
@@ -321,33 +343,38 @@
       </div>
 
       <aside class="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm leading-relaxed text-sky-950">
-        <h2 class="font-semibold">Proč jsou tu dva finanční přehledy?</h2>
+        <h2 class="font-semibold">Běžný rozpočet města a podnikání města jsou dva oddělené přehledy</h2>
         <p class="mt-1">
-          Město má běžný rozpočet (například školy a služby) a zvlášť vedené vlastní podnikání
-          (například nájmy bytů, polikliniku, vodu a městské lesy). Jsou to dvě pokladny jednoho města,
-          mezi kterými se převádějí peníze.
+          <strong>Běžný rozpočet</strong> platí například školy a městské služby. <strong>Podnikání města</strong>
+          zahrnuje například nájmy bytů, polikliniku, vodohospodářství a městské lesy. Obojí patří městu,
+          ale peníze se evidují odděleně a mohou se mezi nimi převádět.
         </p>
         <p class="mt-1">
-          Kdybychom jejich částky jednoduše sečetli, převod z podnikání do rozpočtu bychom započítali dvakrát:
-          jednou jako výdaj podnikání a podruhé jako příjem města. Navíc dostupné výsledky a investice pocházejí
-          z různých let. Proto jsou oba přehledy oddělené a jejich součet tu neuvádíme.
+          Prosté sečtení by tentýž převod započítalo dvakrát — jako výdaj podnikání i jako příjem rozpočtu.
+          Navíc uzavřený výsledek a investice v dostupných podkladech pocházejí z různých let.
+          Proto je nesčítáme do jednoho čísla.
         </p>
       </aside>
 
-      <div id="budgetKpiGrid" class="grid grid-cols-2 divide-x divide-slate-200 border-y border-slate-200 bg-white/70 py-3 sm:grid-cols-4">
-        <!-- Populated by JS -->
-      </div>
-
       <section id="vhcSummaryPanel" class="hidden space-y-3" aria-live="polite">
-        <p id="vhcSummaryNote" class="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm leading-relaxed text-slate-700"></p>
-        <div id="vhcInvestmentList" class="hidden divide-y divide-slate-200 border-y border-slate-200 bg-white"></div>
-        <figure id="vhcDiagramFrame" class="hidden overflow-hidden rounded-lg border border-slate-200 bg-white">
+        <figure id="vhcDiagramFrame" class="overflow-hidden rounded-lg border border-slate-200 bg-white">
           <figcaption class="border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs leading-relaxed text-slate-600">
             Orientační společný diagram: uzavřený výsledek 2024 a investiční akce 2025–2026. Nejde o výsledek ani investice jediného roku.
           </figcaption>
           <img src="assets/finance/rozpocet_sankey_vhc.svg" alt="Diagram zdrojů, hospodářského výsledku a investic hospodářské činnosti města v několika obdobích" class="block h-auto w-full" loading="eager">
         </figure>
+        <p id="vhcSummaryNote" class="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm leading-relaxed text-slate-700"></p>
+        <details id="vhcInvestmentDetails" class="hidden overflow-hidden rounded-lg border border-slate-200 bg-white">
+          <summary class="cursor-pointer px-4 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">
+            Rozpis investičních akcí
+          </summary>
+          <div id="vhcInvestmentList" class="divide-y divide-slate-200 border-t border-slate-200"></div>
+        </details>
       </section>
+
+      <div id="budgetKpiGrid" class="grid grid-cols-2 divide-x divide-slate-200 border-y border-slate-200 bg-white/70 py-3 sm:grid-cols-4">
+        <!-- Populated by JS -->
+      </div>
 
       <!-- Main Sankey Diagram Card -->
       <div id="budgetFlowCard" class="bg-white border border-slate-200 rounded-lg p-4 sm:p-5 shadow-sm space-y-3">
@@ -8063,7 +8090,24 @@
 
     function updateBudgetControlsUI() {
       const yearSelect = document.getElementById("budgetYearSelect");
+      const yearControl = document.getElementById("budgetYearControl");
+      const vhcPeriodControl = document.getElementById("vhcPeriodControl");
+      const isMainBudget = currentBudgetScope === "main";
+      const setButtonState = (id, isActive) => {
+        const button = document.getElementById(id);
+        button.setAttribute("aria-pressed", String(isActive));
+        button.className = isActive
+          ? "rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm"
+          : "rounded-md px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900";
+      };
+
       yearSelect.value = currentBudgetScope === "main" ? currentBudgetYear : currentBudgetScope;
+      yearControl.classList.toggle("hidden", !isMainBudget);
+      vhcPeriodControl.classList.toggle("hidden", isMainBudget);
+      setButtonState("budgetScopeMain", isMainBudget);
+      setButtonState("budgetScopeVhc", !isMainBudget);
+      setButtonState("vhcPeriodInvestments", currentBudgetScope === "vhc-investments");
+      setButtonState("vhcPeriodResults", currentBudgetScope === "vhc-results");
     }
 
     function getActiveBudgetDataset() {
@@ -8141,10 +8185,9 @@
       document.getElementById("budgetFlowCard").classList.toggle("hidden", isSummaryOnly);
       document.getElementById("budgetBreakdownGrid").classList.toggle("hidden", isSummaryOnly);
       document.getElementById("vhcSummaryPanel").classList.toggle("hidden", !isSummaryOnly);
-      document.getElementById("vhcDiagramFrame").classList.toggle("hidden", !isSummaryOnly);
       document.getElementById("vhcSummaryNote").textContent = b.summaryNote || "";
       const investmentList = document.getElementById("vhcInvestmentList");
-      investmentList.classList.toggle("hidden", !b.investmentProjects);
+      document.getElementById("vhcInvestmentDetails").classList.toggle("hidden", !b.investmentProjects);
       investmentList.innerHTML = (b.investmentProjects || []).map(project => `
         <article class="flex flex-col gap-1 px-4 py-3 sm:flex-row sm:items-start sm:gap-5">
           <div class="shrink-0 font-mono-num text-sm font-bold text-slate-900 sm:w-32">${project.val.toFixed(1).replace(".", ",")} mil. Kč</div>

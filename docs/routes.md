@@ -49,20 +49,3 @@ Barevnost tras v mapě odpovídá jejich **fyzickému typu a charakteru v terén
 | **25** | Polní cesta Skramníky – Tatce | SV okraj Skramníků → směr JZ okraj Tatců | 2024 | **~85 tis. Kč** | Částečně v OSM (dle evidence) | [Sázíme stromy č. 1143 – Obnova a výsadba na polní cestě Skramníky – Tatce](https://sazimestromy.cz/sazeni/1143) |
 
 ---
-
-## Výletní trasy v širším okolí
-
-Atlas nabízí také výběr delších výletů mimo evidenční datovou sadu 25 cest. Jejich trasy se záměrně nekreslí do hlavní mapy, protože pro ně atlas nemá ověřenou geometrii; odkazy vedou na mapu nebo popis původního zdroje.
-
-| Oblast | Trasa | Délka podle zdroje | Zdroj |
-| :--- | :--- | :-: | :--- |
-| Praha a Úvaly | Běchovice – Úvaly – Český Brod | 21,5 km jedním směrem | [Turistika.cz](https://www.turistika.cz/trasy/bechovice-uvaly-cesky-brod/detail) |
-| Praha a Úvaly | Cyklotrasa 8211: Klánovický les – Úvaly – Tuklaty – Tismice | 17 km | [Praha na kole](https://www.prahanakole.cz/cyklotrasa-8211-klanovicky-les-uvaly-tuklaty-tismice/) |
-| Pošembeří | Výlet do Doubravčic | 23 km | [Mapy.com](https://mapy.com/s/T8JW) |
-| Pošembeří | Výlet do Kozojed | 26 km | [Mapy.com](https://mapy.com/s/TpfN) |
-| Českobrodsko | Výlet do Kounic | 22 km | [Mapy.com](https://mapy.com/s/T9yV) |
-| Kostelecko | Černokostelecký pivovar | 34 km | [Mapy.com](https://mapy.com/s/SXaE) |
-| Polabí | Výlet do Káraného | 57 km | [Mapy.com](https://mapy.com/s/TbZY) |
-| Kolínsko | Středočeská ovocná stezka: Český Brod – Kouřim – Křečhoř | 71 km | [Praha na kole](https://www.prahanakole.cz/sos-stredoceska-ovocna-stezka-cesky-brod-prisimasy-zdanice-kourim-krechor/) |
-
-Další podklady: [Cyklovýlety od Českého Brodu](https://www.metropolis.cesbrod.cz/group/turisticky-brod-cyklistika) · [Generel cyklodopravy města](https://cesbrod.cz/default/default/14473_generel-cyklodopravy) · [Mapa plánovaných cyklotras Pošembeří (PDF)](https://www.kamera.cesbrod.cz/media/3/05_pdf/plancyklotrasposemb.pdf).

@@ -2,7 +2,7 @@
 
 ## Část 02 — Veřejné finance a hospodářská činnost města (2023–2026)
 
-Druhá část projektu zpracovává rozpočtová data města Český Brod z portálu **Monitor MF ČR**, závěrečných účtů města (2023–2025) a schváleného rozpočtu na rok 2026 (`č. j. 3558/2026`). Vlastní hospodářská činnost města (VHČ) je uvedena samostatně. Konsolidovaný součet obou pohledů je skryt, dokud nebude ověřeno časové přiřazení a metodika započítávání daní, fondů a interních převodů.
+Druhá část projektu zpracovává rozpočtová data města Český Brod z portálu **Monitor MF ČR**, závěrečných účtů města (2023–2025) a schváleného rozpočtu na rok 2026 (`č. j. 3558/2026`). Vlastní hospodářská činnost města (VHČ) je uvedena samostatně: město ji účtuje mimo běžný rozpočet a převádí mezi těmito dvěma oblastmi peníze. Prostý součet by proto mohl stejný převod započítat jako výdaj VHČ i jako příjem rozpočtu. Dostupné uzavřené výsledky a investiční akce navíc pokrývají různá období; konsolidovaný součet neuvádíme, dokud nebudou ověřeny časové přiřazení a metodika interních převodů.
 
 ### Souhrnná bilance rozpočtů a hospodářské činnosti
 

@@ -305,8 +305,8 @@
             <option value="2025">2025 · Skutečné hospodaření města</option>
             <option value="2024">2024 · Skutečné hospodaření města</option>
             <option value="2023">2023 · Skutečné hospodaření města</option>
-            <option value="vhc-results">Hospodářská činnost města · uzavřený výsledek 2024</option>
             <option value="vhc-investments">Hospodářská činnost města · investice 2025–2026</option>
+            <option value="vhc-results">Hospodářská činnost města · uzavřený výsledek 2024</option>
           </select>
         </label>
         <details class="text-xs text-slate-600 sm:ml-auto sm:max-w-xl">
@@ -8118,10 +8118,11 @@
       document.getElementById("sankeyTitle").textContent = b.label;
       document.getElementById("sankeySubtitle").textContent = b.subtitle;
       document.getElementById("sankeyHoverBadge").textContent = "Zvolte finanční tok kliknutím, klepnutím nebo klávesnicí pro detail.";
-      document.getElementById("budgetFlowCard").classList.toggle("hidden", b.summaryOnly);
-      document.getElementById("budgetBreakdownGrid").classList.toggle("hidden", b.summaryOnly);
-      document.getElementById("vhcSummaryPanel").classList.toggle("hidden", !b.summaryOnly);
-      document.getElementById("vhcDiagramFrame").classList.toggle("hidden", !b.summaryOnly);
+      const isSummaryOnly = Boolean(b.summaryOnly);
+      document.getElementById("budgetFlowCard").classList.toggle("hidden", isSummaryOnly);
+      document.getElementById("budgetBreakdownGrid").classList.toggle("hidden", isSummaryOnly);
+      document.getElementById("vhcSummaryPanel").classList.toggle("hidden", !isSummaryOnly);
+      document.getElementById("vhcDiagramFrame").classList.toggle("hidden", !isSummaryOnly);
       document.getElementById("vhcSummaryNote").textContent = b.summaryNote || "";
       const investmentList = document.getElementById("vhcInvestmentList");
       investmentList.classList.toggle("hidden", !b.investmentProjects);

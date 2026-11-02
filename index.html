@@ -35,6 +35,12 @@
       font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       font-variant-numeric: tabular-nums;
     }
+    .budget-kpi-sub {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      overflow: hidden;
+    }
     .route-list-item { font: inherit; }
     .route-list-item:focus-visible,
     button:focus-visible,
@@ -51,8 +57,8 @@
       z-index: 1000;
       right: 12px;
       bottom: 12px;
-      width: min(calc(100% - 24px), 440px);
-      max-height: min(68%, 520px);
+      width: min(calc(100% - 24px), 360px);
+      max-height: min(48%, 360px);
       overflow-y: auto;
       overscroll-behavior: contain;
       background: rgba(255, 255, 255, 0.97);
@@ -68,7 +74,7 @@
         right: 8px;
         bottom: 8px;
         width: calc(100% - 16px);
-        max-height: 58%;
+        max-height: min(46%, 340px);
       }
     }
     .sankey-path {
@@ -234,55 +240,35 @@
     <!-- ================================================================== -->
     <section id="sectionBudget" role="tabpanel" aria-labelledby="tabBtnBudget" class="hidden space-y-5">
 
-      <!-- Clean Two-Dimensional Financial Control Bar: Year + Scope -->
-      <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
-        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
-          
-          <!-- 1. Výběr rozpočtového roku -->
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="text-[11px] font-mono-num uppercase tracking-wider font-semibold text-slate-500 mr-1">Rozpočtový rok:</span>
-            <div class="inline-flex flex-wrap gap-1 bg-slate-100 p-1 rounded-md border border-slate-200">
-              <button type="button" onclick="setBudgetYear('2026')" data-byear="2026" aria-pressed="true" class="byear-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white">
-                    2026 • Schválený rozpočet
-              </button>
-              <button type="button" onclick="setBudgetYear('2025')" data-byear="2025" aria-pressed="false" class="byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
-                2025 • Skutečnost (ZÚ)
-              </button>
-              <button type="button" onclick="setBudgetYear('2024')" data-byear="2024" aria-pressed="false" class="byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
-                2024 • Skutečnost (ZÚ)
-              </button>
-              <button type="button" onclick="setBudgetYear('2023')" data-byear="2023" aria-pressed="false" class="byear-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
-                2023 • Skutečnost (ZÚ)
-              </button>
-            </div>
+      <div class="flex flex-col gap-3 sm:flex-row sm:items-end">
+        <label id="budgetYearControl" for="budgetYearSelect" class="block text-xs font-semibold text-slate-600">
+          Rok
+          <select id="budgetYearSelect" onchange="setBudgetYear(this.value)" class="mt-1 block w-full min-w-48 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm">
+            <option value="2026">2026 · Schválený rozpočet</option>
+            <option value="2025">2025 · Skutečnost (ZÚ)</option>
+            <option value="2024">2024 · Skutečnost (ZÚ)</option>
+            <option value="2023">2023 · Skutečnost (ZÚ)</option>
+          </select>
+        </label>
+        <label for="budgetScopeSelect" class="block text-xs font-semibold text-slate-600">
+          Pohled
+          <select id="budgetScopeSelect" onchange="setBudgetScope(this.value)" class="mt-1 block w-full min-w-52 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm">
+            <option value="main">Hlavní rozpočet města</option>
+            <option value="vhc">Hospodářská činnost (VHČ)</option>
+          </select>
+        </label>
+        <details class="text-xs text-slate-600 sm:ml-auto sm:max-w-xl">
+          <summary class="flex cursor-pointer items-center gap-2 py-2 font-semibold text-slate-700">
+            Metodika
+            <span id="budgetContextWarning" class="text-rose-700" aria-live="polite"></span>
+          </summary>
+          <div id="budgetContextBanner" class="mt-2 space-y-2 border-l-2 border-slate-200 pl-3">
+            <!-- Populated dynamically by JS -->
           </div>
-
-          <!-- 2. Pohled na hospodaření (Hlavní rozpočet vs. Spojeno s VHČ vs. Samostatná VHČ) -->
-          <div class="flex flex-wrap items-center gap-2">
-            <span class="text-[11px] font-mono-num uppercase tracking-wider font-semibold text-slate-500 mr-1">Pohled na finance:</span>
-            <div class="inline-flex flex-wrap gap-1 bg-slate-100 p-1 rounded-md border border-slate-200" id="scopeFilterBar">
-              <button type="button" onclick="setBudgetScope('main')" data-scope="main" aria-pressed="true" class="scope-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white">
-                Hlavní rozpočet města
-              </button>
-              <button type="button" disabled aria-disabled="true" title="Konsolidovaný pohled je skryt, dokud nebudou ověřeny a odsouhlaseny metodika a součty interních převodů." class="px-3 py-1.5 rounded text-xs font-medium text-slate-500 cursor-not-allowed">
-                Konsolidovaný pohled — čeká na ověření
-              </button>
-              <button type="button" onclick="setBudgetScope('vhc')" data-scope="vhc" aria-pressed="false" class="scope-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
-                Jen hospodářská činnost (Byty, Voda, Lesy)
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Explanatory Context Bar for how Main Budget and VHC work together -->
-        <div id="budgetContextBanner" class="mt-3 pt-3 border-t border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-2 text-xs text-slate-600">
-          <!-- Populated dynamically by JS -->
-        </div>
+        </details>
       </div>
 
-      <!-- 4 KPI Summary Cards -->
-      <div id="budgetKpiGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div id="budgetKpiGrid" class="grid grid-cols-2 divide-x divide-slate-200 border-y border-slate-200 bg-white/70 py-3 sm:grid-cols-4">
         <!-- Populated by JS -->
       </div>
 
@@ -303,9 +289,6 @@
         </div>
       </div>
 
-      <div class="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-950" role="note">
-        Konsolidovaný pohled hlavního rozpočtu a hospodářské činnosti je dočasně skrytý. Před jeho zveřejněním je potřeba sjednotit období, účetní veličiny a vyloučit vnitřní převody právě jednou.
-      </div>
       <!-- SIDE-BY-SIDE ARCHITECTURE COMPARISON: Hlavní rozpočet vs. Vlastní hospodářská činnost (VHČ) -->
       <div class="hidden bg-white border border-slate-200 rounded-lg p-5 shadow-sm" style="display:none">
         <div class="border-b border-slate-200 pb-3 mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
@@ -7599,74 +7582,68 @@
       }
 
       const accBadge = r.dashed
-        ? `<span class="px-2 py-0.5 rounded text-[11px] font-mono-num font-semibold bg-amber-50 text-amber-800 border border-amber-200" title="Zákres je označen jako orientační; stav realizace ověřte v citovaných zdrojích">Orientační / plán (čárkovaně)</span>`
-        : `<span class="px-2 py-0.5 rounded text-[11px] font-mono-num font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200" title="Geometrie je v datech označena jako OSM; realizace ani přesnost nejsou tímto potvrzeny">Geometrie označena OSM (plná čára)</span>`;
+        ? `<span class="rounded-full bg-amber-50 px-2 py-1 text-[10px] font-semibold text-amber-800" title="Zákres je označen jako orientační; stav realizace ověřte v citovaných zdrojích">Plán</span>`
+        : `<span class="rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-semibold text-emerald-800" title="Geometrie je v datech označena jako OSM; realizace ani přesnost nejsou tímto potvrzeny">OSM</span>`;
 
       detailCard.innerHTML = `
-        <div class="flex items-start justify-between gap-3 pb-3 mb-3 border-b border-slate-200">
-          <div class="flex items-center gap-2 flex-wrap">
-            <span class="px-2 py-0.5 rounded text-xs font-mono-num font-bold text-white" style="background:${col}">#${r.id}</span>
-            <span class="text-xs font-mono-num font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">${r.yearCat}</span>
-            <span class="text-xs text-slate-500">${CATEGORY_LABELS[r.category] || "Stezka"}</span>
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex min-w-0 items-center gap-2">
+            <span class="shrink-0 rounded px-2 py-1 text-[10px] font-mono-num font-bold text-white" style="background:${col}">#${r.id}</span>
+            <span class="truncate text-[11px] font-medium text-slate-500">${r.yearCat} · ${CATEGORY_LABELS[r.category] || "Stezka"}</span>
           </div>
-          <button type="button" onclick="closeRouteDetail()" aria-label="Zrušit výběr a zavřít detail trasy" title="Zavřít detail" class="shrink-0 rounded-full px-2 py-1 text-slate-500 hover:bg-slate-100 hover:text-slate-900 text-lg leading-none">×</button>
+          <div class="flex shrink-0 items-center gap-2">
+            ${accBadge}
+            <button type="button" onclick="closeRouteDetail()" aria-label="Zrušit výběr a zavřít detail trasy" title="Zavřít detail" class="rounded-full px-2 py-1 text-slate-500 hover:bg-slate-100 hover:text-slate-900 text-lg leading-none">×</button>
+          </div>
         </div>
 
-        <div class="flex flex-wrap items-center gap-2">
-          <h3 class="text-base font-bold text-slate-900 leading-snug">${r.name}</h3>
-          ${accBadge}
-        </div>
-        <p class="mt-1 text-xs text-slate-600">${r.fromLabel} → ${r.toLabel}</p>
-
-        <div class="mt-3 grid grid-cols-2 gap-3 text-xs">
-          <div><p class="text-slate-500">Od centra</p><p class="mt-0.5 font-medium text-slate-900">${r.distLabel || (r.distFromCenterKm + " km od centra Č. Brodu")}</p></div>
-          <div><p class="text-slate-500">Délka a provedení</p><p class="mt-0.5 font-medium text-slate-900">${r.lengthSurface}</p></div>
+        <h3 class="mt-2 text-sm font-bold leading-snug text-slate-900">${r.name}</h3>
+        <p class="mt-1 truncate text-xs text-slate-600" title="${r.fromLabel} → ${r.toLabel}">${r.fromLabel} → ${r.toLabel}</p>
+        <div class="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-[11px]">
+          <span class="text-slate-500">${r.distLabel || (r.distFromCenterKm + " km od centra Č. Brodu")}</span>
+          <span class="font-mono-num font-semibold text-slate-800">${r.costShort || r.costAmount}</span>
         </div>
 
-        <details class="mt-3 border-t border-slate-200 pt-2 text-xs">
-          <summary class="cursor-pointer font-semibold text-slate-700">Podrobnosti zákresu a souřadnice</summary>
-          <div class="mt-2 space-y-2 text-slate-600">
-            <p><span class="font-medium text-slate-800">Souřadnice WGS-84:</span> <span class="font-mono-num text-[11px]">${sCoord[0].toFixed(5)}N, ${sCoord[1].toFixed(5)}E → ${eCoord[0].toFixed(5)}N, ${eCoord[1].toFixed(5)}E</span></p>
-            <p><span class="font-medium text-slate-800">Mapový podklad:</span> <strong class="font-mono-num">${r.mapyStatus}</strong> — ${mapyNoteText}</p>
+        <details class="mt-2 border-t border-slate-200 pt-2 text-xs">
+          <summary class="cursor-pointer font-semibold text-slate-700">Podrobnosti, náklady a zdroje</summary>
+          <div class="mt-2 space-y-3 text-slate-600">
+            <div>
+              <p class="font-semibold text-slate-800">Délka a provedení</p>
+              <p class="mt-0.5">${r.lengthSurface}</p>
+            </div>
+            <div class="rounded-lg bg-slate-50 p-2.5">
+              <p class="font-semibold text-slate-800">Náklady / investice · ${r.costAmount}</p>
+              <p class="mt-1 text-[11px] leading-snug">${r.costScopeNote}</p>
+            </div>
+            <div>
+              <p><span class="font-medium text-slate-800">Mapový podklad:</span> <strong class="font-mono-num">${r.mapyStatus}</strong> — ${mapyNoteText}</p>
+              <p class="mt-1"><span class="font-medium text-slate-800">Souřadnice WGS-84:</span> <span class="font-mono-num text-[11px]">${sCoord[0].toFixed(5)}N, ${sCoord[1].toFixed(5)}E → ${eCoord[0].toFixed(5)}N, ${eCoord[1].toFixed(5)}E</span></p>
+            </div>
+            <div>
+              <p class="mb-1 font-semibold text-slate-800">Ověřený zdroj</p>
+              <a href="${r.sourceUrl || '#'}" target="_blank" rel="noopener noreferrer" class="font-semibold text-blue-700 underline decoration-blue-300 underline-offset-2" title="Otevřít primární zdroj / dokument v novém okně">
+                ${r.source || "Veřejné podklady města Český Brod / SPÚ"} ↗
+              </a>
+              <details class="group mt-2 rounded-lg border border-slate-200 bg-white">
+                <summary class="cursor-pointer px-2.5 py-2 font-semibold text-slate-700">Citace a další ověřovací odkazy</summary>
+                <div class="space-y-2 border-t border-slate-100 bg-slate-50 p-2.5 text-[11px] leading-relaxed">
+                  <p><span class="font-semibold text-slate-800">Evidenční pramen:</span> ${r.sourceDoc || r.source}</p>
+                  <blockquote class="border-l-2 border-blue-600 bg-white p-2 italic text-slate-700">„${r.sourceQuote || r.lengthSurface}“</blockquote>
+                  <div class="flex flex-wrap gap-2">
+                    <a href="${r.sourceUrl || '#'}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">Primární dokument ↗</a>
+                    ${r.sourceUrl2 ? `<a href="${r.sourceUrl2}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">${r.sourceLabel2 || 'Další dokument ↗'}</a>` : ''}
+                    ${r.osmUrl ? `<a href="${r.osmUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">OpenStreetMap ↗</a>` : ''}
+                  </div>
+                </div>
+              </details>
+            </div>
+            <div class="flex flex-wrap gap-2 border-t border-slate-200 pt-2">
+              <a href="${r.gmapsDirUrl}" target="_blank" rel="noopener noreferrer" class="rounded bg-slate-900 px-2.5 py-1.5 font-semibold text-white hover:bg-slate-800">Trasa A→B v Google Maps ↗</a>
+              <a href="${r.mapyStartUrl}" target="_blank" rel="noopener noreferrer" class="rounded border border-slate-300 bg-white px-2.5 py-1.5 font-medium text-slate-700 hover:bg-slate-50">Start A (Mapy.cz) ↗</a>
+              <a href="${r.mapyEndUrl}" target="_blank" rel="noopener noreferrer" class="rounded border border-slate-300 bg-white px-2.5 py-1.5 font-medium text-slate-700 hover:bg-slate-50">Cíl B (Mapy.cz) ↗</a>
+            </div>
           </div>
         </details>
-
-        <div class="mt-3 rounded-xl bg-emerald-50/80 p-3 text-xs">
-          <p class="font-semibold text-slate-800">Náklady / investice</p>
-          <p class="mt-1 font-mono-num font-bold text-slate-900">${r.costAmount}</p>
-          <p class="mt-1 text-[11px] leading-snug text-slate-600">${r.costScopeNote}</p>
-        </div>
-
-        <div class="mt-3 border-t border-slate-200 pt-3">
-          <p class="mb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">Ověřený zdroj</p>
-          <a href="${r.sourceUrl || '#'}" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-blue-700 hover:text-blue-900 underline decoration-blue-300 underline-offset-2" title="Otevřít primární zdroj / dokument v novém okně">
-            ${r.source || "Veřejné podklady města Český Brod / SPÚ"} ↗
-          </a>
-          <details class="group mt-2 rounded-lg border border-slate-200 bg-white">
-            <summary class="cursor-pointer px-3 py-2 text-xs font-semibold text-slate-700">Citace a další ověřovací odkazy</summary>
-            <div class="space-y-2 border-t border-slate-100 bg-slate-50 p-3 text-[11px] leading-relaxed">
-              <p><span class="font-semibold text-slate-800">Evidenční pramen:</span> ${r.sourceDoc || r.source}</p>
-              <blockquote class="border-l-2 border-blue-600 bg-white p-2 italic text-slate-700">„${r.sourceQuote || r.lengthSurface}“</blockquote>
-              <div class="flex flex-wrap gap-2">
-                <a href="${r.sourceUrl || '#'}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">Primární dokument ↗</a>
-                ${r.sourceUrl2 ? `<a href="${r.sourceUrl2}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">${r.sourceLabel2 || 'Další dokument ↗'}</a>` : ''}
-                ${r.osmUrl ? `<a href="${r.osmUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">OpenStreetMap ↗</a>` : ''}
-              </div>
-            </div>
-          </details>
-        </div>
-
-        <div class="mt-3 pt-1 flex flex-wrap items-center gap-2">
-          <a href="${r.gmapsDirUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded text-xs font-semibold bg-slate-900 text-white hover:bg-slate-800 transition">
-            Trasa A→B v Google Maps ↗
-          </a>
-          <a href="${r.mapyStartUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded text-xs font-medium bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 transition">
-            Start A (Mapy.cz) ↗
-          </a>
-          <a href="${r.mapyEndUrl}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1.5 rounded text-xs font-medium bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 transition">
-            Cíl B (Mapy.cz) ↗
-          </a>
-        </div>
       `;
     }
 
@@ -8004,21 +7981,12 @@
     }
 
     function updateBudgetControlsUI() {
-      document.querySelectorAll(".byear-btn").forEach(btn => {
-        const isAct = btn.dataset.byear === currentBudgetYear && currentBudgetScope === "main";
-        btn.disabled = currentBudgetScope !== "main";
-        btn.setAttribute("aria-pressed", String(isAct));
-        btn.className = isAct
-          ? "byear-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white"
-          : `byear-btn px-3 py-1.5 rounded text-xs font-medium transition ${currentBudgetScope === "main" ? "text-slate-700 hover:bg-white" : "text-slate-500 cursor-not-allowed"}`;
-      });
-      document.querySelectorAll(".scope-btn").forEach(btn => {
-        const isAct = btn.dataset.scope === currentBudgetScope;
-        btn.setAttribute("aria-pressed", String(isAct));
-        btn.className = isAct
-          ? "scope-btn px-3 py-1.5 rounded text-xs font-semibold transition bg-slate-900 text-white"
-          : "scope-btn px-3 py-1.5 rounded text-xs font-medium transition text-slate-700 hover:bg-white";
-      });
+      const yearSelect = document.getElementById("budgetYearSelect");
+      const scopeSelect = document.getElementById("budgetScopeSelect");
+      yearSelect.value = currentBudgetYear;
+      yearSelect.disabled = currentBudgetScope !== "main";
+      document.getElementById("budgetYearControl").classList.toggle("hidden", currentBudgetScope !== "main");
+      scopeSelect.value = currentBudgetScope;
     }
 
     function getActiveBudgetDataset() {
@@ -8054,14 +8022,18 @@
       document.getElementById("budgetContextBanner").innerHTML = `
         <div><strong class="text-slate-800">Kontext zobrazení:</strong> ${b.contextNote}${currentBudgetScope === "vhc" ? " (Pohled VHČ kombinuje poslední roční výsledky s investičními akcemi 2025–2026; nejde o jednu uzavřenou rozpočtovou periodu.)" : ""}</div>
         ${differences.length ? `<div class="text-rose-800" role="alert"><strong>Kontrola součtů:</strong> ${differences.join("; ")}. Ověřte tyto částky proti zdrojovým výkazům.</div>` : ""}
+        <div class="text-slate-500">Konsolidovaný pohled není dostupný, dokud nebudou ověřeny časové období, účetní veličiny a interní převody.</div>
       `;
+      document.getElementById("budgetContextWarning").textContent = differences.length
+        ? `· ${differences.length} ${differences.length === 1 ? "rozdíl" : differences.length < 5 ? "rozdíly" : "rozdílů"}`
+        : "";
 
-      // 1. KPI Cards
+      // 1. Compact KPI summary
       document.getElementById("budgetKpiGrid").innerHTML = b.kpis.map(k => `
-        <div class="bg-white border border-slate-200 rounded-lg p-4 shadow-sm">
-          <div class="text-[11px] font-mono-num font-bold uppercase tracking-wider text-slate-500">${k.title}</div>
-          <div class="text-xl font-extrabold font-mono-num text-slate-900 mt-1">${k.val}</div>
-          <div class="text-xs text-slate-500 mt-1 leading-snug">${k.sub}</div>
+        <div class="min-w-0 px-3 first:pl-0 last:pr-0">
+          <div class="truncate text-[10px] font-semibold uppercase tracking-wide text-slate-500" title="${k.title}">${k.title}</div>
+          <div class="mt-1 truncate font-mono-num text-lg font-bold text-slate-900" title="${k.val}">${k.val}</div>
+          <div class="budget-kpi-sub mt-0.5 text-[11px] leading-snug text-slate-500" title="${k.sub}">${k.sub}</div>
         </div>
       `).join("");
 

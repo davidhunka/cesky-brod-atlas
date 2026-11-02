@@ -371,10 +371,10 @@
 
       <section id="vhcSummaryPanel" class="hidden space-y-3" aria-live="polite">
         <p id="vhcSummaryNote" class="text-xs leading-relaxed text-slate-600"></p>
-        <details id="vhcInvestmentDetails" class="hidden overflow-hidden rounded-lg border border-slate-200 bg-white">
-          <summary class="cursor-pointer px-4 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">Rozpis investičních akcí</summary>
+        <section id="vhcInvestmentDetails" aria-labelledby="vhcInvestmentHeading" class="hidden overflow-hidden rounded-lg border border-slate-200 bg-white">
+          <h3 id="vhcInvestmentHeading" class="px-4 py-3 text-sm font-semibold text-slate-800">Rozpis investičních akcí</h3>
           <div id="vhcInvestmentList" class="divide-y divide-slate-200 border-t border-slate-200"></div>
-        </details>
+        </section>
       </section>
 
       <!-- SIDE-BY-SIDE ARCHITECTURE COMPARISON: Hlavní rozpočet vs. Vlastní hospodářská činnost (VHČ) -->
@@ -8204,7 +8204,16 @@
 
       if (isSummaryOnly) {
         document.getElementById("sankeyHoverBadge").classList.add("hidden");
-        const rows = b.investmentProjects || [
+        if (b.investmentProjects) {
+          document.getElementById("sankeySvgWrapper").innerHTML = `
+            <figure>
+              <img src="assets/finance/rozpocet_sankey_vhc.svg" alt="Sankey diagram hospodářské činnosti města: zdroje, výsledek 2024 a investiční akce 2025–2026" class="block h-auto w-full">
+              <figcaption class="mt-2 text-xs leading-relaxed text-slate-500">Společný diagram kombinuje uzavřený výsledek 2024 a investiční akce 2025–2026; nejde o bilanci jediného roku.</figcaption>
+            </figure>
+          `;
+          return;
+        }
+        const rows = [
           { name: "Výnosy 2024", val: 81.46, color: "#2563eb" },
           { name: "Náklady 2024", val: 41.01, color: "#64748b" },
           { name: "Zisk před zdaněním", val: 40.45, color: "#059669" }

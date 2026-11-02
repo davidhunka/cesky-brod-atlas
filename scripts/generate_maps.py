@@ -13,8 +13,9 @@ import re
 import shutil
 from pathlib import Path
 
-OUT_DIR = os.path.dirname(os.path.abspath(__file__))
-CACHE_DIR = os.path.join(OUT_DIR, "tile_cache")
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+CACHE_DIR = os.path.join(REPO_ROOT, "data", "cache")
+MAP_DIR = os.path.join(REPO_ROOT, "assets", "maps")
 
 CATEGORY_COLORS = {
     "stezka": "#1d4ed8",
@@ -47,7 +48,7 @@ def load_regional_grid():
         return json.load(f)
 
 def load_geojson():
-    with open(os.path.join(OUT_DIR, "index.html"), "r", encoding="utf-8") as f:
+    with open(os.path.join(REPO_ROOT, "index.html"), "r", encoding="utf-8") as f:
         html = f.read()
     match = re.search(r"const ROUTES = (\[.*?\]);", html, flags=re.DOTALL)
     if not match:
@@ -103,7 +104,7 @@ def load_geojson():
 
 
 def write_geojson():
-    path = os.path.join(OUT_DIR, "trasy_ceskobrodsko.geojson")
+    path = os.path.join(REPO_ROOT, "data", "trasy_ceskobrodsko.geojson")
     with open(path, "w", encoding="utf-8") as f:
         json.dump(load_geojson(), f, ensure_ascii=False, indent=2)
         f.write("\n")
@@ -339,7 +340,7 @@ def generate_regional_map():
   <text x="48" y="{BY+90}" fill="#64748b" font-size="11" font-weight="600">Podklad: © OpenStreetMap contributors • https://www.openstreetmap.org/copyright</text>
 </svg>''')
 
-    svg_path = os.path.join(OUT_DIR, "mapa_stezky_podle_roku.svg")
+    svg_path = os.path.join(MAP_DIR, "mapa_stezky_podle_roku.svg")
     with open(svg_path, "w", encoding="utf-8") as f:
         f.write("\n".join(svg))
     print(f"Generated {os.path.basename(svg_path)}")

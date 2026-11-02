@@ -9,7 +9,7 @@ ve stylu "App Economy Insights" (How They Make & Spend Money):
 
 import os
 
-OUT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "finance")
 os.makedirs(OUT_DIR, exist_ok=True)
 
 

@@ -16,7 +16,7 @@ import base64
 import urllib.request
 import os
 
-CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "tile_cache")
+CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "cache")
 os.makedirs(CACHE_DIR, exist_ok=True)
 
 HEADERS = {

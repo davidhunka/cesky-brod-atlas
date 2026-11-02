@@ -1,0 +1,11 @@
+{
+  "name": "cesky-brod-atlas",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:css",
+    "build:css": "tailwindcss -i ./styles/tailwind.css -o ./assets/css/atlas.css --minify"
+  },
+  "devDependencies": {
+    "tailwindcss": "3.4.17"
+  }
+}

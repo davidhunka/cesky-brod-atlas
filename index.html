@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Český Brod — Datový atlas obnovených cest a městských financí (2020–2026)</title>
   <meta name="description" content="Orientační atlas cest na Českobrodsku a přehled veřejných financí města s odkazy na evidenční zdroje a metodickými upozorněními." />
-  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon.svg" />
+  <link rel="stylesheet" href="./assets/css/atlas.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -36,6 +36,41 @@
       font-variant-numeric: tabular-nums;
     }
     .route-list-item { font: inherit; }
+    .route-list-item:focus-visible,
+    button:focus-visible,
+    a:focus-visible,
+    select:focus-visible,
+    input:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid #2563eb;
+      outline-offset: 2px;
+    }
+    #leafletMapContainer { height: min(68vh, 760px); min-height: 420px; }
+    #routeDetailCard {
+      position: absolute;
+      z-index: 1000;
+      right: 12px;
+      bottom: 12px;
+      width: min(calc(100% - 24px), 440px);
+      max-height: min(68%, 520px);
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 40px rgba(15, 23, 42, 0.2);
+    }
+    @media (max-width: 1023px) {
+      #leafletMapContainer { height: 62vh; min-height: 340px; max-height: 620px; }
+      #sectionMap[data-mobile-view="list"] #mapColumn { display: none; }
+      #sectionMap[data-mobile-view="map"] #routeListColumn { display: none; }
+      #routeListContainer { max-height: none; }
+      #routeDetailCard {
+        right: 8px;
+        bottom: 8px;
+        width: calc(100% - 16px);
+        max-height: 58%;
+      }
+    }
     .sankey-path {
       transition: opacity 0.15s ease;
       cursor: pointer;
@@ -56,7 +91,6 @@
       border: 2px solid #ffffff;
       transition: transform 0.15s ease;
     }
-    /* Custom thin scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #f1f5f9; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
@@ -65,76 +99,26 @@
 </head>
 <body class="antialiased selection:bg-slate-900 selection:text-white">
 
-  <!-- TOP EDITORIAL MASTHEAD -->
   <header class="bg-white border-b border-slate-200">
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      
-      <!-- Top metadata line -->
-      <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-4 border-b border-slate-100 text-xs text-slate-500">
-        <div class="flex items-center gap-3">
-          <span class="font-mono-num font-semibold text-slate-800 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">IČO 00235334</span>
-          <span class="font-medium uppercase tracking-wider text-slate-600">Město Český Brod &amp; mikroregion Českobrodsko</span>
-        </div>
-        <div class="font-mono-num text-slate-500">
-          Veřejné zdroje: SPÚ • E-ZAK • Monitor MF ČR • OpenStreetMap (2020–2026)
-        </div>
-      </div>
-
-      <!-- Main Title & Purpose Statement -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        <div class="lg:col-span-5">
-          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 leading-tight">
-            Obnovené cesty v krajině a&nbsp;městské finance pod lupou
-          </h1>
-          <p class="mt-2 text-sm text-slate-600 leading-relaxed">
-            Nezávislý datový přehled, který na jednom místě propojuje fyzický rozvoj města v terénu s reálnými toky peněz z veřejných rozpočtů a účetních uzávěrek.
-          </p>
-        </div>
-
-        <!-- 2 Pillars Explanation Box (Smysl projektu) -->
-        <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div class="bg-slate-50 border border-slate-200/90 rounded-lg p-3.5">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[11px] font-mono-num font-bold uppercase tracking-wider text-slate-500">Část 01 • Terén a kartografie</span>
-              <span class="text-[11px] font-mono-num font-semibold text-slate-700 bg-white px-1.5 py-0.5 rounded border border-slate-200">25 tras</span>
-            </div>
-            <div class="text-xs font-bold text-slate-900 mb-1">Zmapování nových a obnovených cest (2020–2026+)</div>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Polní cesty z pozemkových úprav, aleje, stezky a opravené chodníky. Zákres rozlišuje mapové podklady OSM od orientačních linií; stav realizace musí být ověřen zvlášť podle zdrojů.
-            </p>
-          </div>
-
-          <div class="bg-slate-50 border border-slate-200/90 rounded-lg p-3.5">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-[11px] font-mono-num font-bold uppercase tracking-wider text-slate-500">Část 02 • Veřejné finance</span>
-              <span class="text-[11px] font-mono-num font-semibold text-slate-700 bg-white px-1.5 py-0.5 rounded border border-slate-200">2023–2026</span>
-            </div>
-            <div class="text-xs font-bold text-slate-900 mb-1">Vizualizace rozpočtu a hospodářské činnosti města</div>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Sankey diagramy ukazují, odkud město bere peníze (daně RUD, dotace, nájmy bytů a nemocnice, vodné, lesy) a kam přesně míří provozní výdaje i kapitálové investice.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Primary Navigation Tabs -->
-      <div class="mt-6 pt-4 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
-        <div class="inline-flex p-1 rounded-lg bg-slate-100 border border-slate-200" role="tablist" aria-label="Část aplikace">
-          <button id="tabBtnMap" type="button" role="tab" aria-selected="true" aria-controls="sectionMap" onclick="switchMainTab('map')" class="px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-slate-900 text-white shadow-sm">
-            01 / Mapa obnovených cest a stezek (25)
-          </button>
-          <button id="tabBtnBudget" type="button" role="tab" aria-selected="false" aria-controls="sectionBudget" onclick="switchMainTab('budget')" class="px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
-            02 / Finance a rozpočet města (2023–2026)
-          </button>
-        </div>
-
-        <div class="flex items-center gap-4 text-xs text-slate-500">
-          <a href="./trasy_ceskobrodsko.geojson" target="_blank" class="hover:text-slate-900 underline underline-offset-4 font-mono-num">Stáhnout GeoJSON</a>
-          <span>•</span>
-          <a href="https://github.com/davidhunka/cesky-brod-atlas" target="_blank" rel="noopener noreferrer" class="hover:text-slate-900 underline underline-offset-4 font-mono-num">GitHub repozitář</a>
-        </div>
-      </div>
-
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+      <a href="./" class="flex items-center gap-3 text-slate-900 no-underline">
+        <span class="w-9 h-9 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold">ČB</span>
+        <span>
+          <span class="block text-base font-bold tracking-tight">Českobrodsko</span>
+          <span class="block text-[11px] text-slate-500">Atlas cest a městských financí</span>
+        </span>
+      </a>
+      <nav class="inline-flex items-center gap-1 p-1 rounded-xl bg-slate-100" role="tablist" aria-label="Část aplikace">
+        <button id="tabBtnMap" type="button" role="tab" aria-selected="true" aria-controls="sectionMap" onclick="switchMainTab('map')" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-slate-900 text-white shadow-sm">
+          Cesty <span class="ml-1 font-mono-num text-xs">25</span>
+        </button>
+        <button id="tabBtnBudget" type="button" role="tab" aria-selected="false" aria-controls="sectionBudget" onclick="switchMainTab('budget')" class="px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-600 hover:text-slate-900">
+          Finance
+        </button>
+      </nav>
+      <a href="https://github.com/davidhunka/cesky-brod-atlas" target="_blank" rel="noopener noreferrer" class="text-xs text-slate-500 hover:text-slate-900 underline underline-offset-4">
+        O projektu ↗
+      </a>
     </div>
   </header>
 
@@ -144,162 +128,103 @@
     <!-- ================================================================== -->
     <!-- SECTION 01: MAPA OBNOVENÝCH STEZEK A CEST                          -->
     <!-- ================================================================== -->
-    <section id="sectionMap" role="tabpanel" aria-labelledby="tabBtnMap" class="space-y-4">
-
-      <!-- Unified, Single-Level Filter Toolbar -->
-      <div class="bg-white border border-slate-200 rounded-lg p-3.5 shadow-sm">
-        <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-3">
-          
-          <!-- Group 1: Year / Period Segmented Control -->
-          <div class="flex flex-wrap items-center gap-1.5">
-            <span class="text-[11px] font-mono-num uppercase tracking-wider font-semibold text-slate-500 mr-1.5">Období:</span>
-            <div class="inline-flex flex-wrap gap-1 bg-slate-100 p-1 rounded-md border border-slate-200/80" id="yearFilterBar">
-              <button type="button" aria-pressed="true" onclick="setYearFilter('all')" data-year="all" class="year-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white">
-                Vše (25)
-              </button>
-              <button type="button" aria-pressed="false" onclick="setYearFilter('2020–2021')" data-year="2020–2021" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
-                2020–21
-              </button>
-              <button type="button" aria-pressed="false" onclick="setYearFilter('2022–2023')" data-year="2022–2023" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
-                2022–23
-              </button>
-              <button type="button" aria-pressed="false" onclick="setYearFilter('2024')" data-year="2024" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
-                2024
-              </button>
-              <button type="button" aria-pressed="false" onclick="setYearFilter('2025')" data-year="2025" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
-                2025
-              </button>
-              <button type="button" aria-pressed="false" onclick="setYearFilter('2026')" data-year="2026" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
-                2026
-              </button>
-              <button type="button" aria-pressed="false" onclick="setYearFilter('Plán 2026+')" data-year="Plán 2026+" class="year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white">
-                Plán 2026+
-              </button>
-            </div>
-          </div>
-
-          <!-- Group 2: Accuracy & Type + Search -->
-          <div class="flex flex-wrap items-center gap-2.5">
-            <!-- Accuracy Filter (OSM Solid vs Dashed) -->
-            <div class="inline-flex bg-slate-100 p-1 rounded-md border border-slate-200/80" id="accuracyFilterBar">
-              <button type="button" aria-pressed="true" onclick="setAccuracyFilter('all')" data-acc="all" class="acc-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white">
-                Všechny trasy (25)
-              </button>
-              <button type="button" aria-pressed="false" onclick="setAccuracyFilter('osm')" data-acc="osm" class="acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white" title="Geometrie označené v datech aplikace jako OpenStreetMap (22 tras)">
-                Zákres v OSM — plná (22)
-              </button>
-              <button type="button" aria-pressed="false" onclick="setAccuracyFilter('approx')" data-acc="approx" class="acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white" title="Orientace geometrie a projektový záměr jsou v datech sloučeny; zkontrolujte kartu a zdroje">
-                Orientační / plán — čárkovaná (3)
-              </button>
-            </div>
-
-            <!-- Category Select -->
-            <label class="sr-only" for="filterCategory">Filtro podle typu trasy</label>
-            <select id="filterCategory" onchange="renderMapAndList()" class="bg-slate-50 text-slate-800 border border-slate-200 rounded-md px-2.5 py-1.5 text-xs font-medium focus:outline-none focus:border-slate-400">
-              <option value="all">Typ: Všechny kategorie (25)</option>
-              <option value="polni">Polní cesty a biokoridory KPÚ (8)</option>
-              <option value="alej">Obnovené aleje a pěší trasy (6)</option>
-              <option value="stezka">Cyklostezky a naučné stezky (9)</option>
-              <option value="chodnik">Městské chodníky (2)</option>
-            </select>
-
-            <!-- Search Input -->
-            <label class="sr-only" for="routeSearchInput">Hledat trasu, obec nebo zdroj</label>
-            <input id="routeSearchInput" type="search" oninput="renderMapAndList()" placeholder="Hledat trasu, obec, zdroj..." class="bg-slate-50 text-slate-800 placeholder-slate-400 border border-slate-200 rounded-md px-2.5 py-1.5 text-xs w-44 sm:w-52 focus:outline-none focus:border-slate-400" />
-          </div>
-
+    <section id="sectionMap" role="tabpanel" aria-labelledby="tabBtnMap" data-mobile-view="list" class="space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+        <label class="sr-only" for="routeSearchInput">Hledat trasu nebo obec</label>
+        <input id="routeSearchInput" type="search" oninput="renderMapAndList()" placeholder="Najít trasu nebo obec…" class="w-full sm:max-w-md bg-white text-slate-900 placeholder-slate-400 border border-slate-300 rounded-xl px-4 py-3 text-sm shadow-sm" />
+        <div class="flex items-center gap-2 sm:ml-auto">
+          <p class="text-sm text-slate-600" aria-live="polite"><strong id="routeCountBadge" class="font-mono-num text-slate-900">25</strong> tras</p>
+          <button id="clearFiltersBtn" type="button" onclick="clearRouteFilters()" class="hidden px-3 py-2 text-sm font-medium text-slate-700 hover:text-slate-900 underline underline-offset-4">Vymazat filtry</button>
+          <button id="filterToggle" type="button" aria-expanded="false" aria-controls="routeFilters" onclick="toggleRouteFilters()" class="px-3 py-2 rounded-xl border border-slate-300 bg-white text-sm font-semibold text-slate-700 hover:bg-slate-50">
+            Filtry <span id="activeFilterCount" class="font-mono-num text-xs"></span>
+          </button>
         </div>
       </div>
 
-      <!-- Main Map + Sidebar Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-
-        <!-- Left Column: Interactive Map (7 cols) -->
-        <div class="lg:col-span-7 bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden">
-          <!-- Map Top Bar: Clean Legend by Category & View Presets -->
-          <div class="px-4 py-2 border-b border-slate-200 bg-slate-50/80 flex flex-wrap items-center justify-between gap-2 text-xs">
-            <!-- Category Color Legend -->
-            <div class="flex flex-wrap items-center gap-3.5 text-slate-700">
-              <span class="flex items-center gap-1.5 font-medium">
-                <span class="w-3 h-3 rounded-full inline-block bg-[#1d4ed8]"></span>
-                <span>Cyklostezky (9)</span>
-              </span>
-              <span class="flex items-center gap-1.5 font-medium">
-                <span class="w-3 h-3 rounded-full inline-block bg-[#15803d]"></span>
-                <span>Aleje a přírodní stezky (6)</span>
-              </span>
-              <span class="flex items-center gap-1.5 font-medium">
-                <span class="w-3 h-3 rounded-full inline-block bg-[#b45309]"></span>
-                <span>Polní cesty KPÚ (8)</span>
-              </span>
-              <span class="flex items-center gap-1.5 font-medium">
-                <span class="w-3 h-3 rounded-full inline-block bg-[#334155]"></span>
-                <span>Chodníky (2)</span>
-              </span>
-              <span class="text-slate-300">|</span>
-              <span class="flex items-center gap-1 text-[11px] text-slate-500 font-medium">
-                <span class="w-4 h-0 border-t border-dashed border-slate-700 inline-block"></span>
-                <span>Čárkovaně: orientačně / plán (3)</span>
-              </span>
-              <button onclick="document.getElementById('osmExplainBox').classList.toggle('hidden')" class="text-[11px] font-semibold text-blue-700 hover:text-blue-900 underline decoration-blue-300 underline-offset-2 cursor-pointer ml-1">
-                ⓘ info
-              </button>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <button onclick="resetMapView('city')" class="px-2 py-1 text-[11px] font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100 transition shadow-sm">
-                Český Brod
-              </button>
-              <button onclick="resetMapView('region')" class="px-2 py-1 text-[11px] font-medium text-slate-700 bg-white border border-slate-200 rounded hover:bg-slate-100 transition shadow-sm">
-                Celý region
-              </button>
-            </div>
-          </div>
-
-          <!-- Collapsible Explanation Box for OSM & Line Types -->
-          <div id="osmExplainBox" class="hidden px-4 py-3 bg-slate-50 border-b border-slate-200 text-xs text-slate-700 space-y-1.5 leading-relaxed">
-            <div class="flex items-start justify-between gap-2">
-              <div class="font-bold text-slate-900">Co znamená „OpenStreetMap (OSM)“ a rozdíl mezi plnou a čárkovanou čárou?</div>
-              <button onclick="document.getElementById('osmExplainBox').classList.add('hidden')" class="text-slate-400 hover:text-slate-700 font-bold text-xs px-1 cursor-pointer">✕</button>
-            </div>
-            <p><strong>OpenStreetMap (zkratka OSM)</strong> je otevřená celosvětová mapová databáze (obdoba Wikipedie pro mapy), ze které berou podklady Mapy.cz i tato interaktivní mapa. Každá reálná polní cesta, ulice, lávka nebo potok v ní má své jednoznačné ID (např. <code class="font-mono-num bg-white px-1 py-0.5 rounded border border-slate-200">way/231258841</code>) a přesnou GPS křivku.</p>
-            <p><strong>Plná čára:</strong> Geometrie je v datech aplikace označena jako OSM. Samo o sobě to nedokládá datum realizace, veřejnou přístupnost ani přesnou shodu s projektem.</p>
-            <p><strong>Čárkovaná čára:</strong> Zákres je v datech označen jako orientační, plán nebo koridor. Ověřte stav v kartě trasy a v citovaných zdrojích; evidence není nezávisle zkontrolována.</p>
-          </div>
-
-          <!-- Leaflet Container -->
-          <div id="leafletMapContainer" class="w-full h-[640px] z-0 bg-slate-100" role="region" aria-label="Mapa tras"></div>
-          <p class="px-4 py-2 text-xs text-slate-600 border-t border-slate-200">Průběh čar je orientační a slouží k lokalizaci projektu; nemusí odpovídat skutečné délce ani celé trase stavby. Přesná geometrie a její zdroj nejsou u všech položek nezávisle ověřeny.</p>
+      <div id="routeFilters" class="hidden bg-white border border-slate-200 rounded-2xl p-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <label class="text-xs font-semibold text-slate-600">
+            Období
+            <select id="yearFilter" onchange="setYearFilter(this.value)" class="mt-1 block w-full bg-white text-slate-900 border border-slate-300 rounded-lg px-3 py-2.5 text-sm">
+              <option value="all">Všechna období</option>
+              <option value="2020–2021">2020–2021</option>
+              <option value="2022–2023">2022–2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+              <option value="Plán 2026+">Plán 2026+</option>
+            </select>
+          </label>
+          <label class="text-xs font-semibold text-slate-600">
+            Typ zákresu
+            <select id="accuracyFilter" onchange="setAccuracyFilter(this.value)" class="mt-1 block w-full bg-white text-slate-900 border border-slate-300 rounded-lg px-3 py-2.5 text-sm">
+              <option value="all">Všechny typy</option>
+              <option value="osm">Geometrie označená OSM (plná čára)</option>
+              <option value="approx">Orientační / plán (čárkovaná)</option>
+            </select>
+          </label>
+          <label class="text-xs font-semibold text-slate-600">
+            Kategorie
+            <select id="filterCategory" onchange="renderMapAndList()" class="mt-1 block w-full bg-white text-slate-900 border border-slate-300 rounded-lg px-3 py-2.5 text-sm">
+              <option value="all">Všechny kategorie</option>
+              <option value="polni">Polní cesty a biokoridory KPÚ</option>
+              <option value="alej">Aleje a pěší trasy</option>
+              <option value="stezka">Cyklostezky a naučné stezky</option>
+              <option value="chodnik">Městské chodníky</option>
+            </select>
+          </label>
         </div>
+      </div>
 
-        <!-- Right Column: Selected Route Detail + Route List (5 cols) -->
-        <div class="lg:col-span-5 flex flex-col gap-4">
+      <div class="flex lg:hidden items-center gap-1 rounded-xl bg-slate-100 p-1" role="group" aria-label="Zobrazení tras">
+        <button id="mobileListBtn" type="button" aria-pressed="true" onclick="setMobileMapView('list')" class="flex-1 rounded-lg px-3 py-2.5 text-sm font-semibold bg-white text-slate-900 shadow-sm">Přehled tras</button>
+        <button id="mobileMapBtn" type="button" aria-pressed="false" onclick="setMobileMapView('map')" class="flex-1 rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-600">Mapa</button>
+      </div>
 
-          <!-- Selected Route Specification Card -->
-          <div id="routeDetailCard" class="bg-white border border-slate-300 rounded-lg p-4 shadow-sm">
+      <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1.7fr)_minmax(340px,0.8fr)] gap-4 items-start">
+
+        <section id="mapColumn" aria-label="Mapa tras" class="relative min-w-0 overflow-hidden rounded-2xl bg-white">
+          <div class="absolute top-3 left-3 right-3 z-[500] flex items-start justify-between gap-2 pointer-events-none">
+            <details class="pointer-events-auto max-w-[min(100%,28rem)] rounded-xl bg-white/95 p-3 shadow-md backdrop-blur">
+              <summary class="cursor-pointer text-xs font-semibold text-slate-700">Legenda a přesnost</summary>
+              <div class="mt-3 space-y-2 text-xs text-slate-700">
+                <p><span class="inline-block w-2.5 h-2.5 rounded-full bg-[#1d4ed8] mr-2"></span>Cyklostezky a naučné stezky <span class="text-slate-400">(9)</span></p>
+                <p><span class="inline-block w-2.5 h-2.5 rounded-full bg-[#15803d] mr-2"></span>Aleje a pěší trasy <span class="text-slate-400">(6)</span></p>
+                <p><span class="inline-block w-2.5 h-2.5 rounded-full bg-[#b45309] mr-2"></span>Polní cesty KPÚ <span class="text-slate-400">(8)</span></p>
+                <p><span class="inline-block w-2.5 h-2.5 rounded-full bg-[#334155] mr-2"></span>Městské chodníky <span class="text-slate-400">(2)</span></p>
+                <p class="border-t border-slate-200 pt-2 text-slate-600">Plná/čárkovaná čára značí typ zákresu v datech, nikoli stav realizace. U čar ověřte zdroje; nejde o navigační pokyny.</p>
+              </div>
+            </details>
+            <div class="pointer-events-auto flex gap-1 rounded-xl bg-white/95 p-1 shadow-md backdrop-blur">
+              <button type="button" onclick="resetMapView('city')" class="rounded-lg px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100">Český Brod</button>
+              <button type="button" onclick="resetMapView('region')" class="rounded-lg px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-100">Region</button>
+            </div>
+          </div>
+          <div id="leafletMapContainer" class="w-full z-0 bg-slate-100" role="region" aria-label="Interaktivní mapa tras"></div>
+          <p class="absolute bottom-2 left-2 z-[500] max-w-[min(70%,24rem)] rounded-lg bg-white/90 px-2.5 py-1.5 text-[10px] leading-snug text-slate-600 shadow-sm backdrop-blur">Mapové čáry slouží k orientační lokalizaci a nemusí kopírovat přesnou stavbu.</p>
+          <div id="routeDetailCard" class="hidden rounded-2xl border border-white/80 p-4 text-sm">
+            <!-- Detail is created only after a route is selected. -->
+          </div>
+        </section>
+
+        <section id="routeListColumn" aria-labelledby="routeListHeading" class="min-w-0 overflow-hidden rounded-2xl bg-white">
+          <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 px-4 py-3">
+            <div>
+              <h2 id="routeListHeading" class="text-base font-bold text-slate-900">Přehled tras</h2>
+              <p class="text-xs text-slate-500">Vyber trasu pro zobrazení detailu na mapě.</p>
+              <a href="./data/trasy_ceskobrodsko.geojson" class="mt-1 inline-block text-[11px] font-medium text-blue-700 underline underline-offset-2">GeoJSON datový export ↗</a>
+            </div>
+            <label class="sr-only" for="routeSortSelect">Řadit trasy</label>
+            <select id="routeSortSelect" onchange="renderMapAndList()" class="max-w-40 bg-white text-slate-700 border-0 rounded-lg px-2 py-2 text-xs font-medium">
+              <option value="distance" selected>Nejbližší centru</option>
+              <option value="relevance">Podle významu</option>
+              <option value="newest">Nejnovější</option>
+            </select>
+          </div>
+          <div id="routeListContainer" class="divide-y divide-slate-100 lg:max-h-[min(68vh,760px)] lg:overflow-y-auto" aria-live="polite">
             <!-- Populated by JS -->
           </div>
-
-          <!-- Filtered Routes Table / List -->
-          <div class="bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden">
-            <div class="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2">
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">
-                Přehled tras (<span id="routeCountBadge" class="font-mono-num">25</span>)
-              </h3>
-              <div class="flex items-center gap-1.5">
-                <label for="routeSortSelect" class="text-[11px] font-medium text-slate-500">Řadit:</label>
-                <select id="routeSortSelect" onchange="renderMapAndList()" class="bg-white text-slate-800 border border-slate-200 rounded px-2 py-1 text-[11px] font-medium focus:outline-none focus:border-slate-400">
-                  <option value="distance" selected>Nejblíže centru Č. Brodu (#1 → #25)</option>
-                  <option value="relevance">Podle významu pro město</option>
-                  <option value="newest">Od nejnovějších (2026+ → 2020)</option>
-                </select>
-              </div>
-            </div>
-            <div id="routeListContainer" class="divide-y divide-slate-100 max-h-[360px] overflow-y-auto">
-              <!-- Populated by JS -->
-            </div>
-          </div>
-
-        </div>
+        </section>
 
       </div>
     </section>
@@ -7396,7 +7321,7 @@
 
     let currentYearFilter = "all";
     let currentAccuracyFilter = "all"; // 'all' | 'osm' | 'approx'
-    let selectedRouteId = 3;
+    let selectedRouteId = null;
     let leafletMap = null;
     let leafletLayerGroup = null;
 
@@ -7406,8 +7331,8 @@
       const bMap = document.getElementById("tabBtnMap");
       const bBud = document.getElementById("tabBtnBudget");
 
-      const activeCls = "px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all bg-slate-900 text-white shadow-sm";
-      const idleCls = "px-5 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all text-slate-600 hover:text-slate-900";
+      const activeCls = "px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-slate-900 text-white shadow-sm";
+      const idleCls = "px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-600 hover:text-slate-900";
 
       if (tab === "map") {
         sMap.classList.remove("hidden");
@@ -7430,25 +7355,42 @@
 
     function setYearFilter(year) {
       currentYearFilter = year;
-      document.querySelectorAll(".year-btn").forEach(btn => {
-        const isAct = btn.dataset.year === year;
-        btn.setAttribute("aria-pressed", String(isAct));
-        btn.className = isAct
-          ? "year-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white"
-          : "year-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white";
-      });
       renderMapAndList();
     }
 
     function setAccuracyFilter(acc) {
       currentAccuracyFilter = acc;
-      document.querySelectorAll(".acc-btn").forEach(btn => {
-        const isAct = btn.dataset.acc === acc;
-        btn.setAttribute("aria-pressed", String(isAct));
-        btn.className = isAct
-          ? "acc-btn px-2.5 py-1 rounded text-xs font-semibold transition bg-slate-900 text-white"
-          : "acc-btn px-2.5 py-1 rounded text-xs font-medium transition text-slate-700 hover:bg-white";
-      });
+      renderMapAndList();
+    }
+
+    function toggleRouteFilters() {
+      const filters = document.getElementById("routeFilters");
+      const toggle = document.getElementById("filterToggle");
+      const isOpen = filters.classList.toggle("hidden") === false;
+      toggle.setAttribute("aria-expanded", String(isOpen));
+    }
+
+    function setMobileMapView(view) {
+      const section = document.getElementById("sectionMap");
+      section.dataset.mobileView = view;
+      document.getElementById("mobileListBtn").setAttribute("aria-pressed", String(view === "list"));
+      document.getElementById("mobileMapBtn").setAttribute("aria-pressed", String(view === "map"));
+      document.getElementById("mobileListBtn").className = view === "list"
+        ? "flex-1 rounded-lg px-3 py-2.5 text-sm font-semibold bg-white text-slate-900 shadow-sm"
+        : "flex-1 rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-600";
+      document.getElementById("mobileMapBtn").className = view === "map"
+        ? "flex-1 rounded-lg px-3 py-2.5 text-sm font-semibold bg-white text-slate-900 shadow-sm"
+        : "flex-1 rounded-lg px-3 py-2.5 text-sm font-semibold text-slate-600";
+      if (view === "map" && leafletMap) setTimeout(() => leafletMap.invalidateSize(), 50);
+    }
+
+    function clearRouteFilters() {
+      currentYearFilter = "all";
+      currentAccuracyFilter = "all";
+      document.getElementById("yearFilter").value = "all";
+      document.getElementById("accuracyFilter").value = "all";
+      document.getElementById("filterCategory").value = "all";
+      document.getElementById("routeSearchInput").value = "";
       renderMapAndList();
     }
 
@@ -7490,27 +7432,46 @@
 
     function selectRoute(id, focusMap = true) {
       selectedRouteId = id;
+      if (id !== null && focusMap && window.matchMedia("(max-width: 1023px)").matches) {
+        setMobileMapView("map");
+      }
       renderMapAndList();
-      if (focusMap && leafletMap) {
+      if (id !== null && focusMap && leafletMap) {
         const r = ROUTES.find(x => x.id === id);
         if (r) {
-          try {
-            const poly = L.polyline(r.coords);
+          const poly = L.polyline(r.coords);
+          const bounds = poly.getBounds();
+          if (bounds.isValid()) {
             leafletMap.fitBounds(poly.getBounds(), { padding: [50, 50], maxZoom: 15 });
-          } catch (e) {
+          } else {
             leafletMap.panTo(r.center);
           }
         }
       }
     }
 
+    function closeRouteDetail() {
+      const routeId = selectedRouteId;
+      selectedRouteId = null;
+      if (window.matchMedia("(max-width: 1023px)").matches) setMobileMapView("list");
+      renderMapAndList();
+      const focusTarget = document.getElementById(`route-list-${routeId}`) || document.getElementById("mobileListBtn");
+      focusTarget?.focus({ preventScroll: true });
+    }
+
     function renderMapAndList() {
       const filtered = getFilteredRoutes();
       document.getElementById("routeCountBadge").textContent = filtered.length;
+      const activeFilterCount = [
+        currentYearFilter !== "all",
+        currentAccuracyFilter !== "all",
+        document.getElementById("filterCategory").value !== "all",
+        document.getElementById("routeSearchInput").value.trim() !== ""
+      ].filter(Boolean).length;
+      document.getElementById("activeFilterCount").textContent = activeFilterCount ? `(${activeFilterCount})` : "";
+      document.getElementById("clearFiltersBtn").classList.toggle("hidden", activeFilterCount === 0);
 
-      if (filtered.length > 0 && !filtered.some(r => r.id === selectedRouteId)) {
-        selectedRouteId = filtered[0].id;
-      } else if (filtered.length === 0) {
+      if (selectedRouteId !== null && !filtered.some(r => r.id === selectedRouteId)) {
         selectedRouteId = null;
       }
 
@@ -7536,6 +7497,9 @@
         });
         L.control.layers({ "Standardní OpenStreetMap": osmStd, "Humanitární / kontrastní podklad": osmHot }, null, { position: "bottomright" }).addTo(leafletMap);
         leafletLayerGroup = L.layerGroup().addTo(leafletMap);
+        leafletMap.on("click", () => {
+          if (selectedRouteId !== null) selectRoute(null, false);
+        });
       }
       setTimeout(() => leafletMap.invalidateSize(), 50);
       leafletLayerGroup.clearLayers();
@@ -7546,11 +7510,15 @@
         const weight = isSel ? 6.5 : 4.2;
         const dashArray = r.dashed ? "8, 6" : null;
 
-        if (isSel) {
-          L.polyline(r.coords, { color: "#0f172a", weight: 11, opacity: 0.35, lineCap: "round", lineJoin: "round" }).addTo(leafletLayerGroup);
-        } else {
-          L.polyline(r.coords, { color: "#ffffff", weight: 7.2, opacity: 0.85, lineCap: "round", lineJoin: "round" }).addTo(leafletLayerGroup);
-        }
+        const casing = L.polyline(r.coords, {
+          color: isSel ? "#0f172a" : "#ffffff",
+          weight: isSel ? 11 : 7.2,
+          opacity: isSel ? 0.35 : 0.85,
+          lineCap: "round",
+          lineJoin: "round",
+          bubblingMouseEvents: false
+        }).addTo(leafletLayerGroup);
+        casing.on("click", () => selectRoute(r.id));
 
         const poly = L.polyline(r.coords, {
           color: col,
@@ -7558,7 +7526,8 @@
           opacity: 0.95,
           dashArray: dashArray,
           lineCap: "round",
-          lineJoin: "round"
+          lineJoin: "round",
+          bubblingMouseEvents: false
         }).addTo(leafletLayerGroup);
 
         poly.on("click", () => selectRoute(r.id));
@@ -7600,18 +7569,21 @@
           iconSize: [sz, sz],
           iconAnchor: [sz/2, sz/2]
         });
-        const marker = L.marker(r.center, { icon: badgeIcon }).addTo(leafletLayerGroup);
+        const marker = L.marker(r.center, { icon: badgeIcon, alt: `Trasa ${r.id}: ${r.name}`, bubblingMouseEvents: false }).addTo(leafletLayerGroup);
         marker.bindTooltip(`#${r.id} ${r.name} (${r.yearCat})`);
         marker.on("click", () => selectRoute(r.id));
       });
     }
 
     function renderRouteDetailCard() {
+      const detailCard = document.getElementById("routeDetailCard");
       const r = ROUTES.find(x => x.id === selectedRouteId);
       if (!r) {
-        document.getElementById("routeDetailCard").innerHTML = '<p class="text-sm text-slate-600">Pro zvolený filtr nebyla nalezena žádná trasa. Upravte nebo vymažte filtry.</p>';
+        detailCard.classList.add("hidden");
+        detailCard.innerHTML = "";
         return;
       }
+      detailCard.classList.remove("hidden");
       const col = CATEGORY_COLORS[r.category] || "#2563eb";
       const mapyNoteText = (r.mapyNote || "").replace(/\s*\(way\/[^)]*\)/g, "");
 
@@ -7630,80 +7602,58 @@
         ? `<span class="px-2 py-0.5 rounded text-[11px] font-mono-num font-semibold bg-amber-50 text-amber-800 border border-amber-200" title="Zákres je označen jako orientační; stav realizace ověřte v citovaných zdrojích">Orientační / plán (čárkovaně)</span>`
         : `<span class="px-2 py-0.5 rounded text-[11px] font-mono-num font-semibold bg-emerald-50 text-emerald-800 border border-emerald-200" title="Geometrie je v datech označena jako OSM; realizace ani přesnost nejsou tímto potvrzeny">Geometrie označena OSM (plná čára)</span>`;
 
-      document.getElementById("routeDetailCard").innerHTML = `
-        <div class="flex items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-slate-100">
+      detailCard.innerHTML = `
+        <div class="flex items-start justify-between gap-3 pb-3 mb-3 border-b border-slate-200">
           <div class="flex items-center gap-2 flex-wrap">
             <span class="px-2 py-0.5 rounded text-xs font-mono-num font-bold text-white" style="background:${col}">#${r.id}</span>
             <span class="text-xs font-mono-num font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">${r.yearCat}</span>
             <span class="text-xs text-slate-500">${CATEGORY_LABELS[r.category] || "Stezka"}</span>
           </div>
-          ${accBadge}
+          <button type="button" onclick="closeRouteDetail()" aria-label="Zrušit výběr a zavřít detail trasy" title="Zavřít detail" class="shrink-0 rounded-full px-2 py-1 text-slate-500 hover:bg-slate-100 hover:text-slate-900 text-lg leading-none">×</button>
         </div>
 
-        <h3 class="text-base font-bold text-slate-900 leading-snug">${r.name}</h3>
+        <div class="flex flex-wrap items-center gap-2">
+          <h3 class="text-base font-bold text-slate-900 leading-snug">${r.name}</h3>
+          ${accBadge}
+        </div>
+        <p class="mt-1 text-xs text-slate-600">${r.fromLabel} → ${r.toLabel}</p>
 
-        <div class="mt-3 divide-y divide-slate-100 border-t border-b border-slate-100 text-xs">
-          <div class="py-2 grid grid-cols-12 gap-2">
-            <span class="col-span-4 text-slate-500 font-medium">Start (A) → Cíl (B)</span>
-            <span class="col-span-8 text-slate-900 font-semibold">${r.fromLabel} → ${r.toLabel}</span>
+        <div class="mt-3 grid grid-cols-2 gap-3 text-xs">
+          <div><p class="text-slate-500">Od centra</p><p class="mt-0.5 font-medium text-slate-900">${r.distLabel || (r.distFromCenterKm + " km od centra Č. Brodu")}</p></div>
+          <div><p class="text-slate-500">Délka a provedení</p><p class="mt-0.5 font-medium text-slate-900">${r.lengthSurface}</p></div>
+        </div>
+
+        <details class="mt-3 border-t border-slate-200 pt-2 text-xs">
+          <summary class="cursor-pointer font-semibold text-slate-700">Podrobnosti zákresu a souřadnice</summary>
+          <div class="mt-2 space-y-2 text-slate-600">
+            <p><span class="font-medium text-slate-800">Souřadnice WGS-84:</span> <span class="font-mono-num text-[11px]">${sCoord[0].toFixed(5)}N, ${sCoord[1].toFixed(5)}E → ${eCoord[0].toFixed(5)}N, ${eCoord[1].toFixed(5)}E</span></p>
+            <p><span class="font-medium text-slate-800">Mapový podklad:</span> <strong class="font-mono-num">${r.mapyStatus}</strong> — ${mapyNoteText}</p>
           </div>
-          <div class="py-2 grid grid-cols-12 gap-2">
-            <span class="col-span-4 text-slate-500 font-medium">Vzdálenost od centra</span>
-            <span class="col-span-8 text-slate-800 font-medium">${r.distLabel || (r.distFromCenterKm + " km od centra Č. Brodu")}</span>
-          </div>
-          <div class="py-2 grid grid-cols-12 gap-2">
-            <span class="col-span-4 text-slate-500 font-medium">Souřadnice WGS-84</span>
-            <span class="col-span-8 font-mono-num text-[11px] text-slate-600">${sCoord[0].toFixed(5)}N, ${sCoord[1].toFixed(5)}E → ${eCoord[0].toFixed(5)}N, ${eCoord[1].toFixed(5)}E</span>
-          </div>
-          <div class="py-2 grid grid-cols-12 gap-2">
-            <span class="col-span-4 text-slate-500 font-medium">Délka a provedení</span>
-            <span class="col-span-8 text-slate-800">${r.lengthSurface}</span>
-          </div>
-          <div class="py-2 grid grid-cols-12 gap-2">
-            <span class="col-span-4 text-slate-500 font-medium">Mapový podklad (OSM)</span>
-            <span class="col-span-8 text-slate-800"><strong class="font-mono-num">${r.mapyStatus}</strong> — ${mapyNoteText}</span>
-          </div>
-          <div class="py-2.5 grid grid-cols-12 gap-2 bg-emerald-50/50 -mx-4 px-4 border-t border-emerald-100/80">
-            <span class="col-span-4 text-slate-700 font-semibold pt-0.5">Náklady / investice</span>
-            <div class="col-span-8 space-y-1">
-              <div class="font-mono-num font-bold text-slate-900 text-xs">${r.costAmount}</div>
-              <div class="text-[11px] text-slate-600 leading-snug">${r.costScopeNote}</div>
+        </details>
+
+        <div class="mt-3 rounded-xl bg-emerald-50/80 p-3 text-xs">
+          <p class="font-semibold text-slate-800">Náklady / investice</p>
+          <p class="mt-1 font-mono-num font-bold text-slate-900">${r.costAmount}</p>
+          <p class="mt-1 text-[11px] leading-snug text-slate-600">${r.costScopeNote}</p>
+        </div>
+
+        <div class="mt-3 border-t border-slate-200 pt-3">
+          <p class="mb-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">Ověřený zdroj</p>
+          <a href="${r.sourceUrl || '#'}" target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-blue-700 hover:text-blue-900 underline decoration-blue-300 underline-offset-2" title="Otevřít primární zdroj / dokument v novém okně">
+            ${r.source || "Veřejné podklady města Český Brod / SPÚ"} ↗
+          </a>
+          <details class="group mt-2 rounded-lg border border-slate-200 bg-white">
+            <summary class="cursor-pointer px-3 py-2 text-xs font-semibold text-slate-700">Citace a další ověřovací odkazy</summary>
+            <div class="space-y-2 border-t border-slate-100 bg-slate-50 p-3 text-[11px] leading-relaxed">
+              <p><span class="font-semibold text-slate-800">Evidenční pramen:</span> ${r.sourceDoc || r.source}</p>
+              <blockquote class="border-l-2 border-blue-600 bg-white p-2 italic text-slate-700">„${r.sourceQuote || r.lengthSurface}“</blockquote>
+              <div class="flex flex-wrap gap-2">
+                <a href="${r.sourceUrl || '#'}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">Primární dokument ↗</a>
+                ${r.sourceUrl2 ? `<a href="${r.sourceUrl2}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">${r.sourceLabel2 || 'Další dokument ↗'}</a>` : ''}
+                ${r.osmUrl ? `<a href="${r.osmUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-700 underline underline-offset-2">OpenStreetMap ↗</a>` : ''}
+              </div>
             </div>
-          </div>
-          <div class="py-2.5 grid grid-cols-12 gap-2 bg-slate-50/90 -mx-4 px-4">
-            <span class="col-span-4 text-slate-700 font-semibold pt-0.5">Ověřený zdroj</span>
-            <div class="col-span-8">
-              <a href="${r.sourceUrl || '#'}" target="_blank" rel="noopener noreferrer" class="text-blue-700 hover:text-blue-900 font-semibold underline decoration-blue-300 hover:decoration-blue-700 underline-offset-2 transition inline-flex items-start gap-1 leading-snug" title="Otevřít primární zdroj / dokument v novém okně">
-                <span>${r.source || "Veřejné podklady města Český Brod / SPÚ"}</span>
-                <span class="text-[11px] shrink-0 font-mono-num">↗</span>
-              </a>
-              <details class="group mt-2 bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden" ${window.citationBoxOpen ? 'open' : ''} ontoggle="window.citationBoxOpen = this.open">
-                <summary class="px-2.5 py-1.5 text-[11px] font-semibold text-slate-700 hover:text-slate-900 hover:bg-slate-50 cursor-pointer select-none flex items-center justify-between gap-2 list-none">
-                  <span class="inline-flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
-                    <span>Citace pramene a ověřovací odkazy</span>
-                  </span>
-                  <span class="text-[10px] font-mono-num text-slate-500 group-open:rotate-180 transition-transform">▾</span>
-                </summary>
-                <div class="px-3 py-2.5 border-t border-slate-100 bg-slate-50/50 text-[11px] space-y-2 leading-relaxed">
-                  <div>
-                    <div class="text-[10px] font-mono-num uppercase tracking-wider text-slate-500 font-bold">Evidenční pramen / spis</div>
-                    <div class="text-slate-800 font-medium mt-0.5">${r.sourceDoc || r.source}</div>
-                  </div>
-                  <blockquote class="pl-2.5 border-l-2 border-blue-600 text-slate-700 italic bg-white p-2 rounded border border-slate-200/80">
-                    „${r.sourceQuote || r.lengthSurface}“
-                  </blockquote>
-                  <div class="pt-1 flex flex-wrap items-center gap-2">
-                    <a href="${r.sourceUrl || '#'}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 rounded text-[11px] font-semibold bg-blue-50 text-blue-800 border border-blue-200 hover:bg-blue-100 transition inline-flex items-center gap-1">
-                      Otevřít primární dokument / záznam ↗
-                    </a>
-                    ${r.sourceUrl2 ? `<a href="${r.sourceUrl2}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 rounded text-[11px] font-medium bg-slate-100 text-slate-800 border border-slate-300 hover:bg-slate-200 transition inline-flex items-center gap-1">${r.sourceLabel2 || 'Další související dokument ↗'}</a>` : ''}
-                    ${r.osmUrl ? `<a href="${r.osmUrl}" target="_blank" rel="noopener noreferrer" class="px-2 py-1 rounded text-[11px] font-medium bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 transition inline-flex items-center gap-1">                    Odkaz na OpenStreetMap (neověřený) ↗</a>` : ''}
-                  </div>
-                </div>
-              </details>
-            </div>
-          </div>
+          </details>
         </div>
 
         <div class="mt-3 pt-1 flex flex-wrap items-center gap-2">
@@ -7723,7 +7673,7 @@
     function renderRouteList(filtered) {
       const container = document.getElementById("routeListContainer");
       if (filtered.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-500 py-6 text-center">Žádná trasa neodpovídá zvolenému filtru.</p>`;
+        container.innerHTML = `<div class="p-6 text-center"><p class="text-sm font-semibold text-slate-800">Nic jsme nenašli.</p><p class="mt-1 text-xs text-slate-500">Zkus změnit hledání nebo filtry.</p><button type="button" onclick="clearRouteFilters()" class="mt-3 text-sm font-semibold text-blue-700 underline underline-offset-2">Vymazat filtry</button></div>`;
         return;
       }
 
@@ -7732,19 +7682,20 @@
         const isSel = r.id === selectedRouteId;
         const lineType = r.dashed ? "Orientační / plán" : "OSM v datech";
         return `
-          <button type="button" aria-pressed="${isSel}" onclick="selectRoute(${r.id}, true)" class="route-list-item w-full text-left px-3.5 py-2.5 transition cursor-pointer flex items-center justify-between gap-2 ${isSel ? 'bg-slate-900/5 border-l-4 border-l-slate-900' : 'hover:bg-slate-50'}">
-            <div class="flex items-center gap-2.5 min-w-0">
-              <span class="w-6 h-6 rounded-full text-[11px] font-mono-num font-bold text-white flex items-center justify-center shrink-0" style="background:${col}">${r.id}</span>
-              <div class="truncate">
-                <div class="text-xs font-semibold text-slate-900 truncate">${r.name}</div>
-                <div class="text-[11px] text-slate-500 truncate"><span class="font-medium text-slate-700">${r.distLabel}</span> • <span class="font-mono-num font-semibold text-emerald-800">${r.costShort}</span> • ${r.fromLabel} → ${r.toLabel}</div>
-              </button>
-            </div>
-            <div class="flex items-center gap-1.5 shrink-0">
-              <span class="text-[10px] font-mono-num font-medium px-1.5 py-0.5 rounded ${r.dashed ? 'bg-amber-50 text-amber-800 border border-amber-200' : 'bg-emerald-50 text-emerald-800 border border-emerald-200'}">${lineType}</span>
-              <span class="text-[11px] font-mono-num font-semibold text-slate-600 w-16 text-right">${r.yearCat}</span>
-            </div>
-          </div>
+          <button id="route-list-${r.id}" type="button" aria-pressed="${isSel}" onclick="selectRoute(${r.id}, true)" class="route-list-item w-full text-left px-4 py-3 transition cursor-pointer flex items-center justify-between gap-3 ${isSel ? 'bg-slate-900/5 border-l-4 border-l-slate-900' : 'hover:bg-slate-50'}">
+            <span class="flex items-center gap-3 min-w-0">
+              <span class="w-8 h-8 rounded-full text-xs font-mono-num font-bold text-white flex items-center justify-center shrink-0" style="background:${col}">${r.id}</span>
+              <span class="min-w-0">
+                <span class="block text-sm font-semibold text-slate-900 truncate">${r.name}</span>
+                <span class="mt-0.5 block text-xs text-slate-500 truncate">${r.distLabel} · ${r.costShort}</span>
+                <span class="mt-1 block text-[11px] text-slate-500 truncate">${r.fromLabel} → ${r.toLabel}</span>
+              </span>
+            </span>
+            <span class="flex flex-col items-end gap-1 shrink-0">
+              <span class="text-[10px] font-medium px-2 py-1 rounded-full ${r.dashed ? 'bg-amber-50 text-amber-800' : 'bg-slate-100 text-slate-700'}">${lineType}</span>
+              <span class="text-[11px] font-mono-num font-semibold text-slate-500">${r.yearCat}</span>
+            </span>
+          </button>
         `;
       }).join("");
     }
@@ -8330,7 +8281,16 @@
       }).join("");
     }
 
-    // Initialize on load
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && selectedRouteId !== null) {
+        closeRouteDetail();
+      } else if (event.key === "Escape" && !document.getElementById("routeFilters").classList.contains("hidden")) {
+        document.getElementById("routeFilters").classList.add("hidden");
+        document.getElementById("filterToggle").setAttribute("aria-expanded", "false");
+        document.getElementById("filterToggle").focus();
+      }
+    });
+
     renderMapAndList();
   </script>
 </body>

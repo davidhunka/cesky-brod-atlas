@@ -20,6 +20,10 @@ Druhá část projektu zpracovává rozpočtová data města Český Brod z port
 
 Závěrečný účet VHČ za rok 2025 se nepodařilo dohledat v [seznamu závěrečných účtů města](https://cesbrod.cz/default/default/14762_zaverecne-ucty). Výsledek za rok 2024 proto není označen jako „loňský“.
 
+### Ovládání v atlasu
+
+Rozpočet města i hospodářská činnost mají společné uspořádání: výběr období, souhrnné ukazatele a graf. Roky rozpočtu 2026–2023 jsou přímo dostupné jako tlačítka. Přepnutí hospodářské činnosti mění nadpis, ukazatele i graf: uzavřený rok 2024 ukazuje výnosy, náklady a zisk; investice 2025–2026 jednotlivé projekty. Smíšený archivní diagram se v aplikaci nepoužívá. Investiční graf zachycuje hodnoty akcí, nikoli jejich zdroje financování nebo roční čerpání.
+
 ### Schválený rozpočet města na rok 2026 (478,7 mil. Kč)
 ![Rozpočet Český Brod 2026 — Sankey diagram](../assets/finance/rozpocet_sankey_2026.svg)
 

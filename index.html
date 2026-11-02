@@ -304,25 +304,25 @@
             <div class="mb-1 text-xs font-semibold text-slate-600">Co chcete zobrazit?</div>
             <div class="inline-flex rounded-lg bg-slate-100 p-1" role="group" aria-label="Druh finančního přehledu">
               <button id="budgetScopeMain" type="button" aria-pressed="true" onclick="setBudgetScope('main')" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm">
-                Běžný rozpočet
+                Rozpočet města
               </button>
               <button id="budgetScopeVhc" type="button" aria-pressed="false" onclick="setBudgetScope('vhc-investments')" class="rounded-md px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900">
-                Podnikání města
+                Hospodářská činnost
               </button>
             </div>
           </div>
-          <label id="budgetYearControl" for="budgetYearSelect" class="block text-xs font-semibold text-slate-600">
-            Rok
-            <select id="budgetYearSelect" onchange="setBudgetYear(this.value)" class="mt-1 block w-full min-w-56 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm">
-            <option value="2026">2026 · Schválený rozpočet města</option>
-            <option value="2025">2025 · Skutečné hospodaření města</option>
-            <option value="2024">2024 · Skutečné hospodaření města</option>
-            <option value="2023">2023 · Skutečné hospodaření města</option>
-            </select>
-          </label>
+          <div id="budgetYearControl">
+            <div class="mb-1 text-xs font-semibold text-slate-600">Období</div>
+            <div class="flex flex-wrap gap-1 rounded-lg bg-slate-100 p-1" role="group" aria-label="Rok rozpočtu města">
+              <button id="budgetYear2026" type="button" aria-pressed="true" onclick="setBudgetYear('2026')" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm">2026 · Rozpočet</button>
+              <button id="budgetYear2025" type="button" aria-pressed="false" onclick="setBudgetYear('2025')" class="rounded-md px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900">2025 · Skutečnost</button>
+              <button id="budgetYear2024" type="button" aria-pressed="false" onclick="setBudgetYear('2024')" class="rounded-md px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900">2024 · Skutečnost</button>
+              <button id="budgetYear2023" type="button" aria-pressed="false" onclick="setBudgetYear('2023')" class="rounded-md px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900">2023 · Skutečnost</button>
+            </div>
+          </div>
           <div id="vhcPeriodControl" class="hidden">
-            <div class="mb-1 text-xs font-semibold text-slate-600">Část hospodářské činnosti</div>
-            <div class="inline-flex rounded-lg bg-slate-100 p-1" role="group" aria-label="Část přehledu podnikání města">
+            <div class="mb-1 text-xs font-semibold text-slate-600">Období</div>
+            <div class="flex flex-wrap gap-1 rounded-lg bg-slate-100 p-1" role="group" aria-label="Část přehledu hospodářské činnosti">
               <button id="vhcPeriodInvestments" type="button" aria-pressed="true" onclick="setBudgetScope('vhc-investments')" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm">
                 Investice 2025–2026
               </button>
@@ -343,35 +343,10 @@
         </details>
       </div>
 
-      <aside class="rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-sm leading-relaxed text-sky-950">
-        <h2 class="font-semibold">Běžný rozpočet města a podnikání města jsou dva oddělené přehledy</h2>
-        <p class="mt-1">
-          <strong>Běžný rozpočet</strong> platí například školy a městské služby. <strong>Podnikání města</strong>
-          zahrnuje například nájmy bytů, polikliniku, vodohospodářství a městské lesy. Obojí patří městu,
-          ale peníze se evidují odděleně a mohou se mezi nimi převádět.
-        </p>
-        <p class="mt-1">
-          Prosté sečtení by tentýž převod započítalo dvakrát — jako výdaj podnikání i jako příjem rozpočtu.
-          Navíc uzavřený výsledek a investice v dostupných podkladech pocházejí z různých let.
-          Proto je nesčítáme do jednoho čísla.
-        </p>
-      </aside>
-
-      <section id="vhcSummaryPanel" class="hidden space-y-3" aria-live="polite">
-        <figure id="vhcDiagramFrame" class="overflow-hidden rounded-lg border border-slate-200 bg-white">
-          <figcaption class="border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs leading-relaxed text-slate-600">
-            Orientační společný diagram: uzavřený výsledek 2024 a investiční akce 2025–2026. Nejde o výsledek ani investice jediného roku.
-          </figcaption>
-          <img src="assets/finance/rozpocet_sankey_vhc.svg" alt="Diagram zdrojů, hospodářského výsledku a investic hospodářské činnosti města v několika obdobích" class="block h-auto w-full" loading="eager">
-        </figure>
-        <p id="vhcSummaryNote" class="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm leading-relaxed text-slate-700"></p>
-        <details id="vhcInvestmentDetails" class="hidden overflow-hidden rounded-lg border border-slate-200 bg-white">
-          <summary class="cursor-pointer px-4 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">
-            Rozpis investičních akcí
-          </summary>
-          <div id="vhcInvestmentList" class="divide-y divide-slate-200 border-t border-slate-200"></div>
-        </details>
-      </section>
+      <ul class="list-disc space-y-1 pl-5 text-xs leading-relaxed text-slate-600">
+        <li>Rozpočet města hradí školy a služby; hospodářská činnost zahrnuje byty, vodu a lesy. Kvůli vzájemným převodům je nesčítáme.</li>
+        <li>Rozpočet je plán, skutečnost uzavřený rok. U hospodářské činnosti jsou doložené výsledky 2024 a investice za více let, nikoli roční čerpání.</li>
+      </ul>
 
       <div id="budgetKpiGrid" class="grid grid-cols-2 divide-x divide-slate-200 border-y border-slate-200 bg-white/70 py-3 sm:grid-cols-4">
         <!-- Populated by JS -->
@@ -393,6 +368,14 @@
           <!-- SVG Sankey rendered here -->
         </div>
       </div>
+
+      <section id="vhcSummaryPanel" class="hidden space-y-3" aria-live="polite">
+        <p id="vhcSummaryNote" class="text-xs leading-relaxed text-slate-600"></p>
+        <details id="vhcInvestmentDetails" class="hidden overflow-hidden rounded-lg border border-slate-200 bg-white">
+          <summary class="cursor-pointer px-4 py-3 text-sm font-semibold text-slate-800 hover:bg-slate-50">Rozpis investičních akcí</summary>
+          <div id="vhcInvestmentList" class="divide-y divide-slate-200 border-t border-slate-200"></div>
+        </details>
+      </section>
 
       <!-- SIDE-BY-SIDE ARCHITECTURE COMPARISON: Hlavní rozpočet vs. Vlastní hospodářská činnost (VHČ) -->
       <div class="hidden bg-white border border-slate-200 rounded-lg p-5 shadow-sm" style="display:none">
@@ -8090,7 +8073,6 @@
     }
 
     function updateBudgetControlsUI() {
-      const yearSelect = document.getElementById("budgetYearSelect");
       const yearControl = document.getElementById("budgetYearControl");
       const vhcPeriodControl = document.getElementById("vhcPeriodControl");
       const isMainBudget = currentBudgetScope === "main";
@@ -8102,7 +8084,9 @@
           : "rounded-md px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900";
       };
 
-      yearSelect.value = currentBudgetScope === "main" ? currentBudgetYear : currentBudgetScope;
+      ["2026", "2025", "2024", "2023"].forEach(year => {
+        setButtonState(`budgetYear${year}`, isMainBudget && currentBudgetYear === year);
+      });
       yearControl.classList.toggle("hidden", !isMainBudget);
       vhcPeriodControl.classList.toggle("hidden", isMainBudget);
       setButtonState("budgetScopeMain", isMainBudget);
@@ -8183,7 +8167,8 @@
       document.getElementById("sankeySubtitle").textContent = b.subtitle;
       document.getElementById("sankeyHoverBadge").textContent = "Zvolte finanční tok kliknutím, klepnutím nebo klávesnicí pro detail.";
       const isSummaryOnly = Boolean(b.summaryOnly);
-      document.getElementById("budgetFlowCard").classList.toggle("hidden", isSummaryOnly);
+      document.getElementById("sankeyHeader").style.gridTemplateColumns = isSummaryOnly ? "minmax(0, 1fr)" : "";
+      document.getElementById("budgetFlowCard").classList.remove("hidden");
       document.getElementById("budgetBreakdownGrid").classList.toggle("hidden", isSummaryOnly);
       document.getElementById("vhcSummaryPanel").classList.toggle("hidden", !isSummaryOnly);
       document.getElementById("vhcSummaryNote").textContent = b.summaryNote || "";
@@ -8216,6 +8201,32 @@
           <div class="budget-kpi-sub mt-0.5 text-[11px] leading-snug text-slate-500" title="${k.sub}">${k.sub}</div>
         </div>
       `).join("");
+
+      if (isSummaryOnly) {
+        document.getElementById("sankeyHoverBadge").classList.add("hidden");
+        const rows = b.investmentProjects || [
+          { name: "Výnosy 2024", val: 81.46, color: "#2563eb" },
+          { name: "Náklady 2024", val: 41.01, color: "#64748b" },
+          { name: "Zisk před zdaněním", val: 40.45, color: "#059669" }
+        ];
+        document.getElementById("sankeySvgWrapper").innerHTML = `
+          <div class="space-y-4 pb-2" role="list" aria-label="${b.label}">
+            ${rows.map(row => `
+              <div role="listitem">
+                <div class="mb-1 flex items-start justify-between gap-3 text-sm">
+                  <span class="text-slate-700">${row.name}</span>
+                  <strong class="shrink-0 font-mono-num text-slate-900">${row.val.toFixed(2).replace(".", ",")} mil. Kč</strong>
+                </div>
+                <div class="h-2 overflow-hidden rounded-full bg-slate-100">
+                  <div class="h-2 rounded-full" style="width:${row.val / b.totalOut * 100}%;background:${row.color}"></div>
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        `;
+        return;
+      }
+      document.getElementById("sankeyHoverBadge").classList.remove("hidden");
 
       // 2. Interactive SVG Sankey Diagram
       const W = 1520, H = 720;

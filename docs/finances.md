@@ -22,6 +22,8 @@ Závěrečný účet VHČ za rok 2025 se nepodařilo dohledat v [seznamu závěr
 
 ### Ovládání v atlasu
 
+Uzavřený rok 2024 používá stejný interaktivní Sankey renderer jako městské rozpočty: výnosy 81,46 mil. Kč se dělí na náklady 41,01 mil. Kč a zisk 40,45 mil. Kč. Zisk se dále rozpadá na výsledky tří skupin středisek (25,31 + 13,58 + 1,56 mil. Kč). Diagram neobsahuje investice z jiných let.
+
 Rozpočet města i hospodářská činnost mají společné uspořádání: výběr období, souhrnné ukazatele a graf. Roky rozpočtu 2026–2023 jsou přímo dostupné jako tlačítka. Přepnutí hospodářské činnosti mění nadpis, ukazatele i graf: uzavřený rok 2024 ukazuje výnosy, náklady a zisk; investice 2025–2026 původní společný Sankey diagram s upozorněním na kombinaci období. Pod ním je trvale zobrazený rozpis investičních akcí, bez rozklikávání. Částky akcí nejsou rozdělené podle ročního čerpání.
 
 ### Schválený rozpočet města na rok 2026 (478,7 mil. Kč)

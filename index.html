@@ -8110,10 +8110,22 @@
             { title: "ZISK PŘED ZDANĚNÍM", val: "+40,45 mil. Kč", sub: "Výnosy minus náklady" },
             { title: "ZISK PODLE STŘEDISEK", val: "3 výsledky", sub: "Byty +25,31 mil. • voda +13,58 mil. • lesy +1,56 mil." }
           ],
-          sources: [],
-          midLeft: [],
-          midRight: [],
-          targets: [],
+          sources: [
+            { name: "Výnosy hospodářské činnosti 2024", val: 81.46, sub: "Celkové roční výnosy, nikoli pouze zisk", color: "#2563eb", group: "revenue" }
+          ],
+          midLeft: [
+            { id: "revenue", name: "ROČNÍ VÝNOSY", val: 81.46, pct: "100 %", color: "#2563eb" }
+          ],
+          midRight: [
+            { id: "costs", name: "NÁKLADY", val: 41.01, pct: "50,3 %", color: "#64748b" },
+            { id: "profit", name: "ZISK PŘED ZDANĚNÍM", val: 40.45, pct: "49,7 %", color: "#059669" }
+          ],
+          targets: [
+            { name: "Náklady hospodářské činnosti", val: 41.01, sub: "Celkové náklady za rok 2024", color: "#64748b", parent: "costs" },
+            { name: "Zisk: byty a nemocnice", val: 25.31, sub: "Výsledek střediska za rok 2024", color: "#059669", parent: "profit" },
+            { name: "Zisk: voda a ostatní činnost", val: 13.58, sub: "Výsledek středisek za rok 2024", color: "#2563eb", parent: "profit" },
+            { name: "Zisk: městské lesy", val: 1.56, sub: "Výsledek střediska za rok 2024", color: "#0d9488", parent: "profit" }
+          ],
           summaryOnly: true
         };
       }
@@ -8213,29 +8225,9 @@
           `;
           return;
         }
-        const rows = [
-          { name: "Výnosy 2024", val: 81.46, color: "#2563eb" },
-          { name: "Náklady 2024", val: 41.01, color: "#64748b" },
-          { name: "Zisk před zdaněním", val: 40.45, color: "#059669" }
-        ];
-        document.getElementById("sankeySvgWrapper").innerHTML = `
-          <div class="space-y-4 pb-2" role="list" aria-label="${b.label}">
-            ${rows.map(row => `
-              <div role="listitem">
-                <div class="mb-1 flex items-start justify-between gap-3 text-sm">
-                  <span class="text-slate-700">${row.name}</span>
-                  <strong class="shrink-0 font-mono-num text-slate-900">${row.val.toFixed(2).replace(".", ",")} mil. Kč</strong>
-                </div>
-                <div class="h-2 overflow-hidden rounded-full bg-slate-100">
-                  <div class="h-2 rounded-full" style="width:${row.val / b.totalOut * 100}%;background:${row.color}"></div>
-                </div>
-              </div>
-            `).join("")}
-          </div>
-        `;
-        return;
       }
       document.getElementById("sankeyHoverBadge").classList.remove("hidden");
+      document.getElementById("sankeyHeader").style.gridTemplateColumns = "";
 
       // 2. Interactive SVG Sankey Diagram
       const W = 1520, H = 720;
@@ -8298,15 +8290,15 @@
         return `<path class="sankey-path" tabindex="0" role="button" aria-label="${escapeAttr(`${title}: ${val} milionů Kč. ${sub}`)}" data-title="${escapeAttr(title)}" data-val="${val}" data-total="${b.totalOut}" data-sub="${escapeAttr(sub)}" d="M ${x0},${y0t} C ${cx0},${y0t} ${cx1},${y1t} ${x1},${y1t} L ${x1},${y1b} C ${cx1},${y1b} ${cx0},${y0b} ${x0},${y0b} Z" fill="${col}" opacity="0.34"/>`;
       };
 
-      let svg = `<svg viewBox="0 0 ${W} ${H}" class="w-full h-auto select-none" style="min-width:1380px" role="group" aria-label="Interaktivní Sankey diagram rozpočtu">`;
+      let svg = `<svg viewBox="0 0 ${W} ${H}" class="w-full h-auto select-none" style="min-width:1380px" role="group" aria-label="${b.label} — interaktivní Sankey diagram">`;
       svg += `<rect width="${W}" height="${H}" fill="#ffffff"/>`;
 
       // Column headers
-      svg += `<text x="${X1-10}" y="20" fill="#64748b" font-size="10.5" font-weight="700" text-anchor="end" letter-spacing="0.6">01 / ZDROJE PŘÍJMŮ</text>`;
-      svg += `<text x="${X2+8}" y="20" fill="#64748b" font-size="10.5" font-weight="700" text-anchor="middle" letter-spacing="0.6">02 / KATEGORIE PŘÍJMŮ</text>`;
+      svg += `<text x="${X1-10}" y="20" fill="#64748b" font-size="10.5" font-weight="700" text-anchor="end" letter-spacing="0.6">${isSummaryOnly ? "01 / VÝNOSY 2024" : "01 / ZDROJE PŘÍJMŮ"}</text>`;
+      svg += `<text x="${X2+8}" y="20" fill="#64748b" font-size="10.5" font-weight="700" text-anchor="middle" letter-spacing="0.6">${isSummaryOnly ? "02 / ROČNÍ VÝNOSY" : "02 / KATEGORIE PŘÍJMŮ"}</text>`;
       svg += `<text x="${X3+10}" y="20" fill="#0f172a" font-size="10.5" font-weight="800" text-anchor="middle" letter-spacing="0.6">03 / BILANCE CELKEM</text>`;
-      svg += `<text x="${X4+8}" y="20" fill="#64748b" font-size="10.5" font-weight="700" text-anchor="middle" letter-spacing="0.6">04 / PROVOZ VS. INVESTICE</text>`;
-      svg += `<text x="${X5+26}" y="20" fill="#64748b" font-size="10.5" font-weight="700" text-anchor="start" letter-spacing="0.6">05 / ÚČEL VÝDAJŮ A AKCE</text>`;
+      svg += `<text x="${X4+8}" y="20" fill="#64748b" font-size="10.5" font-weight="700" text-anchor="middle" letter-spacing="0.6">${isSummaryOnly ? "04 / NÁKLADY A ZISK" : "04 / PROVOZ VS. INVESTICE"}</text>`;
+      svg += `<text x="${X5+26}" y="20" fill="#64748b" font-size="10.5" font-weight="700" text-anchor="start" letter-spacing="0.6">${isSummaryOnly ? "05 / NÁKLADY A ZISK STŘEDISEK" : "05 / ÚČEL VÝDAJŮ A AKCE"}</text>`;
       svg += `<line x1="10" y1="28" x2="${W-10}" y2="28" stroke="#f1f5f9" stroke-width="1.5"/>`;
 
       // Links 1 -> 2

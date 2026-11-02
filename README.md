@@ -1,6 +1,6 @@
 # Českobrodsko — atlas cest a městských financí
 
-Interaktivní, zdroji podložený přehled 25 cest, stezek a chodníků na Českobrodsku a veřejných financí města.
+Interaktivní přehled 25 evidovaných cest a stezek, doplněný o výletní trasy do širšího okolí Českého Brodu a veřejné finance města.
 
 **[Otevřít atlas](https://davidhunka.github.io/cesky-brod-atlas/)**
 

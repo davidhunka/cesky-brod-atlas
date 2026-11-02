@@ -488,7 +488,7 @@ def generate_vhc_sankey():
     build_app_economy_sankey(
         filename_base="rozpocet_sankey_vhc",
         title_main="ČESKÝ BROD — VLASTNÍ HOSPODÁŘSKÁ ČINNOST (MIMO ROZPOČET)",
-        title_sub="Druhý finanční pilíř města: Bytové hospodářství a nemocnice, Vodohospodářský fond a Městské lesy (2024–2025)",
+        title_sub="Druhý finanční pilíř města: Bytové hospodářství a nemocnice, Vodohospodářský fond a Městské lesy (2024–2026)",
         period_badge="HOSPODÁŘSKÁ ČINNOST MĚSTA",
         total_label="ZDROJE A INVESTICE HČ",
         total_val=102.4,

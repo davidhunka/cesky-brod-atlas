@@ -299,22 +299,14 @@
 
       <div class="flex flex-col gap-3 sm:flex-row sm:items-end">
         <label id="budgetYearControl" for="budgetYearSelect" class="block text-xs font-semibold text-slate-600">
-          Rok / období
-          <select id="budgetYearSelect" onchange="setBudgetYear(this.value)" class="mt-1 block w-full min-w-48 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm">
-            <option value="2026">2026 · Schválený rozpočet</option>
-            <option value="2025">2025 · Skutečnost (ZÚ)</option>
-            <option value="2024">2024 · Skutečnost (ZÚ)</option>
-            <option value="2023">2023 · Skutečnost (ZÚ)</option>
-            <option value="vhc-results" disabled>VHČ · uzavřený výsledek 2024</option>
-            <option value="vhc-investments" disabled>VHČ · investice 2025–26</option>
-          </select>
-        </label>
-        <label for="budgetScopeSelect" class="block text-xs font-semibold text-slate-600">
-          Přehled
-          <select id="budgetScopeSelect" onchange="setBudgetScope(this.value)" class="mt-1 block w-full min-w-52 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm">
-            <option value="main">Hlavní rozpočet města</option>
-            <option value="vhc-results">VHČ · uzavřený výsledek</option>
-            <option value="vhc-investments">VHČ · investiční akce</option>
+          Období a přehled
+          <select id="budgetYearSelect" onchange="setBudgetYear(this.value)" class="mt-1 block w-full min-w-64 rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 shadow-sm">
+            <option value="2026">2026 · Schválený rozpočet města</option>
+            <option value="2025">2025 · Skutečné hospodaření města</option>
+            <option value="2024">2024 · Skutečné hospodaření města</option>
+            <option value="2023">2023 · Skutečné hospodaření města</option>
+            <option value="vhc-results">Hospodářská činnost města · uzavřený výsledek 2024</option>
+            <option value="vhc-investments">Hospodářská činnost města · investice 2025–2026</option>
           </select>
         </label>
         <details class="text-xs text-slate-600 sm:ml-auto sm:max-w-xl">
@@ -335,6 +327,12 @@
       <section id="vhcSummaryPanel" class="hidden space-y-3" aria-live="polite">
         <p id="vhcSummaryNote" class="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm leading-relaxed text-slate-700"></p>
         <div id="vhcInvestmentList" class="hidden divide-y divide-slate-200 border-y border-slate-200 bg-white"></div>
+        <figure id="vhcDiagramFrame" class="hidden overflow-hidden rounded-lg border border-slate-200 bg-white">
+          <figcaption class="border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs leading-relaxed text-slate-600">
+            Orientační společný diagram: uzavřený výsledek 2024 a investiční akce 2025–2026. Nejde o výsledek ani investice jediného roku.
+          </figcaption>
+          <img src="assets/finance/rozpocet_sankey_vhc.svg" alt="Diagram zdrojů, hospodářského výsledku a investic hospodářské činnosti města v několika obdobích" class="block h-auto w-full" loading="eager">
+        </figure>
       </section>
 
       <!-- Main Sankey Diagram Card -->
@@ -8027,8 +8025,12 @@
     let currentBudgetScope = "main"; // 'main' | 'vhc-results' | 'vhc-investments'
 
     function setBudgetYear(yr) {
-      if (currentBudgetScope !== "main") return;
-      currentBudgetYear = yr;
+      if (["vhc-results", "vhc-investments"].includes(yr)) {
+        currentBudgetScope = yr;
+      } else {
+        currentBudgetScope = "main";
+        currentBudgetYear = yr;
+      }
       updateBudgetControlsUI();
       renderBudgetSection();
     }
@@ -8042,26 +8044,23 @@
 
     function updateBudgetControlsUI() {
       const yearSelect = document.getElementById("budgetYearSelect");
-      const scopeSelect = document.getElementById("budgetScopeSelect");
       yearSelect.value = currentBudgetScope === "main" ? currentBudgetYear : currentBudgetScope;
-      yearSelect.disabled = currentBudgetScope !== "main";
-      scopeSelect.value = currentBudgetScope;
     }
 
     function getActiveBudgetDataset() {
       if (currentBudgetScope === "vhc-results") {
         return {
-          label: "VHČ · uzavřený výsledek 2024",
+          label: "Hospodářská činnost města · uzavřený výsledek 2024",
           subtitle: "Roční výnosy, náklady a výsledek před zdaněním podle Závěrečného účtu 2024",
-          contextNote: "Výsledek VHČ za rok 2024: výnosy 81,46 mil. Kč minus náklady 41,01 mil. Kč = zisk před zdaněním 40,45 mil. Kč.",
-          summaryNote: "Jde o poslední uzavřený výsledek VHČ doložený v podkladech atlasu (Závěrečný účet 2024), nikoli o výsledek za rok 2025. Zisk podle středisek: bytové hospodářství a nemocnice +25,31 mil. Kč; voda a ostatní hospodářská činnost +13,58 mil. Kč; městské lesy +1,56 mil. Kč.",
+          contextNote: "Výsledek hospodářské činnosti za rok 2024: výnosy 81,46 mil. Kč minus náklady 41,01 mil. Kč = zisk před zdaněním 40,45 mil. Kč.",
+          summaryNote: "Jde o poslední uzavřený výsledek hospodářské činnosti doložený v podkladech atlasu (Závěrečný účet 2024), nikoli o výsledek za rok 2025. Zisk podle středisek: bytové hospodářství a nemocnice +25,31 mil. Kč; vodohospodářství a ostatní činnost +13,58 mil. Kč; městské lesy +1,56 mil. Kč.",
           totalOut: 81.46,
           totalIn: 81.46,
           kpis: [
-            { title: "VÝNOSY · ZÚ 2024", val: "81,46 mil. Kč", sub: "Roční výnosy hospodářské činnosti" },
-            { title: "NÁKLADY · ZÚ 2024", val: "41,01 mil. Kč", sub: "Roční náklady hospodářské činnosti" },
+            { title: "VÝNOSY · ROK 2024", val: "81,46 mil. Kč", sub: "Roční výnosy hospodářské činnosti" },
+            { title: "NÁKLADY · ROK 2024", val: "41,01 mil. Kč", sub: "Roční náklady hospodářské činnosti" },
             { title: "ZISK PŘED ZDANĚNÍM", val: "+40,45 mil. Kč", sub: "Výnosy minus náklady" },
-            { title: "ZISK PODLE STŘEDISEK", val: "3 výsledky", sub: "Byty +25,31M • voda +13,58M • lesy +1,56M" }
+            { title: "ZISK PODLE STŘEDISEK", val: "3 výsledky", sub: "Byty +25,31 mil. • voda +13,58 mil. • lesy +1,56 mil." }
           ],
           sources: [],
           midLeft: [],
@@ -8074,9 +8073,9 @@
         const projects = BUDGET_DATA["vhc"].targets.filter(item => item.parent === "capex");
         const projectTotal = projects.reduce((sum, item) => sum + item.val, 0);
         return {
-          label: "VHČ · investiční akce 2025–2026",
+          label: "Hospodářská činnost města · investiční akce 2025–2026",
           subtitle: "Vybrané investiční projekty mimo hlavní rozpočet města",
-          contextNote: "Přehled investičních akcí VHČ za období 2025–2026. Uvedené částky nejsou rozdělené podle ročního čerpání.",
+          contextNote: "Přehled investičních akcí hospodářské činnosti za období 2025–2026. Uvedené částky nejsou rozdělené podle ročního čerpání.",
           summaryNote: `Součet uvedených akcí je ${projectTotal.toFixed(1).replace(".", ",")} mil. Kč. Podklady atlasu spojují projekty z let 2025–2026 a neuvádějí jejich roční čerpání; samostatný součet investic za rok 2026 proto nelze spolehlivě určit.`,
           totalOut: projectTotal,
           totalIn: projectTotal,
@@ -8122,6 +8121,7 @@
       document.getElementById("budgetFlowCard").classList.toggle("hidden", b.summaryOnly);
       document.getElementById("budgetBreakdownGrid").classList.toggle("hidden", b.summaryOnly);
       document.getElementById("vhcSummaryPanel").classList.toggle("hidden", !b.summaryOnly);
+      document.getElementById("vhcDiagramFrame").classList.toggle("hidden", !b.summaryOnly);
       document.getElementById("vhcSummaryNote").textContent = b.summaryNote || "";
       const investmentList = document.getElementById("vhcInvestmentList");
       investmentList.classList.toggle("hidden", !b.investmentProjects);
